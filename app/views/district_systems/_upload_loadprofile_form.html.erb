@@ -1,0 +1,55 @@
+<%= form_with scope: :district_system, url: district_systems_path, local: true do |form| %>
+
+  <div class="container border border-primary">
+    <div class="row pl-3">
+      <p>
+        <%= form.label :name, 'District heating and cooling system name' %><br>
+        <%= form.text_field :name, autofocus: true, :required => 'required', placeholder: "System name" %>
+      </p>
+    </div>
+
+    <p>Choose at least one of the following system types</p>
+    <div class="row pl-5">
+      <%= form.check_box :system_type_1 %>&nbsp;&nbsp;
+      <%= form.label :system_type_1, 'Boilers + Water-cooled Chillers' %>
+    </div>
+
+    <div class="row pl-5">
+      <%= form.check_box :system_type_2 %>&nbsp;&nbsp;
+      <%= form.label :system_type_2, 'Boilers + Heat-recovery Chillers' %>
+    </div>
+
+    <div class="row pl-5">
+      <%= form.check_box :system_type_3 %>&nbsp;&nbsp;
+      <%= form.label :system_type_3, 'Boilers + Water-cooled Chillers + Thermal Storage' %>
+    </div>
+
+    <div class="row pl-5">
+      <%= form.check_box :system_type_4 %>&nbsp;&nbsp;
+      <%= form.label :system_type_4, 'Geothermal Heat Pump' %>
+    </div>
+
+    <div class="row pl-5">
+      <%= form.check_box :system_type_5 %>&nbsp;&nbsp;
+      <%= form.label :system_type_5, 'Combined Heat and Power System' %>
+    </div>
+
+    <div class="row pl-5">
+      <p><%= form.submit 'Simulate' %></p>
+    </div>
+
+  </div>
+
+<% end %>
+<div class="container border border-secondary">
+  <p>
+    <% if @simulation_results.empty? %>
+      No Simulation results yet.
+    <% else %>
+      Show simulation results. <br>
+      <%= @simulation_results %>
+    <% end %>
+  </p>
+</div>
+
+<%#= link_to 'Simulate', '/district_systems/simulate' %>

@@ -1,9 +1,11 @@
 class DistrictSystemsController < ApplicationController
-  @district_system_config = {}
+  @district_system_config ={}
 
   def index
     puts 'GET request...'
-
+    # TODO:Get simulation results from session
+    @simulation_results =  {}
+    puts @simulation_results
   end
 
   def new
@@ -11,9 +13,7 @@ class DistrictSystemsController < ApplicationController
   end
 
   def create
-    @district_system_config = params
-    render plain: params[:district_system].inspect
-    puts @district_system_config
+
   end
 
   def simulate
@@ -22,7 +22,8 @@ class DistrictSystemsController < ApplicationController
         a: '123',
         b: '345',
     }
-    render plain: params[:district_system].inspect
+    @simulation_results = params[:district_system]
+      # render plain: params[:district_system].inspect
   end
 
 end
