@@ -1,0 +1,26 @@
+<h1>This will be the simulation page of the district system.</h1>
+
+<%= form_with scope: :district_system, url: district_systems_path, local: true do |form| %>
+  <h3>Some place-holders for district system creation</h3>
+
+  <p>
+    <%= form.label :name %><br>
+    <%= form.text_field :name %>
+  </p>
+
+  <%= form.label :system_type_1 %>
+  <%= form.check_box :system_type_1 %>
+
+  <%= form.label :system_type_2 %>
+  <%= form.check_box :system_type_2 %>
+
+  <p>
+    <%= form.submit %>
+  </p>
+
+<% end %>
+
+<p>
+  <%=@simulation_results[:a] %><br>
+  <%=@simulation_results[:b] %>
+</p>
