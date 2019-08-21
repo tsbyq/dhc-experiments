@@ -9,7 +9,7 @@ class DistrictSystemsController < ApplicationController
   end
 
   def new
-    @district_system = DistrictSystem.new
+
   end
 
   def create
@@ -19,6 +19,8 @@ class DistrictSystemsController < ApplicationController
   def dispatcher
     # TODO: Handle post requests differently depending on their purpose (e.g., upload, visualize, simulate)
     puts "Do something here!"
+    puts params
+
 
     if params[:load_profile_csv]
       upload_file(params)
@@ -35,14 +37,8 @@ class DistrictSystemsController < ApplicationController
     puts '*' * 90
 
     uploaded_file = params[:load_profile_csv]
-    puts uploaded_file
+    puts uploaded_file.path
     puts uploaded_file.original_filename
-
-
-    # File.open(Rails.root.join('public', 'uploads', uploaded_file.original_filename), 'wb') do |file|
-    #   puts 'Reading uploaded file...'
-    #   file.write(uploaded_file.read)
-    # end
 
   end
 

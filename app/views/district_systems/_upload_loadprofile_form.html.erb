@@ -1,11 +1,13 @@
-<%= form_with(scope: :load_profile_csv, url: district_systems_path, multipart: true) do |form| %>
+<%= form_with(url: {action: :dispatcher}, multipart: true) do |form| %>
 
   <div class="container border border-primary">
     <p>Choose the heating and cooling demand profile CSV.</p>
     <div class="row pl-5">
-      <%= form.file_field :loadprofile %>
+      <!-- For model oriented scenarios-->
+      <%#= form.file_field :loadprofile %>
+      <!-- For model-free scenarios-->
+      <%= file_field_tag 'load_profile_csv' %>
       <p><%= form.submit 'Upload' %></p>
     </div>
   </div>
-
 <% end %>
