@@ -1,4 +1,4 @@
-<%= form_with scope: :district_system, url: district_systems_path, local: true do |form| %>
+<%= form_with scope: :district_system_config, url: district_systems_path, local: true do |form| %>
 
   <br><br>
   <div class="container border border-success">
@@ -45,7 +45,7 @@
 <% end %>
 <div class="container border border-secondary">
   <p>
-    <% if @simulation_results.empty? %>
+    <% if @simulation_results.nil? or @simulation_results.empty? %>
       No Simulation results yet.
     <% else %>
       Show simulation results. <br>
