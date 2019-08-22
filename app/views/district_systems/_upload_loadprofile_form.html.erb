@@ -1,13 +1,108 @@
-<%= form_with(url: {action: :dispatcher}, multipart: true) do |form| %>
+<ul class="nav nav-tabs">
+  <li class="active"><a href="#">Home</a></li>
+  <li><a href="#">Menu 1</a></li>
+  <li><a href="#">Menu 2</a></li>
+  <li><a href="#">Menu 3</a></li>
+</ul>
 
-  <div class="container border border-primary">
+
+<div class="container border border-primary">
+  <%= form_with(url: {action: :dispatcher}, multipart: true) do |form| %>
     <p>Choose the heating and cooling demand profile CSV.</p>
     <div class="row pl-5">
       <!-- For model oriented scenarios-->
       <%#= form.file_field :loadprofile %>
       <!-- For model-free scenarios-->
       <%= file_field_tag 'load_profile_csv' %>
-      <p><%= form.submit 'Upload' %></p>
+      <p><%= form.submit 'Upload', onclick: 'uploadLoadsProfile();' %></p>
     </div>
+  <% end %>
+
+  <div id="loadshape_viz_div">
+    <div class="row">
+      <div class="col-md-12">
+        <div id="ts_viz_container_1" style="width:100%; height:auto;"></div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-12">
+        <div id="ts_viz_container_2" style="width:100%; height:auto;"></div>
+      </div>
+    </div>
+
+    <br>
+    <div class="row" style="display: none">
+      <div class="col-md-12">
+        <div id="dummy_bar_viz_container" style="width:100%; height:auto;"></div>
+      </div>
+    </div>
+    <br>
+    <div class="row" style="display: none">
+      <div class="col-md-6">
+        <div id="dummy_pie_viz_container_1" style="width:100%; height:auto;"></div>
+      </div>
+      <div class="col-md-6">
+        <div id="dummy_pie_viz_container_2" style="width:100%; height:auto;"></div>
+      </div>
+    </div>
+
+    <div class="row" id="key_stats_table" style="display: none">
+      <div class="col-md-12">
+        <table class="table table-bordered table-hover text-center">
+          <thead>
+          <tr>
+            <th class="text-center" style="width: 35%"></th>
+            <th class="text-center" style="width: 15%">Peak</th>
+            <th class="text-center" style="width: 20%">Peak Time</th>
+            <th class="text-center" style="width: 15%">Intensity</th>
+            <th class="text-center" style="width: 15%">Diversity</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr>
+            <td class="text-right"><b>Heating Demand</b></td>
+            <td id="peak_heating_demand"></td>
+            <td id="peak_heating_demand_time"></td>
+            <td id="annual_heating_demand_intensity"></td>
+            <td id="annual_heating_demand_diversity"></td>
+          </tr>
+          <tr>
+            <td class="text-right"><b>Cooling Demand</b></td>
+            <td id="peak_cooling_demand"></td>
+            <td id="peak_cooling_demand_time"></td>
+            <td id="annual_cooling_demand_intensity"></td>
+            <td id="annual_cooling_demand_diversity"></td>
+          </tr>
+          <tr>
+            <td class="text-right"><b>Simultaneous Heating & Cooling Demand</b></td>
+            <td id="peak_heating_cooling_demand"></td>
+            <td id="peak_heating_cooling_demand_time"></td>
+            <td id="annual_heating_cooling_demand_intensity"></td>
+            <td id="annual_heating_cooling_demand_diversity"></td>
+          </tr>
+          <tr>
+            <td class="text-right"><b>Electricity Consumption</b></td>
+            <td id="peak_electricity_consumption"></td>
+            <td id="peak_electricity_consumption_time"></td>
+            <td id="annual_electricity_consumption_intensity"></td>
+            <td id="annual_electricity_consumption_diversity"></td>
+          </tr>
+          <tr>
+            <td class="text-right"><b>Natural Consumption</b></td>
+            <td id="peak_ng_consumption"></td>
+            <td id="peak_ng_consumption_time"></td>
+            <td id="annual_ng_consumption_intensity"></td>
+            <td id="annual_ng_consumption_diversity"></td>
+          </tr>
+          <tr>
+            <td class="text-right"><b>Annual Heat Recovery Potential</b></td>
+            <td id="annual_heat_recovery_potential" colspan="4"></td>
+          </tr>
+        </table>
+      </div>
+    </div>
+
   </div>
-<% end %>
+</div>
+<br><br>
