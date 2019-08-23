@@ -40,15 +40,5 @@
   </div>
 
 <% end %>
-<div class="container border border-secondary">
-  <p>
-    <% if @simulation_results.nil? or @simulation_results.empty? %>
-      No Simulation results yet.
-    <% else %>
-      Show simulation results. <br>
-      <%= @simulation_results %>
-    <% end %>
-  </p>
-</div>
 
 <%#= link_to 'Simulate', '/district_systems/simulate' %>

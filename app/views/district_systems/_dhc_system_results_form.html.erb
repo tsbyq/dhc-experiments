@@ -1,0 +1,10 @@
+<div class="container border border-secondary">
+  <p>
+    <% if @simulation_results.nil? or @simulation_results.empty? %>
+      No Simulation results yet.
+    <% else %>
+      Show simulation results. <br>
+      <%= @simulation_results %>
+    <% end %>
+  </p>
+</div>
