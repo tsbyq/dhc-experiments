@@ -1,12 +1,4 @@
-<ul class="nav nav-tabs">
-  <li class="active"><a href="#">Home</a></li>
-  <li><a href="#">Menu 1</a></li>
-  <li><a href="#">Menu 2</a></li>
-  <li><a href="#">Menu 3</a></li>
-</ul>
-
-
-<div class="container border border-primary">
+<div class="container border border-primary pt-2">
   <%= form_with(url: {action: :dispatcher}, multipart: true) do |form| %>
     <p>Choose the heating and cooling demand profile CSV.</p>
     <div class="row pl-5">
