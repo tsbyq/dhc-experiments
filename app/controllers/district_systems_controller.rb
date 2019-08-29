@@ -1,12 +1,15 @@
 class DistrictSystemsController < ApplicationController
   @district_system_config = {}
-  @tabs = {}
+
+  # @simulation_results = {}
+  # @tabs = {}
+  # @error_message = {}
 
   def index
     puts 'GET request...'
     # TODO: keep visualization, simulation configurations, and simulation results in session for quicker rendering.
-    @simulation_results = {}
     @tabs = tab_control(true, false, false)
+    @error_message = {}
   end
 
   def dispatcher
@@ -17,6 +20,7 @@ class DistrictSystemsController < ApplicationController
       upload_file(params)
     elsif params[:district_system_config]
       @tabs = tab_control(false, true, false)
+      @error_message = {}
       simulate(params)
     end
   end
@@ -42,9 +46,10 @@ class DistrictSystemsController < ApplicationController
     @simulation_results = params[:district_system_config]
     puts params[:district_system_config]
 
-
     #TODO: 1. Prepare simulation configurations (IDFs, schedule:files, commands)
     # Need to automate this process, consider quick-check to adjust default plant loop, branches settings.
+    prepare_simulation(params)
+
 
     #TODO: 2. Call EnergyPlus simulation for the district heating and cooling systems.
     # A Python routine to call simulation in parallel is ready
@@ -59,6 +64,10 @@ class DistrictSystemsController < ApplicationController
     render "index" # TODO: figure out how to set active tab in the view.
   end
 
+
+  ######################################################################################################################
+  # Helper methods
+  ######################################################################################################################
   def tab_control(upload_active = true, config_active = false, result_active = false)
     tabs = {}
     if upload_active
@@ -86,6 +95,22 @@ class DistrictSystemsController < ApplicationController
     tabs
   end
 
+  def prepare_simulation(params)
+    puts '#' * 100
+    puts 'Preparing simulations...'
+    selected_sys_type_1 = params[:district_system_config][:system_type_1]
+    selected_sys_type_2 = params[:district_system_config][:system_type_2]
+    selected_sys_type_3 = params[:district_system_config][:system_type_3]
+    selected_sys_type_4 = params[:district_system_config][:system_type_4]
+    selected_sys_type_5 = params[:district_system_config][:system_type_5]
+    v_selections = [selected_sys_type_1, selected_sys_type_2, selected_sys_type_3, selected_sys_type_4, selected_sys_type_5]
+    if v_selections.all? { |x| x == "0" }
+      @error_message[:error] = 'At least one system type should be selected for simulation.'
+    else
+      puts 'Do something'
+    end
+
+  end
 
   ######################################################################################################################
   # Methods may be useful in future
