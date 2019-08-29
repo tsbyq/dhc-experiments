@@ -1,20 +1,17 @@
 require 'fileutils'
 
 class DistrictSystemsController < ApplicationController
-  @district_system_config = {}
-
-  # @simulation_results = {}
-  # @tabs = {}
-  # @error_message = {}
+  # @district_system_config = {}
 
   def index
-    puts 'GET request...'
+    puts '---> Entering Index...'
     # TODO: keep visualization, simulation configurations, and simulation results in session for quicker rendering.
-    @tabs = tab_control(true, false, false)
     @error_message = {}
+    @tabs = tab_control(true, false, false)
   end
 
   def dispatcher
+    @error_message = {}
     # TODO: Handle post requests differently depending on their purpose (e.g., upload, visualize, simulate)
     if params[:load_profile_csv]
       upload_file(params)
@@ -40,7 +37,6 @@ class DistrictSystemsController < ApplicationController
     puts '---> Entering Simulate method...'
     @tabs = tab_control(false, true, false)
     puts session[:uploaded_file_path]
-    @error_message = {}
 
 
     #TODO: 1. Prepare simulation configurations (IDFs, schedule:files, commands)
