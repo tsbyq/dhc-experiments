@@ -1,3 +1,5 @@
+require 'fileutils'
+
 class DistrictSystemsController < ApplicationController
   @district_system_config = {}
 
@@ -14,37 +16,32 @@ class DistrictSystemsController < ApplicationController
 
   def dispatcher
     # TODO: Handle post requests differently depending on their purpose (e.g., upload, visualize, simulate)
-    puts "The dispatcher received a POST request..."
     if params[:load_profile_csv]
-      @tabs = tab_control(true, false, false)
       upload_file(params)
     elsif params[:district_system_config]
-      @tabs = tab_control(false, true, false)
-      @error_message = {}
       simulate(params)
     end
   end
 
   def upload_file(params)
+    puts '---> Entering Upload method...'
     #TODO: Handle file uploaded, consider saving to database in the future
-    puts 'User uploaded a CSV, do something with it...'
-    uploaded_file = params[:load_profile_csv]
-
-    puts uploaded_file.path
-    puts uploaded_file.original_filename
+    puts '------> User uploaded a CSV, save it to session, and visualize it.'
+    @tabs = tab_control(true, false, false)
+    # Move the uploaded file to the ./public/user_uploads path
+    old_file_path = params[:load_profile_csv].path
+    filename = File.basename(old_file_path)
+    new_file_path = File.expand_path("..", File.dirname(File.dirname(__FILE__))) + '/public/user_uploads/' + filename
+    FileUtils.cp(old_file_path, new_file_path) if File.exist?(old_file_path)
+    session[:uploaded_file_path] = new_file_path
   end
 
   def simulate(params)
-    puts '%' * 100
-    puts 'Entering simulate method of the DistrictSystem controller...'
-    puts 'User provided DHC simulation configurations, run it...'
+    puts '---> Entering Simulate method...'
+    @tabs = tab_control(false, true, false)
+    puts session[:uploaded_file_path]
+    @error_message = {}
 
-    puts '*' * 90
-    puts params
-    puts '*' * 90
-    # puts @simulation_results
-    @simulation_results = params[:district_system_config]
-    puts params[:district_system_config]
 
     #TODO: 1. Prepare simulation configurations (IDFs, schedule:files, commands)
     # Need to automate this process, consider quick-check to adjust default plant loop, branches settings.
@@ -56,10 +53,10 @@ class DistrictSystemsController < ApplicationController
 
     #TODO: 3. Post-process the simulation results, prepare it as a hash, render it to the view.
     # Discuss which outputs are needed.
-
+    @simulation_results = params[:district_system_config]
 
     # TODO: Set conditions
-    @tabs = tab_control(false, false, true)
+
 
     render "index" # TODO: figure out how to set active tab in the view.
   end
@@ -68,6 +65,31 @@ class DistrictSystemsController < ApplicationController
   ######################################################################################################################
   # Helper methods
   ######################################################################################################################
+  def prepare_simulation(params)
+    puts '#' * 100
+    puts 'Preparing simulations...'
+    selected_sys_type_1 = params[:district_system_config][:system_type_1]
+    selected_sys_type_2 = params[:district_system_config][:system_type_2]
+    selected_sys_type_3 = params[:district_system_config][:system_type_3]
+    selected_sys_type_4 = params[:district_system_config][:system_type_4]
+    selected_sys_type_5 = params[:district_system_config][:system_type_5]
+    v_selections = [selected_sys_type_1, selected_sys_type_2, selected_sys_type_3, selected_sys_type_4, selected_sys_type_5]
+
+    puts ':' * 100
+    puts session[:uploaded_file]
+
+    if v_selections.all? { |x| x == "0" }
+      @error_message[:error] = 'At least one system type should be selected for simulation.'
+      @tabs = tab_control(false, true, false)
+    elsif @uploaded_file.nil?
+
+    else
+      puts 'Do something'
+    end
+
+  end
+
+
   def tab_control(upload_active = true, config_active = false, result_active = false)
     tabs = {}
     if upload_active
@@ -93,23 +115,6 @@ class DistrictSystemsController < ApplicationController
       tabs[:result_tab_control] = 'show active'
     end
     tabs
-  end
-
-  def prepare_simulation(params)
-    puts '#' * 100
-    puts 'Preparing simulations...'
-    selected_sys_type_1 = params[:district_system_config][:system_type_1]
-    selected_sys_type_2 = params[:district_system_config][:system_type_2]
-    selected_sys_type_3 = params[:district_system_config][:system_type_3]
-    selected_sys_type_4 = params[:district_system_config][:system_type_4]
-    selected_sys_type_5 = params[:district_system_config][:system_type_5]
-    v_selections = [selected_sys_type_1, selected_sys_type_2, selected_sys_type_3, selected_sys_type_4, selected_sys_type_5]
-    if v_selections.all? { |x| x == "0" }
-      @error_message[:error] = 'At least one system type should be selected for simulation.'
-    else
-      puts 'Do something'
-    end
-
   end
 
   ######################################################################################################################
