@@ -31,13 +31,17 @@ class DistrictSystemsController < ApplicationController
     new_file_path = File.expand_path("..", File.dirname(File.dirname(__FILE__))) + '/public/user_uploads/' + filename
     FileUtils.cp(old_file_path, new_file_path) if File.exist?(old_file_path)
     session[:uploaded_file_path] = new_file_path
+    render "index"
   end
 
   def simulate(params)
     puts '---> Entering Simulate method...'
     @tabs = tab_control(false, true, false)
-    puts session[:uploaded_file_path]
-
+    old_epw_path = params[:weather_epw].path
+    filename = File.basename(old_epw_path)
+    new_epw_path = File.expand_path("..", File.dirname(File.dirname(__FILE__))) + '/public/user_uploads/' + filename
+    FileUtils.cp(old_epw_path, new_epw_path) if File.exist?(old_epw_path)
+    session[:weather_epw_path] = new_epw_path
 
     #TODO: 1. Prepare simulation configurations (IDFs, schedule:files, commands)
     # Need to automate this process, consider quick-check to adjust default plant loop, branches settings.
@@ -71,16 +75,24 @@ class DistrictSystemsController < ApplicationController
     selected_sys_type_5 = params[:district_system_config][:system_type_5]
     v_selections = [selected_sys_type_1, selected_sys_type_2, selected_sys_type_3, selected_sys_type_4, selected_sys_type_5]
 
-    puts ':' * 100
-    puts session[:uploaded_file]
+    uploaded_file = session[:uploaded_file_path]
+    uploaded_epw = session[:weather_epw_path]
+    puts uploaded_file
+    puts uploaded_epw
+
 
     if v_selections.all? { |x| x == "0" }
       @error_message[:error] = 'At least one system type should be selected for simulation.'
       @tabs = tab_control(false, true, false)
-    elsif @uploaded_file.nil?
-
+    elsif uploaded_file.nil?
+      @error_message[:error] = 'Make sure the heating and cooling demand data is uploaded.'
+      @tabs = tab_control(false, true, false)
+    elsif uploaded_epw.nil?
+      @error_message[:error] = 'Make sure the weather file is uploaded.'
+      @tabs = tab_control(false, true, false)
     else
       puts 'Do something'
+      # Prepare other files
     end
 
   end
