@@ -8,6 +8,7 @@ class DistrictSystemsController < ApplicationController
   @@output_files_path = @@root_path + '/public/output_files/'
   @@dhc_template_path = @@root_path + '/public/dhc_templates/'
   @@idf_modifier_py = @@root_path + '/public/idf_modifier.py'
+  @@idf_runner_py = @@root_path + '/public/idf_runner.py'
   @@run_path = @@root_path + '/public/runs/'
   @@sys_type_1_idf_name = 'sys_1.idf'
   @@sys_type_2_idf_name = 'sys_2.idf'
@@ -62,11 +63,13 @@ class DistrictSystemsController < ApplicationController
 
     #TODO: 1. Prepare simulation configurations (IDFs, schedule:files, commands)
     # Need to automate this process, consider quick-check to adjust default plant loop, branches settings.
-    prepare_simulation(params)
-
+    jobs_json_dir = prepare_simulation(params)
 
     #TODO: 2. Call EnergyPlus simulation for the district heating and cooling systems.
     # A Python routine to call simulation in parallel is ready
+    unless jobs_json_dir.nil?
+      run_simulate(jobs_json_dir)
+    end
 
     #TODO: 3. Post-process the simulation results, prepare it as a hash, render it to the view.
     # Discuss which outputs are needed.
@@ -96,6 +99,7 @@ class DistrictSystemsController < ApplicationController
     uploaded_epw = session[:weather_epw_path]
     puts uploaded_sch
     puts uploaded_epw
+    jobs_json_dir = nil
 
     if v_selections.all? { |x| x == "0" }
       @error_message[:error] = 'At least one system type should be selected for simulation.'
@@ -124,35 +128,35 @@ class DistrictSystemsController < ApplicationController
         sys_1_idf = temp_run_path + @@sys_type_1_idf_name
         sys_1_run_dir = temp_run_path + 'sys_1'
         FileUtils.cp(@@dhc_template_path + @@sys_type_1_idf_name, sys_1_idf)
-        spawn("#{@@python_command} #{@@idf_modifier_py} #{sys_1_idf} #{run_epw_file} #{run_sch_file} #{@@idd_file_dir}")
+        idf_modifier(@@python_command, @@idf_modifier_py, sys_1_idf, run_epw_file, run_sch_file, @@idd_file_dir)
         v_simulation_jobs.push(create_simulation_job_hash(@@ep_exe, run_epw_file, sys_1_idf, sys_1_run_dir))
       end
       if selected_sys_type_2 == '1'
         sys_2_idf = temp_run_path + @@sys_type_2_idf_name
         sys_2_run_dir = temp_run_path + 'sys_2'
         FileUtils.cp(@@dhc_template_path + @@sys_type_2_idf_name, sys_2_idf)
-        spawn("#{@@python_command} #{@@idf_modifier_py} #{sys_2_idf} #{run_epw_file} #{run_sch_file} #{@@idd_file_dir}")
+        idf_modifier(@@python_command, @@idf_modifier_py, sys_2_idf, run_epw_file, run_sch_file, @@idd_file_dir)
         v_simulation_jobs.push(create_simulation_job_hash(@@ep_exe, run_epw_file, sys_2_idf, sys_2_run_dir))
       end
       if selected_sys_type_3 == '1'
         sys_3_idf = temp_run_path + @@sys_type_3_idf_name
         sys_3_run_dir = temp_run_path + 'sys_3'
         FileUtils.cp(@@dhc_template_path + @@sys_type_3_idf_name, sys_3_idf)
-        spawn("#{@@python_command} #{@@idf_modifier_py} #{sys_3_idf} #{run_epw_file} #{run_sch_file} #{@@idd_file_dir}")
+        idf_modifier(@@python_command, @@idf_modifier_py, sys_3_idf, run_epw_file, run_sch_file, @@idd_file_dir)
         v_simulation_jobs.push(create_simulation_job_hash(@@ep_exe, run_epw_file, sys_3_idf, sys_3_run_dir))
       end
       if selected_sys_type_4 == '1'
         sys_4_idf = temp_run_path + @@sys_type_4_idf_name
         sys_4_run_dir = temp_run_path + 'sys_4'
         FileUtils.cp(@@dhc_template_path + @@sys_type_4_idf_name, sys_4_idf)
-        spawn("#{@@python_command} #{@@idf_modifier_py} #{sys_4_idf} #{run_epw_file} #{run_sch_file} #{@@idd_file_dir}")
+        idf_modifier(@@python_command, @@idf_modifier_py, sys_4_idf, run_epw_file, run_sch_file, @@idd_file_dir)
         v_simulation_jobs.push(create_simulation_job_hash(@@ep_exe, run_epw_file, sys_4_idf, sys_4_run_dir))
       end
       if selected_sys_type_5 == '1'
         sys_5_idf = temp_run_path + @@sys_type_5_idf_name
         sys_5_run_dir = temp_run_path + 'sys_5'
         FileUtils.cp(@@dhc_template_path + @@sys_type_5_idf_name, sys_5_idf)
-        spawn("#{@@python_command} #{@@idf_modifier_py} #{sys_5_idf} #{run_epw_file} #{run_sch_file} #{@@idd_file_dir}")
+        idf_modifier(@@python_command, @@idf_modifier_py, sys_5_idf, run_epw_file, run_sch_file, @@idd_file_dir)
         v_simulation_jobs.push(create_simulation_job_hash(@@ep_exe, run_epw_file, sys_5_idf, sys_5_run_dir))
       end
 
@@ -161,18 +165,25 @@ class DistrictSystemsController < ApplicationController
           "Date" => "Some date",
           "jobs" => v_simulation_jobs,
       }
-
-      File.open("#{temp_run_path}/jobs.json", "w") do |f|
+      jobs_json_dir = "#{temp_run_path}jobs.json"
+      File.open(jobs_json_dir, "w") do |f|
         f.write(job_hash.to_json)
       end
-      puts job_hash
-
     end
-
+    return jobs_json_dir
   end
 
-  def idf_modifier(py_script, idf_file_dir, epw_file_dir, sch_file_dir, idd_file_dir)
-    exec "#{py_script} #{idf_file_dir} #{epw_file_dir} #{sch_file_dir} #{idd_file_dir}"
+  def run_simulate(jobs_json_dir)
+    run_command = "#{@@python_command} #{@@idf_runner_py} #{jobs_json_dir}"
+    puts '~' * 100
+    puts run_command
+    pid = spawn(run_command)
+    Process.wait pid
+  end
+
+  def idf_modifier(python_command, py_script, idf_file_dir, epw_file_dir, sch_file_dir, idd_file_dir)
+    pid = spawn("#{python_command} #{py_script} #{idf_file_dir} #{epw_file_dir} #{sch_file_dir} #{idd_file_dir}")
+    Process.wait pid
   end
 
   def create_simulation_job_hash(ep_exe, epw_file, idf_file, run_dir)
