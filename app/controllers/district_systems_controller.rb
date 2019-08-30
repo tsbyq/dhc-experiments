@@ -1,17 +1,23 @@
 require 'fileutils'
 require 'date'
+require 'json'
 
 class DistrictSystemsController < ApplicationController
   @@root_path = File.expand_path("..", File.dirname(File.dirname(__FILE__)))
   @@user_uploads_path = @@root_path + '/public/user_uploads/'
   @@output_files_path = @@root_path + '/public/output_files/'
   @@dhc_template_path = @@root_path + '/public/dhc_templates/'
+  @@idf_modifier_py = @@root_path + '/public/idf_modifier.py'
   @@run_path = @@root_path + '/public/runs/'
   @@sys_type_1_idf_name = 'sys_1.idf'
   @@sys_type_2_idf_name = 'sys_2.idf'
   @@sys_type_3_idf_name = 'sys_3.idf'
   @@sys_type_4_idf_name = 'sys_4.idf'
   @@sys_type_5_idf_name = 'sys_5.idf'
+
+  @@python_command = 'python' # Or full Python command path
+  @@ep_exe = 'ep91' # Or full EnergyPlus executable path
+  @@idd_file_dir = 'C:/EnergyPlusV9-1-0/Energy+.idd' # IDD path
 
   def index
     puts '---> Entering Index...'
@@ -86,15 +92,15 @@ class DistrictSystemsController < ApplicationController
     selected_sys_type_5 = params[:district_system_config][:system_type_5]
     v_selections = [selected_sys_type_1, selected_sys_type_2, selected_sys_type_3, selected_sys_type_4, selected_sys_type_5]
 
-    uploaded_file = session[:uploaded_file_path]
+    uploaded_sch = session[:uploaded_file_path]
     uploaded_epw = session[:weather_epw_path]
-    puts uploaded_file
+    puts uploaded_sch
     puts uploaded_epw
 
     if v_selections.all? { |x| x == "0" }
       @error_message[:error] = 'At least one system type should be selected for simulation.'
       @tabs = tab_control(false, true, false)
-    elsif uploaded_file.nil?
+    elsif uploaded_sch.nil?
       @error_message[:error] = 'Make sure the heating and cooling demand data is uploaded.'
       @tabs = tab_control(false, true, false)
     elsif uploaded_epw.nil?
@@ -103,31 +109,81 @@ class DistrictSystemsController < ApplicationController
     else
       puts 'Do something'
       # Create a folder in the run_dir and copy the files to it.
-      temp_run_path = @@run_path + 'run_' + DateTime.now.strftime('%Q') +'/'
+      temp_run_path = @@run_path + 'run_' + DateTime.now.strftime('%Q') + '/'
       Dir.mkdir(temp_run_path) unless File.exists?(temp_run_path)
 
-      FileUtils.cp(uploaded_file, temp_run_path + File.basename(uploaded_file))
-      FileUtils.cp(uploaded_epw, temp_run_path + File.basename(uploaded_epw))
+      run_epw_file = temp_run_path + File.basename(uploaded_epw)
+      run_sch_file = temp_run_path + File.basename(uploaded_sch)
+
+      FileUtils.cp(uploaded_sch, run_sch_file) # The user-uploaded schedule:file CSV
+      FileUtils.cp(uploaded_epw, run_epw_file) # The user-uploaded epw file
+
+      v_simulation_jobs = []
 
       if selected_sys_type_1 == '1'
-        FileUtils.cp(@@dhc_template_path + @@sys_type_1_idf_name, temp_run_path + @@sys_type_1_idf_name)
+        sys_1_idf = temp_run_path + @@sys_type_1_idf_name
+        sys_1_run_dir = temp_run_path + 'sys_1'
+        FileUtils.cp(@@dhc_template_path + @@sys_type_1_idf_name, sys_1_idf)
+        spawn("#{@@python_command} #{@@idf_modifier_py} #{sys_1_idf} #{run_epw_file} #{run_sch_file} #{@@idd_file_dir}")
+        v_simulation_jobs.push(create_simulation_job_hash(@@ep_exe, run_epw_file, sys_1_idf, sys_1_run_dir))
       end
       if selected_sys_type_2 == '1'
-        FileUtils.cp(@@dhc_template_path + @@sys_type_2_idf_name, temp_run_path + @@sys_type_2_idf_name)
+        sys_2_idf = temp_run_path + @@sys_type_2_idf_name
+        sys_2_run_dir = temp_run_path + 'sys_2'
+        FileUtils.cp(@@dhc_template_path + @@sys_type_2_idf_name, sys_2_idf)
+        spawn("#{@@python_command} #{@@idf_modifier_py} #{sys_2_idf} #{run_epw_file} #{run_sch_file} #{@@idd_file_dir}")
+        v_simulation_jobs.push(create_simulation_job_hash(@@ep_exe, run_epw_file, sys_2_idf, sys_2_run_dir))
       end
       if selected_sys_type_3 == '1'
-        FileUtils.cp(@@dhc_template_path + @@sys_type_3_idf_name, temp_run_path + @@sys_type_3_idf_name)
+        sys_3_idf = temp_run_path + @@sys_type_3_idf_name
+        sys_3_run_dir = temp_run_path + 'sys_3'
+        FileUtils.cp(@@dhc_template_path + @@sys_type_3_idf_name, sys_3_idf)
+        spawn("#{@@python_command} #{@@idf_modifier_py} #{sys_3_idf} #{run_epw_file} #{run_sch_file} #{@@idd_file_dir}")
+        v_simulation_jobs.push(create_simulation_job_hash(@@ep_exe, run_epw_file, sys_3_idf, sys_3_run_dir))
       end
       if selected_sys_type_4 == '1'
-        FileUtils.cp(@@dhc_template_path + @@sys_type_4_idf_name, temp_run_path + @@sys_type_4_idf_name)
+        sys_4_idf = temp_run_path + @@sys_type_4_idf_name
+        sys_4_run_dir = temp_run_path + 'sys_4'
+        FileUtils.cp(@@dhc_template_path + @@sys_type_4_idf_name, sys_4_idf)
+        spawn("#{@@python_command} #{@@idf_modifier_py} #{sys_4_idf} #{run_epw_file} #{run_sch_file} #{@@idd_file_dir}")
+        v_simulation_jobs.push(create_simulation_job_hash(@@ep_exe, run_epw_file, sys_4_idf, sys_4_run_dir))
       end
       if selected_sys_type_5 == '1'
-        FileUtils.cp(@@dhc_template_path + @@sys_type_5_idf_name, temp_run_path + @@sys_type_5_idf_name)
+        sys_5_idf = temp_run_path + @@sys_type_5_idf_name
+        sys_5_run_dir = temp_run_path + 'sys_5'
+        FileUtils.cp(@@dhc_template_path + @@sys_type_5_idf_name, sys_5_idf)
+        spawn("#{@@python_command} #{@@idf_modifier_py} #{sys_5_idf} #{run_epw_file} #{run_sch_file} #{@@idd_file_dir}")
+        v_simulation_jobs.push(create_simulation_job_hash(@@ep_exe, run_epw_file, sys_5_idf, sys_5_run_dir))
       end
+
+      # Prepare the json file as simulation input
+      job_hash = {
+          "Date" => "Some date",
+          "jobs" => v_simulation_jobs,
+      }
+
+      File.open("#{temp_run_path}/jobs.json", "w") do |f|
+        f.write(job_hash.to_json)
+      end
+      puts job_hash
+
     end
 
   end
 
+  def idf_modifier(py_script, idf_file_dir, epw_file_dir, sch_file_dir, idd_file_dir)
+    exec "#{py_script} #{idf_file_dir} #{epw_file_dir} #{sch_file_dir} #{idd_file_dir}"
+  end
+
+  def create_simulation_job_hash(ep_exe, epw_file, idf_file, run_dir)
+    job_hash = {
+        "ep_exe" => ep_exe,
+        "epw_file" => epw_file,
+        "idf_file" => idf_file,
+        "run_dir" => run_dir,
+    }
+    return job_hash
+  end
 
   def tab_control(upload_active = true, config_active = false, result_active = false)
     tabs = {}
