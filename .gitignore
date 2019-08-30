@@ -86,4 +86,6 @@ pickle-email-*.html
 # user uploads and generated files
 user_uploads/
 output_files/
+runs/
+dhc_templates/
 

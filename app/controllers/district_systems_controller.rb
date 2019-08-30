@@ -1,7 +1,17 @@
 require 'fileutils'
+require 'date'
 
 class DistrictSystemsController < ApplicationController
-  # @district_system_config = {}
+  @@root_path = File.expand_path("..", File.dirname(File.dirname(__FILE__)))
+  @@user_uploads_path = @@root_path + '/public/user_uploads/'
+  @@output_files_path = @@root_path + '/public/output_files/'
+  @@dhc_template_path = @@root_path + '/public/dhc_templates/'
+  @@run_path = @@root_path + '/public/runs/'
+  @@sys_type_1_idf_name = 'sys_1.idf'
+  @@sys_type_2_idf_name = 'sys_2.idf'
+  @@sys_type_3_idf_name = 'sys_3.idf'
+  @@sys_type_4_idf_name = 'sys_4.idf'
+  @@sys_type_5_idf_name = 'sys_5.idf'
 
   def index
     puts '---> Entering Index...'
@@ -28,7 +38,7 @@ class DistrictSystemsController < ApplicationController
     # Move the uploaded file to the ./public/user_uploads path
     old_file_path = params[:load_profile_csv].path
     filename = File.basename(old_file_path)
-    new_file_path = File.expand_path("..", File.dirname(File.dirname(__FILE__))) + '/public/user_uploads/' + filename
+    new_file_path = @@user_uploads_path + filename
     FileUtils.cp(old_file_path, new_file_path) if File.exist?(old_file_path)
     session[:uploaded_file_path] = new_file_path
     render "index"
@@ -39,7 +49,8 @@ class DistrictSystemsController < ApplicationController
     @tabs = tab_control(false, true, false)
     old_epw_path = params[:weather_epw].path
     filename = File.basename(old_epw_path)
-    new_epw_path = File.expand_path("..", File.dirname(File.dirname(__FILE__))) + '/public/user_uploads/' + filename
+    new_epw_path = @@user_uploads_path + filename
+
     FileUtils.cp(old_epw_path, new_epw_path) if File.exist?(old_epw_path)
     session[:weather_epw_path] = new_epw_path
 
@@ -80,7 +91,6 @@ class DistrictSystemsController < ApplicationController
     puts uploaded_file
     puts uploaded_epw
 
-
     if v_selections.all? { |x| x == "0" }
       @error_message[:error] = 'At least one system type should be selected for simulation.'
       @tabs = tab_control(false, true, false)
@@ -92,7 +102,28 @@ class DistrictSystemsController < ApplicationController
       @tabs = tab_control(false, true, false)
     else
       puts 'Do something'
-      # Prepare other files
+      # Create a folder in the run_dir and copy the files to it.
+      temp_run_path = @@run_path + 'run_' + DateTime.now.strftime('%Q') +'/'
+      Dir.mkdir(temp_run_path) unless File.exists?(temp_run_path)
+
+      FileUtils.cp(uploaded_file, temp_run_path + File.basename(uploaded_file))
+      FileUtils.cp(uploaded_epw, temp_run_path + File.basename(uploaded_epw))
+
+      if selected_sys_type_1 == '1'
+        FileUtils.cp(@@dhc_template_path + @@sys_type_1_idf_name, temp_run_path + @@sys_type_1_idf_name)
+      end
+      if selected_sys_type_2 == '1'
+        FileUtils.cp(@@dhc_template_path + @@sys_type_2_idf_name, temp_run_path + @@sys_type_2_idf_name)
+      end
+      if selected_sys_type_3 == '1'
+        FileUtils.cp(@@dhc_template_path + @@sys_type_3_idf_name, temp_run_path + @@sys_type_3_idf_name)
+      end
+      if selected_sys_type_4 == '1'
+        FileUtils.cp(@@dhc_template_path + @@sys_type_4_idf_name, temp_run_path + @@sys_type_4_idf_name)
+      end
+      if selected_sys_type_5 == '1'
+        FileUtils.cp(@@dhc_template_path + @@sys_type_5_idf_name, temp_run_path + @@sys_type_5_idf_name)
+      end
     end
 
   end
