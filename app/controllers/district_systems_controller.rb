@@ -67,15 +67,20 @@ class DistrictSystemsController < ApplicationController
 
     #TODO: 2. Call EnergyPlus simulation for the district heating and cooling systems.
     # A Python routine to call simulation in parallel is ready
+    simulation_success = false
     unless jobs_json_dir.nil?
-      run_simulate(jobs_json_dir)
+      simulation_success = run_simulate(jobs_json_dir)
     end
 
     #TODO: 3. Post-process the simulation results, prepare it as a hash, render it to the view.
+    puts "Simulations are successful = #{simulation_success}"
     # Discuss which outputs are needed.
     @simulation_results = params[:district_system_config]
+    jobs_json_hash = JSON.parse(File.read(jobs_json_dir))
+    puts "Simulations are done in: #{jobs_json_hash['run dir']}"
 
     # TODO: Set conditions
+
 
 
     render "index" # TODO: figure out how to set active tab in the view.
@@ -164,6 +169,7 @@ class DistrictSystemsController < ApplicationController
       job_hash = {
           "Date" => "Some date",
           "jobs" => v_simulation_jobs,
+          "run dir" => temp_run_path,
       }
       jobs_json_dir = "#{temp_run_path}jobs.json"
       File.open(jobs_json_dir, "w") do |f|
@@ -174,11 +180,17 @@ class DistrictSystemsController < ApplicationController
   end
 
   def run_simulate(jobs_json_dir)
-    run_command = "#{@@python_command} #{@@idf_runner_py} #{jobs_json_dir}"
-    puts '~' * 100
-    puts run_command
-    pid = spawn(run_command)
-    Process.wait pid
+    begin
+      run_command = "#{@@python_command} #{@@idf_runner_py} #{jobs_json_dir}"
+      puts '~' * 100
+      puts run_command
+      pid = spawn(run_command)
+      Process.wait pid
+      success = true
+    rescue
+      success = false
+    end
+    return success
   end
 
   def idf_modifier(python_command, py_script, idf_file_dir, epw_file_dir, sch_file_dir, idd_file_dir)
