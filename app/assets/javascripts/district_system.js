@@ -29,6 +29,7 @@ function uploadLoadsProfile() {
             var parseConfig = {
                 header: true,
                 dynamicTyping: true,
+                skipEmptyLines: true,
             };
             var data = Papa.parse(csvText, parseConfig);
             prepareLoadProfile(data);
@@ -155,6 +156,8 @@ this.simpsonDiversity = function (arr, chunkSize = 200) {
 this.calculateKeyStats = function () {
     // This function calculate the key statistics for the district heating and cooling demand profiles.
 
+    console.log('Calculating key statistics...');
+
     var peak_heating_demand = Math.max.apply(null, self.v_heating_demand);
     var peak_heating_demand_time = new Date(self.v_timestamps[self.v_heating_demand.indexOf(peak_heating_demand)]); // to date time string
     var annual_heating_demand_intensity = 0;
@@ -180,7 +183,6 @@ this.calculateKeyStats = function () {
     var annual_ng_consumption_intensity = 0;
     var annual_ng_consumption_diversity = self.simpsonDiversity(self.v_gas_consumption);
     var annual_heat_recovery_potential = arrSum(self.v_simultaneous_demand);
-
 
     document.getElementById("peak_heating_demand").innerHTML = peak_heating_demand.toLocaleString() + " kWh";
     document.getElementById("peak_heating_demand_time").innerHTML = peak_heating_demand_time.toLocaleString();
