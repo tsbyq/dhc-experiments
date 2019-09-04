@@ -4,8 +4,6 @@
       No Simulation results yet.
     <% else %>
       Show simulation results. <br>
-
-
       <h4 class="pt-3 pb-3">Simulation results will be shown on this tab.</h4>
       <div class="row">
         <div class="col-md-12">
@@ -34,12 +32,12 @@
                     Boilers + Water-cooled Chillers
                   </a>
                 </td>
-                <td class="p-1"><%= result['annual electricity'] %></td>
-                <td class="p-1"><%= result['annual gas'] %></td>
-                <td class="p-1"><%= result['annual gas'] %></td>
-                <td class="p-1"><%= result['annual gas'] %></td>
+                <td class="p-1"><%= '%.2f' % result['annual electricity'] %></td>
+                <td class="p-1"><%= '%.2f' % result['annual gas'] %></td>
+                <td class="p-1">Place holder</td>
+                <td class="p-1">Place holder</td>
               </tr>
-            <% end %> %>
+            <% end %>
             </tbody>
           </table>
           <p>* Annual results</p>

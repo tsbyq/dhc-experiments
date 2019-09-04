@@ -224,8 +224,8 @@ class DistrictSystemsController < ApplicationController
     # This function read the eplusout.csv file and create a result hash.
     csv_table = CSV.read(eplusout_dir, headers: true)
     out_hash = {
-        "annual electricity" => csv_table[0][@@eplus_electricity_meter],
-        "annual gas" => csv_table[0][@@eplus_natural_gas_meter],
+        "annual electricity" => J_to_kWh(csv_table[0][@@eplus_electricity_meter].to_f),
+        "annual gas" => J_to_kWh(csv_table[0][@@eplus_natural_gas_meter].to_f),
     }
     out_hash
   end
@@ -255,6 +255,10 @@ class DistrictSystemsController < ApplicationController
       tabs[:result_tab_control] = 'show active'
     end
     tabs
+  end
+
+  def J_to_kWh(joule_value)
+    joule_value / 3600000
   end
 
 ######################################################################################################################
