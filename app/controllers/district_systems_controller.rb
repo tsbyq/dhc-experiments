@@ -89,12 +89,12 @@ class DistrictSystemsController < ApplicationController
 
     v_results = []
     jobs_json_hash['jobs'].each do |job|
-      puts job['run_dir']
       job_out_csv = job['run_dir'] + '/eplusout.csv'
-      v_results.push(read_eplus_output(job_out_csv))
+      out_hash = read_eplus_output(job_out_csv)
+      out_hash['sys_type'] = job['sys_type']
+      v_results.push(out_hash)
     end
 
-    @simulation_results['v_result'] = v_results
     @v_results = v_results
 
     # TODO: Set conditions
