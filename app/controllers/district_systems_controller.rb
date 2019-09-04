@@ -1,6 +1,7 @@
 require 'fileutils'
 require 'date'
 require 'json'
+require 'CSV'
 
 class DistrictSystemsController < ApplicationController
   @@root_path = File.expand_path("..", File.dirname(File.dirname(__FILE__)))
@@ -19,6 +20,9 @@ class DistrictSystemsController < ApplicationController
   @@python_command = 'python' # Or full Python command path
   @@ep_exe = 'ep91' # Or full EnergyPlus executable path
   @@idd_file_dir = 'C:/EnergyPlusV9-1-0/Energy+.idd' # IDD path
+
+  @@eplus_electricity_meter = "Electricity:Facility [J](Annual)"
+  @@eplus_natural_gas_meter = "Gas:Facility [J](Annual)"
 
   def index
     puts '---> Entering Index...'
@@ -79,17 +83,26 @@ class DistrictSystemsController < ApplicationController
     jobs_json_hash = JSON.parse(File.read(jobs_json_dir))
     puts "Simulations are done in: #{jobs_json_hash['run dir']}"
 
-    # TODO: Set conditions
+    v_result = []
+    jobs_json_hash['jobs'].each do |job|
+      job_out_csv = job['run_dir'] + '/eplusout.csv'
+      v_result.push(read_eplus_output(job_out_csv))
+    end
 
+    puts v_result
+
+    # puts read_eplus_output()
+
+    # TODO: Set conditions
 
 
     render "index" # TODO: figure out how to set active tab in the view.
   end
 
 
-  ######################################################################################################################
-  # Helper methods
-  ######################################################################################################################
+######################################################################################################################
+# Helper methods
+######################################################################################################################
   def prepare_simulation(params)
     puts '#' * 100
     puts 'Preparing simulations...'
@@ -208,6 +221,16 @@ class DistrictSystemsController < ApplicationController
     return job_hash
   end
 
+  def read_eplus_output(eplusout_dir)
+    # This function read the eplusout.csv file and create a result hash.
+    csv_table = CSV.read(eplusout_dir, headers: true)
+    out_hash = {
+        "annual electricity" => csv_table[0][@@eplus_electricity_meter],
+        "annual gas" => csv_table[0][@@eplus_natural_gas_meter],
+    }
+    out_hash
+  end
+
   def tab_control(upload_active = true, config_active = false, result_active = false)
     tabs = {}
     if upload_active
@@ -235,9 +258,9 @@ class DistrictSystemsController < ApplicationController
     tabs
   end
 
-  ######################################################################################################################
-  # Methods may be useful in future
-  ######################################################################################################################
+######################################################################################################################
+# Methods may be useful in future
+######################################################################################################################
   def new
     # Not needed for the stand-alone simulation function for now.
 
