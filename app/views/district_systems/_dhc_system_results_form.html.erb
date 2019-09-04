@@ -1,84 +1,54 @@
 <div class="container border border-secondary">
-  <!--  <p>-->
-  <%# if @simulation_results.nil? or @simulation_results.empty? %>
-  <!--      No Simulation results yet.-->
-  <%# else %>
-  <!--      Show simulation results. <br>-->
-  <%#= @simulation_results %>
-  <%# end %>
-  <!--  </p>-->
+  <p>
+    <% if @simulation_results.nil? or @simulation_results.empty? %>
+      No Simulation results yet.
+    <% else %>
+      Show simulation results. <br>
 
-  <h4 class="pt-3 pb-3">Simulation results will be shown on this tab.</h4>
-  <div class="row">
-    <div class="col-md-12">
-      <table class="table table-bordered table-hover text-center" id="myTable">
-        <thead>
 
-        <tr style="color:#000000; background:rgb(237,239,242); text-align: center;">
-          <th class="text-center align-middle p-1" style="width: 40%">System Type<br><i class="fa fa-fw fa-sort"></i></th>
-          <th class="text-center align-middle p-1" style="width: 15%">Electricity Consumption (kWh)<br><i class="fa fa-fw fa-sort"></i></th>
-          <th class="text-center align-middle p-1" style="width: 15%">Natural Gas Consumption (therms)<br><i class="fa fa-fw fa-sort"></i></th>
-          <th class="text-center align-middle p-1" style="width: 15%">Cost ($)<br><i class="fa fa-fw fa-sort"></i></th>
-          <th class="text-center align-middle p-1" style="width: 15%">Carbon Dioxide Emission (ton)<br><i class="fa fa-fw fa-sort"></i></th>
-        </tr>
-        </thead>
-        <tbody>
+      <h4 class="pt-3 pb-3">Simulation results will be shown on this tab.</h4>
+      <div class="row">
+        <div class="col-md-12">
+          <table class="table table-bordered table-hover text-center" id="myTable">
+            <thead>
+            <tr style="color:#000000; background:rgb(237,239,242); text-align: center;">
+              <th class="text-center align-middle p-1" style="width: 40%">System
+                Type<br><i class="fa fa-fw fa-sort"></i>
+              </th>
+              <th class="text-center align-middle p-1" style="width: 15%">Electricity Consumption
+                (kWh)<br><i class="fa fa-fw fa-sort"></i></th>
+              <th class="text-center align-middle p-1" style="width: 15%">Natural Gas Consumption
+                (therms)<br><i class="fa fa-fw fa-sort"></i></th>
+              <th class="text-center align-middle p-1" style="width: 15%">Cost ($)<br><i class="fa fa-fw fa-sort"></i>
+              </th>
+              <th class="text-center align-middle p-1" style="width: 15%">Carbon Dioxide Emission
+                (ton)<br><i class="fa fa-fw fa-sort"></i></th>
+            </tr>
+            </thead>
+            <tbody>
+            <% @v_results.each do |result| %>
+              <tr>
+                <td class="p-1">
+                  <a style="color:blue; text-decoration: underline" target="_blank"
+                     href="/better/report_single/1/">
+                    Boilers + Water-cooled Chillers
+                  </a>
+                </td>
+                <td class="p-1"><%= result['annual electricity'] %></td>
+                <td class="p-1"><%= result['annual gas'] %></td>
+                <td class="p-1"><%= result['annual gas'] %></td>
+                <td class="p-1"><%= result['annual gas'] %></td>
+              </tr>
+            <% end %> %>
+            </tbody>
+          </table>
+          <p>* Annual results</p>
+        </div>
+      </div>
 
-        <tr>
-          <td class="p-1">
-            <a style="color:blue; text-decoration: underline" target="_blank"
-               href="/better/report_single/1/">
-              Boilers + Water-cooled Chillers
-            </a>
-          </td>
-          <td class="p-1">Office 1</td>
-          <td class="p-1">Miami, FL</td>
-          <td class="p-1">4,982.0</td>
-          <td class="p-1">791,630</td>
-        </tr>
 
-        <tr>
-          <td class="p-1">
-            <a style="color:blue; text-decoration: underline" target="_blank"
-               href="/better/report_single/3/">
-              Boilers + Water-cooled Chillers + Thermal Storage
-            </a>
-          </td>
-          <td class="p-1">Office 3</td>
-          <td class="p-1">Phoenix, AZ</td>
-          <td class="p-1">4,982.0</td>
-          <td class="p-1">796,841</td>
-        </tr>
+    <% end %>
+    </p>
 
-        <tr>
-          <td class="p-1">
-            <a style="color:blue; text-decoration: underline" target="_blank"
-               href="/better/report_single/5/">
-              Geothermal Heat Pump
-            </a>
-          </td>
-          <td class="p-1">Office 5</td>
-          <td class="p-1">Los Angeles, CA</td>
-          <td class="p-1">4,982.0</td>
-          <td class="p-1">635,253</td>
-        </tr>
 
-        <tr>
-          <td class="p-1">
-            <a style="color:blue; text-decoration: underline" target="_blank"
-               href="/better/report_single/7/">
-              Combined Heat and Power System
-            </a>
-          </td>
-          <td class="p-1">Office 7</td>
-          <td class="p-1">San Francisco, CA</td>
-          <td class="p-1">4,982.0</td>
-          <td class="p-1">667,309</td>
-        </tr>
-        </tbody>
-      </table>
-      <p>* Annual results</p>
     </div>
-  </div>
-
-</div>

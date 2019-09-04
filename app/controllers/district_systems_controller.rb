@@ -83,15 +83,14 @@ class DistrictSystemsController < ApplicationController
     jobs_json_hash = JSON.parse(File.read(jobs_json_dir))
     puts "Simulations are done in: #{jobs_json_hash['run dir']}"
 
-    v_result = []
+    v_results = []
     jobs_json_hash['jobs'].each do |job|
       job_out_csv = job['run_dir'] + '/eplusout.csv'
-      v_result.push(read_eplus_output(job_out_csv))
+      v_results.push(read_eplus_output(job_out_csv))
     end
 
-    puts v_result
-
-    # puts read_eplus_output()
+    @simulation_results['v_result'] = v_results
+    @v_results = v_results
 
     # TODO: Set conditions
 
