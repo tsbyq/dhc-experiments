@@ -87,5 +87,5 @@ pickle-email-*.html
 user_uploads/
 output_files/
 runs/
-dhc_templates/
+template_IDFs/
 
