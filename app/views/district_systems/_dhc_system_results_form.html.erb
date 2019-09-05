@@ -15,7 +15,7 @@
               <th class="text-center align-middle p-1" style="width: 15%">Electricity Consumption
                 (kWh)<br><i class="fa fa-fw fa-sort"></i></th>
               <th class="text-center align-middle p-1" style="width: 15%">Natural Gas Consumption
-                (therms)<br><i class="fa fa-fw fa-sort"></i></th>
+                (kBTU)<br><i class="fa fa-fw fa-sort"></i></th>
               <th class="text-center align-middle p-1" style="width: 15%">Cost ($)<br><i class="fa fa-fw fa-sort"></i>
               </th>
               <th class="text-center align-middle p-1" style="width: 15%">Carbon Dioxide Emission
@@ -27,7 +27,7 @@
               <tr>
                 <td class="p-1">
                   <a style="color:blue; text-decoration: underline" target="_blank"
-                     href="https://www.google.com/search?q=<%= result['sys_type'] %>>"><%= result['sys_type'] %></a>
+                     href="https://www.google.com/search?q=<%= result['sys_type'] %>"><%= result['sys_type'] %></a>
                 </td>
                 <td class="p-1"><%= '%.2f' % result['annual electricity'] %></td>
                 <td class="p-1"><%= '%.2f' % result['annual gas'] %></td>

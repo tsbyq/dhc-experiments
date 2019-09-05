@@ -29,6 +29,14 @@ class DistrictSystemsController < ApplicationController
   @@eplus_electricity_meter = "Electricity:Facility [J](Annual)"
   @@eplus_natural_gas_meter = "Gas:Facility [J](Annual)"
 
+  def J_to_kWh(joule_value)
+    joule_value / 3600000
+  end
+
+  def J_to_kBTU(joule_value)
+    joule_value * 0.000947817
+  end
+
   def index
     puts '---> Entering Index...'
     # TODO: keep visualization, simulation configurations, and simulation results in session for quicker rendering.
@@ -231,7 +239,7 @@ class DistrictSystemsController < ApplicationController
     csv_table = CSV.read(eplusout_dir, headers: true)
     out_hash = {
         "annual electricity" => J_to_kWh(csv_table[0][@@eplus_electricity_meter].to_f),
-        "annual gas" => J_to_kWh(csv_table[0][@@eplus_natural_gas_meter].to_f),
+        "annual gas" => J_to_kBTU(csv_table[0][@@eplus_natural_gas_meter].to_f),
     }
     out_hash
   end
@@ -261,10 +269,6 @@ class DistrictSystemsController < ApplicationController
       tabs[:result_tab_control] = 'show active'
     end
     tabs
-  end
-
-  def J_to_kWh(joule_value)
-    joule_value / 3600000
   end
 
 ######################################################################################################################

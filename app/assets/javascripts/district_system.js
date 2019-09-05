@@ -182,7 +182,7 @@ this.calculateKeyStats = function () {
     var peak_ng_consumption_time = new Date(self.v_timestamps[self.v_gas_consumption.indexOf(peak_ng_consumption)]);
     var annual_ng_consumption_intensity = 0;
     var annual_ng_consumption_diversity = self.simpsonDiversity(self.v_gas_consumption);
-    var annual_heat_recovery_potential = arrSum(self.v_simultaneous_demand);
+    var annual_heat_recovery_potential = Math.abs(arrSum(self.v_simultaneous_demand));
 
     document.getElementById("peak_heating_demand").innerHTML = peak_heating_demand.toLocaleString() + " kWh";
     document.getElementById("peak_heating_demand_time").innerHTML = peak_heating_demand_time.toLocaleString();
