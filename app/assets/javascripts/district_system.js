@@ -62,8 +62,8 @@ prepareLoadProfile = function (rawData) {
 
     for (i = 0; i < rawData.data.length; i++) {
         var timeMillisecond = Date.parse(rawData.data[i].Datetime);
-        var heatingDemand = Math.round(rawData.data[i]['Heating Demand (kWh)']);
-        var coolingDemand = Math.round(rawData.data[i]['Cooling Demand (kWh)']);
+        var heatingDemand = Math.round(rawData.data[i]['Heating Demand (W)']);
+        var coolingDemand = Math.round(rawData.data[i]['Cooling Demand (W)']);
         var simultaneousDemand = Math.min(heatingDemand, coolingDemand);
         var electricityConsumption = Math.round(rawData.data[i]['Electricity Consumption (kWh)']);
         var naturalGasConsumption = Math.round(rawData.data[i]['Natural Gas Consumption (Therms)']);
