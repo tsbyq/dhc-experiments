@@ -1,0 +1,2033 @@
+
+! ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+! Basic simulation required objects
+
+Version,
+  9.1;                                    !- Version Identifier
+
+Timestep,
+  6;                                      !- Number of Timesteps per Hour
+
+Building,
+  -LargeOfficeDetailed-ASHRAE 169-2006-2A created: 2019-07-15 15:01:46 -0700, !- Name
+  0,                                      !- North Axis {deg}
+  City,                                   !- Terrain
+  0.04,                                   !- Loads Convergence Tolerance Value
+  0.2,                                    !- Temperature Convergence Tolerance Value {deltaC}
+  FullInteriorAndExterior,                !- Solar Distribution
+  25,                                     !- Maximum Number of Warmup Days
+  6;                                      !- Minimum Number of Warmup Days
+
+SimulationControl,
+  Yes,                                    !- Do Zone Sizing Calculation
+  Yes,                                    !- Do System Sizing Calculation
+  Yes,                                    !- Do Plant Sizing Calculation
+  No,                                     !- Run Simulation for Sizing Periods
+  Yes;                                    !- Run Simulation for Weather File Run Periods
+
+RunPeriodControl:DaylightSavingTime,
+  2nd Sunday in March,                    !- Start Date
+  1st Sunday in November;                 !- End Date
+
+OutputControl:ReportingTolerances,
+  0.2,                                    !- Tolerance for Time Heating Setpoint Not Met {deltaC}
+  0.2;                                    !- Tolerance for Time Cooling Setpoint Not Met {deltaC}
+
+RunPeriod,
+  Run Period 1,                           !- Name
+  1,                                      !- Begin Month
+  1,                                      !- Begin Day of Month
+  2006,                                   !- Begin Year
+  12,                                     !- End Month
+  31,                                     !- End Day of Month
+  2006,                                   !- End Year
+  Sunday,                                 !- Day of Week for Start Day
+  No,                                     !- Use Weather File Holidays and Special Days
+  No,                                     !- Use Weather File Daylight Saving Period
+  No,                                     !- Apply Weekend Holiday Rule
+  Yes,                                    !- Use Weather File Rain Indicators
+  Yes;                                    !- Use Weather File Snow Indicators
+
+GlobalGeometryRules,
+  UpperLeftCorner,                        !- Starting Vertex Position
+  Counterclockwise,                       !- Vertex Entry Direction
+  Relative,                               !- Coordinate System
+  Relative,                               !- Daylighting Reference Point Coordinate System
+  Relative;                               !- Rectangular Surface Coordinate System
+
+SizingPeriod:DesignDay,
+  Houston Bush Intercontinental Ann Clg .4% Condns DB=>MWB, !- Name
+  7,                                      !- Month
+  21,                                     !- Day of Month
+  SummerDesignDay,                        !- Day Type
+  36,                                     !- Maximum Dry-Bulb Temperature {C}
+  10.1,                                   !- Daily Dry-Bulb Temperature Range {deltaC}
+  DefaultMultipliers,                     !- Dry-Bulb Temperature Range Modifier Type
+  ,                                       !- Dry-Bulb Temperature Range Modifier Day Schedule Name
+  Wetbulb,                                !- Humidity Condition Type
+  24.8,                                   !- Wetbulb or DewPoint at Maximum Dry-Bulb {C}
+  ,                                       !- Humidity Condition Day Schedule Name
+  ,                                       !- Humidity Ratio at Maximum Dry-Bulb {kgWater/kgDryAir}
+  ,                                       !- Enthalpy at Maximum Dry-Bulb {J/kg}
+  ,                                       !- Daily Wet-Bulb Temperature Range {deltaC}
+  100977,                                 !- Barometric Pressure {Pa}
+  3.5,                                    !- Wind Speed {m/s}
+  170,                                    !- Wind Direction {deg}
+  No,                                     !- Rain Indicator
+  No,                                     !- Snow Indicator
+  No,                                     !- Daylight Saving Time Indicator
+  ASHRAETau,                              !- Solar Model Indicator
+  ,                                       !- Beam Solar Day Schedule Name
+  ,                                       !- Diffuse Solar Day Schedule Name
+  0.499,                                  !- ASHRAE Clear Sky Optical Depth for Beam Irradiance (taub) {dimensionless}
+  1.97;                                   !- ASHRAE Clear Sky Optical Depth for Diffuse Irradiance (taud) {dimensionless}
+
+SizingPeriod:DesignDay,
+  Houston Bush Intercontinental Ann Htg 99.6% Condns DB, !- Name
+  1,                                      !- Month
+  21,                                     !- Day of Month
+  WinterDesignDay,                        !- Day Type
+  -1.6,                                   !- Maximum Dry-Bulb Temperature {C}
+  0,                                      !- Daily Dry-Bulb Temperature Range {deltaC}
+  DefaultMultipliers,                     !- Dry-Bulb Temperature Range Modifier Type
+  ,                                       !- Dry-Bulb Temperature Range Modifier Day Schedule Name
+  Wetbulb,                                !- Humidity Condition Type
+  -1.6,                                   !- Wetbulb or DewPoint at Maximum Dry-Bulb {C}
+  ,                                       !- Humidity Condition Day Schedule Name
+  ,                                       !- Humidity Ratio at Maximum Dry-Bulb {kgWater/kgDryAir}
+  ,                                       !- Enthalpy at Maximum Dry-Bulb {J/kg}
+  ,                                       !- Daily Wet-Bulb Temperature Range {deltaC}
+  100977,                                 !- Barometric Pressure {Pa}
+  2.8,                                    !- Wind Speed {m/s}
+  0,                                      !- Wind Direction {deg}
+  No,                                     !- Rain Indicator
+  No,                                     !- Snow Indicator
+  No,                                     !- Daylight Saving Time Indicator
+  ASHRAEClearSky,                         !- Solar Model Indicator
+  ,                                       !- Beam Solar Day Schedule Name
+  ,                                       !- Diffuse Solar Day Schedule Name
+  ,                                       !- ASHRAE Clear Sky Optical Depth for Beam Irradiance (taub) {dimensionless}
+  ,                                       !- ASHRAE Clear Sky Optical Depth for Diffuse Irradiance (taud) {dimensionless}
+  0;                                      !- Sky Clearness
+
+! ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+! ##############################################################################
+! Water Heating (Boiler) Plant Loop
+! ##############################################################################
+
+PlantLoop,
+  Hot Water Loop,                         !- Name
+  Water,                                  !- Fluid Type
+  ,                                       !- User Defined Fluid Type
+  Hot Water Loop Operation Schemes,       !- Plant Equipment Operation Scheme Name
+  Hot Water Loop Supply Outlet Pipe Outlet Node, !- Loop Temperature Setpoint Node Name
+  100,                                    !- Maximum Loop Temperature {C}
+  10,                                     !- Minimum Loop Temperature {C}
+  Autosize,                               !- Maximum Loop Flow Rate {m3/s}
+  0,                                      !- Minimum Loop Flow Rate {m3/s}
+  Autocalculate,                          !- Plant Loop Volume {m3}
+  Hot Water Loop Pump Inlet Node,         !- Plant Side Inlet Node Name
+  Hot Water Loop Supply Outlet Pipe Outlet Node, !- Plant Side Outlet Node Name
+  Hot Water Loop Supply Branches,         !- Plant Side Branch List Name
+  Hot Water Loop Supply Connector List,   !- Plant Side Connector List Name
+  Hot Water Loop Demand Inlet Pipe Inlet Node, !- Demand Side Inlet Node Name
+  Hot Water Loop Demand Outlet Pipe Outlet Node, !- Demand Side Outlet Node Name
+  Hot Water Loop Demand Branches,         !- Demand Side Branch List Name
+  Hot Water Loop Demand Connector List,   !- Demand Side Connector List Name
+  Optimal,                                !- Load Distribution Scheme
+  ,                                       !- Availability Manager List Name
+  SingleSetpoint,                         !- Plant Loop Demand Calculation Scheme
+  ;                                       !- Common Pipe Simulation
+
+Sizing:Plant,
+  Hot Water Loop,                         !- Plant or Condenser Loop Name
+  Heating,                                !- Loop Type
+  82.2222222222223,                       !- Design Loop Exit Temperature {C}
+  11.1111111111111,                       !- Loop Design Temperature Difference {deltaC}
+  NonCoincident,                          !- Sizing Option
+  1,                                      !- Zone Timesteps in Averaging Window
+  None;                                   !- Coincident Sizing Factor Mode
+
+BranchList,
+  Hot Water Loop Supply Branches,         !- Name
+  Hot Water Loop Supply Inlet Branch,     !- Branch Name 1
+  Hot Water Loop Supply Branch 1,         !- Branch Name 2
+  Hot Water Loop Supply Branch 2,         !- Branch Name 3
+  Hot Water Loop Supply Outlet Branch;    !- Branch Name 4
+
+ConnectorList,
+  Hot Water Loop Supply Connector List,   !- Name
+  Connector:Splitter,                     !- Connector Object Type 1
+  Hot Water Loop Supply Splitter,         !- Connector Name 1
+  Connector:Mixer,                        !- Connector Object Type 2
+  Hot Water Loop Supply Mixer;            !- Connector Name 2
+
+Connector:Splitter,
+  Hot Water Loop Supply Splitter,         !- Name
+  Hot Water Loop Supply Inlet Branch,     !- Inlet Branch Name
+  Hot Water Loop Supply Branch 1,         !- Outlet Branch Name 1
+  Hot Water Loop Supply Branch 2;         !- Outlet Branch Name 2
+
+Connector:Mixer,
+  Hot Water Loop Supply Mixer,            !- Name
+  Hot Water Loop Supply Outlet Branch,    !- Outlet Branch Name
+  Hot Water Loop Supply Branch 1,         !- Inlet Branch Name 1
+  Hot Water Loop Supply Branch 2;         !- Inlet Branch Name 2
+
+Branch,
+  Hot Water Loop Supply Inlet Branch,     !- Name
+  ,                                       !- Pressure Drop Curve Name
+  Pump:VariableSpeed,                     !- Component Object Type 1
+  Hot Water Loop Pump,                    !- Component Name 1
+  Hot Water Loop Pump Inlet Node,         !- Component Inlet Node Name 1
+  Hot Water Loop Pump Outlet Node;        !- Component Outlet Node Name 1
+
+Pump:VariableSpeed,
+  Hot Water Loop Pump,                    !- Name
+  Hot Water Loop Pump Inlet Node,         !- Inlet Node Name
+  Hot Water Loop Pump Outlet Node,        !- Outlet Node Name
+  Autosize,                               !- Design Maximum Flow Rate {m3/s}
+  179344.0152,                            !- Design Pump Head {Pa}
+  Autosize,                               !- Design Power Consumption {W}
+  0.9,                                    !- Motor Efficiency
+  0,                                      !- Fraction of Motor Inefficiencies to Fluid Stream
+  0,                                      !- Coefficient 1 of the Part Load Performance Curve
+  1,                                      !- Coefficient 2 of the Part Load Performance Curve
+  0,                                      !- Coefficient 3 of the Part Load Performance Curve
+  0,                                      !- Coefficient 4 of the Part Load Performance Curve
+  0,                                      !- Design Minimum Flow Rate {m3/s}
+  Intermittent,                           !- Pump Control Type
+  ,                                       !- Pump Flow Rate Schedule Name
+  ,                                       !- Pump Curve Name
+  ,                                       !- Impeller Diameter {m}
+  ,                                       !- VFD Control Type
+  ,                                       !- Pump rpm Schedule Name
+  ,                                       !- Minimum Pressure Schedule {Pa}
+  ,                                       !- Maximum Pressure Schedule {Pa}
+  ,                                       !- Minimum RPM Schedule {Rotations Per Minute}
+  ,                                       !- Maximum RPM Schedule {Rotations Per Minute}
+  ,                                       !- Zone Name
+  0.5,                                    !- Skin Loss Radiative Fraction
+  PowerPerFlowPerPressure,                !- Design Power Sizing Method
+  348701.1,                               !- Design Electric Power per Unit Flow Rate {W/(m3/s)}
+  1.282051282,                            !- Design Shaft Power per Unit Flow Rate per Unit Head
+  0,                                      !- Design Minimum Flow Rate Fraction
+  General;                                !- End-Use Subcategory
+
+Branch,
+  Hot Water Loop Supply Branch 1,         !- Name
+  ,                                       !- Pressure Drop Curve Name
+  Boiler:HotWater,                        !- Component Object Type 1
+  Boiler,                                 !- Component Name 1
+  Boiler Inlet Node,                      !- Component Inlet Node Name 1
+  Boiler Outlet Node;                     !- Component Outlet Node Name 1
+
+Boiler:HotWater,
+  Boiler,                                 !- Name
+  NaturalGas,                             !- Fuel Type
+  Autosize,                               !- Nominal Capacity {W}
+  0.78,                                   !- Nominal Thermal Efficiency
+  LeavingBoiler,                          !- Efficiency Curve Temperature Evaluation Variable
+  ,                                       !- Normalized Boiler Efficiency Curve Name
+  Autosize,                               !- Design Water Flow Rate {m3/s}
+  0,                                      !- Minimum Part Load Ratio
+  1.2,                                    !- Maximum Part Load Ratio
+  1,                                      !- Optimum Part Load Ratio
+  Boiler Inlet Node,                      !- Boiler Water Inlet Node Name
+  Boiler Outlet Node,                     !- Boiler Water Outlet Node Name
+  95.0000000000001,                       !- Water Outlet Upper Temperature Limit {C}
+  LeavingSetpointModulated,               !- Boiler Flow Mode
+  0,                                      !- Parasitic Electric Load {W}
+  1,                                      !- Sizing Factor
+  General;                                !- End-Use Subcategory
+
+Branch,
+  Hot Water Loop Supply Branch 2,         !- Name
+  ,                                       !- Pressure Drop Curve Name
+  Pipe:Adiabatic,                         !- Component Object Type 1
+  Hot Water Loop Supply Equipment Bypass Pipe, !- Component Name 1
+  Hot Water Loop Supply Equipment Bypass Pipe Inlet Node, !- Component Inlet Node Name 1
+  Hot Water Loop Supply Equipment Bypass Pipe Outlet Node; !- Component Outlet Node Name 1
+
+Pipe:Adiabatic,
+  Hot Water Loop Supply Equipment Bypass Pipe, !- Name
+  Hot Water Loop Supply Equipment Bypass Pipe Inlet Node, !- Inlet Node Name
+  Hot Water Loop Supply Equipment Bypass Pipe Outlet Node; !- Outlet Node Name
+
+Branch,
+  Hot Water Loop Supply Outlet Branch,    !- Name
+  ,                                       !- Pressure Drop Curve Name
+  Pipe:Adiabatic,                         !- Component Object Type 1
+  Hot Water Loop Supply Outlet Pipe,      !- Component Name 1
+  Hot Water Loop Supply Outlet Pipe Inlet Node, !- Component Inlet Node Name 1
+  Hot Water Loop Supply Outlet Pipe Outlet Node; !- Component Outlet Node Name 1
+
+Pipe:Adiabatic,
+  Hot Water Loop Supply Outlet Pipe,      !- Name
+  Hot Water Loop Supply Outlet Pipe Inlet Node, !- Inlet Node Name
+  Hot Water Loop Supply Outlet Pipe Outlet Node; !- Outlet Node Name
+
+!______________________________________________________
+! Hot water supply outlet setpoint manager
+SetpointManager:Scheduled,
+  Hot Water Loop Setpoint Manager - Hot Water Supply Outlet, !- Name
+  Temperature,                            !- Control Variable
+  Hot Water Loop Temp - 180F,             !- Schedule Name
+  Hot Water Loop Supply Outlet Pipe Outlet Node; !- Setpoint Node or NodeList Name
+
+Schedule:Year,
+  Hot Water Loop Temp - 180F,             !- Name
+  Temperature,                            !- Schedule Type Limits Name
+  Hot Water Loop Temp - 180F Week Rule - Jan1-Dec31, !- Schedule:Week Name 1
+  1,                                      !- Start Month 1
+  1,                                      !- Start Day 1
+  12,                                     !- End Month 1
+  31;                                     !- End Day 1
+
+Schedule:Day:Interval,
+  Hot Water Loop Temp - 180F Default,     !- Name
+  Temperature,                            !- Schedule Type Limits Name
+  No,                                     !- Interpolate to Timestep
+  24:00,                                  !- Time 1 {hh:mm}
+  82.2222222222223;                       !- Value Until Time 1
+
+Schedule:Week:Daily,
+  Hot Water Loop Temp - 180F Week Rule - Jan1-Dec31, !- Name
+  Hot Water Loop Temp - 180F Default,     !- Sunday Schedule:Day Name
+  Hot Water Loop Temp - 180F Default,     !- Monday Schedule:Day Name
+  Hot Water Loop Temp - 180F Default,     !- Tuesday Schedule:Day Name
+  Hot Water Loop Temp - 180F Default,     !- Wednesday Schedule:Day Name
+  Hot Water Loop Temp - 180F Default,     !- Thursday Schedule:Day Name
+  Hot Water Loop Temp - 180F Default,     !- Friday Schedule:Day Name
+  Hot Water Loop Temp - 180F Default,     !- Saturday Schedule:Day Name
+  Hot Water Loop Temp - 180F Default,     !- Holiday Schedule:Day Name
+  Hot Water Loop Temp - 180F Default,     !- SummerDesignDay Schedule:Day Name
+  Hot Water Loop Temp - 180F Default,     !- WinterDesignDay Schedule:Day Name
+  Hot Water Loop Temp - 180F Default,     !- CustomDay1 Schedule:Day Name
+  Hot Water Loop Temp - 180F Default;     !- CustomDay2 Schedule:Day Name
+!______________________________________________________
+
+BranchList,
+  Hot Water Loop Demand Branches,         !- Name
+  Hot Water Loop Demand Inlet Branch,     !- Branch Name 1
+  Hot Water Loop Demand Branch 1,         !- Branch Name 2
+  Hot Water Loop Demand Branch 2,         !- Branch Name 3
+  Hot Water Loop Demand Bypass Branch,    !- Branch Name 4
+  Hot Water Loop Demand Outlet Branch;    !- Branch Name 5
+
+ConnectorList,
+  Hot Water Loop Demand Connector List,   !- Name
+  Connector:Splitter,                     !- Connector Object Type 1
+  Hot Water Loop Demand Splitter,         !- Connector Name 1
+  Connector:Mixer,                        !- Connector Object Type 2
+  Hot Water Loop Demand Mixer;            !- Connector Name 2
+
+Connector:Splitter,
+  Hot Water Loop Demand Splitter,         !- Name
+  Hot Water Loop Demand Inlet Branch,     !- Inlet Branch Name
+  Hot Water Loop Demand Branch 1,         !- Outlet Branch Name 1
+  Hot Water Loop Demand Branch 2,         !- Outlet Branch Name 2
+  Hot Water Loop Demand Bypass Branch;    !- Outlet Branch Name 3
+
+Connector:Mixer,
+  Hot Water Loop Demand Mixer,            !- Name
+  Hot Water Loop Demand Outlet Branch,    !- Outlet Branch Name
+  Hot Water Loop Demand Branch 1,         !- Inlet Branch Name 1
+  Hot Water Loop Demand Branch 2,         !- Inlet Branch Name 2
+  Hot Water Loop Demand Bypass Branch;    !- Inlet Branch Name 3
+
+Branch,
+  Hot Water Loop Demand Inlet Branch,     !- Name
+  ,                                       !- Pressure Drop Curve Name
+  Pipe:Adiabatic,                         !- Component Object Type 1
+  Hot Water Loop Demand Inlet Pipe,       !- Component Name 1
+  Hot Water Loop Demand Inlet Pipe Inlet Node, !- Component Inlet Node Name 1
+  Hot Water Loop Demand Inlet Pipe Outlet Node; !- Component Outlet Node Name 1
+
+Pipe:Adiabatic,
+  Hot Water Loop Demand Inlet Pipe,       !- Name
+  Hot Water Loop Demand Inlet Pipe Inlet Node, !- Inlet Node Name
+  Hot Water Loop Demand Inlet Pipe Outlet Node; !- Outlet Node Name
+
+Branch,
+  Hot Water Loop Demand Branch 1,         !- Name
+  ,                                       !- Pressure Drop Curve Name
+  Pipe:Adiabatic,                         !- Component Object Type 1
+  Hot Water Loop Coil Bypass Pipe,        !- Component Name 1
+  Hot Water Loop Coil Bypass Pipe Inlet Node, !- Component Inlet Node Name 1
+  Hot Water Loop Coil Bypass Pipe Outlet Node; !- Component Outlet Node Name 1
+
+Pipe:Adiabatic,
+  Hot Water Loop Coil Bypass Pipe,        !- Name
+  Hot Water Loop Coil Bypass Pipe Inlet Node, !- Inlet Node Name
+  Hot Water Loop Coil Bypass Pipe Outlet Node; !- Outlet Node Name
+
+
+!---------------------------------------------------------------------
+! Heating load profile branch details
+!---------------------------------------------------------------------
+Branch,
+  Hot Water Loop Demand Branch 2,         !- Name
+  ,                                       !- Pressure Drop Curve Name
+  LoadProfile:Plant,                      !- Component Object Type 1
+  District Heating Load Profile,          !- Component Name 1
+  District Heating Load Profile Inlet Node, !- Component Inlet Node Name 1
+  District Heating Load Profile Outlet Node; !- Component Outlet Node Name 1
+
+LoadProfile:Plant,
+  District Heating Load Profile,          !- Name
+  District Heating Load Profile Inlet Node, !- Inlet Node Name
+  District Heating Load Profile Outlet Node, !- Outlet Node Name
+  District Heating Load Profile Schedule, !- Load Schedule Name
+  0.002,                                  !- Peak Flow Rate {m3/s}
+  Always On Discrete hvac_library;        !- Flow Rate Fraction Schedule Name
+
+Schedule:Constant,
+  Always On Discrete hvac_library,        !- Name
+  OnOff hvac_library,                     !- Schedule Type Limits Name
+  1;                                      !- Hourly Value
+
+Schedule:Year,
+  District Heating Load Profile Schedule, !- Name
+  Dimensionless,                          !- Schedule Type Limits Name
+  District Heating Load Profile Schedule Week Rule - Jan1-Dec31, !- Schedule:Week Name 1
+  1,                                      !- Start Month 1
+  1,                                      !- Start Day 1
+  12,                                     !- End Month 1
+  31;                                     !- End Day 1
+
+Schedule:Week:Daily,
+  District Heating Load Profile Schedule Week Rule - Jan1-Dec31, !- Name
+  Schedule Day 49,                        !- Sunday Schedule:Day Name
+  Schedule Day 49,                        !- Monday Schedule:Day Name
+  Schedule Day 49,                        !- Tuesday Schedule:Day Name
+  Schedule Day 49,                        !- Wednesday Schedule:Day Name
+  Schedule Day 49,                        !- Thursday Schedule:Day Name
+  Schedule Day 49,                        !- Friday Schedule:Day Name
+  Schedule Day 49,                        !- Saturday Schedule:Day Name
+  Schedule Day 49,                        !- Holiday Schedule:Day Name
+  Schedule Day 49,                        !- SummerDesignDay Schedule:Day Name
+  Schedule Day 49,                        !- WinterDesignDay Schedule:Day Name
+  Schedule Day 49,                        !- CustomDay1 Schedule:Day Name
+  Schedule Day 49;                        !- CustomDay2 Schedule:Day Name
+
+Schedule:Day:Interval,
+  Schedule Day 49,                        !- Name
+  Dimensionless,                          !- Schedule Type Limits Name
+  No,                                     !- Interpolate to Timestep
+  24:00,                                  !- Time 1 {hh:mm}
+  50000;                                  !- Value Until Time 1
+!---------------------------------------------------------------------
+
+Branch,
+  Hot Water Loop Demand Bypass Branch,    !- Name
+  ,                                       !- Pressure Drop Curve Name
+  Pipe:Adiabatic,                         !- Component Object Type 1
+  Hot Water Loop Demand Bypass Pipe,      !- Component Name 1
+  Hot Water Loop Demand Bypass Pipe Inlet Node, !- Component Inlet Node Name 1
+  Hot Water Loop Demand Bypass Pipe Outlet Node; !- Component Outlet Node Name 1
+
+Pipe:Adiabatic,
+  Hot Water Loop Demand Bypass Pipe,      !- Name
+  Hot Water Loop Demand Bypass Pipe Inlet Node, !- Inlet Node Name
+  Hot Water Loop Demand Bypass Pipe Outlet Node; !- Outlet Node Name
+
+Branch,
+  Hot Water Loop Demand Outlet Branch,    !- Name
+  ,                                       !- Pressure Drop Curve Name
+  Pipe:Adiabatic,                         !- Component Object Type 1
+  Hot Water Loop Demand Outlet Pipe,      !- Component Name 1
+  Hot Water Loop Demand Outlet Pipe Inlet Node, !- Component Inlet Node Name 1
+  Hot Water Loop Demand Outlet Pipe Outlet Node; !- Component Outlet Node Name 1
+
+Pipe:Adiabatic,
+  Hot Water Loop Demand Outlet Pipe,      !- Name
+  Hot Water Loop Demand Outlet Pipe Inlet Node, !- Inlet Node Name
+  Hot Water Loop Demand Outlet Pipe Outlet Node; !- Outlet Node Name
+
+PlantEquipmentOperationSchemes,
+  Hot Water Loop Operation Schemes,       !- Name
+  PlantEquipmentOperation:HeatingLoad,    !- Control Scheme Object Type 1
+  Hot Water Loop Heating Operation Scheme, !- Control Scheme Name 1
+  Always On Discrete;                     !- Control Scheme Schedule Name 1
+
+PlantEquipmentOperation:HeatingLoad,
+  Hot Water Loop Heating Operation Scheme, !- Name
+  0,                                      !- Load Range Lower Limit 1 {W}
+  1000000000,                             !- Load Range Upper Limit 1 {W}
+  Hot Water Loop Heating Equipment List;  !- Range Equipment List Name 1
+
+PlantEquipmentList,
+  Hot Water Loop Heating Equipment List,  !- Name
+  Boiler:HotWater,                        !- Equipment Object Type 1
+  Boiler;                                 !- Equipment Name 1
+
+! ##############################################################################
+! Chiller Plant Loop
+! ##############################################################################
+PlantLoop,
+  Chilled Water Loop,                     !- Name
+  Water,                                  !- Fluid Type
+  ,                                       !- User Defined Fluid Type
+  Chilled Water Loop Operation Schemes,   !- Plant Equipment Operation Scheme Name
+  Chilled Water Loop Supply Outlet Pipe Outlet Node, !- Loop Temperature Setpoint Node Name
+  40,                                     !- Maximum Loop Temperature {C}
+  -6.67,                                  !- Minimum Loop Temperature {C}
+  Autosize,                               !- Maximum Loop Flow Rate {m3/s}
+  0,                                      !- Minimum Loop Flow Rate {m3/s}
+  Autocalculate,                          !- Plant Loop Volume {m3}
+  Chilled Water Loop Primary Pump Inlet Node, !- Plant Side Inlet Node Name
+  Chilled Water Loop Supply Outlet Pipe Outlet Node, !- Plant Side Outlet Node Name
+  Chilled Water Loop Supply Branches,     !- Plant Side Branch List Name
+  Chilled Water Loop Supply Connector List, !- Plant Side Connector List Name
+  Chilled Water Loop Demand Inlet Pipe Inlet Node, !- Demand Side Inlet Node Name
+  Chilled Water Loop Demand Outlet Pipe Outlet Node, !- Demand Side Outlet Node Name
+  Chilled Water Loop Demand Branches,     !- Demand Side Branch List Name
+  Chilled Water Loop Demand Connector List, !- Demand Side Connector List Name
+  Optimal,                                !- Load Distribution Scheme
+  ,                                       !- Availability Manager List Name
+  SingleSetpoint,                         !- Plant Loop Demand Calculation Scheme
+  CommonPipe;                             !- Common Pipe Simulation
+
+Sizing:Plant,
+  Chilled Water Loop,                     !- Plant or Condenser Loop Name
+  Cooling,                                !- Loop Type
+  6.7,                                    !- Design Loop Exit Temperature {C}
+  6.7,                                    !- Loop Design Temperature Difference {deltaC}
+  NonCoincident,                          !- Sizing Option
+  1,                                      !- Zone Timesteps in Averaging Window
+  None;                                   !- Coincident Sizing Factor Mode
+
+BranchList,
+  Chilled Water Loop Supply Branches,     !- Name
+  Chilled Water Loop Supply Inlet Branch, !- Branch Name 1
+  Chilled Water Loop Supply Branch 1,     !- Branch Name 2
+  Chilled Water Loop Supply Branch 2,     !- Branch Name 3
+  Chilled Water Loop Supply Branch 3,     !- Branch Name 4
+  Chilled Water Loop Supply Outlet Branch; !- Branch Name 5
+
+ConnectorList,
+  Chilled Water Loop Supply Connector List, !- Name
+  Connector:Splitter,                     !- Connector Object Type 1
+  Chilled Water Loop Supply Splitter,     !- Connector Name 1
+  Connector:Mixer,                        !- Connector Object Type 2
+  Chilled Water Loop Supply Mixer;        !- Connector Name 2
+
+Connector:Splitter,
+  Chilled Water Loop Supply Splitter,     !- Name
+  Chilled Water Loop Supply Inlet Branch, !- Inlet Branch Name
+  Chilled Water Loop Supply Branch 1,     !- Outlet Branch Name 1
+  Chilled Water Loop Supply Branch 2,     !- Outlet Branch Name 2
+  Chilled Water Loop Supply Branch 3;     !- Outlet Branch Name 3
+
+Connector:Mixer,
+  Chilled Water Loop Supply Mixer,        !- Name
+  Chilled Water Loop Supply Outlet Branch, !- Outlet Branch Name
+  Chilled Water Loop Supply Branch 1,     !- Inlet Branch Name 1
+  Chilled Water Loop Supply Branch 2,     !- Inlet Branch Name 2
+  Chilled Water Loop Supply Branch 3;     !- Inlet Branch Name 3
+
+Branch,
+  Chilled Water Loop Supply Inlet Branch, !- Name
+  ,                                       !- Pressure Drop Curve Name
+  Pump:ConstantSpeed,                     !- Component Object Type 1
+  Chilled Water Loop Primary Pump,        !- Component Name 1
+  Chilled Water Loop Primary Pump Inlet Node, !- Component Inlet Node Name 1
+  Chilled Water Loop Primary Pump Outlet Node; !- Component Outlet Node Name 1
+
+Pump:ConstantSpeed,
+  Chilled Water Loop Primary Pump,        !- Name
+  Chilled Water Loop Primary Pump Inlet Node, !- Inlet Node Name
+  Chilled Water Loop Primary Pump Outlet Node, !- Outlet Node Name
+  Autosize,                               !- Design Flow Rate {m3/s}
+  44836.0038,                             !- Design Pump Head {Pa}
+  Autosize,                               !- Design Power Consumption {W}
+  0.9,                                    !- Motor Efficiency
+  0,                                      !- Fraction of Motor Inefficiencies to Fluid Stream
+  Intermittent,                           !- Pump Control Type
+  ,                                       !- Pump Flow Rate Schedule Name
+  ,                                       !- Pump Curve Name
+  ,                                       !- Impeller Diameter {m}
+  ,                                       !- Rotational Speed {rev/min}
+  ,                                       !- Zone Name
+  ,                                       !- Skin Loss Radiative Fraction
+  PowerPerFlowPerPressure,                !- Design Power Sizing Method
+  348701.1,                               !- Design Electric Power per Unit Flow Rate {W/(m3/s)}
+  1.282051282,                            !- Design Shaft Power per Unit Flow Rate per Unit Head
+  General;                                !- End-Use Subcategory
+
+Branch,
+  Chilled Water Loop Supply Branch 1,     !- Name
+  ,                                       !- Pressure Drop Curve Name
+  Pipe:Adiabatic,                         !- Component Object Type 1
+  Chilled Water Loop Chiller Bypass Pipe, !- Component Name 1
+  Chilled Water Loop Chiller Bypass Pipe Inlet Node, !- Component Inlet Node Name 1
+  Chilled Water Loop Chiller Bypass Pipe Outlet Node; !- Component Outlet Node Name 1
+
+Pipe:Adiabatic,
+  Chilled Water Loop Chiller Bypass Pipe, !- Name
+  Chilled Water Loop Chiller Bypass Pipe Inlet Node, !- Inlet Node Name
+  Chilled Water Loop Chiller Bypass Pipe Outlet Node; !- Outlet Node Name
+
+Branch,
+  Chilled Water Loop Supply Branch 2,     !- Name
+  ,                                       !- Pressure Drop Curve Name
+  Chiller:Electric:EIR,                   !- Component Object Type 1
+  charging chiller,                       !- Component Name 1
+  charging chiller Inlet Node,            !- Component Inlet Node Name 1
+  charging chiller Outlet Node,           !- Component Outlet Node Name 1
+  ThermalStorage:Ice:Detailed,            !- Component Object Type 2
+  ice storage,                            !- Component Name 2
+  charging chiller Outlet Node,           !- Component Inlet Node Name 2
+  ice storage outlet node;                !- Component Outlet Node Name 2
+
+Chiller:Electric:EIR,
+  charging chiller,                       !- Name
+  Autosize,                               !- Reference Capacity {W}
+  5.5,                                    !- Reference COP {W/W}
+  -6.67,                                  !- Reference Leaving Chilled Water Temperature {C}
+  29.4,                                   !- Reference Entering Condenser Fluid Temperature {C}
+  Autosize,                               !- Reference Chilled Water Flow Rate {m3/s}
+  Autosize,                               !- Reference Condenser Fluid Flow Rate {m3/s}
+  Curve Biquadratic 3,                    !- Cooling Capacity Function of Temperature Curve Name
+  Curve Biquadratic 4,                    !- Electric Input to Cooling Output Ratio Function of Temperature Curve Name
+  Curve Quadratic 2,                      !- Electric Input to Cooling Output Ratio Function of Part Load Ratio Curve Name
+  0.15,                                   !- Minimum Part Load Ratio
+  1,                                      !- Maximum Part Load Ratio
+  1,                                      !- Optimum Part Load Ratio
+  0.25,                                   !- Minimum Unloading Ratio
+  charging chiller Inlet Node,            !- Chilled Water Inlet Node Name
+  charging chiller Outlet Node,           !- Chilled Water Outlet Node Name
+  Node 778,                               !- Condenser Inlet Node Name
+  Node 779,                               !- Condenser Outlet Node Name
+  WaterCooled,                            !- Condenser Type
+  0,                                      !- Condenser Fan Power Ratio {W/W}
+  1,                                      !- Fraction of Compressor Electric Consumption Rejected by Condenser
+  -6.67,                                  !- Leaving Chilled Water Lower Temperature Limit {C}
+  NotModulated,                           !- Chiller Flow Mode
+  ,                                       !- Design Heat Recovery Water Flow Rate {m3/s}
+  ,                                       !- Heat Recovery Inlet Node Name
+  ,                                       !- Heat Recovery Outlet Node Name
+  1,                                      !- Sizing Factor
+  ,                                       !- Basin Heater Capacity {W/K}
+  ,                                       !- Basin Heater Setpoint Temperature {C}
+  ,                                       !- Basin Heater Operating Schedule Name
+  ,                                       !- Condenser Heat Recovery Relative Capacity Fraction
+  ,                                       !- Heat Recovery Inlet High Temperature Limit Schedule Name
+  ,                                       !- Heat Recovery Leaving Temperature Setpoint Node Name
+  General;                                !- End-Use Subcategory
+
+Curve:Biquadratic,
+  Curve Biquadratic 3,                    !- Name
+  1.0215158,                              !- Coefficient1 Constant
+  0.037035864,                            !- Coefficient2 x
+  0.0002332476,                           !- Coefficient3 x**2
+  -0.003894048,                           !- Coefficient4 y
+  -6.52536e-005,                          !- Coefficient5 y**2
+  -0.0002680452,                          !- Coefficient6 x*y
+  5,                                      !- Minimum Value of x {BasedOnField A2}
+  10,                                     !- Maximum Value of x {BasedOnField A2}
+  24,                                     !- Minimum Value of y {BasedOnField A3}
+  35;                                     !- Maximum Value of y {BasedOnField A3}
+
+Curve:Biquadratic,
+  Curve Biquadratic 4,                    !- Name
+  0.70176857,                             !- Coefficient1 Constant
+  -0.00452016,                            !- Coefficient2 x
+  0.0005331096,                           !- Coefficient3 x**2
+  0.005498208,                            !- Coefficient4 y
+  0.0005445792,                           !- Coefficient5 y**2
+  -0.0007290324,                          !- Coefficient6 x*y
+  5,                                      !- Minimum Value of x {BasedOnField A2}
+  10,                                     !- Maximum Value of x {BasedOnField A2}
+  24,                                     !- Minimum Value of y {BasedOnField A3}
+  35;                                     !- Maximum Value of y {BasedOnField A3}
+
+Curve:Quadratic,
+  Curve Quadratic 2,                      !- Name
+  0.06369119,                             !- Coefficient1 Constant
+  0.58488,                                !- Coefficient2 x
+  0.35280274,                             !- Coefficient3 x**2
+  0,                                      !- Minimum Value of x {BasedOnField A2}
+  1;                                      !- Maximum Value of x {BasedOnField A2}
+
+!______________________________________________________
+! Charging chiller water supply outlet setpoint manager
+SetpointManager:Scheduled,
+  Setpoint Manager Scheduled - Charging Chiller Outlet, !- Name
+  Temperature,                            !- Control Variable
+  Chiller Charging-Setpoint-20F-Schedule, !- Schedule Name
+  charging chiller Outlet Node;           !- Setpoint Node or NodeList Name
+
+Schedule:Year,
+  Chiller Charging-Setpoint-20F-Schedule, !- Name
+  Temperature,                            !- Schedule Type Limits Name
+  Chiller Charging-Setpoint-20F-Schedule Week Rule - Jan1-May27, !- Schedule:Week Name 1
+  1,                                      !- Start Month 1
+  1,                                      !- Start Day 1
+  5,                                      !- End Month 1
+  27,                                     !- End Day 1
+  Chiller Charging-Setpoint-20F-Schedule Week Rule - May28-Jun3, !- Schedule:Week Name 2
+  5,                                      !- Start Month 2
+  28,                                     !- Start Day 2
+  6,                                      !- End Month 2
+  3,                                      !- End Day 2
+  Chiller Charging-Setpoint-20F-Schedule Week Rule - Jun4-Aug26, !- Schedule:Week Name 3
+  6,                                      !- Start Month 3
+  4,                                      !- Start Day 3
+  8,                                      !- End Month 3
+  26,                                     !- End Day 3
+  Chiller Charging-Setpoint-20F-Schedule Week Rule - Aug27-Sep2, !- Schedule:Week Name 4
+  8,                                      !- Start Month 4
+  27,                                     !- Start Day 4
+  9,                                      !- End Month 4
+  2,                                      !- End Day 4
+  Chiller Charging-Setpoint-20F-Schedule Week Rule - Sep3-Dec31, !- Schedule:Week Name 5
+  9,                                      !- Start Month 5
+  3,                                      !- Start Day 5
+  12,                                     !- End Month 5
+  31;                                     !- End Day 5
+
+Schedule:Day:Interval,
+  Chiller Charging-Setpoint-20F-Schedule Winter All Days, !- Name
+  Temperature,                            !- Schedule Type Limits Name
+  No,                                     !- Interpolate to Timestep
+  24:00,                                  !- Time 1 {hh:mm}
+  99;                                     !- Value Until Time 1
+
+Schedule:Day:Interval,
+  Chiller Charging-Setpoint-20F-Schedule Winter All Days 1, !- Name
+  Temperature,                            !- Schedule Type Limits Name
+  No,                                     !- Interpolate to Timestep
+  24:00,                                  !- Time 1 {hh:mm}
+  99;                                     !- Value Until Time 1
+
+Schedule:Day:Interval,
+  Chiller Charging-Setpoint-20F-Schedule All Days, !- Name
+  Temperature,                            !- Schedule Type Limits Name
+  No,                                     !- Interpolate to Timestep
+  12:00,                                  !- Time 1 {hh:mm}
+  99,                                     !- Value Until Time 1
+  16:00,                                  !- Time 2 {hh:mm}
+  -6.67,                                  !- Value Until Time 2
+  24:00,                                  !- Time 3 {hh:mm}
+  99;                                     !- Value Until Time 3
+
+Schedule:Day:Interval,
+  Chiller Charging-Setpoint-20F-Schedule Summer Design Day, !- Name
+  Temperature,                            !- Schedule Type Limits Name
+  No,                                     !- Interpolate to Timestep
+  24:00,                                  !- Time 1 {hh:mm}
+  -6.67;                                  !- Value Until Time 1
+
+Schedule:Day:Interval,
+  Chiller Charging-Setpoint-20F-Schedule Winter Design Day, !- Name
+  Temperature,                            !- Schedule Type Limits Name
+  No,                                     !- Interpolate to Timestep
+  24:00,                                  !- Time 1 {hh:mm}
+  99;                                     !- Value Until Time 1
+
+Schedule:Week:Daily,
+  Chiller Charging-Setpoint-20F-Schedule Week Rule - Jan1-May27, !- Name
+  Chiller Charging-Setpoint-20F-Schedule Winter All Days, !- Sunday Schedule:Day Name
+  Chiller Charging-Setpoint-20F-Schedule Winter All Days, !- Monday Schedule:Day Name
+  Chiller Charging-Setpoint-20F-Schedule Winter All Days, !- Tuesday Schedule:Day Name
+  Chiller Charging-Setpoint-20F-Schedule Winter All Days, !- Wednesday Schedule:Day Name
+  Chiller Charging-Setpoint-20F-Schedule Winter All Days, !- Thursday Schedule:Day Name
+  Chiller Charging-Setpoint-20F-Schedule Winter All Days, !- Friday Schedule:Day Name
+  Chiller Charging-Setpoint-20F-Schedule Winter All Days, !- Saturday Schedule:Day Name
+  Chiller Charging-Setpoint-20F-Schedule All Days, !- Holiday Schedule:Day Name
+  Chiller Charging-Setpoint-20F-Schedule Summer Design Day, !- SummerDesignDay Schedule:Day Name
+  Chiller Charging-Setpoint-20F-Schedule Winter Design Day, !- WinterDesignDay Schedule:Day Name
+  Chiller Charging-Setpoint-20F-Schedule All Days, !- CustomDay1 Schedule:Day Name
+  Chiller Charging-Setpoint-20F-Schedule All Days; !- CustomDay2 Schedule:Day Name
+
+Schedule:Day:Interval,
+  Chiller Charging-Setpoint-20F-Schedule Summer Weekday, !- Name
+  Temperature,                            !- Schedule Type Limits Name
+  No,                                     !- Interpolate to Timestep
+  12:00,                                  !- Time 1 {hh:mm}
+  99,                                     !- Value Until Time 1
+  16:00,                                  !- Time 2 {hh:mm}
+  -6.67,                                  !- Value Until Time 2
+  24:00,                                  !- Time 3 {hh:mm}
+  99;                                     !- Value Until Time 3
+
+Schedule:Day:Interval,
+  Chiller Charging-Setpoint-20F-Schedule Summer Weekend, !- Name
+  Temperature,                            !- Schedule Type Limits Name
+  No,                                     !- Interpolate to Timestep
+  08:00,                                  !- Time 1 {hh:mm}
+  -6.67,                                  !- Value Until Time 1
+  24:00,                                  !- Time 2 {hh:mm}
+  99;                                     !- Value Until Time 2
+
+Schedule:Week:Daily,
+  Chiller Charging-Setpoint-20F-Schedule Week Rule - May28-Jun3, !- Name
+  Chiller Charging-Setpoint-20F-Schedule Winter All Days, !- Sunday Schedule:Day Name
+  Chiller Charging-Setpoint-20F-Schedule Winter All Days, !- Monday Schedule:Day Name
+  Chiller Charging-Setpoint-20F-Schedule Winter All Days, !- Tuesday Schedule:Day Name
+  Chiller Charging-Setpoint-20F-Schedule Winter All Days, !- Wednesday Schedule:Day Name
+  Chiller Charging-Setpoint-20F-Schedule Summer Weekday, !- Thursday Schedule:Day Name
+  Chiller Charging-Setpoint-20F-Schedule Summer Weekday, !- Friday Schedule:Day Name
+  Chiller Charging-Setpoint-20F-Schedule Summer Weekend, !- Saturday Schedule:Day Name
+  Chiller Charging-Setpoint-20F-Schedule All Days, !- Holiday Schedule:Day Name
+  Chiller Charging-Setpoint-20F-Schedule Summer Design Day, !- SummerDesignDay Schedule:Day Name
+  Chiller Charging-Setpoint-20F-Schedule Winter Design Day, !- WinterDesignDay Schedule:Day Name
+  Chiller Charging-Setpoint-20F-Schedule All Days, !- CustomDay1 Schedule:Day Name
+  Chiller Charging-Setpoint-20F-Schedule All Days; !- CustomDay2 Schedule:Day Name
+
+Schedule:Week:Daily,
+  Chiller Charging-Setpoint-20F-Schedule Week Rule - Jun4-Aug26, !- Name
+  Chiller Charging-Setpoint-20F-Schedule Summer Weekend, !- Sunday Schedule:Day Name
+  Chiller Charging-Setpoint-20F-Schedule Summer Weekday, !- Monday Schedule:Day Name
+  Chiller Charging-Setpoint-20F-Schedule Summer Weekday, !- Tuesday Schedule:Day Name
+  Chiller Charging-Setpoint-20F-Schedule Summer Weekday, !- Wednesday Schedule:Day Name
+  Chiller Charging-Setpoint-20F-Schedule Summer Weekday, !- Thursday Schedule:Day Name
+  Chiller Charging-Setpoint-20F-Schedule Summer Weekday, !- Friday Schedule:Day Name
+  Chiller Charging-Setpoint-20F-Schedule Summer Weekend, !- Saturday Schedule:Day Name
+  Chiller Charging-Setpoint-20F-Schedule All Days, !- Holiday Schedule:Day Name
+  Chiller Charging-Setpoint-20F-Schedule Summer Design Day, !- SummerDesignDay Schedule:Day Name
+  Chiller Charging-Setpoint-20F-Schedule Winter Design Day, !- WinterDesignDay Schedule:Day Name
+  Chiller Charging-Setpoint-20F-Schedule All Days, !- CustomDay1 Schedule:Day Name
+  Chiller Charging-Setpoint-20F-Schedule All Days; !- CustomDay2 Schedule:Day Name
+
+Schedule:Week:Daily,
+  Chiller Charging-Setpoint-20F-Schedule Week Rule - Aug27-Sep2, !- Name
+  Chiller Charging-Setpoint-20F-Schedule Summer Weekend, !- Sunday Schedule:Day Name
+  Chiller Charging-Setpoint-20F-Schedule Summer Weekday, !- Monday Schedule:Day Name
+  Chiller Charging-Setpoint-20F-Schedule Summer Weekday, !- Tuesday Schedule:Day Name
+  Chiller Charging-Setpoint-20F-Schedule Summer Weekday, !- Wednesday Schedule:Day Name
+  Chiller Charging-Setpoint-20F-Schedule Summer Weekday, !- Thursday Schedule:Day Name
+  Chiller Charging-Setpoint-20F-Schedule Winter All Days 1, !- Friday Schedule:Day Name
+  Chiller Charging-Setpoint-20F-Schedule Winter All Days 1, !- Saturday Schedule:Day Name
+  Chiller Charging-Setpoint-20F-Schedule All Days, !- Holiday Schedule:Day Name
+  Chiller Charging-Setpoint-20F-Schedule Summer Design Day, !- SummerDesignDay Schedule:Day Name
+  Chiller Charging-Setpoint-20F-Schedule Winter Design Day, !- WinterDesignDay Schedule:Day Name
+  Chiller Charging-Setpoint-20F-Schedule All Days, !- CustomDay1 Schedule:Day Name
+  Chiller Charging-Setpoint-20F-Schedule All Days; !- CustomDay2 Schedule:Day Name
+
+Schedule:Week:Daily,
+  Chiller Charging-Setpoint-20F-Schedule Week Rule - Sep3-Dec31, !- Name
+  Chiller Charging-Setpoint-20F-Schedule Winter All Days 1, !- Sunday Schedule:Day Name
+  Chiller Charging-Setpoint-20F-Schedule Winter All Days 1, !- Monday Schedule:Day Name
+  Chiller Charging-Setpoint-20F-Schedule Winter All Days 1, !- Tuesday Schedule:Day Name
+  Chiller Charging-Setpoint-20F-Schedule Winter All Days 1, !- Wednesday Schedule:Day Name
+  Chiller Charging-Setpoint-20F-Schedule Winter All Days 1, !- Thursday Schedule:Day Name
+  Chiller Charging-Setpoint-20F-Schedule Winter All Days 1, !- Friday Schedule:Day Name
+  Chiller Charging-Setpoint-20F-Schedule Winter All Days 1, !- Saturday Schedule:Day Name
+  Chiller Charging-Setpoint-20F-Schedule All Days, !- Holiday Schedule:Day Name
+  Chiller Charging-Setpoint-20F-Schedule Summer Design Day, !- SummerDesignDay Schedule:Day Name
+  Chiller Charging-Setpoint-20F-Schedule Winter Design Day, !- WinterDesignDay Schedule:Day Name
+  Chiller Charging-Setpoint-20F-Schedule All Days, !- CustomDay1 Schedule:Day Name
+  Chiller Charging-Setpoint-20F-Schedule All Days; !- CustomDay2 Schedule:Day Name
+!______________________________________________________
+
+ThermalStorage:Ice:Detailed,
+  ice storage,                            !- Name
+  IceStorage-Availability-Schedule,       !- Availability Schedule Name
+  40,                                     !- Capacity {GJ}
+  charging chiller Outlet Node,           !- Inlet Node Name
+  ice storage outlet node,                !- Outlet Node Name
+  QuadraticLinear,                        !- Discharging Curve Object Type
+  Ice Storage Discharge Curve,            !- Discharging Curve Name
+  QuadraticLinear,                        !- Charging Curve Object Type
+  Ice Storage Charge Curve,               !- Charging Curve Name
+  1,                                      !- Timestep of the Curve Data {hr}
+  0.0001,                                 !- Parasitic Electric Load During Discharging {dimensionless}
+  0.0002,                                 !- Parasitic Electric Load During Charging {dimensionless}
+  0.0003,                                 !- Tank Loss Coefficient {dimensionless}
+  0,                                      !- Freezing Temperature of Storage Medium {C}
+  OutsideMelt;                            !- Thaw Process Indicator
+
+
+!______________________________________________________
+! Ice Storage Availability Schedule
+Schedule:Day:Interval,
+  IceStorage-Availability-Schedule All Days, !- Name
+  OnOff,                                  !- Schedule Type Limits Name
+  No,                                     !- Interpolate to Timestep
+  16:00,                                  !- Time 1 {hh:mm}
+  0,                                      !- Value Until Time 1
+  20:00,                                  !- Time 2 {hh:mm}
+  1,                                      !- Value Until Time 2
+  24:00,                                  !- Time 3 {hh:mm}
+  0;                                      !- Value Until Time 3
+
+Schedule:Day:Interval,
+  IceStorage-Availability-Schedule Summer Design Day, !- Name
+  OnOff,                                  !- Schedule Type Limits Name
+  No,                                     !- Interpolate to Timestep
+  24:00,                                  !- Time 1 {hh:mm}
+  1;                                      !- Value Until Time 1
+
+Schedule:Day:Interval,
+  IceStorage-Availability-Schedule Summer Weekday, !- Name
+  OnOff,                                  !- Schedule Type Limits Name
+  No,                                     !- Interpolate to Timestep
+  16:00,                                  !- Time 1 {hh:mm}
+  0,                                      !- Value Until Time 1
+  20:00,                                  !- Time 2 {hh:mm}
+  1,                                      !- Value Until Time 2
+  24:00,                                  !- Time 3 {hh:mm}
+  0;                                      !- Value Until Time 3
+
+Schedule:Day:Interval,
+  IceStorage-Availability-Schedule Summer Weekend, !- Name
+  OnOff,                                  !- Schedule Type Limits Name
+  No,                                     !- Interpolate to Timestep
+  24:00,                                  !- Time 1 {hh:mm}
+  0;                                      !- Value Until Time 1
+
+Schedule:Day:Interval,
+  IceStorage-Availability-Schedule Winter All Days, !- Name
+  OnOff,                                  !- Schedule Type Limits Name
+  No,                                     !- Interpolate to Timestep
+  24:00,                                  !- Time 1 {hh:mm}
+  0;                                      !- Value Until Time 1
+
+Schedule:Day:Interval,
+  IceStorage-Availability-Schedule Winter All Days 1, !- Name
+  OnOff,                                  !- Schedule Type Limits Name
+  No,                                     !- Interpolate to Timestep
+  24:00,                                  !- Time 1 {hh:mm}
+  0;                                      !- Value Until Time 1
+
+Schedule:Day:Interval,
+  IceStorage-Availability-Schedule Winter Design Day, !- Name
+  OnOff,                                  !- Schedule Type Limits Name
+  No,                                     !- Interpolate to Timestep
+  24:00,                                  !- Time 1 {hh:mm}
+  0;                                      !- Value Until Time 1
+
+Schedule:Week:Daily,
+  IceStorage-Availability-Schedule Week Rule - Jan1-May27, !- Name
+  IceStorage-Availability-Schedule Winter All Days, !- Sunday Schedule:Day Name
+  IceStorage-Availability-Schedule Winter All Days, !- Monday Schedule:Day Name
+  IceStorage-Availability-Schedule Winter All Days, !- Tuesday Schedule:Day Name
+  IceStorage-Availability-Schedule Winter All Days, !- Wednesday Schedule:Day Name
+  IceStorage-Availability-Schedule Winter All Days, !- Thursday Schedule:Day Name
+  IceStorage-Availability-Schedule Winter All Days, !- Friday Schedule:Day Name
+  IceStorage-Availability-Schedule Winter All Days, !- Saturday Schedule:Day Name
+  IceStorage-Availability-Schedule All Days, !- Holiday Schedule:Day Name
+  IceStorage-Availability-Schedule Summer Design Day, !- SummerDesignDay Schedule:Day Name
+  IceStorage-Availability-Schedule Winter Design Day, !- WinterDesignDay Schedule:Day Name
+  IceStorage-Availability-Schedule All Days, !- CustomDay1 Schedule:Day Name
+  IceStorage-Availability-Schedule All Days; !- CustomDay2 Schedule:Day Name
+
+Schedule:Week:Daily,
+  IceStorage-Availability-Schedule Week Rule - May28-Jun3, !- Name
+  IceStorage-Availability-Schedule Winter All Days, !- Sunday Schedule:Day Name
+  IceStorage-Availability-Schedule Winter All Days, !- Monday Schedule:Day Name
+  IceStorage-Availability-Schedule Winter All Days, !- Tuesday Schedule:Day Name
+  IceStorage-Availability-Schedule Winter All Days, !- Wednesday Schedule:Day Name
+  IceStorage-Availability-Schedule Summer Weekday, !- Thursday Schedule:Day Name
+  IceStorage-Availability-Schedule Summer Weekday, !- Friday Schedule:Day Name
+  IceStorage-Availability-Schedule Summer Weekend, !- Saturday Schedule:Day Name
+  IceStorage-Availability-Schedule All Days, !- Holiday Schedule:Day Name
+  IceStorage-Availability-Schedule Summer Design Day, !- SummerDesignDay Schedule:Day Name
+  IceStorage-Availability-Schedule Winter Design Day, !- WinterDesignDay Schedule:Day Name
+  IceStorage-Availability-Schedule All Days, !- CustomDay1 Schedule:Day Name
+  IceStorage-Availability-Schedule All Days; !- CustomDay2 Schedule:Day Name
+
+Schedule:Week:Daily,
+  IceStorage-Availability-Schedule Week Rule - Jun4-Aug26, !- Name
+  IceStorage-Availability-Schedule Summer Weekend, !- Sunday Schedule:Day Name
+  IceStorage-Availability-Schedule Summer Weekday, !- Monday Schedule:Day Name
+  IceStorage-Availability-Schedule Summer Weekday, !- Tuesday Schedule:Day Name
+  IceStorage-Availability-Schedule Summer Weekday, !- Wednesday Schedule:Day Name
+  IceStorage-Availability-Schedule Summer Weekday, !- Thursday Schedule:Day Name
+  IceStorage-Availability-Schedule Summer Weekday, !- Friday Schedule:Day Name
+  IceStorage-Availability-Schedule Summer Weekend, !- Saturday Schedule:Day Name
+  IceStorage-Availability-Schedule All Days, !- Holiday Schedule:Day Name
+  IceStorage-Availability-Schedule Summer Design Day, !- SummerDesignDay Schedule:Day Name
+  IceStorage-Availability-Schedule Winter Design Day, !- WinterDesignDay Schedule:Day Name
+  IceStorage-Availability-Schedule All Days, !- CustomDay1 Schedule:Day Name
+  IceStorage-Availability-Schedule All Days; !- CustomDay2 Schedule:Day Name
+
+Schedule:Week:Daily,
+  IceStorage-Availability-Schedule Week Rule - Aug27-Sep2, !- Name
+  IceStorage-Availability-Schedule Summer Weekend, !- Sunday Schedule:Day Name
+  IceStorage-Availability-Schedule Summer Weekday, !- Monday Schedule:Day Name
+  IceStorage-Availability-Schedule Summer Weekday, !- Tuesday Schedule:Day Name
+  IceStorage-Availability-Schedule Summer Weekday, !- Wednesday Schedule:Day Name
+  IceStorage-Availability-Schedule Summer Weekday, !- Thursday Schedule:Day Name
+  IceStorage-Availability-Schedule Winter All Days 1, !- Friday Schedule:Day Name
+  IceStorage-Availability-Schedule Winter All Days 1, !- Saturday Schedule:Day Name
+  IceStorage-Availability-Schedule All Days, !- Holiday Schedule:Day Name
+  IceStorage-Availability-Schedule Summer Design Day, !- SummerDesignDay Schedule:Day Name
+  IceStorage-Availability-Schedule Winter Design Day, !- WinterDesignDay Schedule:Day Name
+  IceStorage-Availability-Schedule All Days, !- CustomDay1 Schedule:Day Name
+  IceStorage-Availability-Schedule All Days; !- CustomDay2 Schedule:Day Name
+
+Schedule:Week:Daily,
+  IceStorage-Availability-Schedule Week Rule - Sep3-Dec31, !- Name
+  IceStorage-Availability-Schedule Winter All Days 1, !- Sunday Schedule:Day Name
+  IceStorage-Availability-Schedule Winter All Days 1, !- Monday Schedule:Day Name
+  IceStorage-Availability-Schedule Winter All Days 1, !- Tuesday Schedule:Day Name
+  IceStorage-Availability-Schedule Winter All Days 1, !- Wednesday Schedule:Day Name
+  IceStorage-Availability-Schedule Winter All Days 1, !- Thursday Schedule:Day Name
+  IceStorage-Availability-Schedule Winter All Days 1, !- Friday Schedule:Day Name
+  IceStorage-Availability-Schedule Winter All Days 1, !- Saturday Schedule:Day Name
+  IceStorage-Availability-Schedule All Days, !- Holiday Schedule:Day Name
+  IceStorage-Availability-Schedule Summer Design Day, !- SummerDesignDay Schedule:Day Name
+  IceStorage-Availability-Schedule Winter Design Day, !- WinterDesignDay Schedule:Day Name
+  IceStorage-Availability-Schedule All Days, !- CustomDay1 Schedule:Day Name
+  IceStorage-Availability-Schedule All Days; !- CustomDay2 Schedule:Day Name
+
+Schedule:Year,
+  IceStorage-Availability-Schedule,       !- Name
+  OnOff,                                  !- Schedule Type Limits Name
+  IceStorage-Availability-Schedule Week Rule - Jan1-May27, !- Schedule:Week Name 1
+  1,                                      !- Start Month 1
+  1,                                      !- Start Day 1
+  5,                                      !- End Month 1
+  27,                                     !- End Day 1
+  IceStorage-Availability-Schedule Week Rule - May28-Jun3, !- Schedule:Week Name 2
+  5,                                      !- Start Month 2
+  28,                                     !- Start Day 2
+  6,                                      !- End Month 2
+  3,                                      !- End Day 2
+  IceStorage-Availability-Schedule Week Rule - Jun4-Aug26, !- Schedule:Week Name 3
+  6,                                      !- Start Month 3
+  4,                                      !- Start Day 3
+  8,                                      !- End Month 3
+  26,                                     !- End Day 3
+  IceStorage-Availability-Schedule Week Rule - Aug27-Sep2, !- Schedule:Week Name 4
+  8,                                      !- Start Month 4
+  27,                                     !- Start Day 4
+  9,                                      !- End Month 4
+  2,                                      !- End Day 4
+  IceStorage-Availability-Schedule Week Rule - Sep3-Dec31, !- Schedule:Week Name 5
+  9,                                      !- Start Month 5
+  3,                                      !- Start Day 5
+  12,                                     !- End Month 5
+  31;                                     !- End Day 5
+
+!______________________________________________________
+
+Curve:QuadraticLinear,
+  Ice Storage Discharge Curve,            !- Name
+  0,                                      !- Coefficient1 Constant
+  0.09,                                   !- Coefficient2 x
+  -0.15,                                  !- Coefficient3 x**2
+  0.612,                                  !- Coefficient4 y
+  -0.324,                                 !- Coefficient5 x*y
+  -0.216,                                 !- Coefficient6 x**2*y
+  0,                                      !- Minimum Value of x {BasedOnField A2}
+  1,                                      !- Maximum Value of x {BasedOnField A2}
+  0,                                      !- Minimum Value of y {BasedOnField A3}
+  9.9;                                    !- Maximum Value of y {BasedOnField A3}
+
+Curve:QuadraticLinear,
+  Ice Storage Charge Curve,               !- Name
+  0,                                      !- Coefficient1 Constant
+  0.09,                                   !- Coefficient2 x
+  -0.15,                                  !- Coefficient3 x**2
+  0.612,                                  !- Coefficient4 y
+  -0.324,                                 !- Coefficient5 x*y
+  -0.216,                                 !- Coefficient6 x**2*y
+  0,                                      !- Minimum Value of x {BasedOnField A2}
+  1,                                      !- Maximum Value of x {BasedOnField A2}
+  0,                                      !- Minimum Value of y {BasedOnField A3}
+  9.9;                                    !- Maximum Value of y {BasedOnField A3}
+
+!______________________________________________________
+! Ice Storage water supply outlet setpoint manager
+SetpointManager:Scheduled,
+  Setpoint Manager Scheduled - Ice Storage Outlet, !- Name
+  Temperature,                            !- Control Variable
+  IceStorage-Setpoint-44F-Schedule,       !- Schedule Name
+  ice storage outlet node;                !- Setpoint Node or NodeList Name
+
+Schedule:Year,
+  IceStorage-Setpoint-44F-Schedule,       !- Name
+  Temperature,                            !- Schedule Type Limits Name
+  IceStorage-Setpoint-44F-Schedule Week Rule - Jan1-May27, !- Schedule:Week Name 1
+  1,                                      !- Start Month 1
+  1,                                      !- Start Day 1
+  5,                                      !- End Month 1
+  27,                                     !- End Day 1
+  IceStorage-Setpoint-44F-Schedule Week Rule - May28-Jun3, !- Schedule:Week Name 2
+  5,                                      !- Start Month 2
+  28,                                     !- Start Day 2
+  6,                                      !- End Month 2
+  3,                                      !- End Day 2
+  IceStorage-Setpoint-44F-Schedule Week Rule - Jun4-Aug26, !- Schedule:Week Name 3
+  6,                                      !- Start Month 3
+  4,                                      !- Start Day 3
+  8,                                      !- End Month 3
+  26,                                     !- End Day 3
+  IceStorage-Setpoint-44F-Schedule Week Rule - Aug27-Sep2, !- Schedule:Week Name 4
+  8,                                      !- Start Month 4
+  27,                                     !- Start Day 4
+  9,                                      !- End Month 4
+  2,                                      !- End Day 4
+  IceStorage-Setpoint-44F-Schedule Week Rule - Sep3-Dec31, !- Schedule:Week Name 5
+  9,                                      !- Start Month 5
+  3,                                      !- Start Day 5
+  12,                                     !- End Month 5
+  31;                                     !- End Day 5
+
+Schedule:Week:Daily,
+  IceStorage-Setpoint-44F-Schedule Week Rule - Jan1-May27, !- Name
+  IceStorage-Setpoint-44F-Schedule Winter All Days, !- Sunday Schedule:Day Name
+  IceStorage-Setpoint-44F-Schedule Winter All Days, !- Monday Schedule:Day Name
+  IceStorage-Setpoint-44F-Schedule Winter All Days, !- Tuesday Schedule:Day Name
+  IceStorage-Setpoint-44F-Schedule Winter All Days, !- Wednesday Schedule:Day Name
+  IceStorage-Setpoint-44F-Schedule Winter All Days, !- Thursday Schedule:Day Name
+  IceStorage-Setpoint-44F-Schedule Winter All Days, !- Friday Schedule:Day Name
+  IceStorage-Setpoint-44F-Schedule Winter All Days, !- Saturday Schedule:Day Name
+  IceStorage-Setpoint-44F-Schedule All Days, !- Holiday Schedule:Day Name
+  IceStorage-Setpoint-44F-Schedule Summer Design Day, !- SummerDesignDay Schedule:Day Name
+  IceStorage-Setpoint-44F-Schedule Winter Design Day, !- WinterDesignDay Schedule:Day Name
+  IceStorage-Setpoint-44F-Schedule All Days, !- CustomDay1 Schedule:Day Name
+  IceStorage-Setpoint-44F-Schedule All Days; !- CustomDay2 Schedule:Day Name
+
+Schedule:Week:Daily,
+  IceStorage-Setpoint-44F-Schedule Week Rule - May28-Jun3, !- Name
+  IceStorage-Setpoint-44F-Schedule Winter All Days, !- Sunday Schedule:Day Name
+  IceStorage-Setpoint-44F-Schedule Winter All Days, !- Monday Schedule:Day Name
+  IceStorage-Setpoint-44F-Schedule Winter All Days, !- Tuesday Schedule:Day Name
+  IceStorage-Setpoint-44F-Schedule Winter All Days, !- Wednesday Schedule:Day Name
+  IceStorage-Setpoint-44F-Schedule Summer Weekday, !- Thursday Schedule:Day Name
+  IceStorage-Setpoint-44F-Schedule Summer Weekday, !- Friday Schedule:Day Name
+  IceStorage-Setpoint-44F-Schedule Summer Weekend, !- Saturday Schedule:Day Name
+  IceStorage-Setpoint-44F-Schedule All Days, !- Holiday Schedule:Day Name
+  IceStorage-Setpoint-44F-Schedule Summer Design Day, !- SummerDesignDay Schedule:Day Name
+  IceStorage-Setpoint-44F-Schedule Winter Design Day, !- WinterDesignDay Schedule:Day Name
+  IceStorage-Setpoint-44F-Schedule All Days, !- CustomDay1 Schedule:Day Name
+  IceStorage-Setpoint-44F-Schedule All Days; !- CustomDay2 Schedule:Day Name
+
+Schedule:Week:Daily,
+  IceStorage-Setpoint-44F-Schedule Week Rule - Jun4-Aug26, !- Name
+  IceStorage-Setpoint-44F-Schedule Summer Weekend, !- Sunday Schedule:Day Name
+  IceStorage-Setpoint-44F-Schedule Summer Weekday, !- Monday Schedule:Day Name
+  IceStorage-Setpoint-44F-Schedule Summer Weekday, !- Tuesday Schedule:Day Name
+  IceStorage-Setpoint-44F-Schedule Summer Weekday, !- Wednesday Schedule:Day Name
+  IceStorage-Setpoint-44F-Schedule Summer Weekday, !- Thursday Schedule:Day Name
+  IceStorage-Setpoint-44F-Schedule Summer Weekday, !- Friday Schedule:Day Name
+  IceStorage-Setpoint-44F-Schedule Summer Weekend, !- Saturday Schedule:Day Name
+  IceStorage-Setpoint-44F-Schedule All Days, !- Holiday Schedule:Day Name
+  IceStorage-Setpoint-44F-Schedule Summer Design Day, !- SummerDesignDay Schedule:Day Name
+  IceStorage-Setpoint-44F-Schedule Winter Design Day, !- WinterDesignDay Schedule:Day Name
+  IceStorage-Setpoint-44F-Schedule All Days, !- CustomDay1 Schedule:Day Name
+  IceStorage-Setpoint-44F-Schedule All Days; !- CustomDay2 Schedule:Day Name
+
+Schedule:Week:Daily,
+  IceStorage-Setpoint-44F-Schedule Week Rule - Aug27-Sep2, !- Name
+  IceStorage-Setpoint-44F-Schedule Summer Weekend, !- Sunday Schedule:Day Name
+  IceStorage-Setpoint-44F-Schedule Summer Weekday, !- Monday Schedule:Day Name
+  IceStorage-Setpoint-44F-Schedule Summer Weekday, !- Tuesday Schedule:Day Name
+  IceStorage-Setpoint-44F-Schedule Summer Weekday, !- Wednesday Schedule:Day Name
+  IceStorage-Setpoint-44F-Schedule Summer Weekday, !- Thursday Schedule:Day Name
+  IceStorage-Setpoint-44F-Schedule Winter All Days 1, !- Friday Schedule:Day Name
+  IceStorage-Setpoint-44F-Schedule Winter All Days 1, !- Saturday Schedule:Day Name
+  IceStorage-Setpoint-44F-Schedule All Days, !- Holiday Schedule:Day Name
+  IceStorage-Setpoint-44F-Schedule Summer Design Day, !- SummerDesignDay Schedule:Day Name
+  IceStorage-Setpoint-44F-Schedule Winter Design Day, !- WinterDesignDay Schedule:Day Name
+  IceStorage-Setpoint-44F-Schedule All Days, !- CustomDay1 Schedule:Day Name
+  IceStorage-Setpoint-44F-Schedule All Days; !- CustomDay2 Schedule:Day Name
+
+Schedule:Week:Daily,
+  IceStorage-Setpoint-44F-Schedule Week Rule - Sep3-Dec31, !- Name
+  IceStorage-Setpoint-44F-Schedule Winter All Days 1, !- Sunday Schedule:Day Name
+  IceStorage-Setpoint-44F-Schedule Winter All Days 1, !- Monday Schedule:Day Name
+  IceStorage-Setpoint-44F-Schedule Winter All Days 1, !- Tuesday Schedule:Day Name
+  IceStorage-Setpoint-44F-Schedule Winter All Days 1, !- Wednesday Schedule:Day Name
+  IceStorage-Setpoint-44F-Schedule Winter All Days 1, !- Thursday Schedule:Day Name
+  IceStorage-Setpoint-44F-Schedule Winter All Days 1, !- Friday Schedule:Day Name
+  IceStorage-Setpoint-44F-Schedule Winter All Days 1, !- Saturday Schedule:Day Name
+  IceStorage-Setpoint-44F-Schedule All Days, !- Holiday Schedule:Day Name
+  IceStorage-Setpoint-44F-Schedule Summer Design Day, !- SummerDesignDay Schedule:Day Name
+  IceStorage-Setpoint-44F-Schedule Winter Design Day, !- WinterDesignDay Schedule:Day Name
+  IceStorage-Setpoint-44F-Schedule All Days, !- CustomDay1 Schedule:Day Name
+  IceStorage-Setpoint-44F-Schedule All Days; !- CustomDay2 Schedule:Day Name
+
+
+Schedule:Day:Interval,
+  IceStorage-Setpoint-44F-Schedule All Days, !- Name
+  Temperature,                            !- Schedule Type Limits Name
+  No,                                     !- Interpolate to Timestep
+  24:00,                                  !- Time 1 {hh:mm}
+  6.67;                                   !- Value Until Time 1
+
+Schedule:Day:Interval,
+  IceStorage-Setpoint-44F-Schedule Summer Design Day, !- Name
+  Temperature,                            !- Schedule Type Limits Name
+  No,                                     !- Interpolate to Timestep
+  24:00,                                  !- Time 1 {hh:mm}
+  6.67;                                   !- Value Until Time 1
+
+Schedule:Day:Interval,
+  IceStorage-Setpoint-44F-Schedule Summer Weekday, !- Name
+  Temperature,                            !- Schedule Type Limits Name
+  No,                                     !- Interpolate to Timestep
+  24:00,                                  !- Time 1 {hh:mm}
+  6.67;                                   !- Value Until Time 1
+
+Schedule:Day:Interval,
+  IceStorage-Setpoint-44F-Schedule Summer Weekend, !- Name
+  Temperature,                            !- Schedule Type Limits Name
+  No,                                     !- Interpolate to Timestep
+  08:00,                                  !- Time 1 {hh:mm}
+  99,                                     !- Value Until Time 1
+  24:00,                                  !- Time 2 {hh:mm}
+  0;                                      !- Value Until Time 2
+
+Schedule:Day:Interval,
+  IceStorage-Setpoint-44F-Schedule Winter All Days, !- Name
+  Temperature,                            !- Schedule Type Limits Name
+  No,                                     !- Interpolate to Timestep
+  24:00,                                  !- Time 1 {hh:mm}
+  99;                                     !- Value Until Time 1
+
+Schedule:Day:Interval,
+  IceStorage-Setpoint-44F-Schedule Winter All Days 1, !- Name
+  Temperature,                            !- Schedule Type Limits Name
+  No,                                     !- Interpolate to Timestep
+  24:00,                                  !- Time 1 {hh:mm}
+  99;                                     !- Value Until Time 1
+
+Schedule:Day:Interval,
+  IceStorage-Setpoint-44F-Schedule Winter Design Day, !- Name
+  Temperature,                            !- Schedule Type Limits Name
+  No,                                     !- Interpolate to Timestep
+  24:00,                                  !- Time 1 {hh:mm}
+  99;                                     !- Value Until Time 1
+!______________________________________________________
+
+Branch,
+  Chilled Water Loop Supply Branch 3,     !- Name
+  ,                                       !- Pressure Drop Curve Name
+  Chiller:Electric:EIR,                   !- Component Object Type 1
+  90.1-2004 WaterCooled  Centrifugal Chiller 0 1, !- Component Name 1
+  Big Chiller Inlet Node,                 !- Component Inlet Node Name 1
+  Big Chiller Outlet Node;                !- Component Outlet Node Name 1
+
+Chiller:Electric:EIR,
+  90.1-2004 WaterCooled  Centrifugal Chiller 0 1, !- Name
+  Autosize,                               !- Reference Capacity {W}
+  5.5,                                    !- Reference COP {W/W}
+  6.67,                                   !- Reference Leaving Chilled Water Temperature {C}
+  35.0000000000001,                       !- Reference Entering Condenser Fluid Temperature {C}
+  Autosize,                               !- Reference Chilled Water Flow Rate {m3/s}
+  Autosize,                               !- Reference Condenser Fluid Flow Rate {m3/s}
+  Curve Biquadratic 1,                    !- Cooling Capacity Function of Temperature Curve Name
+  Curve Biquadratic 2,                    !- Electric Input to Cooling Output Ratio Function of Temperature Curve Name
+  Curve Quadratic 1,                      !- Electric Input to Cooling Output Ratio Function of Part Load Ratio Curve Name
+  0.15,                                   !- Minimum Part Load Ratio
+  1,                                      !- Maximum Part Load Ratio
+  1,                                      !- Optimum Part Load Ratio
+  0.25,                                   !- Minimum Unloading Ratio
+  Big Chiller Inlet Node,                 !- Chilled Water Inlet Node Name
+  Big Chiller Outlet Node,                !- Chilled Water Outlet Node Name
+  Node 776,                               !- Condenser Inlet Node Name
+  Node 777,                               !- Condenser Outlet Node Name
+  WaterCooled,                            !- Condenser Type
+  0,                                      !- Condenser Fan Power Ratio {W/W}
+  1,                                      !- Fraction of Compressor Electric Consumption Rejected by Condenser
+  6.67,                                   !- Leaving Chilled Water Lower Temperature Limit {C}
+  ConstantFlow,                           !- Chiller Flow Mode
+  ,                                       !- Design Heat Recovery Water Flow Rate {m3/s}
+  ,                                       !- Heat Recovery Inlet Node Name
+  ,                                       !- Heat Recovery Outlet Node Name
+  1,                                      !- Sizing Factor
+  ,                                       !- Basin Heater Capacity {W/K}
+  ,                                       !- Basin Heater Setpoint Temperature {C}
+  ,                                       !- Basin Heater Operating Schedule Name
+  ,                                       !- Condenser Heat Recovery Relative Capacity Fraction
+  ,                                       !- Heat Recovery Inlet High Temperature Limit Schedule Name
+  ,                                       !- Heat Recovery Leaving Temperature Setpoint Node Name
+  General;                                !- End-Use Subcategory
+
+Curve:Biquadratic,
+  Curve Biquadratic 1,                    !- Name
+  1.0215158,                              !- Coefficient1 Constant
+  0.037035864,                            !- Coefficient2 x
+  0.0002332476,                           !- Coefficient3 x**2
+  -0.003894048,                           !- Coefficient4 y
+  -6.52536e-005,                          !- Coefficient5 y**2
+  -0.0002680452,                          !- Coefficient6 x*y
+  5,                                      !- Minimum Value of x {BasedOnField A2}
+  10,                                     !- Maximum Value of x {BasedOnField A2}
+  24,                                     !- Minimum Value of y {BasedOnField A3}
+  35;                                     !- Maximum Value of y {BasedOnField A3}
+
+Curve:Biquadratic,
+  Curve Biquadratic 2,                    !- Name
+  0.70176857,                             !- Coefficient1 Constant
+  -0.00452016,                            !- Coefficient2 x
+  0.0005331096,                           !- Coefficient3 x**2
+  -0.005498208,                           !- Coefficient4 y
+  0.0005445792,                           !- Coefficient5 y**2
+  -0.0007290324,                          !- Coefficient6 x*y
+  5,                                      !- Minimum Value of x {BasedOnField A2}
+  10,                                     !- Maximum Value of x {BasedOnField A2}
+  24,                                     !- Minimum Value of y {BasedOnField A3}
+  35;                                     !- Maximum Value of y {BasedOnField A3}
+
+Curve:Quadratic,
+  Curve Quadratic 1,                      !- Name
+  0.06369119,                             !- Coefficient1 Constant
+  0.58488832,                             !- Coefficient2 x
+  0.35280274,                             !- Coefficient3 x**2
+  0,                                      !- Minimum Value of x {BasedOnField A2}
+  1;                                      !- Maximum Value of x {BasedOnField A2}
+
+!______________________________________________________
+! Big chiller supply outlet setpoint manager
+SetpointManager:Scheduled,
+  Setpoint Manager Scheduled - Big Chiller Outlet, !- Name
+  Temperature,                            !- Control Variable
+  Chiller Primary-Setpoint-55F-Schedule,  !- Schedule Name
+  Big Chiller Outlet Node;                !- Setpoint Node or NodeList Name
+
+Schedule:Day:Interval,
+  Chiller Primary-Setpoint-55F-Schedule All Days, !- Name
+  Temperature,                            !- Schedule Type Limits Name
+  No,                                     !- Interpolate to Timestep
+  16:00,                                  !- Time 1 {hh:mm}
+  6.67,                                   !- Value Until Time 1
+  20:00,                                  !- Time 2 {hh:mm}
+  99,                                     !- Value Until Time 2
+  24:00,                                  !- Time 3 {hh:mm}
+  6.67;                                   !- Value Until Time 3
+
+Schedule:Day:Interval,
+  Chiller Primary-Setpoint-55F-Schedule Summer Design Day, !- Name
+  Temperature,                            !- Schedule Type Limits Name
+  No,                                     !- Interpolate to Timestep
+  24:00,                                  !- Time 1 {hh:mm}
+  6.67;                                   !- Value Until Time 1
+
+Schedule:Day:Interval,
+  Chiller Primary-Setpoint-55F-Schedule Summer Weekday, !- Name
+  Temperature,                            !- Schedule Type Limits Name
+  No,                                     !- Interpolate to Timestep
+  16:00,                                  !- Time 1 {hh:mm}
+  6.67,                                   !- Value Until Time 1
+  20:00,                                  !- Time 2 {hh:mm}
+  12.78,                                  !- Value Until Time 2
+  24:00,                                  !- Time 3 {hh:mm}
+  6.67;                                   !- Value Until Time 3
+
+Schedule:Day:Interval,
+  Chiller Primary-Setpoint-55F-Schedule Summer Weekend, !- Name
+  Temperature,                            !- Schedule Type Limits Name
+  No,                                     !- Interpolate to Timestep
+  08:00,                                  !- Time 1 {hh:mm}
+  99,                                     !- Value Until Time 1
+  24:00,                                  !- Time 2 {hh:mm}
+  0;                                      !- Value Until Time 2
+
+Schedule:Day:Interval,
+  Chiller Primary-Setpoint-55F-Schedule Winter All Days, !- Name
+  Temperature,                            !- Schedule Type Limits Name
+  No,                                     !- Interpolate to Timestep
+  24:00,                                  !- Time 1 {hh:mm}
+  99;                                     !- Value Until Time 1
+
+Schedule:Day:Interval,
+  Chiller Primary-Setpoint-55F-Schedule Winter All Days 1, !- Name
+  Temperature,                            !- Schedule Type Limits Name
+  No,                                     !- Interpolate to Timestep
+  24:00,                                  !- Time 1 {hh:mm}
+  99;                                     !- Value Until Time 1
+
+Schedule:Day:Interval,
+  Chiller Primary-Setpoint-55F-Schedule Winter Design Day, !- Name
+  Temperature,                            !- Schedule Type Limits Name
+  No,                                     !- Interpolate to Timestep
+  24:00,                                  !- Time 1 {hh:mm}
+  99;                                     !- Value Until Time 1
+
+Schedule:Week:Daily,
+  Chiller Primary-Setpoint-55F-Schedule Week Rule - Jan1-May27, !- Name
+  Chiller Primary-Setpoint-55F-Schedule Winter All Days, !- Sunday Schedule:Day Name
+  Chiller Primary-Setpoint-55F-Schedule Winter All Days, !- Monday Schedule:Day Name
+  Chiller Primary-Setpoint-55F-Schedule Winter All Days, !- Tuesday Schedule:Day Name
+  Chiller Primary-Setpoint-55F-Schedule Winter All Days, !- Wednesday Schedule:Day Name
+  Chiller Primary-Setpoint-55F-Schedule Winter All Days, !- Thursday Schedule:Day Name
+  Chiller Primary-Setpoint-55F-Schedule Winter All Days, !- Friday Schedule:Day Name
+  Chiller Primary-Setpoint-55F-Schedule Winter All Days, !- Saturday Schedule:Day Name
+  Chiller Primary-Setpoint-55F-Schedule All Days, !- Holiday Schedule:Day Name
+  Chiller Primary-Setpoint-55F-Schedule Summer Design Day, !- SummerDesignDay Schedule:Day Name
+  Chiller Primary-Setpoint-55F-Schedule Winter Design Day, !- WinterDesignDay Schedule:Day Name
+  Chiller Primary-Setpoint-55F-Schedule All Days, !- CustomDay1 Schedule:Day Name
+  Chiller Primary-Setpoint-55F-Schedule All Days; !- CustomDay2 Schedule:Day Name
+
+Schedule:Week:Daily,
+  Chiller Primary-Setpoint-55F-Schedule Week Rule - May28-Jun3, !- Name
+  Chiller Primary-Setpoint-55F-Schedule Winter All Days, !- Sunday Schedule:Day Name
+  Chiller Primary-Setpoint-55F-Schedule Winter All Days, !- Monday Schedule:Day Name
+  Chiller Primary-Setpoint-55F-Schedule Winter All Days, !- Tuesday Schedule:Day Name
+  Chiller Primary-Setpoint-55F-Schedule Winter All Days, !- Wednesday Schedule:Day Name
+  Chiller Primary-Setpoint-55F-Schedule Summer Weekday, !- Thursday Schedule:Day Name
+  Chiller Primary-Setpoint-55F-Schedule Summer Weekday, !- Friday Schedule:Day Name
+  Chiller Primary-Setpoint-55F-Schedule Summer Weekend, !- Saturday Schedule:Day Name
+  Chiller Primary-Setpoint-55F-Schedule All Days, !- Holiday Schedule:Day Name
+  Chiller Primary-Setpoint-55F-Schedule Summer Design Day, !- SummerDesignDay Schedule:Day Name
+  Chiller Primary-Setpoint-55F-Schedule Winter Design Day, !- WinterDesignDay Schedule:Day Name
+  Chiller Primary-Setpoint-55F-Schedule All Days, !- CustomDay1 Schedule:Day Name
+  Chiller Primary-Setpoint-55F-Schedule All Days; !- CustomDay2 Schedule:Day Name
+
+Schedule:Week:Daily,
+  Chiller Primary-Setpoint-55F-Schedule Week Rule - Jun4-Aug26, !- Name
+  Chiller Primary-Setpoint-55F-Schedule Summer Weekend, !- Sunday Schedule:Day Name
+  Chiller Primary-Setpoint-55F-Schedule Summer Weekday, !- Monday Schedule:Day Name
+  Chiller Primary-Setpoint-55F-Schedule Summer Weekday, !- Tuesday Schedule:Day Name
+  Chiller Primary-Setpoint-55F-Schedule Summer Weekday, !- Wednesday Schedule:Day Name
+  Chiller Primary-Setpoint-55F-Schedule Summer Weekday, !- Thursday Schedule:Day Name
+  Chiller Primary-Setpoint-55F-Schedule Summer Weekday, !- Friday Schedule:Day Name
+  Chiller Primary-Setpoint-55F-Schedule Summer Weekend, !- Saturday Schedule:Day Name
+  Chiller Primary-Setpoint-55F-Schedule All Days, !- Holiday Schedule:Day Name
+  Chiller Primary-Setpoint-55F-Schedule Summer Design Day, !- SummerDesignDay Schedule:Day Name
+  Chiller Primary-Setpoint-55F-Schedule Winter Design Day, !- WinterDesignDay Schedule:Day Name
+  Chiller Primary-Setpoint-55F-Schedule All Days, !- CustomDay1 Schedule:Day Name
+  Chiller Primary-Setpoint-55F-Schedule All Days; !- CustomDay2 Schedule:Day Name
+
+Schedule:Week:Daily,
+  Chiller Primary-Setpoint-55F-Schedule Week Rule - Aug27-Sep2, !- Name
+  Chiller Primary-Setpoint-55F-Schedule Summer Weekend, !- Sunday Schedule:Day Name
+  Chiller Primary-Setpoint-55F-Schedule Summer Weekday, !- Monday Schedule:Day Name
+  Chiller Primary-Setpoint-55F-Schedule Summer Weekday, !- Tuesday Schedule:Day Name
+  Chiller Primary-Setpoint-55F-Schedule Summer Weekday, !- Wednesday Schedule:Day Name
+  Chiller Primary-Setpoint-55F-Schedule Summer Weekday, !- Thursday Schedule:Day Name
+  Chiller Primary-Setpoint-55F-Schedule Winter All Days 1, !- Friday Schedule:Day Name
+  Chiller Primary-Setpoint-55F-Schedule Winter All Days 1, !- Saturday Schedule:Day Name
+  Chiller Primary-Setpoint-55F-Schedule All Days, !- Holiday Schedule:Day Name
+  Chiller Primary-Setpoint-55F-Schedule Summer Design Day, !- SummerDesignDay Schedule:Day Name
+  Chiller Primary-Setpoint-55F-Schedule Winter Design Day, !- WinterDesignDay Schedule:Day Name
+  Chiller Primary-Setpoint-55F-Schedule All Days, !- CustomDay1 Schedule:Day Name
+  Chiller Primary-Setpoint-55F-Schedule All Days; !- CustomDay2 Schedule:Day Name
+
+Schedule:Week:Daily,
+  Chiller Primary-Setpoint-55F-Schedule Week Rule - Sep3-Dec31, !- Name
+  Chiller Primary-Setpoint-55F-Schedule Winter All Days 1, !- Sunday Schedule:Day Name
+  Chiller Primary-Setpoint-55F-Schedule Winter All Days 1, !- Monday Schedule:Day Name
+  Chiller Primary-Setpoint-55F-Schedule Winter All Days 1, !- Tuesday Schedule:Day Name
+  Chiller Primary-Setpoint-55F-Schedule Winter All Days 1, !- Wednesday Schedule:Day Name
+  Chiller Primary-Setpoint-55F-Schedule Winter All Days 1, !- Thursday Schedule:Day Name
+  Chiller Primary-Setpoint-55F-Schedule Winter All Days 1, !- Friday Schedule:Day Name
+  Chiller Primary-Setpoint-55F-Schedule Winter All Days 1, !- Saturday Schedule:Day Name
+  Chiller Primary-Setpoint-55F-Schedule All Days, !- Holiday Schedule:Day Name
+  Chiller Primary-Setpoint-55F-Schedule Summer Design Day, !- SummerDesignDay Schedule:Day Name
+  Chiller Primary-Setpoint-55F-Schedule Winter Design Day, !- WinterDesignDay Schedule:Day Name
+  Chiller Primary-Setpoint-55F-Schedule All Days, !- CustomDay1 Schedule:Day Name
+  Chiller Primary-Setpoint-55F-Schedule All Days; !- CustomDay2 Schedule:Day Name
+
+Schedule:Year,
+  Chiller Primary-Setpoint-55F-Schedule,  !- Name
+  Temperature,                            !- Schedule Type Limits Name
+  Chiller Primary-Setpoint-55F-Schedule Week Rule - Jan1-May27, !- Schedule:Week Name 1
+  1,                                      !- Start Month 1
+  1,                                      !- Start Day 1
+  5,                                      !- End Month 1
+  27,                                     !- End Day 1
+  Chiller Primary-Setpoint-55F-Schedule Week Rule - May28-Jun3, !- Schedule:Week Name 2
+  5,                                      !- Start Month 2
+  28,                                     !- Start Day 2
+  6,                                      !- End Month 2
+  3,                                      !- End Day 2
+  Chiller Primary-Setpoint-55F-Schedule Week Rule - Jun4-Aug26, !- Schedule:Week Name 3
+  6,                                      !- Start Month 3
+  4,                                      !- Start Day 3
+  8,                                      !- End Month 3
+  26,                                     !- End Day 3
+  Chiller Primary-Setpoint-55F-Schedule Week Rule - Aug27-Sep2, !- Schedule:Week Name 4
+  8,                                      !- Start Month 4
+  27,                                     !- Start Day 4
+  9,                                      !- End Month 4
+  2,                                      !- End Day 4
+  Chiller Primary-Setpoint-55F-Schedule Week Rule - Sep3-Dec31, !- Schedule:Week Name 5
+  9,                                      !- Start Month 5
+  3,                                      !- Start Day 5
+  12,                                     !- End Month 5
+  31;                                     !- End Day 5
+!______________________________________________________
+
+Branch,
+  Chilled Water Loop Supply Outlet Branch, !- Name
+  ,                                       !- Pressure Drop Curve Name
+  Pipe:Adiabatic,                         !- Component Object Type 1
+  Chilled Water Loop Supply Outlet Pipe,  !- Component Name 1
+  Chilled Water Loop Supply Outlet Pipe Inlet Node, !- Component Inlet Node Name 1
+  Chilled Water Loop Supply Outlet Pipe Outlet Node; !- Component Outlet Node Name 1
+
+Pipe:Adiabatic,
+  Chilled Water Loop Supply Outlet Pipe,  !- Name
+  Chilled Water Loop Supply Outlet Pipe Inlet Node, !- Inlet Node Name
+  Chilled Water Loop Supply Outlet Pipe Outlet Node; !- Outlet Node Name
+
+!______________________________________________________
+!  CW supply outlet setpoint manager
+SetpointManager:Scheduled,
+  Setpoint Manager Scheduled - Chilled Water Loop Supply Outlet, !- Name
+  Temperature,                            !- Control Variable
+  Chilled-Water-Loop-Sepoint-44F-Schedule, !- Schedule Name
+  Chilled Water Loop Supply Outlet Pipe Outlet Node; !- Setpoint Node or NodeList Name
+
+Schedule:Day:Interval,
+  Chilled-Water-Loop-Sepoint-44F-Schedule All Days, !- Name
+  Temperature,                            !- Schedule Type Limits Name
+  No,                                     !- Interpolate to Timestep
+  24:00,                                  !- Time 1 {hh:mm}
+  6.7;                                    !- Value Until Time 1
+
+Schedule:Week:Daily,
+  Chilled-Water-Loop-Sepoint-44F-Schedule Week Rule - Jan1-Dec31, !- Name
+  Chilled-Water-Loop-Sepoint-44F-Schedule All Days, !- Sunday Schedule:Day Name
+  Chilled-Water-Loop-Sepoint-44F-Schedule All Days, !- Monday Schedule:Day Name
+  Chilled-Water-Loop-Sepoint-44F-Schedule All Days, !- Tuesday Schedule:Day Name
+  Chilled-Water-Loop-Sepoint-44F-Schedule All Days, !- Wednesday Schedule:Day Name
+  Chilled-Water-Loop-Sepoint-44F-Schedule All Days, !- Thursday Schedule:Day Name
+  Chilled-Water-Loop-Sepoint-44F-Schedule All Days, !- Friday Schedule:Day Name
+  Chilled-Water-Loop-Sepoint-44F-Schedule All Days, !- Saturday Schedule:Day Name
+  Chilled-Water-Loop-Sepoint-44F-Schedule All Days, !- Holiday Schedule:Day Name
+  Chilled-Water-Loop-Sepoint-44F-Schedule All Days, !- SummerDesignDay Schedule:Day Name
+  Chilled-Water-Loop-Sepoint-44F-Schedule All Days, !- WinterDesignDay Schedule:Day Name
+  Chilled-Water-Loop-Sepoint-44F-Schedule All Days, !- CustomDay1 Schedule:Day Name
+  Chilled-Water-Loop-Sepoint-44F-Schedule All Days; !- CustomDay2 Schedule:Day Name
+
+Schedule:Year,
+  Chilled-Water-Loop-Sepoint-44F-Schedule, !- Name
+  Temperature,                            !- Schedule Type Limits Name
+  Chilled-Water-Loop-Sepoint-44F-Schedule Week Rule - Jan1-Dec31, !- Schedule:Week Name 1
+  1,                                      !- Start Month 1
+  1,                                      !- Start Day 1
+  12,                                     !- End Month 1
+  31;                                     !- End Day 1
+
+!______________________________________________________
+
+BranchList,
+  Chilled Water Loop Demand Branches,     !- Name
+  Chilled Water Loop Demand Inlet Branch, !- Branch Name 1
+  Chilled Water Loop Demand Branch 1,     !- Branch Name 2
+  Chilled Water Loop Demand Branch 2,     !- Branch Name 3
+  Chilled Water Loop Demand Bypass Branch, !- Branch Name 4
+  Chilled Water Loop Demand Outlet Branch; !- Branch Name 5
+
+ConnectorList,
+  Chilled Water Loop Demand Connector List, !- Name
+  Connector:Splitter,                     !- Connector Object Type 1
+  Chilled Water Loop Demand Splitter,     !- Connector Name 1
+  Connector:Mixer,                        !- Connector Object Type 2
+  Chilled Water Loop Demand Mixer;        !- Connector Name 2
+
+Connector:Splitter,
+  Chilled Water Loop Demand Splitter,     !- Name
+  Chilled Water Loop Demand Inlet Branch, !- Inlet Branch Name
+  Chilled Water Loop Demand Branch 1,     !- Outlet Branch Name 1
+  Chilled Water Loop Demand Branch 2,     !- Outlet Branch Name 2
+  Chilled Water Loop Demand Bypass Branch; !- Outlet Branch Name 3
+
+Connector:Mixer,
+  Chilled Water Loop Demand Mixer,        !- Name
+  Chilled Water Loop Demand Outlet Branch, !- Outlet Branch Name
+  Chilled Water Loop Demand Branch 1,     !- Inlet Branch Name 1
+  Chilled Water Loop Demand Branch 2,     !- Inlet Branch Name 2
+  Chilled Water Loop Demand Bypass Branch; !- Inlet Branch Name 3
+
+Branch,
+  Chilled Water Loop Demand Inlet Branch, !- Name
+  ,                                       !- Pressure Drop Curve Name
+  Pipe:Adiabatic,                         !- Component Object Type 1
+  Chilled Water Loop Demand Inlet Pipe,   !- Component Name 1
+  Chilled Water Loop Demand Inlet Pipe Inlet Node, !- Component Inlet Node Name 1
+  Chilled Water Loop Demand Inlet Pipe Outlet Node, !- Component Outlet Node Name 1
+  Pump:VariableSpeed,                     !- Component Object Type 2
+  Chilled Water Loop Secondary Pump,      !- Component Name 2
+  Chilled Water Loop Demand Inlet Pipe Outlet Node, !- Component Inlet Node Name 2
+  Chilled Water Loop Secondary Pump Outlet Node; !- Component Outlet Node Name 2
+
+Pipe:Adiabatic,
+  Chilled Water Loop Demand Inlet Pipe,   !- Name
+  Chilled Water Loop Demand Inlet Pipe Inlet Node, !- Inlet Node Name
+  Chilled Water Loop Demand Inlet Pipe Outlet Node; !- Outlet Node Name
+
+Pump:VariableSpeed,
+  Chilled Water Loop Secondary Pump,      !- Name
+  Chilled Water Loop Demand Inlet Pipe Outlet Node, !- Inlet Node Name
+  Chilled Water Loop Secondary Pump Outlet Node, !- Outlet Node Name
+  Autosize,                               !- Design Maximum Flow Rate {m3/s}
+  134508.0114,                            !- Design Pump Head {Pa}
+  Autosize,                               !- Design Power Consumption {W}
+  0.9,                                    !- Motor Efficiency
+  0,                                      !- Fraction of Motor Inefficiencies to Fluid Stream
+  0,                                      !- Coefficient 1 of the Part Load Performance Curve
+  0.0205,                                 !- Coefficient 2 of the Part Load Performance Curve
+  0.4101,                                 !- Coefficient 3 of the Part Load Performance Curve
+  0.5753,                                 !- Coefficient 4 of the Part Load Performance Curve
+  0,                                      !- Design Minimum Flow Rate {m3/s}
+  Intermittent,                           !- Pump Control Type
+  ,                                       !- Pump Flow Rate Schedule Name
+  ,                                       !- Pump Curve Name
+  ,                                       !- Impeller Diameter {m}
+  ,                                       !- VFD Control Type
+  ,                                       !- Pump rpm Schedule Name
+  ,                                       !- Minimum Pressure Schedule {Pa}
+  ,                                       !- Maximum Pressure Schedule {Pa}
+  ,                                       !- Minimum RPM Schedule {Rotations Per Minute}
+  ,                                       !- Maximum RPM Schedule {Rotations Per Minute}
+  ,                                       !- Zone Name
+  0.5,                                    !- Skin Loss Radiative Fraction
+  PowerPerFlowPerPressure,                !- Design Power Sizing Method
+  348701.1,                               !- Design Electric Power per Unit Flow Rate {W/(m3/s)}
+  1.282051282,                            !- Design Shaft Power per Unit Flow Rate per Unit Head
+  0,                                      !- Design Minimum Flow Rate Fraction
+  General;                                !- End-Use Subcategory
+
+Branch,
+  Chilled Water Loop Demand Branch 1,     !- Name
+  ,                                       !- Pressure Drop Curve Name
+  Pipe:Adiabatic,                         !- Component Object Type 1
+  Chilled Water Loop Coil Bypass Pipe,    !- Component Name 1
+  Chilled Water Loop Coil Bypass Pipe Inlet Node, !- Component Inlet Node Name 1
+  Chilled Water Loop Coil Bypass Pipe Outlet Node; !- Component Outlet Node Name 1
+
+Pipe:Adiabatic,
+  Chilled Water Loop Coil Bypass Pipe,    !- Name
+  Chilled Water Loop Coil Bypass Pipe Inlet Node, !- Inlet Node Name
+  Chilled Water Loop Coil Bypass Pipe Outlet Node; !- Outlet Node Name
+
+!---------------------------------------------------------------------
+! Cooling load profile branch details
+!---------------------------------------------------------------------
+Branch,
+  Chilled Water Loop Demand Branch 2,     !- Name
+  ,                                       !- Pressure Drop Curve Name
+  LoadProfile:Plant,                      !- Component Object Type 1
+  District Cooling Load Profile,          !- Component Name 1
+  District Cooling Load Profile Inlet Node, !- Component Inlet Node Name 1
+  District Cooling Load Profile Outlet Node; !- Component Outlet Node Name 1
+
+LoadProfile:Plant,
+  District Cooling Load Profile,          !- Name
+  District Cooling Load Profile Inlet Node, !- Inlet Node Name
+  District Cooling Load Profile Outlet Node, !- Outlet Node Name
+  District Cooling Load Profile Schedule, !- Load Schedule Name
+  0.002,                                  !- Peak Flow Rate {m3/s}
+  Always On Discrete hvac_library;        !- Flow Rate Fraction Schedule Name
+
+Schedule:Week:Daily,
+  District Cooling Load Profile Schedule Week Rule - Jan1-Dec31, !- Name
+  Schedule Day 48,                        !- Sunday Schedule:Day Name
+  Schedule Day 48,                        !- Monday Schedule:Day Name
+  Schedule Day 48,                        !- Tuesday Schedule:Day Name
+  Schedule Day 48,                        !- Wednesday Schedule:Day Name
+  Schedule Day 48,                        !- Thursday Schedule:Day Name
+  Schedule Day 48,                        !- Friday Schedule:Day Name
+  Schedule Day 48,                        !- Saturday Schedule:Day Name
+  Schedule Day 48,                        !- Holiday Schedule:Day Name
+  Schedule Day 48,                        !- SummerDesignDay Schedule:Day Name
+  Schedule Day 48,                        !- WinterDesignDay Schedule:Day Name
+  Schedule Day 48,                        !- CustomDay1 Schedule:Day Name
+  Schedule Day 48;                        !- CustomDay2 Schedule:Day Name
+
+Schedule:Year,
+  District Cooling Load Profile Schedule, !- Name
+  Dimensionless,                          !- Schedule Type Limits Name
+  District Cooling Load Profile Schedule Week Rule - Jan1-Dec31, !- Schedule:Week Name 1
+  1,                                      !- Start Month 1
+  1,                                      !- Start Day 1
+  12,                                     !- End Month 1
+  31;                                     !- End Day 1
+
+Schedule:Day:Interval,
+  Schedule Day 48,                        !- Name
+  Dimensionless,                          !- Schedule Type Limits Name
+  No,                                     !- Interpolate to Timestep
+  24:00,                                  !- Time 1 {hh:mm}
+  -50000.015625;                          !- Value Until Time 1
+!---------------------------------------------------------------------
+
+
+Branch,
+  Chilled Water Loop Demand Bypass Branch, !- Name
+  ,                                       !- Pressure Drop Curve Name
+  Pipe:Adiabatic,                         !- Component Object Type 1
+  Chilled Water Loop Demand Bypass Pipe,  !- Component Name 1
+  Chilled Water Loop Demand Bypass Pipe Inlet Node, !- Component Inlet Node Name 1
+  Chilled Water Loop Demand Bypass Pipe Outlet Node; !- Component Outlet Node Name 1
+
+Pipe:Adiabatic,
+  Chilled Water Loop Demand Bypass Pipe,  !- Name
+  Chilled Water Loop Demand Bypass Pipe Inlet Node, !- Inlet Node Name
+  Chilled Water Loop Demand Bypass Pipe Outlet Node; !- Outlet Node Name
+
+Branch,
+  Chilled Water Loop Demand Outlet Branch, !- Name
+  ,                                       !- Pressure Drop Curve Name
+  Pipe:Adiabatic,                         !- Component Object Type 1
+  Chilled Water Loop Demand Outlet Pipe,  !- Component Name 1
+  Chilled Water Loop Demand Outlet Pipe Inlet Node, !- Component Inlet Node Name 1
+  Chilled Water Loop Demand Outlet Pipe Outlet Node; !- Component Outlet Node Name 1
+
+Pipe:Adiabatic,
+  Chilled Water Loop Demand Outlet Pipe,  !- Name
+  Chilled Water Loop Demand Outlet Pipe Inlet Node, !- Inlet Node Name
+  Chilled Water Loop Demand Outlet Pipe Outlet Node; !- Outlet Node Name
+
+PlantEquipmentOperationSchemes,
+  Chilled Water Loop Operation Schemes,   !- Name
+  PlantEquipmentOperation:CoolingLoad,    !- Control Scheme Object Type 1
+  Chilled Water Loop Cooling Operation Scheme, !- Control Scheme Name 1
+  Always On Discrete,                     !- Control Scheme Schedule Name 1
+  PlantEquipmentOperation:Uncontrolled,   !- Control Scheme Object Type 2
+  Chilled Water Loop Uncontrolled Operation Scheme, !- Control Scheme Name 2
+  Always On Discrete,                     !- Control Scheme Schedule Name 2
+  PlantEquipmentOperation:ComponentSetpoint, !- Control Scheme Object Type 3
+  Chilled Water Loop Setpoint Operation Scheme, !- Control Scheme Name 3
+  Always On Discrete;                     !- Control Scheme Schedule Name 3
+
+PlantEquipmentOperation:CoolingLoad,
+  Chilled Water Loop Cooling Operation Scheme, !- Name
+  0,                                      !- Load Range Lower Limit 1 {W}
+  1000000000,                             !- Load Range Upper Limit 1 {W}
+  Chilled Water Loop Cooling Equipment List; !- Range Equipment List Name 1
+
+PlantEquipmentList,
+  Chilled Water Loop Cooling Equipment List, !- Name
+  Chiller:Electric:EIR,                   !- Equipment Object Type 1
+  charging chiller,                       !- Equipment Name 1
+  Chiller:Electric:EIR,                   !- Equipment Object Type 2
+  90.1-2004 WaterCooled  Centrifugal Chiller 0 1; !- Equipment Name 2
+
+PlantEquipmentOperation:Uncontrolled,
+  Chilled Water Loop Uncontrolled Operation Scheme, !- Name
+  Chilled Water Loop Uncontrolled Equipment List; !- Equipment List Name
+
+PlantEquipmentList,
+  Chilled Water Loop Uncontrolled Equipment List, !- Name
+  ThermalStorage:Ice:Detailed,            !- Equipment Object Type 1
+  ice storage;                            !- Equipment Name 1
+
+PlantEquipmentOperation:ComponentSetpoint,
+  Chilled Water Loop Setpoint Operation Scheme, !- Name
+  Chiller:Electric:EIR,                   !- Equipment Object Type 1
+  charging chiller,                       !- Equipment Name 1
+  charging chiller Inlet Node,            !- Demand Calculation Node Name 1
+  charging chiller Outlet Node,           !- Setpoint Node Name 1
+  Autosize,                               !- Component Flow Rate 1 {m3/s}
+  Cooling,                                !- Operation Type 1
+  ThermalStorage:Ice:Detailed,            !- Equipment Object Type 2
+  ice storage,                            !- Equipment Name 2
+  charging chiller Outlet Node,           !- Demand Calculation Node Name 2
+  ice storage outlet node,                !- Setpoint Node Name 2
+  Autosize,                               !- Component Flow Rate 2 {m3/s}
+  Dual,                                   !- Operation Type 2
+  Chiller:Electric:EIR,                   !- Equipment Object Type 3
+  90.1-2004 WaterCooled  Centrifugal Chiller 0 1, !- Equipment Name 3
+  Big Chiller Inlet Node,                 !- Demand Calculation Node Name 3
+  Big Chiller Outlet Node,                !- Setpoint Node Name 3
+  Autosize,                               !- Component Flow Rate 3 {m3/s}
+  Cooling;                                !- Operation Type 3
+
+
+
+! ##############################################################################
+! Condenser Plant Loop
+! ##############################################################################
+PlantLoop,
+  Condenser Water Loop,                   !- Name
+  Water,                                  !- Fluid Type
+  ,                                       !- User Defined Fluid Type
+  Condenser Water Loop Operation Schemes, !- Plant Equipment Operation Scheme Name
+  Node 119,                               !- Loop Temperature Setpoint Node Name
+  80,                                     !- Maximum Loop Temperature {C}
+  5,                                      !- Minimum Loop Temperature {C}
+  Autosize,                               !- Maximum Loop Flow Rate {m3/s}
+  0,                                      !- Minimum Loop Flow Rate {m3/s}
+  Autocalculate,                          !- Plant Loop Volume {m3}
+  Node 118,                               !- Plant Side Inlet Node Name
+  Node 119,                               !- Plant Side Outlet Node Name
+  Condenser Water Loop Supply Branches,   !- Plant Side Branch List Name
+  Condenser Water Loop Supply Connector List, !- Plant Side Connector List Name
+  Node 121,                               !- Demand Side Inlet Node Name
+  Node 122,                               !- Demand Side Outlet Node Name
+  Condenser Water Loop Demand Branches,   !- Demand Side Branch List Name
+  Condenser Water Loop Demand Connector List, !- Demand Side Connector List Name
+  Optimal,                                !- Load Distribution Scheme
+  ,                                       !- Availability Manager List Name
+  SingleSetpoint,                         !- Plant Loop Demand Calculation Scheme
+  ;                                       !- Common Pipe Simulation
+
+Sizing:Plant,
+  Condenser Water Loop,                   !- Plant or Condenser Loop Name
+  Condenser,                              !- Loop Type
+  29.4444444444445,                       !- Design Loop Exit Temperature {C}
+  5.55555555555556,                       !- Loop Design Temperature Difference {deltaC}
+  NonCoincident,                          !- Sizing Option
+  1,                                      !- Zone Timesteps in Averaging Window
+  None;                                   !- Coincident Sizing Factor Mode
+
+BranchList,
+  Condenser Water Loop Supply Branches,   !- Name
+  Condenser Water Loop Supply Inlet Branch, !- Branch Name 1
+  Condenser Water Loop Supply Branch 1,   !- Branch Name 2
+  Condenser Water Loop Supply Branch 2,   !- Branch Name 3
+  Condenser Water Loop Supply Outlet Branch; !- Branch Name 4
+
+ConnectorList,
+  Condenser Water Loop Supply Connector List, !- Name
+  Connector:Splitter,                     !- Connector Object Type 1
+  Condenser Water Loop Supply Splitter,   !- Connector Name 1
+  Connector:Mixer,                        !- Connector Object Type 2
+  Condenser Water Loop Supply Mixer;      !- Connector Name 2
+
+Connector:Splitter,
+  Condenser Water Loop Supply Splitter,   !- Name
+  Condenser Water Loop Supply Inlet Branch, !- Inlet Branch Name
+  Condenser Water Loop Supply Branch 1,   !- Outlet Branch Name 1
+  Condenser Water Loop Supply Branch 2;   !- Outlet Branch Name 2
+
+Connector:Mixer,
+  Condenser Water Loop Supply Mixer,      !- Name
+  Condenser Water Loop Supply Outlet Branch, !- Outlet Branch Name
+  Condenser Water Loop Supply Branch 1,   !- Inlet Branch Name 1
+  Condenser Water Loop Supply Branch 2;   !- Inlet Branch Name 2
+
+Branch,
+  Condenser Water Loop Supply Inlet Branch, !- Name
+  ,                                       !- Pressure Drop Curve Name
+  Pump:ConstantSpeed,                     !- Component Object Type 1
+  Condenser Water Loop Constant Pump,     !- Component Name 1
+  Node 118,                               !- Component Inlet Node Name 1
+  Node 124;                               !- Component Outlet Node Name 1
+
+Pump:ConstantSpeed,
+  Condenser Water Loop Constant Pump,     !- Name
+  Node 118,                               !- Inlet Node Name
+  Node 124,                               !- Outlet Node Name
+  Autosize,                               !- Design Flow Rate {m3/s}
+  148556.625924,                          !- Design Pump Head {Pa}
+  Autosize,                               !- Design Power Consumption {W}
+  0.9,                                    !- Motor Efficiency
+  0,                                      !- Fraction of Motor Inefficiencies to Fluid Stream
+  Intermittent,                           !- Pump Control Type
+  ,                                       !- Pump Flow Rate Schedule Name
+  ,                                       !- Pump Curve Name
+  ,                                       !- Impeller Diameter {m}
+  ,                                       !- Rotational Speed {rev/min}
+  ,                                       !- Zone Name
+  ,                                       !- Skin Loss Radiative Fraction
+  PowerPerFlowPerPressure,                !- Design Power Sizing Method
+  348701.1,                               !- Design Electric Power per Unit Flow Rate {W/(m3/s)}
+  1.282051282,                            !- Design Shaft Power per Unit Flow Rate per Unit Head
+  General;                                !- End-Use Subcategory
+
+Branch,
+  Condenser Water Loop Supply Branch 1,   !- Name
+  ,                                       !- Pressure Drop Curve Name
+  CoolingTower:SingleSpeed,               !- Component Object Type 1
+  Centrifugal Fan Cycling Open Cooling Tower, !- Component Name 1
+  Node 120,                               !- Component Inlet Node Name 1
+  Node 125;                               !- Component Outlet Node Name 1
+
+CoolingTower:SingleSpeed,
+  Centrifugal Fan Cycling Open Cooling Tower, !- Name
+  Node 120,                               !- Water Inlet Node Name
+  Node 125,                               !- Water Outlet Node Name
+  Autosize,                               !- Design Water Flow Rate {m3/s}
+  Autosize,                               !- Design Air Flow Rate {m3/s}
+  Autosize,                               !- Design Fan Power {W}
+  Autosize,                               !- Design U-Factor Times Area Value {W/K}
+  Autosize,                               !- Free Convection Air Flow Rate {m3/s}
+  0.1,                                    !- Free Convection Air Flow Rate Sizing Factor
+  Autosize,                               !- Free Convection U-Factor Times Area Value {W/K}
+  0.1,                                    !- Free Convection U-Factor Times Area Value Sizing Factor
+  UFactorTimesAreaAndDesignWaterFlowRate, !- Performance Input Method
+  1.25,                                   !- Heat Rejection Capacity and Nominal Capacity Sizing Ratio
+  ,                                       !- Nominal Capacity {W}
+  0,                                      !- Free Convection Capacity {W}
+  0.1,                                    !- Free Convection Nominal Capacity Sizing Factor
+  25.6,                                   !- Design Inlet Air Dry-Bulb Temperature {C}
+  25.6,                                   !- Design Inlet Air Wet-Bulb Temperature {C}
+  Autosize,                               !- Design Approach Temperature {deltaC}
+  Autosize,                               !- Design Range Temperature {deltaC}
+  0,                                      !- Basin Heater Capacity {W/K}
+  2,                                      !- Basin Heater Setpoint Temperature {C}
+  ,                                       !- Basin Heater Operating Schedule Name
+  LossFactor,                             !- Evaporation Loss Mode
+  0.2,                                    !- Evaporation Loss Factor {percent/K}
+  0.008,                                  !- Drift Loss Percent {percent}
+  ConcentrationRatio,                     !- Blowdown Calculation Mode
+  3,                                      !- Blowdown Concentration Ratio
+  ,                                       !- Blowdown Makeup Water Usage Schedule Name
+  ,                                       !- Supply Water Storage Tank Name
+  ,                                       !- Outdoor Air Inlet Node Name
+  FanCycling,                             !- Capacity Control
+  2,                                      !- Number of Cells
+  MinimalCell,                            !- Cell Control
+  0.33,                                   !- Cell Minimum  Water Flow Rate Fraction
+  2.5,                                    !- Cell Maximum Water Flow Rate Fraction
+  1,                                      !- Sizing Factor
+  General;                                !- End-Use Subcategory
+
+Branch,
+  Condenser Water Loop Supply Branch 2,   !- Name
+  ,                                       !- Pressure Drop Curve Name
+  Pipe:Adiabatic,                         !- Component Object Type 1
+  Condenser Water Loop Cooling Tower Bypass, !- Component Name 1
+  Node 126,                               !- Component Inlet Node Name 1
+  Node 127;                               !- Component Outlet Node Name 1
+
+Pipe:Adiabatic,
+  Condenser Water Loop Cooling Tower Bypass, !- Name
+  Node 126,                               !- Inlet Node Name
+  Node 127;                               !- Outlet Node Name
+
+Branch,
+  Condenser Water Loop Supply Outlet Branch, !- Name
+  ,                                       !- Pressure Drop Curve Name
+  Pipe:Adiabatic,                         !- Component Object Type 1
+  Condenser Water Loop Supply Outlet,     !- Component Name 1
+  Node 129,                               !- Component Inlet Node Name 1
+  Node 119;                               !- Component Outlet Node Name 1
+
+Pipe:Adiabatic,
+  Condenser Water Loop Supply Outlet,     !- Name
+  Node 129,                               !- Inlet Node Name
+  Node 119;                               !- Outlet Node Name
+
+SetpointManager:FollowOutdoorAirTemperature,
+  Condenser Water Loop Setpoint Manager Follow OATwb with 7.0F Approach, !- Name
+  Temperature,                            !- Control Variable
+  OutdoorAirWetBulb,                      !- Reference Temperature Type
+  3.88888888888889,                       !- Offset Temperature Difference {deltaC}
+  29.4444444444445,                       !- Maximum Setpoint Temperature {C}
+  21.1111111111111,                       !- Minimum Setpoint Temperature {C}
+  Node 119;                               !- Setpoint Node or NodeList Name
+
+BranchList,
+  Condenser Water Loop Demand Branches,   !- Name
+  Condenser Water Loop Demand Inlet Branch, !- Branch Name 1
+  Condenser Water Loop Demand Branch 1,   !- Branch Name 2
+  Condenser Water Loop Demand Branch 2,   !- Branch Name 3
+  Condenser Water Loop Demand Branch 3,   !- Branch Name 4
+  Condenser Water Loop Demand Bypass Branch, !- Branch Name 5
+  Condenser Water Loop Demand Outlet Branch; !- Branch Name 6
+
+ConnectorList,
+  Condenser Water Loop Demand Connector List, !- Name
+  Connector:Splitter,                     !- Connector Object Type 1
+  Condenser Water Loop Demand Splitter,   !- Connector Name 1
+  Connector:Mixer,                        !- Connector Object Type 2
+  Condenser Water Loop Demand Mixer;      !- Connector Name 2
+
+Connector:Splitter,
+  Condenser Water Loop Demand Splitter,   !- Name
+  Condenser Water Loop Demand Inlet Branch, !- Inlet Branch Name
+  Condenser Water Loop Demand Branch 1,   !- Outlet Branch Name 1
+  Condenser Water Loop Demand Branch 2,   !- Outlet Branch Name 2
+  Condenser Water Loop Demand Branch 3,   !- Outlet Branch Name 3
+  Condenser Water Loop Demand Bypass Branch; !- Outlet Branch Name 4
+
+Connector:Mixer,
+  Condenser Water Loop Demand Mixer,      !- Name
+  Condenser Water Loop Demand Outlet Branch, !- Outlet Branch Name
+  Condenser Water Loop Demand Branch 1,   !- Inlet Branch Name 1
+  Condenser Water Loop Demand Branch 2,   !- Inlet Branch Name 2
+  Condenser Water Loop Demand Branch 3,   !- Inlet Branch Name 3
+  Condenser Water Loop Demand Bypass Branch; !- Inlet Branch Name 4
+
+Branch,
+  Condenser Water Loop Demand Inlet Branch, !- Name
+  ,                                       !- Pressure Drop Curve Name
+  Pipe:Adiabatic,                         !- Component Object Type 1
+  Condenser Water Loop Demand Inlet,      !- Component Name 1
+  Node 121,                               !- Component Inlet Node Name 1
+  Node 130;                               !- Component Outlet Node Name 1
+
+Pipe:Adiabatic,
+  Condenser Water Loop Demand Inlet,      !- Name
+  Node 121,                               !- Inlet Node Name
+  Node 130;                               !- Outlet Node Name
+
+Branch,
+  Condenser Water Loop Demand Branch 1,   !- Name
+  ,                                       !- Pressure Drop Curve Name
+  Pipe:Adiabatic,                         !- Component Object Type 1
+  Condenser Water Loop Chiller Bypass,    !- Component Name 1
+  Node 123,                               !- Component Inlet Node Name 1
+  Node 128;                               !- Component Outlet Node Name 1
+
+Pipe:Adiabatic,
+  Condenser Water Loop Chiller Bypass,    !- Name
+  Node 123,                               !- Inlet Node Name
+  Node 128;                               !- Outlet Node Name
+
+Branch,
+  Condenser Water Loop Demand Branch 2,   !- Name
+  ,                                       !- Pressure Drop Curve Name
+  Chiller:Electric:EIR,                   !- Component Object Type 1
+  90.1-2004 WaterCooled  Centrifugal Chiller 0 1, !- Component Name 1
+  Node 776,                               !- Component Inlet Node Name 1
+  Node 777;                               !- Component Outlet Node Name 1
+
+Branch,
+  Condenser Water Loop Demand Branch 3,   !- Name
+  ,                                       !- Pressure Drop Curve Name
+  Chiller:Electric:EIR,                   !- Component Object Type 1
+  charging chiller,                       !- Component Name 1
+  Node 778,                               !- Component Inlet Node Name 1
+  Node 779;                               !- Component Outlet Node Name 1
+
+Branch,
+  Condenser Water Loop Demand Bypass Branch, !- Name
+  ,                                       !- Pressure Drop Curve Name
+  Pipe:Adiabatic,                         !- Component Object Type 1
+  Condenser Water Loop Demand Bypass Pipe, !- Component Name 1
+  Condenser Water Loop Demand Bypass Pipe Inlet Node, !- Component Inlet Node Name 1
+  Condenser Water Loop Demand Bypass Pipe Outlet Node; !- Component Outlet Node Name 1
+
+Pipe:Adiabatic,
+  Condenser Water Loop Demand Bypass Pipe, !- Name
+  Condenser Water Loop Demand Bypass Pipe Inlet Node, !- Inlet Node Name
+  Condenser Water Loop Demand Bypass Pipe Outlet Node; !- Outlet Node Name
+
+Branch,
+  Condenser Water Loop Demand Outlet Branch, !- Name
+  ,                                       !- Pressure Drop Curve Name
+  Pipe:Adiabatic,                         !- Component Object Type 1
+  Condenser Water Loop Demand Outlet,     !- Component Name 1
+  Node 131,                               !- Component Inlet Node Name 1
+  Node 122;                               !- Component Outlet Node Name 1
+
+Pipe:Adiabatic,
+  Condenser Water Loop Demand Outlet,     !- Name
+  Node 131,                               !- Inlet Node Name
+  Node 122;                               !- Outlet Node Name
+
+PlantEquipmentOperationSchemes,
+  Condenser Water Loop Operation Schemes, !- Name
+  PlantEquipmentOperation:CoolingLoad,    !- Control Scheme Object Type 1
+  Condenser Water Loop Cooling Operation Scheme, !- Control Scheme Name 1
+  Always On Discrete;                     !- Control Scheme Schedule Name 1
+
+PlantEquipmentOperation:CoolingLoad,
+  Condenser Water Loop Cooling Operation Scheme, !- Name
+  0,                                      !- Load Range Lower Limit 1 {W}
+  1000000000,                             !- Load Range Upper Limit 1 {W}
+  Condenser Water Loop Cooling Equipment List; !- Range Equipment List Name 1
+
+PlantEquipmentList,
+  Condenser Water Loop Cooling Equipment List, !- Name
+  CoolingTower:SingleSpeed,               !- Equipment Object Type 1
+  Centrifugal Fan Cycling Open Cooling Tower; !- Equipment Name 1
+
+
+
+
+
+
+! ----------------------------------------------------------------------
+! Other schedule related objects
+! ----------------------------------------------------------------------
+Schedule:Constant,
+  Always On Discrete,                     !- Name
+  OnOff,                                  !- Schedule Type Limits Name
+  1;                                      !- Hourly Value
