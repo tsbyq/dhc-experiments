@@ -17,8 +17,8 @@ class DistrictSystemsController < ApplicationController
   @@sys_type_4_idf_name = 'sys_4.idf'
   @@sys_type_5_idf_name = 'sys_5.idf'
   @@sys_type_1_name = "Boilers + Water-cooled Chillers"
-  @@sys_type_2_name = "Boilers + Heat-recovery Chillers"
-  @@sys_type_3_name = "Boilers + Water-cooled Chillers + Thermal Storage"
+  @@sys_type_2_name = "Boilers + Water-cooled Chillers with Ice-Storage"
+  @@sys_type_3_name = "Boilers + Heat-recovery Chillers"
   @@sys_type_4_name = "Geothermal Heat Pump"
   @@sys_type_5_name = "Combined Heat and Power System"
 
@@ -42,6 +42,12 @@ class DistrictSystemsController < ApplicationController
     # TODO: keep visualization, simulation configurations, and simulation results in session for quicker rendering.
     @error_message = {}
     @tabs = tab_control(true, false, false)
+    @system_types = []
+    @system_types.push(@@sys_type_1_name)
+    @system_types.push(@@sys_type_2_name)
+    @system_types.push(@@sys_type_3_name)
+    @system_types.push(@@sys_type_4_name)
+    @system_types.push(@@sys_type_5_name)
   end
 
   def dispatcher

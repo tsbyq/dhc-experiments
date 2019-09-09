@@ -1,38 +1,21 @@
 <%= form_with scope: :district_system_config, url: district_systems_path, local: true, multipart: true do |form| %>
   <div class="container border border-success pt-2">
-<!--    <div class="row pl-3">-->
-<!--      <p>-->
-<!--        <%#= form.label :name, 'Configuration name' %><br>-->
-        <%#= form.text_field :name, autofocus: true, placeholder: "System name" %>
-        <%#= form.text_field :name, autofocus: true, :required => 'required', placeholder: "System name" %>
-<!--      </p>-->
-<!--    </div>-->
+    <!--    <div class="row pl-3">-->
+    <!--      <p>-->
+    <!--        <%#= form.label :name, 'Configuration name' %><br>-->
+    <%#= form.text_field :name, autofocus: true, placeholder: "System name" %>
+    <%#= form.text_field :name, autofocus: true, :required => 'required', placeholder: "System name" %>
+    <!--      </p>-->
+    <!--    </div>-->
     <h4 class="pt-3 pb-3">Choose the districty system type and upload an epw file for simulations.</h4>
     <p>1. Choose at least one of the following system types</p>
-    <div class="row pl-5">
-      <%= form.check_box :system_type_1 %>&nbsp;&nbsp;
-      <%= form.label :system_type_1, 'Boilers + Water-cooled Chillers' %>
-    </div>
 
-    <div class="row pl-5">
-      <%= form.check_box :system_type_2 %>&nbsp;&nbsp;
-      <%= form.label :system_type_2, 'Boilers + Heat-recovery Chillers' %>
-    </div>
-
-    <div class="row pl-5">
-      <%= form.check_box :system_type_3 %>&nbsp;&nbsp;
-      <%= form.label :system_type_3, 'Boilers + Water-cooled Chillers + Thermal Storage' %>
-    </div>
-
-    <div class="row pl-5">
-      <%= form.check_box :system_type_4 %>&nbsp;&nbsp;
-      <%= form.label :system_type_4, 'Geothermal Heat Pump' %>
-    </div>
-
-    <div class="row pl-5">
-      <%= form.check_box :system_type_5 %>&nbsp;&nbsp;
-      <%= form.label :system_type_5, 'Combined Heat and Power System' %>
-    </div>
+    <% @system_types.each_with_index do |system_type, index| %>
+      <div class="row pl-5">
+        <%= form.check_box "system_type_#{index + 1}" %>&nbsp;&nbsp;
+        <%= form.label ":system_type_#{index + 1}", system_type %>
+      </div>
+    <% end %>
 
     <p>2. Choose the weather file (epw) for simulation.</p>
     <div class="row pl-5">

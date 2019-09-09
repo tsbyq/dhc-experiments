@@ -430,22 +430,23 @@ LoadProfile:Plant,
   Always On Discrete hvac_library;        !- Flow Rate Fraction Schedule Name
 
 ! ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-! Important: schedule file for loadprofile:plant 
-Schedule:File,
-  Cooling Load Profile Schedule,                        !- Name
-  Any Number,                             !- Schedule Type Limits Name
-  sample_loadprofile.csv, !- File Name
-  3,                                      !- Column Number
-  1,                                      !- Rows to Skip at Top
-  ,                                       !- Number of Hours of Data
-  Comma,                                  !- Column Separator
-  No;                                     !- Interpolate to Timestep
+! Important: schedule file for loadprofile:plant
 
 Schedule:File,
   Heating Load Profile Schedule,                        !- Name
   Any Number,                             !- Schedule Type Limits Name
   sample_loadprofile.csv, !- File Name
   2,                                      !- Column Number
+  1,                                      !- Rows to Skip at Top
+  ,                                       !- Number of Hours of Data
+  Comma,                                  !- Column Separator
+  No;                                     !- Interpolate to Timestep
+
+Schedule:File,
+  Cooling Load Profile Schedule,                        !- Name
+  Any Number,                             !- Schedule Type Limits Name
+  sample_loadprofile.csv, !- File Name
+  3,                                      !- Column Number
   1,                                      !- Rows to Skip at Top
   ,                                       !- Number of Hours of Data
   Comma,                                  !- Column Separator

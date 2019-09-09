@@ -1,7 +1,7 @@
 console.log('JS loaded...');
 
 var LOADSHAPE_SOURCE_OPTIONS = ["User Upload", "From Simulation"];
-var DS_TYPES = ["Central Water-cooled Chiller + Boiler", "Central Air-cooled Chiller + Boiler", "Ground Source Heat Pump"];
+// var DS_TYPES = ["Central Water-cooled Chiller + Boiler", "Central Air-cooled Chiller + Boiler", "Ground Source Heat Pump"];
 
 var self = this;
 
