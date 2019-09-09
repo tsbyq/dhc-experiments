@@ -27,7 +27,7 @@ class DistrictSystemsController < ApplicationController
   @@idd_file_dir = 'C:/EnergyPlusV9-1-0/Energy+.idd' # IDD path
 
   @@eplus_electricity_meter = "Electricity:Facility [J](Annual)"
-  @@eplus_natural_gas_meter = "Gas:Facility [J](Annual)"
+  @@eplus_natural_gas_meter = "Gas:Facility [J](Annual) "
 
   def J_to_kWh(joule_value)
     joule_value / 3600000
@@ -42,12 +42,7 @@ class DistrictSystemsController < ApplicationController
     # TODO: keep visualization, simulation configurations, and simulation results in session for quicker rendering.
     @error_message = {}
     @tabs = tab_control(true, false, false)
-    @system_types = []
-    @system_types.push(@@sys_type_1_name)
-    @system_types.push(@@sys_type_2_name)
-    @system_types.push(@@sys_type_3_name)
-    @system_types.push(@@sys_type_4_name)
-    @system_types.push(@@sys_type_5_name)
+    @system_types = add_system_types
   end
 
   def dispatcher
@@ -71,6 +66,7 @@ class DistrictSystemsController < ApplicationController
     new_file_path = @@user_uploads_path + filename
     FileUtils.cp(old_file_path, new_file_path) if File.exist?(old_file_path)
     session[:uploaded_file_path] = new_file_path
+    @system_types = add_system_types
     render "index"
   end
 
@@ -113,7 +109,7 @@ class DistrictSystemsController < ApplicationController
 
     # TODO: Set conditions
 
-
+    @system_types = add_system_types
     render "index" # TODO: figure out how to set active tab in the view.
   end
 
@@ -121,6 +117,16 @@ class DistrictSystemsController < ApplicationController
 ######################################################################################################################
 # Helper methods
 ######################################################################################################################
+  def add_system_types()
+    v_system_types = []
+    v_system_types.push(@@sys_type_1_name)
+    v_system_types.push(@@sys_type_2_name)
+    v_system_types.push(@@sys_type_3_name)
+    v_system_types.push(@@sys_type_4_name)
+    v_system_types.push(@@sys_type_5_name)
+    return v_system_types
+  end
+
   def prepare_simulation(params)
     puts '#' * 100
     puts 'Preparing simulations...'
@@ -147,7 +153,6 @@ class DistrictSystemsController < ApplicationController
       @error_message[:error] = 'Make sure the weather file is uploaded.'
       @tabs = tab_control(false, true, false)
     else
-      puts 'Do something'
       # Create a folder in the run_dir and copy the files to it.
       temp_run_path = @@run_path + 'run_' + DateTime.now.strftime('%Q') + '/'
       Dir.mkdir(temp_run_path) unless File.exists?(temp_run_path)

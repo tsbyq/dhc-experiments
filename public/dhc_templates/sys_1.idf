@@ -407,50 +407,6 @@ Schedule:Year,
   12,                                     !- End Month 1
   31;                                     !- End Day 1
 
-
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-! ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-! LoadProfile:Plant
-LoadProfile:Plant,
-  District Cooling Load Profile,          !- Name
-  Node 3,                                 !- Inlet Node Name
-  Node 4,                                 !- Outlet Node Name
-  Cooling Load Profile Schedule, !- Load Schedule Name (From CSV)
-  ! District Cooling Load Profile Schedule, !- Load Schedule Name (Fixed)
-  0.002,                                  !- Peak Flow Rate {m3/s}
-  Always On Discrete hvac_library;        !- Flow Rate Fraction Schedule Name
-
-LoadProfile:Plant,
-  District Heating Load Profile,          !- Name
-  Node 1,                                 !- Inlet Node Name
-  Node 2,                                 !- Outlet Node Name
-  Heating Load Profile Schedule, !- Load Schedule Name (From CSV)
-  ! District Heating Load Profile Schedule, !- Load Schedule Name (Fixed)
-  0.002,                                  !- Peak Flow Rate {m3/s}
-  Always On Discrete hvac_library;        !- Flow Rate Fraction Schedule Name
-
-! ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-! Important: schedule file for loadprofile:plant
-
-Schedule:File,
-  Heating Load Profile Schedule,                        !- Name
-  Any Number,                             !- Schedule Type Limits Name
-  sample_loadprofile.csv, !- File Name
-  2,                                      !- Column Number
-  1,                                      !- Rows to Skip at Top
-  ,                                       !- Number of Hours of Data
-  Comma,                                  !- Column Separator
-  No;                                     !- Interpolate to Timestep
-
-Schedule:File,
-  Cooling Load Profile Schedule,                        !- Name
-  Any Number,                             !- Schedule Type Limits Name
-  sample_loadprofile.csv, !- File Name
-  3,                                      !- Column Number
-  1,                                      !- Rows to Skip at Top
-  ,                                       !- Number of Hours of Data
-  Comma,                                  !- Column Separator
-  No;                                     !- Interpolate to Timestep
 ! ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ! Old fixed schedule for loadprofile:plant
 ! ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1122,7 +1078,7 @@ CoolingTower:SingleSpeed,
   Centrifugal Fan Cycling Open Cooling Tower 38.2 gpm/hp Outlet Water Node, !- Water Outlet Node Name
   Autosize,                               !- Design Water Flow Rate {m3/s}
   Autosize,                               !- Design Air Flow Rate {m3/s}
-  40182.492846799,                        !- Design Fan Power {W}
+  Autosize,                               !- Design Fan Power {W}
   Autosize,                               !- Design U-Factor Times Area Value {W/K}
   Autosize,                               !- Free Convection Air Flow Rate {m3/s}
   0.1,                                    !- Free Convection Air Flow Rate Sizing Factor
@@ -1932,6 +1888,52 @@ PlantEquipmentList,
 !   General;                                !- End-Use Subcategory
 
 
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+! ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+! LoadProfile:Plant
+
+LoadProfile:Plant,
+  District Heating Load Profile,          !- Name
+  Node 1,                                 !- Inlet Node Name
+  Node 2,                                 !- Outlet Node Name
+  Heating Load Profile Schedule, !- Load Schedule Name (From CSV)
+  ! District Heating Load Profile Schedule, !- Load Schedule Name (Fixed)
+  5,                                  !- Peak Flow Rate {m3/s}
+  Always On Discrete hvac_library;        !- Flow Rate Fraction Schedule Name
+
+LoadProfile:Plant,
+  District Cooling Load Profile,          !- Name
+  Node 3,                                 !- Inlet Node Name
+  Node 4,                                 !- Outlet Node Name
+  Cooling Load Profile Schedule, !- Load Schedule Name (From CSV)
+  ! District Cooling Load Profile Schedule, !- Load Schedule Name (Fixed)
+  10,                                  !- Peak Flow Rate {m3/s}
+  Always On Discrete hvac_library;        !- Flow Rate Fraction Schedule Name
+! ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+! Important: schedule file for loadprofile:plant
+
+Schedule:File,
+  Heating Load Profile Schedule,                        !- Name
+  Any Number,                             !- Schedule Type Limits Name
+  sample_loadprofile.csv, !- File Name
+  2,                                      !- Column Number
+  1,                                      !- Rows to Skip at Top
+  ,                                       !- Number of Hours of Data
+  Comma,                                  !- Column Separator
+  No;                                     !- Interpolate to Timestep
+
+Schedule:File,
+  Cooling Load Profile Schedule,                        !- Name
+  Any Number,                             !- Schedule Type Limits Name
+  sample_loadprofile.csv, !- File Name
+  3,                                      !- Column Number
+  1,                                      !- Rows to Skip at Top
+  ,                                       !- Number of Hours of Data
+  Comma,                                  !- Column Separator
+  No;                                     !- Interpolate to Timestep
+
+
+
 ! ######################################################################################
 ! Outputs
 ! ######################################################################################
@@ -1975,11 +1977,11 @@ Output:Meter,
   Gas:Facility,                           !- Key Name
   Annual;                               !- Reporting Frequency
 
-Output:Meter,Carbon Equivalent:Facility,annual; !- [kg]
-Output:Meter,Carbon Equivalent:Facility,annual; !- [kg]
-Output:Meter:Cumulative,Carbon Equivalent:Facility,annual; !- [kg]
-Output:Meter,CarbonEquivalentEmissions:Carbon Equivalent,annual; !- [kg]
-Output:Meter:Cumulative,CarbonEquivalentEmissions:Carbon Equivalent,annual; !- [kg]
-Output:Variable,*,Environmental Impact Total N2O Emissions Carbon Equivalent Mass,annual; !- HVAC Sum [kg]
-Output:Variable,*,Environmental Impact Total CH4 Emissions Carbon Equivalent Mass,annual; !- HVAC Sum [kg]
-Output:Variable,*,Environmental Impact Total CO2 Emissions Carbon Equivalent Mass,annual; !- HVAC Sum [kg]
+! Output:Meter,Carbon Equivalent:Facility,annual; !- [kg]
+! Output:Meter,Carbon Equivalent:Facility,annual; !- [kg]
+! Output:Meter:Cumulative,Carbon Equivalent:Facility,annual; !- [kg]
+! Output:Meter,CarbonEquivalentEmissions:Carbon Equivalent,annual; !- [kg]
+! Output:Meter:Cumulative,CarbonEquivalentEmissions:Carbon Equivalent,annual; !- [kg]
+! Output:Variable,*,Environmental Impact Total N2O Emissions Carbon Equivalent Mass,annual; !- HVAC Sum [kg]
+! Output:Variable,*,Environmental Impact Total CH4 Emissions Carbon Equivalent Mass,annual; !- HVAC Sum [kg]
+! Output:Variable,*,Environmental Impact Total CO2 Emissions Carbon Equivalent Mass,annual; !- HVAC Sum [kg]

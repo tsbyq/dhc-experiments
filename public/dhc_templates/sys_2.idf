@@ -2025,7 +2025,7 @@ PlantEquipmentList,
 
 
 ! ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-! Important: schedule file for loadprofile:plant 
+! Important: schedule file for loadprofile:plant
 
 LoadProfile:Plant,
   District Heating Load Profile,          !- Name
@@ -2072,3 +2072,15 @@ Schedule:Constant,
   Always On Discrete,                     !- Name
   OnOff,                                  !- Schedule Type Limits Name
   1;                                      !- Hourly Value
+
+
+! ##############################################################################
+! Output
+! ##############################################################################
+Output:Meter,
+  Electricity:Facility,                   !- Key Name
+  Annual;                               !- Reporting Frequency
+
+Output:Meter,
+  Gas:Facility,                           !- Key Name
+  Annual;                               !- Reporting Frequency
