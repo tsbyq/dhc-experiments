@@ -16,9 +16,9 @@ class DistrictSystemsController < ApplicationController
   @@sys_type_3_idf_name = 'sys_3.idf'
   @@sys_type_4_idf_name = 'sys_4.idf'
   @@sys_type_5_idf_name = 'sys_5.idf'
-  @@sys_type_1_name = "Boilers + Water-cooled Chillers"
-  @@sys_type_2_name = "Boilers + Water-cooled Chillers with Ice-Storage"
-  @@sys_type_3_name = "Boilers + Heat-recovery Chillers"
+  @@sys_type_1_name = "Water-cooled Chillers + Boiler"
+  @@sys_type_2_name = "Water-cooled Chillers with Ice-Storage + Boiler"
+  @@sys_type_3_name = "Heat-recovery Chillers + Heat Pumps"
   @@sys_type_4_name = "Geothermal Heat Pump"
   @@sys_type_5_name = "Combined Heat and Power System"
 

@@ -2033,7 +2033,7 @@ LoadProfile:Plant,
   District Heating Load Profile Outlet Node, !- Outlet Node Name
   ! District Heating Load Profile Schedule, !- Load Schedule Name (Fixed)
   Heating Load Profile Schedule, !- Load Schedule Name (CSV)
-  5,                                  !- Peak Flow Rate {m3/s}
+  0.6,                                  !- Peak Flow Rate {m3/s}
   Always On Discrete hvac_library;        !- Flow Rate Fraction Schedule Name
 
 LoadProfile:Plant,
@@ -2042,7 +2042,7 @@ LoadProfile:Plant,
   District Cooling Load Profile Outlet Node, !- Outlet Node Name
   ! District Cooling Load Profile Schedule, !- Load Schedule Name (Fixed)
   Cooling Load Profile Schedule, !- Load Schedule Name (CSV)
-  5,                                  !- Peak Flow Rate {m3/s}
+  0.6,                                  !- Peak Flow Rate {m3/s}
   Always On Discrete hvac_library;        !- Flow Rate Fraction Schedule Name
 
 Schedule:File,

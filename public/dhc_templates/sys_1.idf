@@ -1898,7 +1898,7 @@ LoadProfile:Plant,
   Node 2,                                 !- Outlet Node Name
   Heating Load Profile Schedule, !- Load Schedule Name (From CSV)
   ! District Heating Load Profile Schedule, !- Load Schedule Name (Fixed)
-  5,                                  !- Peak Flow Rate {m3/s}
+  0.6,                                  !- Peak Flow Rate {m3/s}
   Always On Discrete hvac_library;        !- Flow Rate Fraction Schedule Name
 
 LoadProfile:Plant,
@@ -1907,7 +1907,7 @@ LoadProfile:Plant,
   Node 4,                                 !- Outlet Node Name
   Cooling Load Profile Schedule, !- Load Schedule Name (From CSV)
   ! District Cooling Load Profile Schedule, !- Load Schedule Name (Fixed)
-  10,                                  !- Peak Flow Rate {m3/s}
+  0.6,                                  !- Peak Flow Rate {m3/s}
   Always On Discrete hvac_library;        !- Flow Rate Fraction Schedule Name
 ! ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ! Important: schedule file for loadprofile:plant
