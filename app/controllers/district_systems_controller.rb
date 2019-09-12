@@ -27,7 +27,7 @@ class DistrictSystemsController < ApplicationController
   @@idd_file_dir = 'C:/EnergyPlusV9-1-0/Energy+.idd' # IDD path
 
   @@eplus_electricity_meter = "Electricity:Facility [J](Annual)"
-  @@eplus_natural_gas_meter = "Gas:Facility [J](Annual) "
+  @@eplus_natural_gas_meter = "Gas:Facility [J](Annual)"
 
   def J_to_kWh(joule_value)
     joule_value / 3600000
