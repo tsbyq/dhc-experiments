@@ -248,9 +248,27 @@ class DistrictSystemsController < ApplicationController
   def read_eplus_output(eplusout_dir)
     # This function read the eplusout.csv file and create a result hash.
     csv_table = CSV.read(eplusout_dir, headers: true)
+
+    # There might be white spaces in the csv headers
+    real_electricity_header = nil
+    real_natural_gas_header = nil
+    csv_table.headers.each do |header|
+      if header.include? @@eplus_electricity_meter
+        real_electricity_header = header
+      elsif header.include? @@eplus_natural_gas_meter
+        real_natural_gas_header = header
+      end
+    end
+    if real_electricity_header.nil?
+      real_electricity_header = @@eplus_electricity_meter
+    end
+    if real_natural_gas_header.nil?
+      real_natural_gas_header = @@eplus_natural_gas_meter
+    end
+
     out_hash = {
-        "annual electricity" => J_to_kWh(csv_table[0][@@eplus_electricity_meter].to_f),
-        "annual gas" => J_to_kBTU(csv_table[0][@@eplus_natural_gas_meter].to_f),
+        "annual electricity" => J_to_kWh(csv_table[0][real_electricity_header].to_f),
+        "annual gas" => J_to_kBTU(csv_table[0][real_natural_gas_header].to_f),
     }
     out_hash
   end
