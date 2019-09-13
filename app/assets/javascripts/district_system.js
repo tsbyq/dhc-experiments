@@ -62,9 +62,9 @@ prepareLoadProfile = function (rawData) {
 
     for (i = 0; i < rawData.data.length; i++) {
         var timeMillisecond = Date.parse(rawData.data[i].Datetime);
-        var heatingDemand = Math.round(rawData.data[i]['Heating Demand (W)']);
-        var coolingDemand = Math.round(rawData.data[i]['Cooling Demand (W)']);
-        var simultaneousDemand = Math.min(heatingDemand, coolingDemand);
+        var heatingDemand = Math.round(rawData.data[i]['Heating Demand (W)']) / 1000;
+        var coolingDemand = Math.round(rawData.data[i]['Cooling Demand (W)']) / 1000;
+        var simultaneousDemand = Math.min(heatingDemand, Math.abs(coolingDemand));
         var electricityConsumption = Math.round(rawData.data[i]['Electricity Consumption (kWh)']);
         var naturalGasConsumption = Math.round(rawData.data[i]['Natural Gas Consumption (Therms)']);
 
@@ -104,54 +104,54 @@ this.prepareOtherChartData = function () {
 const arrSum = arr => arr.reduce((a, b) => a + b, 0);
 
 this.simpsonDiversity = function (arr, chunkSize = 200) {
-        // This function chunk original array into groups and calculate the Simpson's diversity index based on the groups.
-        var lower = Math.min.apply(null, arr);
-        var upper = Math.max.apply(null, arr) + chunkSize;
-        var temp_lower = lower;
-        var temp_upper = lower + chunkSize;
-        var v_counts = [];
+    // This function chunk original array into groups and calculate the Simpson's diversity index based on the groups.
+    var lower = Math.min.apply(null, arr);
+    var upper = Math.max.apply(null, arr) + chunkSize;
+    var temp_lower = lower;
+    var temp_upper = lower + chunkSize;
+    var v_counts = [];
 
-        // console.log('Lower is ' + lower + ', Upper is ' + upper);
+    // console.log('Lower is ' + lower + ', Upper is ' + upper);
 
-        arr = arr.sort(function (a, b) {
-            return a - b
-        });
-        i = 0;
+    arr = arr.sort(function (a, b) {
+        return a - b
+    });
+    i = 0;
+    do {
+        // console.log('Temp lower = ' + temp_lower + ', Tempe upper = ' + temp_upper);
+        // Count the number of elements in a group
+        j = i;
+        count = 0;
         do {
-            // console.log('Temp lower = ' + temp_lower + ', Tempe upper = ' + temp_upper);
-            // Count the number of elements in a group
-            j = i;
-            count = 0;
-            do {
-                if (arr[j] >= temp_lower && arr[j] < temp_upper) {
-                    // console.log(arr[j]);
-                    count += 1;
-                    j += 1;
-                } else {
-                    break
-                }
+            if (arr[j] >= temp_lower && arr[j] < temp_upper) {
+                // console.log(arr[j]);
+                count += 1;
+                j += 1;
+            } else {
+                break
             }
-            while (true);
-
-            if (count > 0) {
-                v_counts.push(count);
-            }
-            i = j;
-            temp_lower = temp_upper;
-            temp_upper += chunkSize;
         }
-        while (temp_upper <= upper);
+        while (true);
 
-        // Calculate Simpson's diversity index
-        numerator = 0;
-        denominator = arr.length * (arr.length - 1);
-        v_counts.forEach(function (count) {
-            numerator += count * (count - 1)
-        });
+        if (count > 0) {
+            v_counts.push(count);
+        }
+        i = j;
+        temp_lower = temp_upper;
+        temp_upper += chunkSize;
+    }
+    while (temp_upper <= upper);
 
-        // console.log(v_counts);
-        return Math.round((1 - numerator / denominator) * 100 * 10) / 10;
-    };
+    // Calculate Simpson's diversity index
+    numerator = 0;
+    denominator = arr.length * (arr.length - 1);
+    v_counts.forEach(function (count) {
+        numerator += count * (count - 1)
+    });
+
+    // console.log(v_counts);
+    return Math.round((1 - numerator / denominator) * 100 * 10) / 10;
+};
 
 this.calculateKeyStats = function () {
     // This function calculate the key statistics for the district heating and cooling demand profiles.
@@ -160,17 +160,17 @@ this.calculateKeyStats = function () {
 
     var peak_heating_demand = Math.max.apply(null, self.v_heating_demand);
     var peak_heating_demand_time = new Date(self.v_timestamps[self.v_heating_demand.indexOf(peak_heating_demand)]); // to date time string
-    var annual_heating_demand_intensity = 0;
+    var peak_heating_demand_intensity = 0;
     var annual_heating_demand_diversity = self.simpsonDiversity(self.v_heating_demand);
 
-    var peak_cooling_demand = Math.max.apply(null, self.v_cooling_demand);
+    var peak_cooling_demand = Math.min.apply(null, self.v_cooling_demand);
     var peak_cooling_demand_time = new Date(self.v_timestamps[self.v_cooling_demand.indexOf(peak_cooling_demand)]);
-    var annual_cooling_demand_intensity = 0;
+    var peak_cooling_demand_intensity = 0;
     var annual_cooling_demand_diversity = self.simpsonDiversity(self.v_cooling_demand);
 
     var peak_heating_cooling_demand = Math.max.apply(null, self.v_simultaneous_demand);
     var peak_heating_cooling_demand_time = new Date(self.v_timestamps[self.v_simultaneous_demand.indexOf(peak_heating_cooling_demand)]);
-    var annual_heating_cooling_demand_intensity = 0;
+    var peak_heating_cooling_demand_intensity = 0;
     var annual_heating_cooling_demand_diversity = self.simpsonDiversity(self.v_simultaneous_demand);
 
     var peak_electricity_consumption = Math.max.apply(null, self.v_electricity_consumption);
@@ -186,15 +186,15 @@ this.calculateKeyStats = function () {
 
     document.getElementById("peak_heating_demand").innerHTML = peak_heating_demand.toLocaleString() + " W";
     document.getElementById("peak_heating_demand_time").innerHTML = peak_heating_demand_time.toLocaleString();
-    document.getElementById("annual_heating_demand_intensity").innerHTML = annual_heating_demand_intensity.toLocaleString() + " kWh/(sqm*yr)";
+    document.getElementById("peak_heating_demand_intensity").innerHTML = peak_heating_demand_intensity.toLocaleString() + " kW/(sqm)";
     document.getElementById("annual_heating_demand_diversity").innerHTML = annual_heating_demand_diversity.toLocaleString() + " %";
     document.getElementById("peak_cooling_demand").innerHTML = peak_cooling_demand.toLocaleString() + " W";
     document.getElementById("peak_cooling_demand_time").innerHTML = peak_cooling_demand_time.toLocaleString();
-    document.getElementById("annual_cooling_demand_intensity").innerHTML = annual_cooling_demand_intensity.toLocaleString() + " kWh/(sqm*yr)";
+    document.getElementById("peak_cooling_demand_intensity").innerHTML = peak_cooling_demand_intensity.toLocaleString() + " kW/(sqm)";
     document.getElementById("annual_cooling_demand_diversity").innerHTML = annual_cooling_demand_diversity.toLocaleString() + " %";
     document.getElementById("peak_heating_cooling_demand").innerHTML = peak_heating_cooling_demand.toLocaleString() + " W";
     document.getElementById("peak_heating_cooling_demand_time").innerHTML = peak_heating_cooling_demand_time.toLocaleString();
-    document.getElementById("annual_heating_cooling_demand_intensity").innerHTML = annual_heating_cooling_demand_intensity.toLocaleString() + " kWh/(sqm*yr)";
+    document.getElementById("peak_heating_cooling_demand_intensity").innerHTML = peak_heating_cooling_demand_intensity.toLocaleString() + " kW/(sqm)";
     document.getElementById("annual_heating_cooling_demand_diversity").innerHTML = annual_heating_cooling_demand_diversity.toLocaleString() + " %";
     document.getElementById("peak_electricity_consumption").innerHTML = peak_electricity_consumption.toLocaleString() + " kWh";
     document.getElementById("peak_electricity_consumption_time").innerHTML = peak_electricity_consumption_time.toLocaleString();
@@ -231,7 +231,7 @@ this.createHCDemandTSHighchart = function () {
         },
         yAxis: {
             title: {
-                text: 'Load (kWh)'
+                text: 'Load (kW)'
             }
         },
         credits: {
@@ -242,29 +242,31 @@ this.createHCDemandTSHighchart = function () {
         },
         tooltip: {
             enabled: true,
-            shared: true
+            shared: true,
+            valueDecimals: 1
         },
         series: [{
             type: 'area',
-            name: 'Heating Demand (kWh)',
+            name: 'Heating Demand (kW)',
             color: '#e34839',
             fillOpacity: 0.5,
             lineWidth: 0.5,
-            data: self.heatingTSData
+            data: self.heatingTSData,
         }, {
             type: 'area',
-            name: 'Cooling Demand (kWh)',
+            name: 'Cooling Demand (kW)',
             color: '#0090FF',
             fillOpacity: 0.5,
             lineWidth: 0.5,
-            data: self.coolingTSData
+            data: self.coolingTSData,
         }, {
             type: 'area',
-            name: 'Simultaneous Demand (kWh)',
+            name: 'Simultaneous Demand (kW)',
             color: '#3c1e46',
             fillOpacity: 0.5,
             lineWidth: 0.5,
-            data: self.simultaneousLoadTSData
+            data: self.simultaneousLoadTSData,
+            valueDecimals: 1,
         }]
     });
 };
@@ -307,7 +309,8 @@ this.createEnergyConsumptionTSHighchart = function () {
         },
         tooltip: {
             enabled: true,
-            shared: true
+            shared: true,
+            valueDecimals: 1,
         },
         series: [{
             type: 'area',
