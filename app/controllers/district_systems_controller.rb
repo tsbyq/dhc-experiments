@@ -21,11 +21,11 @@ class DistrictSystemsController < ApplicationController
   @@sys_type_3_name = "Heat-recovery Chillers + Heat Pumps"
   @@sys_type_4_name = "Geothermal Heat Pump"
   @@sys_type_5_name = "Combined Heat and Power System (under development)"
-  @@sys_type_1_ready = false
-  @@sys_type_2_ready = false
-  @@sys_type_3_ready = false
-  @@sys_type_4_ready = false
-  @@sys_type_5_ready = true
+  @@sys_type_1_dev = false
+  @@sys_type_2_dev = false
+  @@sys_type_3_dev = false
+  @@sys_type_4_dev = false
+  @@sys_type_5_dev = true
 
   @@python_command = 'python' # Or full Python command path
   @@ep_exe = 'ep91' # Or full EnergyPlus executable path
@@ -125,11 +125,11 @@ class DistrictSystemsController < ApplicationController
 ######################################################################################################################
   def add_system_types()
     v_system_types = []
-    v_system_types.push([@@sys_type_1_name, @@sys_type_1_ready])
-    v_system_types.push([@@sys_type_2_name, @@sys_type_2_ready])
-    v_system_types.push([@@sys_type_3_name, @@sys_type_3_ready])
-    v_system_types.push([@@sys_type_4_name, @@sys_type_4_ready])
-    v_system_types.push([@@sys_type_5_name, @@sys_type_5_ready])
+    v_system_types.push([@@sys_type_1_name, @@sys_type_1_dev])
+    v_system_types.push([@@sys_type_2_name, @@sys_type_2_dev])
+    v_system_types.push([@@sys_type_3_name, @@sys_type_3_dev])
+    v_system_types.push([@@sys_type_4_name, @@sys_type_4_dev])
+    v_system_types.push([@@sys_type_5_name, @@sys_type_5_dev])
     return v_system_types
   end
 
