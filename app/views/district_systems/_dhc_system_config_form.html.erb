@@ -12,8 +12,8 @@
 
     <% @system_types.each_with_index do |system_type, index| %>
       <div class="row pl-5">
-        <%= form.check_box "system_type_#{index + 1}" %>&nbsp;&nbsp;
-        <%= form.label ":system_type_#{index + 1}", system_type %>
+        <%= form.check_box "system_type_#{index + 1}", disabled:system_type[1] %>&nbsp;&nbsp;
+        <%= form.label ":system_type_#{index + 1}", system_type[0] %>
       </div>
     <% end %>
 

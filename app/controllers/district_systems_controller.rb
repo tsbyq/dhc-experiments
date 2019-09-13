@@ -20,7 +20,12 @@ class DistrictSystemsController < ApplicationController
   @@sys_type_2_name = "Water-cooled Chillers with Ice-Storage + Boiler"
   @@sys_type_3_name = "Heat-recovery Chillers + Heat Pumps"
   @@sys_type_4_name = "Geothermal Heat Pump"
-  @@sys_type_5_name = "Combined Heat and Power System"
+  @@sys_type_5_name = "Combined Heat and Power System (under development)"
+  @@sys_type_1_ready = false
+  @@sys_type_2_ready = false
+  @@sys_type_3_ready = false
+  @@sys_type_4_ready = false
+  @@sys_type_5_ready = true
 
   @@python_command = 'python' # Or full Python command path
   @@ep_exe = 'ep91' # Or full EnergyPlus executable path
@@ -109,6 +114,7 @@ class DistrictSystemsController < ApplicationController
 
     # TODO: Set conditions
 
+    @tabs = tab_control(false, false, true)
     @system_types = add_system_types
     render "index" # TODO: figure out how to set active tab in the view.
   end
@@ -119,11 +125,11 @@ class DistrictSystemsController < ApplicationController
 ######################################################################################################################
   def add_system_types()
     v_system_types = []
-    v_system_types.push(@@sys_type_1_name)
-    v_system_types.push(@@sys_type_2_name)
-    v_system_types.push(@@sys_type_3_name)
-    v_system_types.push(@@sys_type_4_name)
-    v_system_types.push(@@sys_type_5_name)
+    v_system_types.push([@@sys_type_1_name, @@sys_type_1_ready])
+    v_system_types.push([@@sys_type_2_name, @@sys_type_2_ready])
+    v_system_types.push([@@sys_type_3_name, @@sys_type_3_ready])
+    v_system_types.push([@@sys_type_4_name, @@sys_type_4_ready])
+    v_system_types.push([@@sys_type_5_name, @@sys_type_5_ready])
     return v_system_types
   end
 
