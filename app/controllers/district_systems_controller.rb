@@ -4,6 +4,13 @@ require 'json'
 require 'CSV'
 
 class DistrictSystemsController < ApplicationController
+  # Class variables, which don't vary by instance
+  @@python_command = 'python' # Or full Python command path
+  @@ep_exe = 'ep91' # Or full EnergyPlus executable path
+  @@idd_file_dir = 'C:/EnergyPlusV9-1-0/Energy+.idd' # IDD path
+  @@eplus_electricity_meter = "Electricity:Facility [J](Annual)"
+  @@eplus_natural_gas_meter = "Gas:Facility [J](Annual)"
+
   @@root_path = File.expand_path("..", File.dirname(File.dirname(__FILE__)))
   @@user_uploads_path = @@root_path + '/public/user_uploads/'
   @@output_files_path = @@root_path + '/public/output_files/'
@@ -26,18 +33,15 @@ class DistrictSystemsController < ApplicationController
   @@sys_type_3_dev = false
   @@sys_type_4_dev = false
   @@sys_type_5_dev = true
-  @@sys_type_1_selected = false
-  @@sys_type_2_selected = false
-  @@sys_type_3_selected = false
-  @@sys_type_4_selected = false
-  @@sys_type_5_selected = false
 
-  @@python_command = 'python' # Or full Python command path
-  @@ep_exe = 'ep91' # Or full EnergyPlus executable path
-  @@idd_file_dir = 'C:/EnergyPlusV9-1-0/Energy+.idd' # IDD path
 
-  @@eplus_electricity_meter = "Electricity:Facility [J](Annual)"
-  @@eplus_natural_gas_meter = "Gas:Facility [J](Annual)"
+  # Instance variables
+  @sys_type_1_selected = false
+  @sys_type_2_selected = false
+  @sys_type_3_selected = false
+  @sys_type_4_selected = false
+  @sys_type_5_selected = false
+
 
   def J_to_kWh(joule_value)
     joule_value / 3600000
@@ -83,12 +87,18 @@ class DistrictSystemsController < ApplicationController
   def simulate(params)
     puts '---> Entering Simulate method...'
     @tabs = tab_control(false, true, false)
-    old_epw_path = params[:weather_epw].path
-    filename = File.basename(old_epw_path)
-    new_epw_path = @@user_uploads_path + filename
 
+    # Check if a epw file is available, show error message if none exists.
+    old_epw_path = params[:weather_epw].path
+    # puts params[:weather_epw]
+
+
+    filename = params[:weather_epw].original_filename
+    new_epw_path = @@user_uploads_path + filename
+    # Copy the uploaded weather file to the temp run folder
     FileUtils.cp(old_epw_path, new_epw_path) if File.exist?(old_epw_path)
     session[:weather_epw_path] = new_epw_path
+    @weather_epw_name = filename
 
     #TODO: 1. Prepare simulation configurations (IDFs, schedule:files, commands)
     # Need to automate this process, consider quick-check to adjust default plant loop, branches settings.
@@ -128,28 +138,28 @@ class DistrictSystemsController < ApplicationController
   end
 
 
-######################################################################################################################
-# Helper methods
-######################################################################################################################
+  ######################################################################################################################
+  # Helper methods
+  ######################################################################################################################
   def add_system_types()
     v_system_types = []
-    v_system_types.push([@@sys_type_1_name, @@sys_type_1_dev, @@sys_type_1_selected])
-    v_system_types.push([@@sys_type_2_name, @@sys_type_2_dev, @@sys_type_2_selected])
-    v_system_types.push([@@sys_type_3_name, @@sys_type_3_dev, @@sys_type_3_selected])
-    v_system_types.push([@@sys_type_4_name, @@sys_type_4_dev, @@sys_type_4_selected])
-    v_system_types.push([@@sys_type_5_name, @@sys_type_5_dev, @@sys_type_5_selected])
+    v_system_types.push([@@sys_type_1_name, @@sys_type_1_dev, @sys_type_1_selected])
+    v_system_types.push([@@sys_type_2_name, @@sys_type_2_dev, @sys_type_2_selected])
+    v_system_types.push([@@sys_type_3_name, @@sys_type_3_dev, @sys_type_3_selected])
+    v_system_types.push([@@sys_type_4_name, @@sys_type_4_dev, @sys_type_4_selected])
+    v_system_types.push([@@sys_type_5_name, @@sys_type_5_dev, @sys_type_5_selected])
     return v_system_types
   end
 
   def prepare_simulation(params)
     puts '#' * 100
     puts 'Preparing simulations...'
-    @@sys_type_1_selected = params[:district_system_config][:system_type_1] == '1' ? true : false
-    @@sys_type_2_selected = params[:district_system_config][:system_type_2] == '1' ? true : false
-    @@sys_type_3_selected = params[:district_system_config][:system_type_3] == '1' ? true : false
-    @@sys_type_4_selected = params[:district_system_config][:system_type_4] == '1' ? true : false
-    @@sys_type_5_selected = params[:district_system_config][:system_type_5] == '1' ? true : false
-    v_selections = [@@sys_type_1_selected, @@sys_type_2_selected, @@sys_type_3_selected, @@sys_type_4_selected, @@sys_type_5_selected]
+    @sys_type_1_selected = params[:district_system_config][:system_type_1] == '1' ? true : false
+    @sys_type_2_selected = params[:district_system_config][:system_type_2] == '1' ? true : false
+    @sys_type_3_selected = params[:district_system_config][:system_type_3] == '1' ? true : false
+    @sys_type_4_selected = params[:district_system_config][:system_type_4] == '1' ? true : false
+    @sys_type_5_selected = params[:district_system_config][:system_type_5] == '1' ? true : false
+    v_selections = [@sys_type_1_selected, @sys_type_2_selected, @sys_type_3_selected, @sys_type_4_selected, @sys_type_5_selected]
 
     uploaded_sch = session[:uploaded_file_path]
     uploaded_epw = session[:weather_epw_path]
@@ -179,35 +189,35 @@ class DistrictSystemsController < ApplicationController
 
       v_simulation_jobs = []
 
-      if @@sys_type_1_selected
+      if @sys_type_1_selected
         sys_1_idf = temp_run_path + @@sys_type_1_idf_name
         sys_1_run_dir = temp_run_path + 'sys_1'
         FileUtils.cp(@@dhc_template_path + @@sys_type_1_idf_name, sys_1_idf)
         idf_modifier(@@python_command, @@idf_modifier_py, sys_1_idf, run_epw_file, run_sch_file, @@idd_file_dir)
         v_simulation_jobs.push(create_simulation_job_hash(@@ep_exe, run_epw_file, sys_1_idf, sys_1_run_dir, @@sys_type_1_name))
       end
-      if @@sys_type_2_selected
+      if @sys_type_2_selected
         sys_2_idf = temp_run_path + @@sys_type_2_idf_name
         sys_2_run_dir = temp_run_path + 'sys_2'
         FileUtils.cp(@@dhc_template_path + @@sys_type_2_idf_name, sys_2_idf)
         idf_modifier(@@python_command, @@idf_modifier_py, sys_2_idf, run_epw_file, run_sch_file, @@idd_file_dir)
         v_simulation_jobs.push(create_simulation_job_hash(@@ep_exe, run_epw_file, sys_2_idf, sys_2_run_dir, @@sys_type_2_name))
       end
-      if @@sys_type_3_selected
+      if @sys_type_3_selected
         sys_3_idf = temp_run_path + @@sys_type_3_idf_name
         sys_3_run_dir = temp_run_path + 'sys_3'
         FileUtils.cp(@@dhc_template_path + @@sys_type_3_idf_name, sys_3_idf)
         idf_modifier(@@python_command, @@idf_modifier_py, sys_3_idf, run_epw_file, run_sch_file, @@idd_file_dir)
         v_simulation_jobs.push(create_simulation_job_hash(@@ep_exe, run_epw_file, sys_3_idf, sys_3_run_dir, @@sys_type_3_name))
       end
-      if @@sys_type_4_selected
+      if @sys_type_4_selected
         sys_4_idf = temp_run_path + @@sys_type_4_idf_name
         sys_4_run_dir = temp_run_path + 'sys_4'
         FileUtils.cp(@@dhc_template_path + @@sys_type_4_idf_name, sys_4_idf)
         idf_modifier(@@python_command, @@idf_modifier_py, sys_4_idf, run_epw_file, run_sch_file, @@idd_file_dir)
         v_simulation_jobs.push(create_simulation_job_hash(@@ep_exe, run_epw_file, sys_4_idf, sys_4_run_dir, @@sys_type_4_name))
       end
-      if @@sys_type_5_selected
+      if @sys_type_5_selected
         sys_5_idf = temp_run_path + @@sys_type_5_idf_name
         sys_5_run_dir = temp_run_path + 'sys_5'
         FileUtils.cp(@@dhc_template_path + @@sys_type_5_idf_name, sys_5_idf)
@@ -314,9 +324,9 @@ class DistrictSystemsController < ApplicationController
     tabs
   end
 
-######################################################################################################################
-# Methods may be useful in future
-######################################################################################################################
+  ######################################################################################################################
+  # Methods may be useful in future
+  ######################################################################################################################
   def new
     # Not needed for the stand-alone simulation function for now.
 

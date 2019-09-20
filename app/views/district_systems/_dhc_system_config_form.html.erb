@@ -19,7 +19,10 @@
 
     <p>2. Choose the weather file (epw) for simulation.</p>
     <div class="row pl-5">
-      <%= file_field_tag 'weather_epw', :required => true %>
+      <%= file_field_tag 'weather_epw' %>
+      <% if @weather_epw_name %>
+        <p>Uploaded filename: <%= @weather_epw_name %></p>
+      <% end %>
     </div>
 
     <div class="row pl-5 pt-5">
