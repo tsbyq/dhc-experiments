@@ -26,6 +26,11 @@ class DistrictSystemsController < ApplicationController
   @@sys_type_3_dev = false
   @@sys_type_4_dev = false
   @@sys_type_5_dev = true
+  @@sys_type_1_selected = false
+  @@sys_type_2_selected = false
+  @@sys_type_3_selected = false
+  @@sys_type_4_selected = false
+  @@sys_type_5_selected = false
 
   @@python_command = 'python' # Or full Python command path
   @@ep_exe = 'ep91' # Or full EnergyPlus executable path
@@ -92,6 +97,9 @@ class DistrictSystemsController < ApplicationController
     #TODO: 2. Call EnergyPlus simulation for the district heating and cooling systems.
     # A Python routine to call simulation in parallel is ready
     simulation_success = false
+
+    puts jobs_json_dir
+
     unless jobs_json_dir.nil?
       simulation_success = run_simulate(jobs_json_dir)
     end
@@ -125,23 +133,23 @@ class DistrictSystemsController < ApplicationController
 ######################################################################################################################
   def add_system_types()
     v_system_types = []
-    v_system_types.push([@@sys_type_1_name, @@sys_type_1_dev])
-    v_system_types.push([@@sys_type_2_name, @@sys_type_2_dev])
-    v_system_types.push([@@sys_type_3_name, @@sys_type_3_dev])
-    v_system_types.push([@@sys_type_4_name, @@sys_type_4_dev])
-    v_system_types.push([@@sys_type_5_name, @@sys_type_5_dev])
+    v_system_types.push([@@sys_type_1_name, @@sys_type_1_dev, @@sys_type_1_selected])
+    v_system_types.push([@@sys_type_2_name, @@sys_type_2_dev, @@sys_type_2_selected])
+    v_system_types.push([@@sys_type_3_name, @@sys_type_3_dev, @@sys_type_3_selected])
+    v_system_types.push([@@sys_type_4_name, @@sys_type_4_dev, @@sys_type_4_selected])
+    v_system_types.push([@@sys_type_5_name, @@sys_type_5_dev, @@sys_type_5_selected])
     return v_system_types
   end
 
   def prepare_simulation(params)
     puts '#' * 100
     puts 'Preparing simulations...'
-    selected_sys_type_1 = params[:district_system_config][:system_type_1]
-    selected_sys_type_2 = params[:district_system_config][:system_type_2]
-    selected_sys_type_3 = params[:district_system_config][:system_type_3]
-    selected_sys_type_4 = params[:district_system_config][:system_type_4]
-    selected_sys_type_5 = params[:district_system_config][:system_type_5]
-    v_selections = [selected_sys_type_1, selected_sys_type_2, selected_sys_type_3, selected_sys_type_4, selected_sys_type_5]
+    @@sys_type_1_selected = params[:district_system_config][:system_type_1] == '1' ? true : false
+    @@sys_type_2_selected = params[:district_system_config][:system_type_2] == '1' ? true : false
+    @@sys_type_3_selected = params[:district_system_config][:system_type_3] == '1' ? true : false
+    @@sys_type_4_selected = params[:district_system_config][:system_type_4] == '1' ? true : false
+    @@sys_type_5_selected = params[:district_system_config][:system_type_5] == '1' ? true : false
+    v_selections = [@@sys_type_1_selected, @@sys_type_2_selected, @@sys_type_3_selected, @@sys_type_4_selected, @@sys_type_5_selected]
 
     uploaded_sch = session[:uploaded_file_path]
     uploaded_epw = session[:weather_epw_path]
@@ -149,7 +157,7 @@ class DistrictSystemsController < ApplicationController
     puts uploaded_epw
     jobs_json_dir = nil
 
-    if v_selections.all? { |x| x == "0" }
+    if v_selections.all? { |x| x == false }
       @error_message[:error] = 'At least one system type should be selected for simulation.'
       @tabs = tab_control(false, true, false)
     elsif uploaded_sch.nil?
@@ -171,35 +179,35 @@ class DistrictSystemsController < ApplicationController
 
       v_simulation_jobs = []
 
-      if selected_sys_type_1 == '1'
+      if @@sys_type_1_selected
         sys_1_idf = temp_run_path + @@sys_type_1_idf_name
         sys_1_run_dir = temp_run_path + 'sys_1'
         FileUtils.cp(@@dhc_template_path + @@sys_type_1_idf_name, sys_1_idf)
         idf_modifier(@@python_command, @@idf_modifier_py, sys_1_idf, run_epw_file, run_sch_file, @@idd_file_dir)
         v_simulation_jobs.push(create_simulation_job_hash(@@ep_exe, run_epw_file, sys_1_idf, sys_1_run_dir, @@sys_type_1_name))
       end
-      if selected_sys_type_2 == '1'
+      if @@sys_type_2_selected
         sys_2_idf = temp_run_path + @@sys_type_2_idf_name
         sys_2_run_dir = temp_run_path + 'sys_2'
         FileUtils.cp(@@dhc_template_path + @@sys_type_2_idf_name, sys_2_idf)
         idf_modifier(@@python_command, @@idf_modifier_py, sys_2_idf, run_epw_file, run_sch_file, @@idd_file_dir)
         v_simulation_jobs.push(create_simulation_job_hash(@@ep_exe, run_epw_file, sys_2_idf, sys_2_run_dir, @@sys_type_2_name))
       end
-      if selected_sys_type_3 == '1'
+      if @@sys_type_3_selected
         sys_3_idf = temp_run_path + @@sys_type_3_idf_name
         sys_3_run_dir = temp_run_path + 'sys_3'
         FileUtils.cp(@@dhc_template_path + @@sys_type_3_idf_name, sys_3_idf)
         idf_modifier(@@python_command, @@idf_modifier_py, sys_3_idf, run_epw_file, run_sch_file, @@idd_file_dir)
         v_simulation_jobs.push(create_simulation_job_hash(@@ep_exe, run_epw_file, sys_3_idf, sys_3_run_dir, @@sys_type_3_name))
       end
-      if selected_sys_type_4 == '1'
+      if @@sys_type_4_selected
         sys_4_idf = temp_run_path + @@sys_type_4_idf_name
         sys_4_run_dir = temp_run_path + 'sys_4'
         FileUtils.cp(@@dhc_template_path + @@sys_type_4_idf_name, sys_4_idf)
         idf_modifier(@@python_command, @@idf_modifier_py, sys_4_idf, run_epw_file, run_sch_file, @@idd_file_dir)
         v_simulation_jobs.push(create_simulation_job_hash(@@ep_exe, run_epw_file, sys_4_idf, sys_4_run_dir, @@sys_type_4_name))
       end
-      if selected_sys_type_5 == '1'
+      if @@sys_type_5_selected
         sys_5_idf = temp_run_path + @@sys_type_5_idf_name
         sys_5_run_dir = temp_run_path + 'sys_5'
         FileUtils.cp(@@dhc_template_path + @@sys_type_5_idf_name, sys_5_idf)
