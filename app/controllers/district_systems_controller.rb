@@ -129,7 +129,6 @@ class DistrictSystemsController < ApplicationController
     end
 
     @v_results = v_results
-
     # TODO: Set conditions
 
     @tabs = tab_control(false, false, true)

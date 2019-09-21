@@ -18,6 +18,7 @@ function uploadLoadsProfile() {
 
     if (!window.FileReader) return;
     var fileUpload = document.getElementById("load_profile_csv");
+    // var fileUpload = gon.uploaded_csv;
     var loadProfileFile = fileUpload.files[0];
 
     if (loadProfileFile != null && loadProfileFile.name != null) {
