@@ -50,37 +50,31 @@
           <canvas id="canvas"></canvas>
         </div>
         <script>
-            var eew = <%=@system_types.inspect.html_safe %>;
             var v_results = JSON.parse('<%= @v_reaults_js%>');
-            console.log(v_results);
-            alert(typeof v_results);
 
+            var sys_labels = [];
+            var sys_electricity_consumption = [];
+            var sys_natural_gas_consumption = [];
+
+            v_results.forEach(function (sys_result, index) {
+                sys_labels.push(sys_result['sys_type']);
+                sys_electricity_consumption.push(sys_result['annual electricity']);
+                sys_natural_gas_consumption.push(sys_result['annual gas']);
+            });
 
             var barChartData = {
-                // labesl: system_labels,
-                labels: ['Baseline', 'System Type 1', 'System Type 2', 'System Type 3', 'System Type 4'],
+                labels: sys_labels,
+                // labels: ['Baseline', 'System Type 1', 'System Type 2', 'System Type 3', 'System Type 4'],
                 datasets: [{
                     label: 'Annual Electricity Consumption (kWh)',
                     backgroundColor: window.chartColors.blue,
                     yAxisID: 'y-axis-1',
-                    data: [
-                        30,
-                        40,
-                        50,
-                        40,
-                        30,
-                    ]
+                    data: sys_electricity_consumption,
                 }, {
                     label: 'Annual Natural Gas Consumption (kBTU)',
                     backgroundColor: window.chartColors.grey,
                     yAxisID: 'y-axis-2',
-                    data: [
-                        50,
-                        40,
-                        30,
-                        40,
-                        50,
-                    ]
+                    data: sys_natural_gas_consumption,
                 }]
 
             };
@@ -126,7 +120,6 @@
             };
 
         </script>
-
 
       </div>
     </div>
