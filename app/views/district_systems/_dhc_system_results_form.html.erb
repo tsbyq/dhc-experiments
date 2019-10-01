@@ -41,95 +41,93 @@
     </div>
 
     <hr>
+    <%#= render 'dhc_system_results_form' %>
+
     <div class="row">
       <div class="col-md-12">
         <h3>simulation results charts showing here.</h3>
-        <% if @weather_epw_name %>
-          <div style="width: 100%">
-            <canvas id="canvas"></canvas>
-          </div>
+        <div style="width: 100%">
+          <canvas id="canvas"></canvas>
+        </div>
+        <script>
+            var eew = <%=@system_types.inspect.html_safe %>;
+            var v_results = JSON.parse('<%= @v_reaults_js%>');
+            console.log(v_results);
+            alert(typeof v_results);
 
-          <script>
-              var eew = <%=@system_types.inspect.html_safe %>;
-              var barChartData = {
-                  labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-                  datasets: [{
-                      label: 'Dataset 1',
-                      backgroundColor: window.chartColors.red,
-                      data: [
-                          randomScalingFactor(),
-                          randomScalingFactor(),
-                          randomScalingFactor(),
-                          randomScalingFactor(),
-                          randomScalingFactor(),
-                          randomScalingFactor(),
-                          randomScalingFactor()
-                      ]
-                  }, {
-                      label: 'Dataset 2',
-                      backgroundColor: window.chartColors.blue,
-                      data: [
-                          randomScalingFactor(),
-                          randomScalingFactor(),
-                          randomScalingFactor(),
-                          randomScalingFactor(),
-                          randomScalingFactor(),
-                          randomScalingFactor(),
-                          randomScalingFactor()
-                      ]
-                  }, {
-                      label: 'Dataset 3',
-                      backgroundColor: window.chartColors.green,
-                      data: [
-                          randomScalingFactor(),
-                          randomScalingFactor(),
-                          randomScalingFactor(),
-                          randomScalingFactor(),
-                          randomScalingFactor(),
-                          randomScalingFactor(),
-                          randomScalingFactor()
-                      ]
-                  }]
 
-              };
-              window.onload = function () {
-                  var ctx = document.getElementById('canvas').getContext('2d');
-                  window.myBar = new Chart(ctx, {
-                      type: 'bar',
-                      data: barChartData,
-                      options: {
-                          title: {
-                              display: true,
-                              text: 'Chart.js Bar Chart - Stacked'
-                          },
-                          tooltips: {
-                              mode: 'index',
-                              intersect: false
-                          },
-                          responsive: true,
-                          scales: {
-                              xAxes: [{
-                                  stacked: true,
-                              }],
-                              yAxes: [{
-                                  stacked: true
-                              }]
-                          }
-                      }
-                  });
-              };
+            var barChartData = {
+                // labesl: system_labels,
+                labels: ['Baseline', 'System Type 1', 'System Type 2', 'System Type 3', 'System Type 4'],
+                datasets: [{
+                    label: 'Annual Electricity Consumption (kWh)',
+                    backgroundColor: window.chartColors.blue,
+                    yAxisID: 'y-axis-1',
+                    data: [
+                        30,
+                        40,
+                        50,
+                        40,
+                        30,
+                    ]
+                }, {
+                    label: 'Annual Natural Gas Consumption (kBTU)',
+                    backgroundColor: window.chartColors.grey,
+                    yAxisID: 'y-axis-2',
+                    data: [
+                        50,
+                        40,
+                        30,
+                        40,
+                        50,
+                    ]
+                }]
 
-              document.getElementById('randomizeData').addEventListener('click', function () {
-                  barChartData.datasets.forEach(function (dataset) {
-                      dataset.data = dataset.data.map(function () {
-                          return randomScalingFactor();
-                      });
-                  });
-                  window.myBar.update();
-              });
-          </script>
+            };
+            window.onload = function () {
+                var ctx = document.getElementById('canvas').getContext('2d');
+                window.myBar = new Chart(ctx, {
+                    type: 'bar',
+                    data: barChartData,
+                    options: {
+                        responsive: true,
+                        title: {
+                            display: true,
+                            text: 'Energy Consumption Comparison'
+                        },
+                        tooltips: {
+                            mode: 'index',
+                            intersect: true
+                        },
+                        scales: {
+                            yAxes: [{
+                                type: 'linear', // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
+                                display: true,
+                                position: 'left',
+                                id: 'y-axis-1',
+                                ticks: {
+                                    beginAtZero: true
+                                },
+                            }, {
+                                type: 'linear', // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
+                                display: true,
+                                position: 'right',
+                                id: 'y-axis-2',
+                                ticks: {
+                                    beginAtZero: true
+                                },
+                                gridLines: {
+                                    drawOnChartArea: false
+                                }
+                            }],
+                        }
+                    }
+                });
+            };
 
-        <% end %>
+        </script>
+
+
       </div>
     </div>
 

@@ -129,6 +129,8 @@ class DistrictSystemsController < ApplicationController
     end
 
     @v_results = v_results
+    @v_reaults_js = v_results.to_json.html_safe
+    puts @v_reaults_js
     # TODO: Set conditions
 
     @tabs = tab_control(false, false, true)
