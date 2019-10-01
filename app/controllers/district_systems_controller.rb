@@ -34,7 +34,6 @@ class DistrictSystemsController < ApplicationController
   @@sys_type_4_dev = false
   @@sys_type_5_dev = true
 
-
   # Instance variables
   @sys_type_1_selected = false
   @sys_type_2_selected = false
@@ -81,10 +80,14 @@ class DistrictSystemsController < ApplicationController
     FileUtils.cp(old_file_path, new_file_path) if File.exist?(old_file_path)
     session[:uploaded_file_path] = new_file_path
     @system_types = add_system_types
+
+    read_upload_csv(new_file_path)
+
     render "index"
   end
 
   def simulate(params)
+    puts '----------------------------------------=============================1111111111111'
     puts '---> Entering Simulate method...'
     @tabs = tab_control(false, true, false)
 
@@ -121,6 +124,12 @@ class DistrictSystemsController < ApplicationController
     puts "Simulations are done in: #{jobs_json_hash['run dir']}"
 
     v_results = []
+    base_out_hash = {
+        "sys_type" => 'Baseline',
+        "annual electricity" => session[:base_annual_ele_consumption],
+        "annual gas" => session[:base_annual_gas_consumption],
+    }
+    v_results.push(base_out_hash)
     jobs_json_hash['jobs'].each do |job|
       job_out_csv = job['run_dir'] + '/eplusout.csv'
       out_hash = read_eplus_output(job_out_csv)
@@ -137,7 +146,6 @@ class DistrictSystemsController < ApplicationController
     @system_types = add_system_types
     render "index" # TODO: figure out how to set active tab in the view.
   end
-
 
   ######################################################################################################################
   # Helper methods
@@ -268,6 +276,40 @@ class DistrictSystemsController < ApplicationController
         "sys_type" => sys_type,
     }
     return job_hash
+  end
+
+  def read_upload_csv(csv_path)
+    v_time = []
+    v_ele_consumption = []
+    v_gas_consumption = []
+    v_heating_demand = []
+    v_cooling_demand = []
+
+    CSV.foreach(csv_path).with_index do |row, i|
+      next if i == 0
+      datetime, heat_demand, cool_demand, ele_consumption, gas_consumption, new_date_time = row
+      v_time << new_date_time
+      v_ele_consumption << ele_consumption.to_f
+      v_gas_consumption << gas_consumption.to_f
+      v_heating_demand << heat_demand.to_f
+      v_cooling_demand << cool_demand.to_f
+    end
+
+    peak_heating_demand = v_heating_demand.max
+    peak_cooling_demand = v_cooling_demand.min
+    peak_ele_consumption = v_ele_consumption.max
+    peak_gas_consumption = v_gas_consumption.max
+
+    peak_heating_demand_timestamp = v_time[v_heating_demand.index(peak_heating_demand)]
+    peak_cooling_demand_timestamp = v_time[v_cooling_demand.index(peak_cooling_demand)]
+    peak_ele_consumption_timestamp = v_time[v_ele_consumption.index(peak_ele_consumption)]
+    peak_gas_consumption_timestamp = v_time[v_gas_consumption.index(peak_gas_consumption)]
+
+    annual_ele_consumption = v_ele_consumption.sum
+    annual_gas_consumption = v_gas_consumption.sum
+    session[:base_annual_ele_consumption] = annual_ele_consumption
+    session[:base_annual_gas_consumption] = annual_gas_consumption
+
   end
 
   def read_eplus_output(eplusout_dir)

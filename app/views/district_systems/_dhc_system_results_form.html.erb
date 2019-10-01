@@ -51,7 +51,6 @@
         </div>
         <script>
             var v_results = JSON.parse('<%= @v_reaults_js%>');
-
             var sys_labels = [];
             var sys_electricity_consumption = [];
             var sys_natural_gas_consumption = [];
@@ -67,12 +66,12 @@
                 // labels: ['Baseline', 'System Type 1', 'System Type 2', 'System Type 3', 'System Type 4'],
                 datasets: [{
                     label: 'Annual Electricity Consumption (kWh)',
-                    backgroundColor: window.chartColors.blue,
+                    backgroundColor: '#166a8f',
                     yAxisID: 'y-axis-1',
                     data: sys_electricity_consumption,
                 }, {
                     label: 'Annual Natural Gas Consumption (kBTU)',
-                    backgroundColor: window.chartColors.grey,
+                    backgroundColor: '#f67019',
                     yAxisID: 'y-axis-2',
                     data: sys_natural_gas_consumption,
                 }]
