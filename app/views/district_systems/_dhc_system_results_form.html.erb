@@ -1,16 +1,6 @@
 <div class="container border border-secondary">
-  <p>
-    <% if @simulation_results.nil? or @simulation_results.empty? %>
-      No Simulation results yet.
-    <div id="results_charts_div">
-
-      <div class="row">
-        <div class="col-md-12">
-          <div id="dummy_bar_viz_container" style="width:100%; height:auto;"></div>
-        </div>
-      </div>
-
-    </div>
+  <% if @simulation_results.nil? or @simulation_results.empty? %>
+    No Simulation results yet.
   <% else %>
     <h4 class="pt-3 pb-3">Simulation results will be shown on this tab.</h4>
     <div class="row">
@@ -48,7 +38,99 @@
         </table>
         <p>* Annual results</p>
       </div>
+    </div>
 
+    <hr>
+    <div class="row">
+      <div class="col-md-12">
+        <h3>simulation results charts showing here.</h3>
+        <% if @weather_epw_name %>
+          <div style="width: 100%">
+            <canvas id="canvas"></canvas>
+          </div>
+
+          <script>
+              var eew = <%=@system_types.inspect.html_safe %>;
+              var barChartData = {
+                  labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+                  datasets: [{
+                      label: 'Dataset 1',
+                      backgroundColor: window.chartColors.red,
+                      data: [
+                          randomScalingFactor(),
+                          randomScalingFactor(),
+                          randomScalingFactor(),
+                          randomScalingFactor(),
+                          randomScalingFactor(),
+                          randomScalingFactor(),
+                          randomScalingFactor()
+                      ]
+                  }, {
+                      label: 'Dataset 2',
+                      backgroundColor: window.chartColors.blue,
+                      data: [
+                          randomScalingFactor(),
+                          randomScalingFactor(),
+                          randomScalingFactor(),
+                          randomScalingFactor(),
+                          randomScalingFactor(),
+                          randomScalingFactor(),
+                          randomScalingFactor()
+                      ]
+                  }, {
+                      label: 'Dataset 3',
+                      backgroundColor: window.chartColors.green,
+                      data: [
+                          randomScalingFactor(),
+                          randomScalingFactor(),
+                          randomScalingFactor(),
+                          randomScalingFactor(),
+                          randomScalingFactor(),
+                          randomScalingFactor(),
+                          randomScalingFactor()
+                      ]
+                  }]
+
+              };
+              window.onload = function () {
+                  var ctx = document.getElementById('canvas').getContext('2d');
+                  window.myBar = new Chart(ctx, {
+                      type: 'bar',
+                      data: barChartData,
+                      options: {
+                          title: {
+                              display: true,
+                              text: 'Chart.js Bar Chart - Stacked'
+                          },
+                          tooltips: {
+                              mode: 'index',
+                              intersect: false
+                          },
+                          responsive: true,
+                          scales: {
+                              xAxes: [{
+                                  stacked: true,
+                              }],
+                              yAxes: [{
+                                  stacked: true
+                              }]
+                          }
+                      }
+                  });
+              };
+
+              document.getElementById('randomizeData').addEventListener('click', function () {
+                  barChartData.datasets.forEach(function (dataset) {
+                      dataset.data = dataset.data.map(function () {
+                          return randomScalingFactor();
+                      });
+                  });
+                  window.myBar.update();
+              });
+          </script>
+
+        <% end %>
+      </div>
     </div>
 
   <% end %>
