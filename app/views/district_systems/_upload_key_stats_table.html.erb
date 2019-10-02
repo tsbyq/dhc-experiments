@@ -1,0 +1,57 @@
+<div class="row" id="key_stats_table" style="display: block">
+  <div class="col-md-12">
+    <h4>Key statistics</h4>
+    <table class="table table-bordered table-hover text-center">
+      <thead>
+      <tr>
+        <th class="text-center" style="width: 35%"></th>
+        <th class="text-center" style="width: 15%">Peak</th>
+        <th class="text-center" style="width: 20%">Peak Time</th>
+        <th class="text-center" style="width: 15%">Intensity</th>
+        <th class="text-center" style="width: 15%">Diversity <sup>[1]</sup></th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <td class="text-right"><b>Heating Demand</b></td>
+        <td id="peak_heating_demand"><%= hash_key_stats['peak heating demand'] %></td>
+        <td id="peak_heating_demand_time"><%= hash_key_stats['peak heating demand time'] %></td>
+        <td id="peak_heating_demand_intensity"><%= hash_key_stats['heating demand intensity'] %></td>
+        <td id="annual_heating_demand_diversity"><%= hash_key_stats['heating demand diversity'] %></td>
+      </tr>
+      <tr>
+        <td class="text-right"><b>Cooling Demand</b></td>
+        <td id="peak_cooling_demand"><%= hash_key_stats['peak cooling demand'] %></td>
+        <td id="peak_cooling_demand_time"><%= hash_key_stats['peak cooling demand time'] %></td>
+        <td id="peak_cooling_demand_intensity"><%= hash_key_stats['cooling demand intensity'] %></td>
+        <td id="annual_cooling_demand_diversity"><%= hash_key_stats['cooling demand diversity'] %></td>
+      </tr>
+      <tr>
+        <td class="text-right"><b>Simultaneous Heating & Cooling Demand</b></td>
+        <td id="peak_heating_cooling_demand"><%= hash_key_stats['peak sim heating and cooling demand'] %></td>
+        <td id="peak_heating_cooling_demand_time"><%= hash_key_stats['peak sim heating and cooling demand time'] %></td>
+        <td id="peak_heating_cooling_demand_intensity"><%= hash_key_stats['sim heating and cooling demand intensity'] %></td>
+        <td id="annual_heating_cooling_demand_diversity"><%= hash_key_stats['sim heating and cooling demand diversity'] %></td>
+      </tr>
+      <tr>
+        <td class="text-right"><b>Electricity Consumption</b></td>
+        <td id="peak_electricity_consumption"><%= hash_key_stats['peak electricity consumption'] %></td>
+        <td id="peak_electricity_consumption_time"><%= hash_key_stats['peak electricity consumption time'] %></td>
+        <td id="annual_electricity_consumption_intensity"><%= hash_key_stats['ele consumption intensity'] %></td>
+        <td id="annual_electricity_consumption_diversity"><%= hash_key_stats['ele consumption diversity'] %></td>
+      </tr>
+      <tr>
+        <td class="text-right"><b>Natural Consumption</b></td>
+        <td id="peak_ng_consumption"><%= hash_key_stats['peak natural gas consumption'] %></td>
+        <td id="peak_ng_consumption_time"><%= hash_key_stats['peak natural gas consumption time'] %></td>
+        <td id="annual_ng_consumption_intensity"><%= hash_key_stats['gas consumption intensity'] %></td>
+        <td id="annual_ng_consumption_diversity"><%= hash_key_stats['gas consumption diversity'] %></td>
+      </tr>
+      <tr>
+        <td class="text-right"><b>Annual Heat Recovery Potential</b></td>
+        <td id="annual_heat_recovery_potential" colspan="4"></td>
+      </tr>
+    </table>
+    <p><a href="https://en.wikipedia.org/wiki/Diversity_index#Simpson_index">[1] Simpson's diversity index</a></p>
+  </div>
+</div>
