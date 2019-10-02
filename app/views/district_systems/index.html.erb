@@ -1,5 +1,29 @@
 <h1 class="text-center">This is the main page of the district systems feature.</h1>
 
+
+<div class="container text-center">
+  <br>
+  Test key stats rendering
+  <div class="col border border-primary">
+    <div class="col">
+      Instance variable approach
+      <% if @hash_key_stats.nil? %>
+        <br>
+        NIL
+      <% else %>
+        <%= @hash_key_stats %>
+      <% end %>
+    </div>
+    Local variable approach
+    <br>
+    <% if defined?(hash_key_stats) %>
+      <%= hash_key_stats %>
+    <% end %>
+  </div>
+</div>
+
+
+
 <div class="container pt-5">
   <ul class="nav nav-tabs" id="myTab" role="tablist">
     <li class="nav-item">

@@ -41,7 +41,6 @@ class DistrictSystemsController < ApplicationController
   @sys_type_4_selected = false
   @sys_type_5_selected = false
 
-
   def J_to_kWh(joule_value)
     joule_value / 3600000
   end
@@ -56,6 +55,9 @@ class DistrictSystemsController < ApplicationController
     @error_message = {}
     @tabs = tab_control(true, false, false)
     @system_types = add_system_types
+    # @hash_key_stats = session[:hash_key_stats]
+
+    # redirect_to :back
   end
 
   def dispatcher
@@ -81,9 +83,19 @@ class DistrictSystemsController < ApplicationController
     session[:uploaded_file_path] = new_file_path
     @system_types = add_system_types
 
-    read_upload_csv(new_file_path)
+    @hash_key_stats = read_upload_csv(new_file_path)
 
-    render "index"
+    puts '*' * 90
+    puts 'Key stats are:'
+    puts @hash_key_stats
+    puts '*' * 90
+
+    @hash_key_stats = 2
+    puts 'we set key stats to 2 !!!!!'
+    session[:hash_key_stats] = @hash_key_stats
+
+    render "index_upload_loadprofile_form", :locals => {:hash_key_stats => session[:hash_key_stats]}
+    # redirect_to :action => "index", :locals => {:hash_key_stats => 'New text'}
   end
 
   def simulate(params)
@@ -93,7 +105,6 @@ class DistrictSystemsController < ApplicationController
 
     # Check if a epw file is available, show error message if none exists.
     old_epw_path = params[:weather_epw].path
-    # puts params[:weather_epw]
 
 
     filename = params[:weather_epw].original_filename
@@ -138,13 +149,13 @@ class DistrictSystemsController < ApplicationController
     end
 
     @v_results = v_results
-    @v_reaults_js = v_results.to_json.html_safe
-    puts @v_reaults_js
+    @v_results_js = v_results.to_json.html_safe
+    puts @v_results_js
     # TODO: Set conditions
 
     @tabs = tab_control(false, false, true)
     @system_types = add_system_types
-    render "index" # TODO: figure out how to set active tab in the view.
+    render "index"
   end
 
   ######################################################################################################################
@@ -284,6 +295,7 @@ class DistrictSystemsController < ApplicationController
     v_gas_consumption = []
     v_heating_demand = []
     v_cooling_demand = []
+    v_sim_heating_cooling_demand = []
 
     CSV.foreach(csv_path).with_index do |row, i|
       next if i == 0
@@ -293,23 +305,68 @@ class DistrictSystemsController < ApplicationController
       v_gas_consumption << gas_consumption.to_f
       v_heating_demand << heat_demand.to_f
       v_cooling_demand << cool_demand.to_f
+      v_sim_heating_cooling_demand << [heat_demand.to_f, heat_demand.to_f.abs].min
     end
-
-    peak_heating_demand = v_heating_demand.max
-    peak_cooling_demand = v_cooling_demand.min
-    peak_ele_consumption = v_ele_consumption.max
-    peak_gas_consumption = v_gas_consumption.max
-
-    peak_heating_demand_timestamp = v_time[v_heating_demand.index(peak_heating_demand)]
-    peak_cooling_demand_timestamp = v_time[v_cooling_demand.index(peak_cooling_demand)]
-    peak_ele_consumption_timestamp = v_time[v_ele_consumption.index(peak_ele_consumption)]
-    peak_gas_consumption_timestamp = v_time[v_gas_consumption.index(peak_gas_consumption)]
 
     annual_ele_consumption = v_ele_consumption.sum
     annual_gas_consumption = v_gas_consumption.sum
     session[:base_annual_ele_consumption] = annual_ele_consumption
     session[:base_annual_gas_consumption] = annual_gas_consumption
 
+    peak_heating_demand = v_heating_demand.max
+    peak_cooling_demand = v_cooling_demand.min
+    peak_sim_heating_cooling_demand = v_sim_heating_cooling_demand.max
+    peak_ele_consumption = v_ele_consumption.max
+    peak_gas_consumption = v_gas_consumption.max
+
+    peak_heating_demand_timestamp = v_time[v_heating_demand.index(peak_heating_demand)]
+    peak_cooling_demand_timestamp = v_time[v_cooling_demand.index(peak_cooling_demand)]
+    peak_sim_heating_cooling_demand_timestamp = v_time[v_sim_heating_cooling_demand.index(peak_sim_heating_cooling_demand)]
+    peak_ele_consumption_timestamp = v_time[v_ele_consumption.index(peak_ele_consumption)]
+    peak_gas_consumption_timestamp = v_time[v_gas_consumption.index(peak_gas_consumption)]
+
+    heating_demand_diversity = 1
+    cooling_demand_diversity = 1
+    sim_heating_cooling_demand_diversity = 1
+    ele_consumption_diversity = 1
+    gas_consumption_diversity = 1
+
+    heating_demand_intensity = 1
+    cooling_demand_intensity = 1
+    sim_heating_cooling_demand_intensity = 1
+    ele_consumption_intensity = 1
+    gas_consumption_intensity = 1
+
+    hash_key_stats = {
+        "annual electricity consumption" => annual_ele_consumption,
+        "annual natural_gas consumption" => annual_gas_consumption,
+
+        "peak heating demand" => peak_heating_demand,
+        "peak cooling demand" => peak_cooling_demand,
+        "peak sim heating and cooling demand" => peak_sim_heating_cooling_demand_timestamp,
+        "peak electricity consumption" => peak_ele_consumption,
+        "peak natural_gas consumption" => peak_gas_consumption,
+
+        "peak heating demand time" => peak_heating_demand_timestamp,
+        "peak cooling demand time" => peak_cooling_demand_timestamp,
+        "peak sim heating and cooling demand time" => peak_sim_heating_cooling_demand_timestamp,
+        "peak electricity consumption time" => peak_ele_consumption_timestamp,
+        "peak natural_gas consumption time" => peak_gas_consumption_timestamp,
+
+        "heating demand intensity" => heating_demand_intensity,
+        "cooling demand intensity" => cooling_demand_intensity,
+        "sim heating cooling demand intensity" => sim_heating_cooling_demand_intensity,
+        "ele consumption intensity" => ele_consumption_intensity,
+        "gas consumption intensity" => gas_consumption_intensity,
+
+        "heating demand diversity" => heating_demand_diversity,
+        "cooling demand diversity" => cooling_demand_diversity,
+        "sim heating cooling demand diversity" => sim_heating_cooling_demand_diversity,
+        "ele consumption diversity" => ele_consumption_diversity,
+        "gas consumption diversity" => gas_consumption_diversity,
+    }
+
+    hash_key_stats
   end
 
   def read_eplus_output(eplusout_dir)

@@ -10,10 +10,6 @@
     </div>
   <% end %>
 
-  <div class="text-center border border-secondary">
-    TEST DIV
-  </div>
-
   <div id="loadshape_viz_div">
     <div class="row">
       <div class="col-md-12">
@@ -43,62 +39,67 @@
       </div>
     </div>
 
-    <div class="row" id="key_stats_table" style="display: none">
-      <div class="col-md-12">
-        <table class="table table-bordered table-hover text-center">
-          <thead>
-          <tr>
-            <th class="text-center" style="width: 35%"></th>
-            <th class="text-center" style="width: 15%">Peak</th>
-            <th class="text-center" style="width: 20%">Peak Time</th>
-            <th class="text-center" style="width: 15%">Intensity</th>
-            <th class="text-center" style="width: 15%">Diversity <sup>[1]</sup></th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr>
-            <td class="text-right"><b>Heating Demand</b></td>
-            <td id="peak_heating_demand"></td>
-            <td id="peak_heating_demand_time"></td>
-            <td id="peak_heating_demand_intensity"></td>
-            <td id="annual_heating_demand_diversity"></td>
-          </tr>
-          <tr>
-            <td class="text-right"><b>Cooling Demand</b></td>
-            <td id="peak_cooling_demand"></td>
-            <td id="peak_cooling_demand_time"></td>
-            <td id="peak_cooling_demand_intensity"></td>
-            <td id="annual_cooling_demand_diversity"></td>
-          </tr>
-          <tr>
-            <td class="text-right"><b>Simultaneous Heating & Cooling Demand</b></td>
-            <td id="peak_heating_cooling_demand"></td>
-            <td id="peak_heating_cooling_demand_time"></td>
-            <td id="peak_heating_cooling_demand_intensity"></td>
-            <td id="annual_heating_cooling_demand_diversity"></td>
-          </tr>
-          <tr>
-            <td class="text-right"><b>Electricity Consumption</b></td>
-            <td id="peak_electricity_consumption"></td>
-            <td id="peak_electricity_consumption_time"></td>
-            <td id="annual_electricity_consumption_intensity"></td>
-            <td id="annual_electricity_consumption_diversity"></td>
-          </tr>
-          <tr>
-            <td class="text-right"><b>Natural Consumption</b></td>
-            <td id="peak_ng_consumption"></td>
-            <td id="peak_ng_consumption_time"></td>
-            <td id="annual_ng_consumption_intensity"></td>
-            <td id="annual_ng_consumption_diversity"></td>
-          </tr>
-          <tr>
-            <td class="text-right"><b>Annual Heat Recovery Potential</b></td>
-            <td id="annual_heat_recovery_potential" colspan="4"></td>
-          </tr>
-        </table>
-        <p><a href="https://en.wikipedia.org/wiki/Diversity_index#Simpson_index">[1] Simpson's diversity index</a></p>
+    <% if @hash_key_stats.nil? %>
+      NIL
+    <% else %>
+      <div class="row" id="key_stats_table" style="display: none">
+        <div class="col-md-12">
+          <table class="table table-bordered table-hover text-center">
+            <thead>
+            <tr>
+              <th class="text-center" style="width: 35%"></th>
+              <th class="text-center" style="width: 15%">Peak</th>
+              <th class="text-center" style="width: 20%">Peak Time</th>
+              <th class="text-center" style="width: 15%">Intensity</th>
+              <th class="text-center" style="width: 15%">Diversity <sup>[1]</sup></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+              <td class="text-right"><b>Heating Demand</b></td>
+              <td id="peak_heating_demand"></td>
+              <td id="peak_heating_demand_time"></td>
+              <td id="peak_heating_demand_intensity"></td>
+              <td id="annual_heating_demand_diversity"></td>
+            </tr>
+            <tr>
+              <td class="text-right"><b>Cooling Demand</b></td>
+              <td id="peak_cooling_demand"></td>
+              <td id="peak_cooling_demand_time"></td>
+              <td id="peak_cooling_demand_intensity"></td>
+              <td id="annual_cooling_demand_diversity"></td>
+            </tr>
+            <tr>
+              <td class="text-right"><b>Simultaneous Heating & Cooling Demand</b></td>
+              <td id="peak_heating_cooling_demand"></td>
+              <td id="peak_heating_cooling_demand_time"></td>
+              <td id="peak_heating_cooling_demand_intensity"></td>
+              <td id="annual_heating_cooling_demand_diversity"></td>
+            </tr>
+            <tr>
+              <td class="text-right"><b>Electricity Consumption</b></td>
+              <td id="peak_electricity_consumption"></td>
+              <td id="peak_electricity_consumption_time"></td>
+              <td id="annual_electricity_consumption_intensity"></td>
+              <td id="annual_electricity_consumption_diversity"></td>
+            </tr>
+            <tr>
+              <td class="text-right"><b>Natural Consumption</b></td>
+              <td id="peak_ng_consumption"></td>
+              <td id="peak_ng_consumption_time"></td>
+              <td id="annual_ng_consumption_intensity"></td>
+              <td id="annual_ng_consumption_diversity"></td>
+            </tr>
+            <tr>
+              <td class="text-right"><b>Annual Heat Recovery Potential</b></td>
+              <td id="annual_heat_recovery_potential" colspan="4"></td>
+            </tr>
+          </table>
+          <p><a href="https://en.wikipedia.org/wiki/Diversity_index#Simpson_index">[1] Simpson's diversity index</a></p>
+        </div>
       </div>
-    </div>
+    <% end %>
+
 
   </div>
 </div>
