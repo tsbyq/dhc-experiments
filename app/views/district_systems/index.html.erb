@@ -1,14 +1,14 @@
 <h1 class="text-center">This is the main page of the district systems feature.</h1>
 
 
-<div class="container text-center">
+<div class="container text-center" style="display: none">
   <br>
   Test key stats rendering
   <div class="col border border-primary">
     <div class="col">
       Instance variable approach
+      <br>
       <% if @hash_key_stats.nil? %>
-        <br>
         NIL
       <% else %>
         <%= @hash_key_stats %>
@@ -21,7 +21,6 @@
     <% end %>
   </div>
 </div>
-
 
 
 <div class="container pt-5">

@@ -157,59 +157,56 @@ this.simpsonDiversity = function (arr, chunkSize = 200) {
 this.calculateKeyStats = function () {
     // This function calculate the key statistics for the district heating and cooling demand profiles.
 
-    // console.log('Calculating key statistics...');
-    //
-    // var peak_heating_demand = Math.max.apply(null, self.v_heating_demand);
-    // var peak_heating_demand_time = new Date(self.v_timestamps[self.v_heating_demand.indexOf(peak_heating_demand)]); // to date time string
-    // var peak_heating_demand_intensity = 0;
-    // var annual_heating_demand_diversity = self.simpsonDiversity(self.v_heating_demand);
-    //
-    // var peak_cooling_demand = Math.min.apply(null, self.v_cooling_demand);
-    // var peak_cooling_demand_time = new Date(self.v_timestamps[self.v_cooling_demand.indexOf(peak_cooling_demand)]);
-    // var peak_cooling_demand_intensity = 0;
-    // var annual_cooling_demand_diversity = self.simpsonDiversity(self.v_cooling_demand);
-    //
-    // var peak_heating_cooling_demand = Math.max.apply(null, self.v_simultaneous_demand);
-    // var peak_heating_cooling_demand_time = new Date(self.v_timestamps[self.v_simultaneous_demand.indexOf(peak_heating_cooling_demand)]);
-    // var peak_heating_cooling_demand_intensity = 0;
-    // var annual_heating_cooling_demand_diversity = self.simpsonDiversity(self.v_simultaneous_demand);
-    //
-    // var peak_electricity_consumption = Math.max.apply(null, self.v_electricity_consumption);
-    // var peak_electricity_consumption_time = new Date(self.v_timestamps[self.v_electricity_consumption.indexOf(peak_electricity_consumption)]);
-    // var annual_electricity_consumption_intensity = 0;
-    // var annual_electricity_consumption_diversity = self.simpsonDiversity(self.v_electricity_consumption);
-    //
-    // var peak_ng_consumption = Math.max.apply(null, self.v_gas_consumption);
-    // var peak_ng_consumption_time = new Date(self.v_timestamps[self.v_gas_consumption.indexOf(peak_ng_consumption)]);
-    // var annual_ng_consumption_intensity = 0;
-    // var annual_ng_consumption_diversity = self.simpsonDiversity(self.v_gas_consumption);
-    // var annual_heat_recovery_potential = Math.abs(arrSum(self.v_simultaneous_demand));
-    //
-    // document.getElementById("peak_heating_demand").innerHTML = peak_heating_demand.toLocaleString() + " W";
-    // document.getElementById("peak_heating_demand_time").innerHTML = peak_heating_demand_time.toLocaleString();
-    // document.getElementById("peak_heating_demand_intensity").innerHTML = peak_heating_demand_intensity.toLocaleString() + " kW/(sqm)";
-    // document.getElementById("annual_heating_demand_diversity").innerHTML = annual_heating_demand_diversity.toLocaleString() + " %";
-    // document.getElementById("peak_cooling_demand").innerHTML = peak_cooling_demand.toLocaleString() + " W";
-    // document.getElementById("peak_cooling_demand_time").innerHTML = peak_cooling_demand_time.toLocaleString();
-    // document.getElementById("peak_cooling_demand_intensity").innerHTML = peak_cooling_demand_intensity.toLocaleString() + " kW/(sqm)";
-    // document.getElementById("annual_cooling_demand_diversity").innerHTML = annual_cooling_demand_diversity.toLocaleString() + " %";
-    // document.getElementById("peak_heating_cooling_demand").innerHTML = peak_heating_cooling_demand.toLocaleString() + " W";
-    // document.getElementById("peak_heating_cooling_demand_time").innerHTML = peak_heating_cooling_demand_time.toLocaleString();
-    // document.getElementById("peak_heating_cooling_demand_intensity").innerHTML = peak_heating_cooling_demand_intensity.toLocaleString() + " kW/(sqm)";
-    // document.getElementById("annual_heating_cooling_demand_diversity").innerHTML = annual_heating_cooling_demand_diversity.toLocaleString() + " %";
-    // document.getElementById("peak_electricity_consumption").innerHTML = peak_electricity_consumption.toLocaleString() + " kWh";
-    // document.getElementById("peak_electricity_consumption_time").innerHTML = peak_electricity_consumption_time.toLocaleString();
-    // document.getElementById("annual_electricity_consumption_intensity").innerHTML = annual_electricity_consumption_intensity.toLocaleString() + " kWh/(sqm*yr)";
-    // document.getElementById("annual_electricity_consumption_diversity").innerHTML = annual_electricity_consumption_diversity.toLocaleString() + " %";
-    // document.getElementById("peak_ng_consumption").innerHTML = peak_ng_consumption.toLocaleString() + " Therms";
-    // document.getElementById("peak_ng_consumption_time").innerHTML = peak_ng_consumption_time.toLocaleString();
-    // document.getElementById("annual_ng_consumption_intensity").innerHTML = annual_ng_consumption_intensity.toLocaleString() + " Therms/(sqm*yr)";
-    // document.getElementById("annual_ng_consumption_diversity").innerHTML = annual_ng_consumption_diversity.toLocaleString() + " %";
-    // document.getElementById("annual_heat_recovery_potential").innerHTML = annual_heat_recovery_potential.toLocaleString() + " kWh";
-    //
-    // document.getElementById("key_stats_table").style.display = 'block';
-    //
-    // console.log('Key stats rendering done...');
+    console.log('Calculating key statistics...');
+    var peak_heating_demand = Math.max.apply(null, self.v_heating_demand);
+    var peak_heating_demand_time = new Date(self.v_timestamps[self.v_heating_demand.indexOf(peak_heating_demand)]); // to date time string
+    var peak_heating_demand_intensity = 0;
+    var annual_heating_demand_diversity = self.simpsonDiversity(self.v_heating_demand);
+
+    var peak_cooling_demand = Math.min.apply(null, self.v_cooling_demand);
+    var peak_cooling_demand_time = new Date(self.v_timestamps[self.v_cooling_demand.indexOf(peak_cooling_demand)]);
+    var peak_cooling_demand_intensity = 0;
+    var annual_cooling_demand_diversity = self.simpsonDiversity(self.v_cooling_demand);
+
+    var peak_heating_cooling_demand = Math.max.apply(null, self.v_simultaneous_demand);
+    var peak_heating_cooling_demand_time = new Date(self.v_timestamps[self.v_simultaneous_demand.indexOf(peak_heating_cooling_demand)]);
+    var peak_heating_cooling_demand_intensity = 0;
+    var annual_heating_cooling_demand_diversity = self.simpsonDiversity(self.v_simultaneous_demand);
+
+    var peak_electricity_consumption = Math.max.apply(null, self.v_electricity_consumption);
+    var peak_electricity_consumption_time = new Date(self.v_timestamps[self.v_electricity_consumption.indexOf(peak_electricity_consumption)]);
+    var annual_electricity_consumption_intensity = 0;
+    var annual_electricity_consumption_diversity = self.simpsonDiversity(self.v_electricity_consumption);
+
+    var peak_ng_consumption = Math.max.apply(null, self.v_gas_consumption);
+    var peak_ng_consumption_time = new Date(self.v_timestamps[self.v_gas_consumption.indexOf(peak_ng_consumption)]);
+    var annual_ng_consumption_intensity = 0;
+    var annual_ng_consumption_diversity = self.simpsonDiversity(self.v_gas_consumption);
+    var annual_heat_recovery_potential = Math.abs(arrSum(self.v_simultaneous_demand));
+
+    document.getElementById("peak_heating_demand").innerHTML = peak_heating_demand.toLocaleString() + " W";
+    document.getElementById("peak_heating_demand_time").innerHTML = peak_heating_demand_time.toLocaleString();
+    document.getElementById("peak_heating_demand_intensity").innerHTML = peak_heating_demand_intensity.toLocaleString() + " kW/(sqm)";
+    document.getElementById("annual_heating_demand_diversity").innerHTML = annual_heating_demand_diversity.toLocaleString() + " %";
+    document.getElementById("peak_cooling_demand").innerHTML = peak_cooling_demand.toLocaleString() + " W";
+    document.getElementById("peak_cooling_demand_time").innerHTML = peak_cooling_demand_time.toLocaleString();
+    document.getElementById("peak_cooling_demand_intensity").innerHTML = peak_cooling_demand_intensity.toLocaleString() + " kW/(sqm)";
+    document.getElementById("annual_cooling_demand_diversity").innerHTML = annual_cooling_demand_diversity.toLocaleString() + " %";
+    document.getElementById("peak_heating_cooling_demand").innerHTML = peak_heating_cooling_demand.toLocaleString() + " W";
+    document.getElementById("peak_heating_cooling_demand_time").innerHTML = peak_heating_cooling_demand_time.toLocaleString();
+    document.getElementById("peak_heating_cooling_demand_intensity").innerHTML = peak_heating_cooling_demand_intensity.toLocaleString() + " kW/(sqm)";
+    document.getElementById("annual_heating_cooling_demand_diversity").innerHTML = annual_heating_cooling_demand_diversity.toLocaleString() + " %";
+    document.getElementById("peak_electricity_consumption").innerHTML = peak_electricity_consumption.toLocaleString() + " kWh";
+    document.getElementById("peak_electricity_consumption_time").innerHTML = peak_electricity_consumption_time.toLocaleString();
+    document.getElementById("annual_electricity_consumption_intensity").innerHTML = annual_electricity_consumption_intensity.toLocaleString() + " kWh/(sqm*yr)";
+    document.getElementById("annual_electricity_consumption_diversity").innerHTML = annual_electricity_consumption_diversity.toLocaleString() + " %";
+    document.getElementById("peak_ng_consumption").innerHTML = peak_ng_consumption.toLocaleString() + " Therms";
+    document.getElementById("peak_ng_consumption_time").innerHTML = peak_ng_consumption_time.toLocaleString();
+    document.getElementById("annual_ng_consumption_intensity").innerHTML = annual_ng_consumption_intensity.toLocaleString() + " Therms/(sqm*yr)";
+    document.getElementById("annual_ng_consumption_diversity").innerHTML = annual_ng_consumption_diversity.toLocaleString() + " %";
+    document.getElementById("annual_heat_recovery_potential").innerHTML = annual_heat_recovery_potential.toLocaleString() + " kWh";
+    document.getElementById("key_stats_table").style.display = 'block';
+    console.log('Key stats rendering done...');
 
 };
 

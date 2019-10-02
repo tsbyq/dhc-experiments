@@ -55,9 +55,7 @@ class DistrictSystemsController < ApplicationController
     @error_message = {}
     @tabs = tab_control(true, false, false)
     @system_types = add_system_types
-    # @hash_key_stats = session[:hash_key_stats]
-
-    # redirect_to :back
+    @hash_key_stats = session[:hash_key_stats]
   end
 
   def dispatcher
@@ -71,6 +69,7 @@ class DistrictSystemsController < ApplicationController
   end
 
   def upload_file(params)
+    session[:hash_key_stats] = ''
     puts '---> Entering Upload method...'
     #TODO: Handle file uploaded, consider saving to database in the future
     puts '------> User uploaded a CSV, save it to session, and visualize it.'
@@ -81,21 +80,9 @@ class DistrictSystemsController < ApplicationController
     new_file_path = @@user_uploads_path + filename
     FileUtils.cp(old_file_path, new_file_path) if File.exist?(old_file_path)
     session[:uploaded_file_path] = new_file_path
+    session[:hash_key_stats] = read_upload_csv(new_file_path)
     @system_types = add_system_types
-
-    @hash_key_stats = read_upload_csv(new_file_path)
-
-    puts '*' * 90
-    puts 'Key stats are:'
-    puts @hash_key_stats
-    puts '*' * 90
-
-    @hash_key_stats = 2
-    puts 'we set key stats to 2 !!!!!'
-    session[:hash_key_stats] = @hash_key_stats
-
-    render "index_upload_loadprofile_form", :locals => {:hash_key_stats => session[:hash_key_stats]}
-    # redirect_to :action => "index", :locals => {:hash_key_stats => 'New text'}
+    redirect_to :action => "index"
   end
 
   def simulate(params)
@@ -339,29 +326,29 @@ class DistrictSystemsController < ApplicationController
 
     hash_key_stats = {
         "annual electricity consumption" => annual_ele_consumption,
-        "annual natural_gas consumption" => annual_gas_consumption,
+        "annual natural gas consumption" => annual_gas_consumption,
 
         "peak heating demand" => peak_heating_demand,
         "peak cooling demand" => peak_cooling_demand,
         "peak sim heating and cooling demand" => peak_sim_heating_cooling_demand_timestamp,
         "peak electricity consumption" => peak_ele_consumption,
-        "peak natural_gas consumption" => peak_gas_consumption,
+        "peak natural gas consumption" => peak_gas_consumption,
 
         "peak heating demand time" => peak_heating_demand_timestamp,
         "peak cooling demand time" => peak_cooling_demand_timestamp,
         "peak sim heating and cooling demand time" => peak_sim_heating_cooling_demand_timestamp,
         "peak electricity consumption time" => peak_ele_consumption_timestamp,
-        "peak natural_gas consumption time" => peak_gas_consumption_timestamp,
+        "peak natural gas consumption time" => peak_gas_consumption_timestamp,
 
         "heating demand intensity" => heating_demand_intensity,
         "cooling demand intensity" => cooling_demand_intensity,
-        "sim heating cooling demand intensity" => sim_heating_cooling_demand_intensity,
+        "sim heating and cooling demand intensity" => sim_heating_cooling_demand_intensity,
         "ele consumption intensity" => ele_consumption_intensity,
         "gas consumption intensity" => gas_consumption_intensity,
 
         "heating demand diversity" => heating_demand_diversity,
         "cooling demand diversity" => cooling_demand_diversity,
-        "sim heating cooling demand diversity" => sim_heating_cooling_demand_diversity,
+        "sim heating and cooling demand diversity" => sim_heating_cooling_demand_diversity,
         "ele consumption diversity" => ele_consumption_diversity,
         "gas consumption diversity" => gas_consumption_diversity,
     }
