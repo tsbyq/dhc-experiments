@@ -1,4 +1,5 @@
 <div class="container border border-primary pt-2">
+  <!--File upload form-->
   <%= form_with scope: :load_profile_csv, url: district_systems_path, multipart: true do |form| %>
     <h4 class="pt-3 pb-3">Upload the district heating and cooling demand profile CSV.</h4>
     <div class="row pl-5">
@@ -11,38 +12,16 @@
   <% end %>
 
   <div id="loadshape_viz_div">
-    <div class="row">
-      <div class="col-md-12">
-        <div id="ts_viz_container_1" style="width:100%; height:auto;"></div>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col-md-12">
-        <div id="ts_viz_container_2" style="width:100%; height:auto;"></div>
-      </div>
-    </div>
-
-    <br>
-    <div class="row" style="display: none">
-      <div class="col-md-12">
-        <div id="dummy_bar_viz_container" style="width:100%; height:auto;"></div>
-      </div>
-    </div>
-    <br>
-    <div class="row" style="display: none">
-      <div class="col-md-6">
-        <div id="dummy_pie_viz_container_1" style="width:100%; height:auto;"></div>
-      </div>
-      <div class="col-md-6">
-        <div id="dummy_pie_viz_container_2" style="width:100%; height:auto;"></div>
-      </div>
-    </div>
-
+    <!--charts-->
+    <% unless @charts_data.nil? %>
+      <%= render 'upload_charts', charts_data: @charts_data %>
+    <% end %>
+    <!--key stats table-->
     <% unless @hash_key_stats.nil? %>
       <%= render 'upload_key_stats_table', hash_key_stats: @hash_key_stats %>
     <% end %>
-
   </div>
+
+
 </div>
 <br><br>
