@@ -2,6 +2,7 @@ require 'fileutils'
 require 'date'
 require 'json'
 require 'CSV'
+require 'Time'
 
 class DistrictSystemsController < ApplicationController
   # Class variables, which don't vary by instance
@@ -56,6 +57,7 @@ class DistrictSystemsController < ApplicationController
     @tabs = tab_control(true, false, false)
     @system_types = add_system_types
     @hash_key_stats = session[:hash_key_stats]
+    @hash_ts_data = session[:hash_ts_data]
   end
 
   def dispatcher
@@ -80,7 +82,8 @@ class DistrictSystemsController < ApplicationController
     new_file_path = @@user_uploads_path + filename
     FileUtils.cp(old_file_path, new_file_path) if File.exist?(old_file_path)
     session[:uploaded_file_path] = new_file_path
-    session[:hash_key_stats] = read_upload_csv(new_file_path)
+    session[:hash_ts_data], session[:hash_key_stats] = read_upload_csv(new_file_path)
+
     @system_types = add_system_types
     redirect_to :action => "index"
   end
@@ -92,7 +95,6 @@ class DistrictSystemsController < ApplicationController
 
     # Check if a epw file is available, show error message if none exists.
     old_epw_path = params[:weather_epw].path
-
 
     filename = params[:weather_epw].original_filename
     new_epw_path = @@user_uploads_path + filename
@@ -278,23 +280,50 @@ class DistrictSystemsController < ApplicationController
 
   def read_upload_csv(csv_path)
     v_time = []
-    v_ele_consumption = []
-    v_gas_consumption = []
     v_heating_demand = []
     v_cooling_demand = []
     v_sim_heating_cooling_demand = []
+    v_ele_consumption = []
+    v_gas_consumption = []
+
+    v_time_millisecond = []
+    v_heating_demand_ts = []
+    v_cooling_demand_ts = []
+    v_sim_heating_cooling_demand_ts = []
+    v_ele_consumption_ts = []
+    v_gas_consumption_ts = []
 
     CSV.foreach(csv_path).with_index do |row, i|
       next if i == 0
       datetime, heat_demand, cool_demand, ele_consumption, gas_consumption, new_date_time = row
+
+      time_millisecond = (Time.strptime(new_date_time, "%m/%d/%Y %H:%M").to_f * 1000).to_i
+
       v_time << new_date_time
       v_ele_consumption << ele_consumption.to_f
       v_gas_consumption << gas_consumption.to_f
       v_heating_demand << heat_demand.to_f
       v_cooling_demand << cool_demand.to_f
       v_sim_heating_cooling_demand << [heat_demand.to_f, heat_demand.to_f.abs].min
+
+      # Prepare time-series data
+      v_time_millisecond << time_millisecond
+      v_heating_demand_ts << [time_millisecond, heat_demand.to_f]
+      v_cooling_demand_ts << [time_millisecond, cool_demand.to_f]
+      v_sim_heating_cooling_demand_ts << [time_millisecond, [heat_demand.to_f, heat_demand.to_f.abs].min]
+      v_ele_consumption_ts << [time_millisecond, ele_consumption.to_f]
+      v_gas_consumption_ts << [time_millisecond, gas_consumption.to_f]
     end
 
+    hash_ts_data = {
+        "heating_demand_ts" => v_heating_demand_ts,
+        "cooling_demand_ts" => v_cooling_demand_ts,
+        "v_sim_heating_cooling_demand_ts" => v_sim_heating_cooling_demand_ts,
+        "v_ele_consumption_ts" => v_ele_consumption_ts,
+        "v_gas_consumption_ts" => v_gas_consumption_ts,
+    }
+
+    # Prepare key statistics
     annual_ele_consumption = v_ele_consumption.sum
     annual_gas_consumption = v_gas_consumption.sum
     session[:base_annual_ele_consumption] = annual_ele_consumption
@@ -353,7 +382,7 @@ class DistrictSystemsController < ApplicationController
         "gas consumption diversity" => gas_consumption_diversity,
     }
 
-    hash_key_stats
+    return [hash_ts_data, hash_key_stats]
   end
 
   def read_eplus_output(eplusout_dir)

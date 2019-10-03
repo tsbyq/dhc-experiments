@@ -14,6 +14,9 @@ gem 'turbolinks', '~> 5'
 gem 'jbuilder', '~> 2.5'
 
 gem 'gon'
+gem 'activerecord-session_store', github: 'rails/activerecord-session_store'
+gem 'wdm', '>= 0.1.0' if Gem.win_platform?
+
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
