@@ -56,6 +56,10 @@
                             ticks: {
                                 beginAtZero: true
                             },
+                            scaleLabel: {
+                                display: true,
+                                labelString: 'kWh',
+                            },
                         }, {
                             type: 'linear', // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
                             display: true,
@@ -63,6 +67,10 @@
                             id: 'y-axis-2',
                             ticks: {
                                 beginAtZero: true
+                            },
+                            scaleLabel: {
+                                display: true,
+                                labelString: 'MMBTU',
                             },
                             gridLines: {
                                 drawOnChartArea: false
