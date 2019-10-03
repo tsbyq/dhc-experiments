@@ -46,18 +46,24 @@ class DistrictSystemsController < ApplicationController
     joule_value / 3600000
   end
 
-  def J_to_kBTU(joule_value)
-    joule_value * 0.000947817
+  def J_to_mmbtu(joule_value)
+    joule_value * 0.000000000947817
   end
 
   def index
     puts '---> Entering Index...'
     # TODO: keep visualization, simulation configurations, and simulation results in session for quicker rendering.
     @error_message = {}
-    @tabs = tab_control(true, false, false)
+    if session[:tabs].nil?
+      @tabs = tab_control(true, false, false)
+    else
+      @tabs = session[:tabs]
+    end
     @system_types = add_system_types
     @hash_key_stats = session[:hash_key_stats]
     @hash_ts_data = session[:hash_ts_data]
+    @v_results = session[:v_results]
+    @v_results_js = session[:v_results_js]
   end
 
   def dispatcher
@@ -75,7 +81,6 @@ class DistrictSystemsController < ApplicationController
     puts '---> Entering Upload method...'
     #TODO: Handle file uploaded, consider saving to database in the future
     puts '------> User uploaded a CSV, save it to session, and visualize it.'
-    @tabs = tab_control(true, false, false)
     # Move the uploaded file to the ./public/user_uploads path
     old_file_path = params[:load_profile_csv].path
     filename = File.basename(old_file_path)
@@ -83,16 +88,13 @@ class DistrictSystemsController < ApplicationController
     FileUtils.cp(old_file_path, new_file_path) if File.exist?(old_file_path)
     session[:uploaded_file_path] = new_file_path
     session[:hash_ts_data], session[:hash_key_stats] = read_upload_csv(new_file_path)
-
     @system_types = add_system_types
+    session[:tabs] = tab_control(true, false, false)
     redirect_to :action => "index"
   end
 
   def simulate(params)
-    puts '----------------------------------------=============================1111111111111'
     puts '---> Entering Simulate method...'
-    @tabs = tab_control(false, true, false)
-
     # Check if a epw file is available, show error message if none exists.
     old_epw_path = params[:weather_epw].path
 
@@ -137,14 +139,12 @@ class DistrictSystemsController < ApplicationController
       v_results.push(out_hash)
     end
 
-    @v_results = v_results
-    @v_results_js = v_results.to_json.html_safe
-    puts @v_results_js
-    # TODO: Set conditions
-
-    @tabs = tab_control(false, false, true)
+    session[:v_results] = v_results
+    session[:v_results_js] = v_results.to_json.html_safe
     @system_types = add_system_types
-    render "index"
+    session[:tabs] = tab_control(false, false, true)
+
+    redirect_to :action => "index"
   end
 
   ######################################################################################################################
@@ -159,6 +159,12 @@ class DistrictSystemsController < ApplicationController
     v_system_types.push([@@sys_type_5_name, @@sys_type_5_dev, @sys_type_5_selected])
     return v_system_types
   end
+
+  # def tab_control(tab_1st, tab_2nd, tab_3rd)
+  #   session[:tab_1st] = tab_1st
+  #   session[:tab_2nd] = tab_2nd
+  #   session[:tab_3rd] = tab_3rd
+  # end
 
   def prepare_simulation(params)
     puts '#' * 100
@@ -408,7 +414,7 @@ class DistrictSystemsController < ApplicationController
 
     out_hash = {
         "annual electricity" => J_to_kWh(csv_table[0][real_electricity_header].to_f),
-        "annual gas" => J_to_kBTU(csv_table[0][real_natural_gas_header].to_f),
+        "annual gas" => J_to_mmbtu(csv_table[0][real_natural_gas_header].to_f),
     }
     out_hash
   end

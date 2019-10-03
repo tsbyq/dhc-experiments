@@ -3,13 +3,13 @@
 <!--##################################################################################################-->
 <div class="row">
   <div class="col-md-12">
-    <div id="ts_viz_container_1" style="width:100%; height:auto;"></div>
+    <div id="ts_viz_container_1" style="width:auto; height:auto;"></div>
   </div>
 </div>
 
 <div class="row">
   <div class="col-md-12">
-    <div id="ts_viz_container_2" style="width:100%; height:auto;"></div>
+    <div id="ts_viz_container_2" style="width:auto; height:auto;"></div>
   </div>
 </div>
 
@@ -95,7 +95,7 @@
             },
             {
                 title: {
-                    text: 'Terms'
+                    text: 'MMBTU'
                 },
                 opposite: true
             },
@@ -121,7 +121,7 @@
             data: <%= hash_ts_data['v_ele_consumption_ts'] %>,
         }, {
             type: 'area',
-            name: 'Natural Gas Consumption (Therms)',
+            name: 'Natural Gas Consumption (MMBTU)',
             yAxis: 1,
             color: '#ffe049',
             fillOpacity: 0.5,

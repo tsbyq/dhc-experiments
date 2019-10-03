@@ -1,4 +1,4 @@
-Datetime,Heating Demand (W),Cooling Demand (W),Electricity Consumption (kWh),Natural Gas Consumption (Therms),New_date_time
+Datetime,Heating Demand (W),Cooling Demand (W),Electricity Consumption (kWh),Natural Gas Consumption (MMBTU),New_date_time
 2006-Jan-01 01:00:00,90834.76067,-972532.6518,1,8760,1/1/2018 0:00
 2006-Jan-01 02:00:00,87999.80814,-971538.2712,2,8759,1/1/2018 1:00
 2006-Jan-01 03:00:00,106675.8653,-970675.148,3,8758,1/1/2018 2:00

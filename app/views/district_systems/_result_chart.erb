@@ -1,0 +1,79 @@
+<div class="row">
+  <div class="col-md-12">
+    <h3>simulation results charts showing here.</h3>
+    <div style="width: 100%">
+      <canvas id="canvas"></canvas>
+    </div>
+    <script>
+        var v_results = JSON.parse('<%= v_results_js%>');
+        var sys_labels = [];
+        var sys_electricity_consumption = [];
+        var sys_natural_gas_consumption = [];
+
+        v_results.forEach(function (sys_result, index) {
+            sys_labels.push(sys_result['sys_type']);
+            sys_electricity_consumption.push(sys_result['annual electricity']);
+            sys_natural_gas_consumption.push(sys_result['annual gas']);
+        });
+
+        var barChartData = {
+            labels: sys_labels,
+            // labels: ['Baseline', 'System Type 1', 'System Type 2', 'System Type 3', 'System Type 4'],
+            datasets: [{
+                label: 'Annual Electricity Consumption (kWh)',
+                backgroundColor: '#166a8f',
+                yAxisID: 'y-axis-1',
+                data: sys_electricity_consumption,
+            }, {
+                label: 'Annual Natural Gas Consumption (MMBTU)',
+                backgroundColor: '#f67019',
+                yAxisID: 'y-axis-2',
+                data: sys_natural_gas_consumption,
+            }]
+
+        };
+        window.onload = function () {
+            var ctx = document.getElementById('canvas').getContext('2d');
+            window.myBar = new Chart(ctx, {
+                type: 'bar',
+                data: barChartData,
+                options: {
+                    responsive: true,
+                    title: {
+                        display: true,
+                        text: 'Energy Consumption Comparison'
+                    },
+                    tooltips: {
+                        mode: 'index',
+                        intersect: true
+                    },
+                    scales: {
+                        yAxes: [{
+                            type: 'linear', // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
+                            display: true,
+                            position: 'left',
+                            id: 'y-axis-1',
+                            ticks: {
+                                beginAtZero: true
+                            },
+                        }, {
+                            type: 'linear', // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
+                            display: true,
+                            position: 'right',
+                            id: 'y-axis-2',
+                            ticks: {
+                                beginAtZero: true
+                            },
+                            gridLines: {
+                                drawOnChartArea: false
+                            }
+                        }],
+                    }
+                }
+            });
+        };
+
+    </script>
+
+  </div>
+</div>

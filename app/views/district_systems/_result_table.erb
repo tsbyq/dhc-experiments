@@ -1,0 +1,46 @@
+<div class="row">
+  <div class="col-md-12">
+    <table class="table table-bordered table-hover text-center" id="myTable">
+      <thead>
+      <tr style="color:#000000; background:rgb(237,239,242); text-align: center;">
+        <th class="text-center align-middle p-1" style="width: 40%">System Type<br><i class="fa fa-fw fa-sort"></i>
+        </th>
+        <th class="text-center align-middle p-1" style="width: 10%">Electricity Consumption
+          (kWh)<br><i class="fa fa-fw fa-sort"></i></th>
+        <th class="text-center align-middle p-1" style="width: 10%">Natural Gas Consumption
+          (MMBTU)<br><i class="fa fa-fw fa-sort"></i></th>
+        <th class="text-center align-middle p-1" style="width: 10%">Electricity Savings
+          (kWh)<br><i class="fa fa-fw fa-sort"></i></th>
+        <th class="text-center align-middle p-1" style="width: 10%">Natural Gas Savings
+          (MMBTU)<br><i class="fa fa-fw fa-sort"></i></th>
+        <th class="text-center align-middle p-1" style="width: 10%">Cost ($)<br><i class="fa fa-fw fa-sort"></i></th>
+        <th class="text-center align-middle p-1" style="width: 10%">Cost Savings ($)<br><i class="fa fa-fw fa-sort"></i></th>
+        <th class="text-center align-middle p-1" style="width: 10%">Carbon Dioxide Emission
+          (ton)<br><i class="fa fa-fw fa-sort"></i></th>
+      </tr>
+      </thead>
+      <tbody>
+      <% v_results.each do |result| %>
+        <tr>
+          <td class="p-1">
+            <% if result['sys_type'] == 'Baseline' %>
+              <%= result['sys_type'] %>
+            <% else %>
+              <a style="color:blue; text-decoration: underline" target="_blank"
+                 href="https://www.google.com/search?q=<%= result['sys_type'] %>"><%= result['sys_type'] %></a>
+            <% end %>
+          </td>
+          <td class="p-1"><%= '%.2f' % result['annual electricity'] %></td>
+          <td class="p-1"><%= '%.2f' % result['annual gas'] %></td>
+          <td class="p-1">Place holder</td>
+          <td class="p-1">Place holder</td>
+          <td class="p-1">Place holder</td>
+          <td class="p-1">Place holder</td>
+          <td class="p-1">Place holder</td>
+        </tr>
+      <% end %>
+      </tbody>
+    </table>
+    <p>* Annual results</p>
+  </div>
+</div>
