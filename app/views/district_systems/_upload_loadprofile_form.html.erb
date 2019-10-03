@@ -14,8 +14,7 @@
   <div id="loadshape_viz_div">
     <!--charts-->
     <% unless @hash_ts_data.nil? %>
-      <%= @hash_ts_data %>
-      <%#= render 'upload_charts', charts_data: @hash_ts_data %>
+      <%= render 'upload_charts', hash_ts_data: @hash_ts_data %>
     <% end %>
     <!--key stats table-->
     <% unless @hash_key_stats.nil? %>

@@ -310,14 +310,14 @@ class DistrictSystemsController < ApplicationController
       v_time_millisecond << time_millisecond
       v_heating_demand_ts << [time_millisecond, heat_demand.to_f]
       v_cooling_demand_ts << [time_millisecond, cool_demand.to_f]
-      v_sim_heating_cooling_demand_ts << [time_millisecond, [heat_demand.to_f, heat_demand.to_f.abs].min]
+      v_sim_heating_cooling_demand_ts << [time_millisecond, [heat_demand.to_f, cool_demand.to_f.abs].min]
       v_ele_consumption_ts << [time_millisecond, ele_consumption.to_f]
       v_gas_consumption_ts << [time_millisecond, gas_consumption.to_f]
     end
 
     hash_ts_data = {
-        "heating_demand_ts" => v_heating_demand_ts,
-        "cooling_demand_ts" => v_cooling_demand_ts,
+        "v_heating_demand_ts" => v_heating_demand_ts,
+        "v_cooling_demand_ts" => v_cooling_demand_ts,
         "v_sim_heating_cooling_demand_ts" => v_sim_heating_cooling_demand_ts,
         "v_ele_consumption_ts" => v_ele_consumption_ts,
         "v_gas_consumption_ts" => v_gas_consumption_ts,
