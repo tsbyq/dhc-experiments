@@ -359,7 +359,7 @@ class DistrictSystemsController < ApplicationController
 
         "peak heating demand" => peak_heating_demand,
         "peak cooling demand" => peak_cooling_demand,
-        "peak sim heating and cooling demand" => peak_sim_heating_cooling_demand_timestamp,
+        "peak sim heating and cooling demand" => peak_sim_heating_cooling_demand,
         "peak electricity consumption" => peak_ele_consumption,
         "peak natural gas consumption" => peak_gas_consumption,
 

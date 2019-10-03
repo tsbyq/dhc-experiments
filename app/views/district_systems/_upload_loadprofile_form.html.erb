@@ -7,7 +7,8 @@
       <%#= form.file_field :loadprofile %>
       <!-- For model-free scenarios-->
       <%= file_field_tag 'load_profile_csv', :required => true %>
-      <p><%= form.submit 'Upload', onclick: 'uploadLoadsProfile();' %></p>
+      <!-- <p><%#= form.submit 'Upload', onclick: 'uploadLoadsProfile();' %></p>-->
+      <p><%= form.submit 'Upload' %></p>
     </div>
   <% end %>
 
