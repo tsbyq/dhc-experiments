@@ -347,7 +347,9 @@ class DistrictSystemsController < ApplicationController
     peak_ele_consumption_timestamp = v_time[v_ele_consumption.index(peak_ele_consumption)]
     peak_gas_consumption_timestamp = v_time[v_gas_consumption.index(peak_gas_consumption)]
 
-    heating_demand_diversity = 1
+    heating_demand_diversity = simpson_diversity_index(v_heating_demand)
+    # cooling_demand_diversity = simpson_diversity_index(v_cooling_demand)
+    # sim_heating_cooling_demand_diversity = simpson_diversity_index(v_sim_heating_cooling_demand)
     cooling_demand_diversity = 1
     sim_heating_cooling_demand_diversity = 1
     ele_consumption_diversity = 1
@@ -444,6 +446,51 @@ class DistrictSystemsController < ApplicationController
       tabs[:result_tab_control] = 'show active'
     end
     tabs
+  end
+
+  def simpson_diversity_index(v_in, chunk_size = 20000)
+    lower = v_in.min
+    upper = v_in.max + chunk_size
+    temp_lower = lower
+    temp_upper = lower + chunk_size
+    v_counts = []
+
+    v_in = v_in.sort
+    i = 0
+
+    while temp_upper <= upper do
+      j = i
+      count = 0
+
+      # puts '--------' * 10
+      # puts 'Current lower = ' + temp_lower.to_s
+      # puts 'Current upper = ' + temp_upper.to_s
+
+      while true
+        if v_in[j] >= temp_lower and v_in[j] < temp_upper and j < v_in.length - 1
+          count += 1
+          j += 1
+        else
+          break
+        end
+      end
+
+      if count > 0
+        v_counts << count
+      end
+      i = j
+      temp_lower = temp_upper
+      temp_upper += chunk_size
+
+      # puts '========' * 10
+    end
+
+    numerator = 0
+    denominator = v_in.length * (v_in.length - 1)
+    v_counts.each do |current_count|
+      numerator += current_count * (current_count - 1)
+    end
+    return (1 - numerator.to_f / denominator.to_f).round(4)
   end
 
   ######################################################################################################################
