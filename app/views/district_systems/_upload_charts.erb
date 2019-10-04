@@ -1,12 +1,16 @@
 <!--##################################################################################################-->
 <!--Time-series charts for heating, cooling demand and energy consumption-->
 <!--##################################################################################################-->
+<h4>Load profile visualization</h4>
+<p>The following time-series chart shows the user-uploaded district heating and cooling demands.</p>
+<br>
 <div class="row">
   <div class="col-md-12">
     <div id="ts_viz_container_1" style="width:auto; height:auto;"></div>
   </div>
 </div>
 
+<p>The time-series chart below shows the user-uploaded district electricity and natural gas energy consumption.</p>
 <div class="row">
   <div class="col-md-12">
     <div id="ts_viz_container_2" style="width:auto; height:auto;"></div>
@@ -20,7 +24,8 @@
             zoomType: 'x',
         },
         title: {
-            text: 'District heating and cooling demands'
+            text: 'District heating and cooling demands',
+            fontSize: '20px'
         },
         subtitle: {
             text: document.ontouchstart === undefined ?
@@ -78,7 +83,8 @@
             zoomType: 'x',
         },
         title: {
-            text: 'District electricity and natural gas consumption'
+            text: 'District electricity and natural gas consumption',
+            fontSize: '20px'
         },
         subtitle: {
             text: document.ontouchstart === undefined ?
@@ -115,7 +121,7 @@
             type: 'area',
             name: 'Electricity Consumption (kWh)',
             yAxis: 0,
-            color: '#2bd3e3',
+            color: '#3841a6',
             fillOpacity: 0.5,
             lineWidth: 0.5,
             data: <%= hash_ts_data['v_ele_consumption_ts'] %>,
@@ -123,7 +129,7 @@
             type: 'area',
             name: 'Natural Gas Consumption (MMBTU)',
             yAxis: 1,
-            color: '#ffe049',
+            color: '#dc5420',
             fillOpacity: 0.5,
             lineWidth: 0.5,
             data: <%= hash_ts_data['v_gas_consumption_ts'] %>,

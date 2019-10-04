@@ -11,8 +11,8 @@
 
         v_results.forEach(function (sys_result, index) {
             sys_labels.push(sys_result['sys_type']);
-            sys_electricity_consumption.push(sys_result['annual electricity']);
-            sys_natural_gas_consumption.push(sys_result['annual gas']);
+            sys_electricity_consumption.push(Math.round(sys_result['annual electricity']));
+            sys_natural_gas_consumption.push(Math.round(sys_result['annual gas']));
         });
 
         var barChartData = {
@@ -80,7 +80,6 @@
                 }
             });
         };
-
     </script>
 
   </div>

@@ -1,9 +1,9 @@
 <div class="row" id="key_stats_table" style="display: block">
   <div class="col-md-12">
-    <h4>Key statistics</h4>
+    <h4>Key Statistics Table</h4>
     <table class="table table-bordered table-hover text-center">
       <thead>
-      <tr>
+      <tr style="color:#000000; background:rgb(237,239,242); text-align: center;">
         <th class="text-center" style="width: 35%"></th>
         <th class="text-center" style="width: 15%">Peak</th>
         <th class="text-center" style="width: 20%">Peak Time</th>
@@ -31,7 +31,9 @@
         <td id="peak_heating_cooling_demand"><%= hash_key_stats['peak sim heating and cooling demand'] %> kW</td>
         <td id="peak_heating_cooling_demand_time"><%= hash_key_stats['peak sim heating and cooling demand time'] %></td>
         <td id="peak_heating_cooling_demand_intensity"><%= hash_key_stats['sim heating and cooling demand intensity'] %></td>
-        <td id="annual_heating_cooling_demand_diversity"><%= hash_key_stats['sim heating and cooling demand diversity'] %> %</td>
+        <td id="annual_heating_cooling_demand_diversity"><%= hash_key_stats['sim heating and cooling demand diversity'] %>
+          %
+        </td>
       </tr>
       <tr>
         <td class="text-right"><b>Electricity Consumption</b></td>
