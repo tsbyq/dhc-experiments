@@ -30,10 +30,10 @@
                  href="https://www.google.com/search?q=<%= result['sys_type'] %>"><%= result['sys_type'] %></a>
             <% end %>
           </td>
-          <td class="p-1"><%= '%.2f' % result['annual electricity'] %></td>
-          <td class="p-1"><%= '%.2f' % result['annual gas'] %></td>
-          <td class="p-1">Place holder</td>
-          <td class="p-1">Place holder</td>
+          <td class="p-1"><%= '%.0f' % result['annual electricity'] %></td>
+          <td class="p-1"><%= '%.0f' % result['annual gas'] %></td>
+          <td class="p-1"><%= '%.0f' % result['annual electricity saving'] %></td>
+          <td class="p-1"><%= '%.0f' % result['annual gas saving'] %></td>
           <td class="p-1">Place holder</td>
           <td class="p-1">Place holder</td>
           <td class="p-1">Place holder</td>
