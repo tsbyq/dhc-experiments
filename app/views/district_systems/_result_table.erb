@@ -4,22 +4,35 @@
       <!--    <table class="table table-bordered table-hover text-center">-->
       <thead>
       <tr style="color:#000000; background:rgb(237,239,242); text-align: center;">
-        <th class="text-center align-middle p-1" style="width: 40%">System Type<br><i class="fa fa-fw fa-sort"></i></th>
-        <th class="text-center align-middle p-1" style="width: 10%">Electricity Consumption
-          (kWh)<br><i class="fa fa-fw fa-sort"></i></th>
-        <th class="text-center align-middle p-1" style="width: 10%">Natural Gas Consumption
-          (MMBTU)<br><i class="fa fa-fw fa-sort"></i></th>
-        <th class="text-center align-middle p-1" style="width: 10%">Electricity Savings
-          (kWh)<br><i class="fa fa-fw fa-sort"></i></th>
-        <th class="text-center align-middle p-1" style="width: 10%">Natural Gas Savings
-          (MMBTU)<br><i class="fa fa-fw fa-sort"></i></th>
-        <th class="text-center align-middle p-1" style="width: 10%">Peak Electricity
-          Reduction (kWh)<br><i class="fa fa-fw fa-sort"></i></th>
-        <th class="text-center align-middle p-1" style="width: 10%">Cost ($)<br><i class="fa fa-fw fa-sort"></i></th>
-        <th class="text-center align-middle p-1" style="width: 10%">Cost Savings ($)<br><i class="fa fa-fw fa-sort"></i>
+        <th class="text-center align-middle p-1" style="width: 40%">
+          System Type<br><i class="fa fa-fw fa-sort"></i></th>
+        <th class="text-center align-middle p-1" style="width: 10%">
+          Electricity Consumption (kWh)<br><i class="fa fa-fw fa-sort"></i></th>
+        <th class="text-center align-middle p-1" style="width: 10%">
+          Natural Gas Consumption (MMBTU)<br><i class="fa fa-fw fa-sort"></i></th>
+        <th class="text-center align-middle p-1" style="width: 10%">
+          Electricity Savings (kWh)<br><i class="fa fa-fw fa-sort"></i></th>
+        <th class="text-center align-middle p-1" style="width: 10%">
+          Natural Gas Savings (MMBTU)<br><i class="fa fa-fw fa-sort"></i></th>
+        <th class="text-center align-middle p-1" style="width: 10%">
+          Peak Electricity Reduction (kWh)<br><i class="fa fa-fw fa-sort"></i></th>
+        <th class="text-center align-middle p-1" style="width: 10%">
+          Utility Cost ($)<br><i class="fa fa-fw fa-sort"></i>
         </th>
-        <th class="text-center align-middle p-1" style="width: 10%">Carbon Dioxide Emission
-          (ton)<br><i class="fa fa-fw fa-sort"></i></th>
+        <th class="text-center align-middle p-1" style="width: 10%">
+          Utility Cost Savings ($)<br><i class="fa fa-fw fa-sort"></i>
+        <th class="text-center align-middle p-1" style="width: 10%">
+          Utility Cost ($)<br><i class="fa fa-fw fa-sort"></i>
+        </th>
+        <th class="text-center align-middle p-1" style="width: 10%">
+          Incremental Cost ($)<br><i class="fa fa-fw fa-sort"></i>
+        </th>
+        <th class="text-center align-middle p-1" style="width: 10%">
+          Simple Payback Period (yr)<br><i class="fa fa-fw fa-sort"></i>
+        </th>
+        <th class="text-center align-middle p-1" style="width: 10%">
+          Carbon Dioxide Emission (ton)<i class="fa fa-fw fa-sort"></i>
+        </th>
       </tr>
       </thead>
       <tbody>
@@ -35,9 +48,18 @@
           </td>
           <td class="p-1"><%= '%.0f' % result['annual electricity'] %></td>
           <td class="p-1"><%= '%.0f' % result['annual gas'] %></td>
-          <td class="p-1"><%= '%.0f' % result['annual electricity saving'] %></td>
-          <td class="p-1"><%= '%.0f' % result['annual gas saving'] %></td>
+          <% unless result['annual electricity saving'].nil? %>
+            <td class="p-1"><%= '%.0f' % result['annual electricity saving'] %></td>
+          <% end %>
+
+          <% unless result['annual electricity saving'].nil? %>
+            <td class="p-1"><%= '%.0f' % result['annual gas saving'] %></td>
+          <% end %>
+
           <td class="p-1">TBD</td>
+          <td class="p-1">Place holder</td>
+          <td class="p-1">Place holder</td>
+          <td class="p-1">Place holder</td>
           <td class="p-1">Place holder</td>
           <td class="p-1">Place holder</td>
           <td class="p-1">Place holder</td>
