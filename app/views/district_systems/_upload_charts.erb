@@ -1,0 +1,157 @@
+<!--##################################################################################################-->
+<!--Time-series charts for heating, cooling demand and energy consumption-->
+<!--##################################################################################################-->
+<h4>Load profile visualization</h4>
+<p>The following time-series chart shows the user-uploaded district heating and cooling demands.</p>
+<br>
+<div class="row">
+  <div class="col-md-12">
+    <div id="ts_viz_container_1" style="width:auto; height:auto;"></div>
+  </div>
+</div>
+
+<p>The time-series chart below shows the user-uploaded district electricity and natural gas energy consumption.</p>
+<div class="row">
+  <div class="col-md-12">
+    <div id="ts_viz_container_2" style="width:auto; height:auto;"></div>
+  </div>
+</div>
+
+<script>
+    Highcharts.chart('ts_viz_container_1', {
+        chart: {
+            type: 'area',
+            zoomType: 'x',
+        },
+        title: {
+            text: 'District heating and cooling demands',
+            fontSize: '20px'
+        },
+        subtitle: {
+            text: document.ontouchstart === undefined ?
+                'Click and drag in the plot area to zoom in' : 'Pinch the chart to zoom in'
+        },
+        xAxis: {
+            type: 'datetime'
+        },
+        yAxis: {
+            title: {
+                text: 'Load (kW)'
+            }
+        },
+        credits: {
+            enabled: false
+        },
+        legend: {
+            enabled: true
+        },
+        tooltip: {
+            enabled: true,
+            shared: true,
+            valueDecimals: 1
+        },
+        series: [{
+            type: 'area',
+            name: 'Heating Demand (kW)',
+            color: '#e34839',
+            fillOpacity: 0.5,
+            lineWidth: 0.5,
+            data: <%= hash_ts_data['v_heating_demand_ts'] %>,
+        }, {
+            type: 'area',
+            name: 'Cooling Demand (kW)',
+            color: '#0090FF',
+            fillOpacity: 0.5,
+            lineWidth: 0.5,
+            data: <%= hash_ts_data['v_cooling_demand_ts'] %>,
+        }, {
+            type: 'area',
+            name: 'Simultaneous Demand (kW)',
+            color: '#3c1e46',
+            fillOpacity: 0.5,
+            lineWidth: 0.5,
+            data: <%= hash_ts_data['v_sim_heating_cooling_demand_ts'] %>,
+            valueDecimals: 1,
+        }]
+    });
+</script>
+
+<script>
+    Highcharts.chart('ts_viz_container_2', {
+        chart: {
+            type: 'area',
+            zoomType: 'x',
+        },
+        title: {
+            text: 'District electricity and natural gas consumption',
+            fontSize: '20px'
+        },
+        subtitle: {
+            text: document.ontouchstart === undefined ?
+                'Click and drag in the plot area to zoom in' : 'Pinch the chart to zoom in'
+        },
+        xAxis: {
+            type: 'datetime'
+        },
+        yAxis: [
+            {
+                title: {
+                    text: 'kWh'
+                }
+            },
+            {
+                title: {
+                    text: 'MMBTU'
+                },
+                opposite: true
+            },
+        ],
+        credits: {
+            enabled: false
+        },
+        legend: {
+            enabled: true
+        },
+        tooltip: {
+            enabled: true,
+            shared: true,
+            valueDecimals: 1,
+        },
+        series: [{
+            type: 'area',
+            name: 'Electricity Consumption (kWh)',
+            yAxis: 0,
+            color: '#3841a6',
+            fillOpacity: 0.5,
+            lineWidth: 0.5,
+            data: <%= hash_ts_data['v_ele_consumption_ts'] %>,
+        }, {
+            type: 'area',
+            name: 'Natural Gas Consumption (MMBTU)',
+            yAxis: 1,
+            color: '#dc5420',
+            fillOpacity: 0.5,
+            lineWidth: 0.5,
+            data: <%= hash_ts_data['v_gas_consumption_ts'] %>,
+        }]
+    });
+</script>
+
+<!--##################################################################################################-->
+<!--Some other charts for future work-->
+<!--##################################################################################################-->
+<br>
+<div class="row" style="display: none">
+  <div class="col-md-12">
+    <div id="dummy_bar_viz_container" style="width:100%; height:auto;"></div>
+  </div>
+</div>
+<br>
+<div class="row" style="display: none">
+  <div class="col-md-6">
+    <div id="dummy_pie_viz_container_1" style="width:100%; height:auto;"></div>
+  </div>
+  <div class="col-md-6">
+    <div id="dummy_pie_viz_container_2" style="width:100%; height:auto;"></div>
+  </div>
+</div>

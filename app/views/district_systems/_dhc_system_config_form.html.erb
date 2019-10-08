@@ -8,16 +8,24 @@
     <!--      </p>-->
     <!--    </div>-->
     <h4 class="pt-3 pb-3">Choose the districty system type and upload an epw file for simulations.</h4>
-    <p>1. Choose at least one of the following system types</p>
-
+    <h5>1. Choose at least one of the following system types</h5>
+    <div class="row pl-5 pb-3">
+      <div class="col-6"><b>System Type</b></div>
+      <div class="col-6"><b>Incremental Cost ($)</b></div>
+    </div>
     <% @system_types.each_with_index do |system_type, index| %>
       <div class="row pl-5">
-        <%= form.check_box "system_type_#{index + 1}", disabled: system_type[1], checked: system_type[2] %>&nbsp;&nbsp;
-        <%= form.label ":system_type_#{index + 1}", system_type[0] %>
+        <div class="col-6">
+          <%= form.check_box "system_type_#{index + 1}", disabled: system_type[1], checked: system_type[2] %>&nbsp;&nbsp;
+          <%= form.label ":system_type_#{index + 1}", system_type[0] %>
+        </div>
+        <div class="col-6">
+          <%= form.number_field "incremental_cost_system_type_#{index + 1}" %>
+        </div>
       </div>
     <% end %>
 
-    <p>2. Choose the weather file (epw) for simulation.</p>
+    <h5>2. Choose the weather file (epw) for simulation.</h5>
     <div class="row pl-5">
       <%= file_field_tag 'weather_epw' %>
       <% if @weather_epw_name %>
@@ -28,7 +36,6 @@
     <div class="row pl-5 pt-5">
       <p><%= form.submit 'Simulate' %></p>
     </div>
-
   </div>
 
 <% end %>

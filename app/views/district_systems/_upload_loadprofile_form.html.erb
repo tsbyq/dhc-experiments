@@ -1,4 +1,5 @@
 <div class="container border border-primary pt-2">
+  <!--File upload form-->
   <%= form_with scope: :load_profile_csv, url: district_systems_path, multipart: true do |form| %>
     <h4 class="pt-3 pb-3">Upload the district heating and cooling demand profile CSV.</h4>
     <div class="row pl-5">
@@ -6,96 +7,21 @@
       <%#= form.file_field :loadprofile %>
       <!-- For model-free scenarios-->
       <%= file_field_tag 'load_profile_csv', :required => true %>
-      <p><%= form.submit 'Upload', onclick: 'uploadLoadsProfile();' %></p>
+      <!-- <p><%#= form.submit 'Upload', onclick: 'uploadLoadsProfile();' %></p>-->
+      <p><%= form.submit 'Upload' %></p>
     </div>
   <% end %>
-
+  <hr>
   <div id="loadshape_viz_div">
-    <div class="row">
-      <div class="col-md-12">
-        <div id="ts_viz_container_1" style="width:100%; height:auto;"></div>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col-md-12">
-        <div id="ts_viz_container_2" style="width:100%; height:auto;"></div>
-      </div>
-    </div>
-
-    <br>
-    <div class="row" style="display: none">
-      <div class="col-md-12">
-        <div id="dummy_bar_viz_container" style="width:100%; height:auto;"></div>
-      </div>
-    </div>
-    <br>
-    <div class="row" style="display: none">
-      <div class="col-md-6">
-        <div id="dummy_pie_viz_container_1" style="width:100%; height:auto;"></div>
-      </div>
-      <div class="col-md-6">
-        <div id="dummy_pie_viz_container_2" style="width:100%; height:auto;"></div>
-      </div>
-    </div>
-
-    <div class="row" id="key_stats_table" style="display: none">
-      <div class="col-md-12">
-        <table class="table table-bordered table-hover text-center">
-          <thead>
-          <tr>
-            <th class="text-center" style="width: 35%"></th>
-            <th class="text-center" style="width: 15%">Peak</th>
-            <th class="text-center" style="width: 20%">Peak Time</th>
-            <th class="text-center" style="width: 15%">Intensity</th>
-            <th class="text-center" style="width: 15%">Diversity <sup>[1]</sup></th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr>
-            <td class="text-right"><b>Heating Demand</b></td>
-            <td id="peak_heating_demand"></td>
-            <td id="peak_heating_demand_time"></td>
-            <td id="peak_heating_demand_intensity"></td>
-            <td id="annual_heating_demand_diversity"></td>
-          </tr>
-          <tr>
-            <td class="text-right"><b>Cooling Demand</b></td>
-            <td id="peak_cooling_demand"></td>
-            <td id="peak_cooling_demand_time"></td>
-            <td id="peak_cooling_demand_intensity"></td>
-            <td id="annual_cooling_demand_diversity"></td>
-          </tr>
-          <tr>
-            <td class="text-right"><b>Simultaneous Heating & Cooling Demand</b></td>
-            <td id="peak_heating_cooling_demand"></td>
-            <td id="peak_heating_cooling_demand_time"></td>
-            <td id="peak_heating_cooling_demand_intensity"></td>
-            <td id="annual_heating_cooling_demand_diversity"></td>
-          </tr>
-          <tr>
-            <td class="text-right"><b>Electricity Consumption</b></td>
-            <td id="peak_electricity_consumption"></td>
-            <td id="peak_electricity_consumption_time"></td>
-            <td id="annual_electricity_consumption_intensity"></td>
-            <td id="annual_electricity_consumption_diversity"></td>
-          </tr>
-          <tr>
-            <td class="text-right"><b>Natural Consumption</b></td>
-            <td id="peak_ng_consumption"></td>
-            <td id="peak_ng_consumption_time"></td>
-            <td id="annual_ng_consumption_intensity"></td>
-            <td id="annual_ng_consumption_diversity"></td>
-          </tr>
-          <tr>
-            <td class="text-right"><b>Annual Heat Recovery Potential</b></td>
-            <td id="annual_heat_recovery_potential" colspan="4"></td>
-          </tr>
-        </table>
-        <p><a href="https://en.wikipedia.org/wiki/Diversity_index#Simpson_index">[1] Simpson's diversity index</a></p>
-      </div>
-    </div>
-
+    <!--charts-->
+    <% unless @hash_ts_data.nil? %>
+      <%= render 'upload_charts', hash_ts_data: @hash_ts_data %>
+    <% end %>
+    <!--key stats table-->
+    <% unless @hash_key_stats.nil? %>
+      <%= render 'upload_key_stats_table', hash_key_stats: @hash_key_stats %>
+    <% end %>
   </div>
+
 </div>
 <br><br>

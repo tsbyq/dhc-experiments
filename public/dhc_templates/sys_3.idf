@@ -1253,9 +1253,6 @@ Schedule:File,
   No;                                     !- Interpolate to Timestep
 ! ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-
-
-
 Output:Meter,
   Electricity:Facility,                   !- Key Name
   Annual;                               !- Reporting Frequency
@@ -1263,3 +1260,11 @@ Output:Meter,
 Output:Meter,
   Gas:Facility,                           !- Key Name
   Annual;                               !- Reporting Frequency
+
+Output:Meter,
+  Electricity:Facility,                   !- Key Name
+  Hourly;                               !- Reporting Frequency
+
+Output:Meter,
+  Gas:Facility,                           !- Key Name
+  Hourly;                               !- Reporting Frequency
