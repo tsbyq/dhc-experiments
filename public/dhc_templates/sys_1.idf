@@ -1977,6 +1977,14 @@ Output:Meter,
   Gas:Facility,                           !- Key Name
   Annual;                               !- Reporting Frequency
 
+Output:Meter,
+  Electricity:Facility,                   !- Key Name
+  Hourly;                               !- Reporting Frequency
+
+Output:Meter,
+  Gas:Facility,                           !- Key Name
+  Hourly;                               !- Reporting Frequency
+
 ! Output:Meter,Carbon Equivalent:Facility,annual; !- [kg]
 ! Output:Meter,Carbon Equivalent:Facility,annual; !- [kg]
 ! Output:Meter:Cumulative,Carbon Equivalent:Facility,annual; !- [kg]

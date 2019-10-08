@@ -1982,3 +1982,11 @@ Output:Meter:Cumulative,CarbonEquivalentEmissions:Carbon Equivalent,annual; !- [
 Output:Variable,*,Environmental Impact Total N2O Emissions Carbon Equivalent Mass,annual; !- HVAC Sum [kg]
 Output:Variable,*,Environmental Impact Total CH4 Emissions Carbon Equivalent Mass,annual; !- HVAC Sum [kg]
 Output:Variable,*,Environmental Impact Total CO2 Emissions Carbon Equivalent Mass,annual; !- HVAC Sum [kg]
+
+Output:Meter,
+  Electricity:Facility,                   !- Key Name
+  Hourly;                               !- Reporting Frequency
+
+Output:Meter,
+  Gas:Facility,                           !- Key Name
+  Hourly;                               !- Reporting Frequency

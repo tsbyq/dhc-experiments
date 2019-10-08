@@ -8,7 +8,7 @@
     <!--      </p>-->
     <!--    </div>-->
     <h4 class="pt-3 pb-3">Choose the districty system type and upload an epw file for simulations.</h4>
-    <p>1. Choose at least one of the following system types</p>
+    <h5>1. Choose at least one of the following system types</h5>
     <div class="row pl-5 pb-3">
       <div class="col-6"><b>System Type</b></div>
       <div class="col-6"><b>Incremental Cost ($)</b></div>
@@ -25,7 +25,7 @@
       </div>
     <% end %>
 
-    <p>2. Choose the weather file (epw) for simulation.</p>
+    <h5>2. Choose the weather file (epw) for simulation.</h5>
     <div class="row pl-5">
       <%= file_field_tag 'weather_epw' %>
       <% if @weather_epw_name %>

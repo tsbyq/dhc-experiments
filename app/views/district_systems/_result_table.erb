@@ -15,7 +15,7 @@
         <th class="text-center align-middle p-1" style="width: 10%">
           Natural Gas Savings (MMBTU)<br><i class="fa fa-fw fa-sort"></i></th>
         <th class="text-center align-middle p-1" style="width: 10%">
-          Peak Electricity Reduction (kWh)<br><i class="fa fa-fw fa-sort"></i></th>
+          Peak Hourly Electricity Reduction (kWh)<br><i class="fa fa-fw fa-sort"></i></th>
         <th class="text-center align-middle p-1" style="width: 10%">
           Utility Cost ($)<br><i class="fa fa-fw fa-sort"></i>
         </th>
@@ -55,9 +55,9 @@
           <% unless result['annual electricity saving'].nil? %>
             <td class="p-1"><%= '%.0f' % result['annual gas saving'] %></td>
           <% end %>
-
-          <td class="p-1">TBD</td>
-
+          <% unless result['hourly electricity peak reduction'].nil? %>
+            <td class="p-1"><%= '%.0f' % result['hourly electricity peak reduction'] %></td>
+          <% end %>
           <% unless result['annual utility cost'].nil? %>
             <td class="p-1"><%= '%.0f' % result['annual utility cost'] %></td>
           <% end %>
