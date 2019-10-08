@@ -36,8 +36,8 @@ class DistrictSystemsController < ApplicationController
   @@sys_type_5_dev = true
 
   # The unit cost of fuels will be available in CityBES
-  @@ele_unit_cost = 1 # $/kWh
-  @@gas_unit_cost = 50 # $/MMBTU
+  @@ele_unit_cost = 0.042 # $/kWh
+  @@gas_unit_cost = 1.51 # $/MMBTU
 
   # Instance variables
   @sys_type_1_selected = false
