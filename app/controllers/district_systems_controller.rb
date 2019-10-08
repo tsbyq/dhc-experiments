@@ -35,6 +35,10 @@ class DistrictSystemsController < ApplicationController
   @@sys_type_4_dev = false
   @@sys_type_5_dev = true
 
+  # The unit cost of fuels will be available in CityBES
+  @@ele_unit_cost = 1   # $/kWh
+  @@gas_unit_cost = 1   # $/MMBTU
+
   # Instance variables
   @sys_type_1_selected = false
   @sys_type_2_selected = false
@@ -97,7 +101,6 @@ class DistrictSystemsController < ApplicationController
     puts '---> Entering Simulate method...'
     # Check if a epw file is available, show error message if none exists.
     old_epw_path = params[:weather_epw].path
-
     filename = params[:weather_epw].original_filename
     new_epw_path = @@user_uploads_path + filename
     # Copy the uploaded weather file to the temp run folder
@@ -107,13 +110,14 @@ class DistrictSystemsController < ApplicationController
 
     #TODO: 1. Prepare simulation configurations (IDFs, schedule:files, commands)
     # Need to automate this process, consider quick-check to adjust default plant loop, branches settings.
-    jobs_json_dir = prepare_simulation(params)
+    jobs_json_dir, hash_incremental_cost = prepare_simulation(params)
 
     #TODO: 2. Call EnergyPlus simulation for the district heating and cooling systems.
     # A Python routine to call simulation in parallel is ready
     simulation_success = false
 
     puts jobs_json_dir
+    puts hash_incremental_cost
 
     unless jobs_json_dir.nil?
       simulation_success = run_simulate(jobs_json_dir)
@@ -132,14 +136,23 @@ class DistrictSystemsController < ApplicationController
         "annual gas" => session[:base_annual_gas_consumption],
         "annual electricity saving" => 0,
         "annual gas saving" => 0,
+        "incremental cost" => 0,
     }
     v_results.push(base_out_hash)
+    puts '&' * 100
+    puts hash_incremental_cost
+    puts '&' * 100
     jobs_json_hash['jobs'].each do |job|
       job_out_csv = job['run_dir'] + '/eplusout.csv'
       out_hash = read_eplus_output(job_out_csv, base_out_hash)
       out_hash['sys_type'] = job['sys_type']
+      out_hash['incremental cost'] = hash_incremental_cost[job['sys_type']]
       v_results.push(out_hash)
     end
+
+    puts '=' * 100
+    puts v_results
+    puts '=' * 100
 
     session[:v_results] = v_results
     session[:v_results_js] = v_results.to_json.html_safe
@@ -171,7 +184,7 @@ class DistrictSystemsController < ApplicationController
     @sys_type_4_selected = params[:district_system_config][:system_type_4] == '1' ? true : false
     @sys_type_5_selected = params[:district_system_config][:system_type_5] == '1' ? true : false
     v_selections = [@sys_type_1_selected, @sys_type_2_selected, @sys_type_3_selected, @sys_type_4_selected, @sys_type_5_selected]
-
+    hash_incremental_cost = Hash.new
     uploaded_sch = session[:uploaded_file_path]
     uploaded_epw = session[:weather_epw_path]
     puts uploaded_sch
@@ -203,6 +216,7 @@ class DistrictSystemsController < ApplicationController
       if @sys_type_1_selected
         sys_1_idf = temp_run_path + @@sys_type_1_idf_name
         sys_1_run_dir = temp_run_path + 'sys_1'
+        hash_incremental_cost[@@sys_type_1_name] = params[:district_system_config][:incremental_cost_system_type_1]
         FileUtils.cp(@@dhc_template_path + @@sys_type_1_idf_name, sys_1_idf)
         idf_modifier(@@python_command, @@idf_modifier_py, sys_1_idf, run_epw_file, run_sch_file, @@idd_file_dir)
         v_simulation_jobs.push(create_simulation_job_hash(@@ep_exe, run_epw_file, sys_1_idf, sys_1_run_dir, @@sys_type_1_name))
@@ -210,6 +224,7 @@ class DistrictSystemsController < ApplicationController
       if @sys_type_2_selected
         sys_2_idf = temp_run_path + @@sys_type_2_idf_name
         sys_2_run_dir = temp_run_path + 'sys_2'
+        hash_incremental_cost[@@sys_type_2_name] = params[:district_system_config][:incremental_cost_system_type_2]
         FileUtils.cp(@@dhc_template_path + @@sys_type_2_idf_name, sys_2_idf)
         idf_modifier(@@python_command, @@idf_modifier_py, sys_2_idf, run_epw_file, run_sch_file, @@idd_file_dir)
         v_simulation_jobs.push(create_simulation_job_hash(@@ep_exe, run_epw_file, sys_2_idf, sys_2_run_dir, @@sys_type_2_name))
@@ -217,6 +232,7 @@ class DistrictSystemsController < ApplicationController
       if @sys_type_3_selected
         sys_3_idf = temp_run_path + @@sys_type_3_idf_name
         sys_3_run_dir = temp_run_path + 'sys_3'
+        hash_incremental_cost[@@sys_type_3_name] = params[:district_system_config][:incremental_cost_system_type_3]
         FileUtils.cp(@@dhc_template_path + @@sys_type_3_idf_name, sys_3_idf)
         idf_modifier(@@python_command, @@idf_modifier_py, sys_3_idf, run_epw_file, run_sch_file, @@idd_file_dir)
         v_simulation_jobs.push(create_simulation_job_hash(@@ep_exe, run_epw_file, sys_3_idf, sys_3_run_dir, @@sys_type_3_name))
@@ -224,6 +240,7 @@ class DistrictSystemsController < ApplicationController
       if @sys_type_4_selected
         sys_4_idf = temp_run_path + @@sys_type_4_idf_name
         sys_4_run_dir = temp_run_path + 'sys_4'
+        hash_incremental_cost[@@sys_type_4_name] = params[:district_system_config][:incremental_cost_system_type_4]
         FileUtils.cp(@@dhc_template_path + @@sys_type_4_idf_name, sys_4_idf)
         idf_modifier(@@python_command, @@idf_modifier_py, sys_4_idf, run_epw_file, run_sch_file, @@idd_file_dir)
         v_simulation_jobs.push(create_simulation_job_hash(@@ep_exe, run_epw_file, sys_4_idf, sys_4_run_dir, @@sys_type_4_name))
@@ -231,6 +248,7 @@ class DistrictSystemsController < ApplicationController
       if @sys_type_5_selected
         sys_5_idf = temp_run_path + @@sys_type_5_idf_name
         sys_5_run_dir = temp_run_path + 'sys_5'
+        hash_incremental_cost[@@sys_type_5_name] = params[:district_system_config][:incremental_cost_system_type_5]
         FileUtils.cp(@@dhc_template_path + @@sys_type_5_idf_name, sys_5_idf)
         idf_modifier(@@python_command, @@idf_modifier_py, sys_5_idf, run_epw_file, run_sch_file, @@idd_file_dir)
         v_simulation_jobs.push(create_simulation_job_hash(@@ep_exe, run_epw_file, sys_5_idf, sys_5_run_dir, @@sys_type_5_name))
@@ -247,7 +265,7 @@ class DistrictSystemsController < ApplicationController
         f.write(job_hash.to_json)
       end
     end
-    return jobs_json_dir
+    return [jobs_json_dir, hash_incremental_cost]
   end
 
   def run_simulate(jobs_json_dir)
