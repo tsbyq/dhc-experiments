@@ -105,9 +105,20 @@ class DistrictSystemsController < ApplicationController
   def simulate(params)
     puts '---> Entering Simulate method...'
     # Check if a epw file is available, show error message if none exists.
-    old_epw_path = params[:weather_epw].path
-    filename = params[:weather_epw].original_filename
-    new_epw_path = @@user_uploads_path + filename
+    puts '-' * 100
+    if session[:weather_epw_path].nil? and params[:weather_epw].nil?
+      puts 'Will show no weather file error message!'
+    elsif params[:weather_epw].nil? and not session[:weather_epw_path].nil?
+      puts 'Will use weather file in session'
+      old_epw_path = session[:weather_epw_path]
+      filename = File.basename(session[:weather_epw_path])
+      new_epw_path = @@user_uploads_path + filename
+    else
+      puts 'Will use user uploaded weather file'
+      old_epw_path = params[:weather_epw].path
+      filename = params[:weather_epw].original_filename
+      new_epw_path = @@user_uploads_path + filename
+    end
     # Copy the uploaded weather file to the temp run folder
     FileUtils.cp(old_epw_path, new_epw_path) if File.exist?(old_epw_path)
     session[:weather_epw_path] = new_epw_path
