@@ -22,9 +22,6 @@
         <th class="text-center align-middle p-1" style="width: 10%">
           Utility Cost Savings ($)<br><i class="fa fa-fw fa-sort"></i>
         <th class="text-center align-middle p-1" style="width: 10%">
-          Utility Cost ($)<br><i class="fa fa-fw fa-sort"></i>
-        </th>
-        <th class="text-center align-middle p-1" style="width: 10%">
           Incremental Cost ($)<br><i class="fa fa-fw fa-sort"></i>
         </th>
         <th class="text-center align-middle p-1" style="width: 10%">
@@ -46,23 +43,35 @@
                  href="https://www.google.com/search?q=<%= result['sys_type'] %>"><%= result['sys_type'] %></a>
             <% end %>
           </td>
-          <td class="p-1"><%= '%.0f' % result['annual electricity'] %></td>
-          <td class="p-1"><%= '%.0f' % result['annual gas'] %></td>
+          <% unless result['annual electricity'].nil? %>
+            <td class="p-1"><%= '%.0f' % result['annual electricity'] %></td>
+          <% end %>
+          <% unless result['annual gas'].nil? %>
+            <td class="p-1"><%= '%.0f' % result['annual gas'] %></td>
+          <% end %>
           <% unless result['annual electricity saving'].nil? %>
             <td class="p-1"><%= '%.0f' % result['annual electricity saving'] %></td>
           <% end %>
-
           <% unless result['annual electricity saving'].nil? %>
             <td class="p-1"><%= '%.0f' % result['annual gas saving'] %></td>
           <% end %>
 
           <td class="p-1">TBD</td>
+
+          <% unless result['annual utility cost'].nil? %>
+            <td class="p-1"><%= '%.0f' % result['annual utility cost'] %></td>
+          <% end %>
+          <% unless result['annual utility cost saving'].nil? %>
+            <td class="p-1"><%= '%.0f' % result['annual utility cost saving'] %></td>
+          <% end %>
+          <% unless result['incremental cost'].nil? %>
+            <td class="p-1"><%= '%.0f' % result['incremental cost'] %></td>
+          <% end %>
+          <% unless result['simple payback'].nil? %>
+            <td class="p-1"><%= '%.3f' % result['simple payback'] %></td>
+          <% end %>
           <td class="p-1">Place holder</td>
-          <td class="p-1">Place holder</td>
-          <td class="p-1">Place holder</td>
-          <td class="p-1">Place holder</td>
-          <td class="p-1">Place holder</td>
-          <td class="p-1">Place holder</td>
+
         </tr>
       <% end %>
       </tbody>

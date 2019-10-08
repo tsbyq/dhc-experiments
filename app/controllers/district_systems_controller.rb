@@ -36,8 +36,8 @@ class DistrictSystemsController < ApplicationController
   @@sys_type_5_dev = true
 
   # The unit cost of fuels will be available in CityBES
-  @@ele_unit_cost = 1   # $/kWh
-  @@gas_unit_cost = 1   # $/MMBTU
+  @@ele_unit_cost = 1 # $/kWh
+  @@gas_unit_cost = 50 # $/MMBTU
 
   # Instance variables
   @sys_type_1_selected = false
@@ -135,8 +135,11 @@ class DistrictSystemsController < ApplicationController
         "annual electricity" => session[:base_annual_ele_consumption],
         "annual gas" => session[:base_annual_gas_consumption],
         "annual electricity saving" => 0,
+        "annual utility cost" => session[:base_annual_ele_consumption] * @@ele_unit_cost + session[:base_annual_gas_consumption] * @@gas_unit_cost,
+        "annual utility cost saving" => 0,
         "annual gas saving" => 0,
         "incremental cost" => 0,
+        'simple payback' => 0,
     }
     v_results.push(base_out_hash)
     puts '&' * 100
@@ -144,9 +147,14 @@ class DistrictSystemsController < ApplicationController
     puts '&' * 100
     jobs_json_hash['jobs'].each do |job|
       job_out_csv = job['run_dir'] + '/eplusout.csv'
-      out_hash = read_eplus_output(job_out_csv, base_out_hash)
+      out_hash = read_eplus_output(job_out_csv)
       out_hash['sys_type'] = job['sys_type']
+      out_hash["annual electricity saving"] = base_out_hash['annual electricity'] - out_hash["annual electricity"]
+      out_hash["annual gas saving"] = base_out_hash['annual gas'] - out_hash["annual gas"]
       out_hash['incremental cost'] = hash_incremental_cost[job['sys_type']]
+      out_hash['annual utility cost'] = out_hash["annual electricity"] * @@ele_unit_cost + out_hash["annual gas"] * @@gas_unit_cost
+      out_hash['annual utility cost saving'] = base_out_hash['annual utility cost'] - out_hash['annual utility cost']
+      out_hash['simple payback'] = out_hash['incremental cost'].to_f / out_hash['annual utility cost saving'].to_f
       v_results.push(out_hash)
     end
 
@@ -405,7 +413,7 @@ class DistrictSystemsController < ApplicationController
     return [hash_ts_data, hash_key_stats]
   end
 
-  def read_eplus_output(eplusout_dir, baseline_out_hash)
+  def read_eplus_output(eplusout_dir)
     # This function read the eplusout.csv file and create a result hash.
     csv_table = CSV.read(eplusout_dir, headers: true)
 
@@ -429,8 +437,6 @@ class DistrictSystemsController < ApplicationController
     out_hash = {
         "annual electricity" => J_to_kWh(csv_table[0][real_electricity_header].to_f),
         "annual gas" => J_to_mmbtu(csv_table[0][real_natural_gas_header].to_f),
-        "annual electricity saving" => baseline_out_hash['annual electricity'] - J_to_kWh(csv_table[0][real_electricity_header].to_f),
-        "annual gas saving" => baseline_out_hash['annual gas'] - J_to_mmbtu(csv_table[0][real_natural_gas_header].to_f),
     }
     out_hash
   end

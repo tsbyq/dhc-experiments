@@ -16,8 +16,7 @@
             sys_labels.push(sys_result['sys_type']);
             sys_electricity_consumption.push(Math.round(sys_result['annual electricity']));
             sys_natural_gas_consumption.push(Math.round(sys_result['annual gas']));
-            sys_total_consumption.push(Math.round(sys_result['annual electricity'] + sys_result['annual gas'] * MMBTU_to_KWH));
-            sys_utility_cost.push(Math.floor((Math.random() * 100) + 20));
+            sys_utility_cost.push(Math.round(sys_result['annual utility cost']));
         });
 
         var barChartData = {
