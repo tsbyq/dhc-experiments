@@ -8,8 +8,8 @@
     <%#= form.text_field :name, autofocus: true, :required => 'required', placeholder: "System name" %>
     <!--      </p>-->
     <!--    </div>-->
-    <h4 class="pt-3 pb-3">Choose the districty system type and upload an epw file for simulations.</h4>
-    <h5>1. Choose at least one of the following system types</h5>
+    <h4 class="pt-3 pb-5">Choose the district system type and upload an epw file for simulations.</h4>
+    <h5>1. Select at least one of the following system types</h5>
     <div class="row pl-5 pb-3">
       <div class="col-6"><b>System Type</b></div>
       <div class="col-6"><b>Incremental Cost ($)</b></div>
@@ -28,11 +28,32 @@
         </div>
       </div>
       <div class="row pl-5">
-        <div class="col-10">
-          <div class="collapse pl-3" id='<%= (system_type[3]) %>'>
-            <div class="card card-body" style="background-color: cadetblue">
-              More details coming soon...
+        <div class="col-9">
+          <div class="collapse pl-3 pt-3 pb-3" id='<%= (system_type[3]) %>'>
+
+            <div class="card card-body" style="background-color: #dcdcdc">
+              <!--TODO:Conditionally show system options-->
+              <% if system_type[3] == 'sys1' %>
+                <div class="radio">
+                  <label><input type="radio" name="optradio" checked> 1 Chiller + 1 Boiler</label>
+                </div>
+                <div class="radio">
+                  <label><input type="radio" name="optradio"> Option 2</label>
+                </div>
+                <div class="radio">
+                  <label><input type="radio" name="optradio"> Option 3</label>
+                </div>
+              <% elsif system_type[3] == 'sys2' %>
+                <p>Options for <b><%= system_type[0] %></b> is under development.</p>
+              <% elsif system_type[3] == 'sys3' %>
+                <p>Options for <b><%= system_type[0] %></b> is under development.</p>
+              <% elsif system_type[3] == 'sys4' %>
+                <p>Options for <b><%= system_type[0] %></b> is under development.</p>
+              <% elsif system_type[3] == 'sys5' %>
+                <p>Options for <b><%= system_type[0] %></b> is under development.</p>
+              <% end %>
             </div>
+
           </div>
         </div>
       </div>
