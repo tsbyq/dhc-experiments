@@ -1,5 +1,6 @@
-<%= form_with scope: :district_system_config, url: district_systems_path, local: true, multipart: true do |form| %>
-  <div class="container border border-success pt-2">
+<div class="container pt-2">
+  <%= form_with scope: :district_system_config, url: district_systems_path, local: true, multipart: true do |form| %>
+
     <!--    <div class="row pl-3">-->
     <!--      <p>-->
     <!--        <%#= form.label :name, 'Configuration name' %><br>-->
@@ -27,12 +28,13 @@
         </div>
       </div>
       <div class="row pl-5">
-        <div class="collapse pl-3" id='<%= (system_type[3]) %>'>
-          <div class="card card-body">
-            More details coming soon...
+        <div class="col-10">
+          <div class="collapse pl-3" id='<%= (system_type[3]) %>'>
+            <div class="card card-body" style="background-color: cadetblue">
+              More details coming soon...
+            </div>
           </div>
         </div>
-
       </div>
     <% end %>
 
@@ -47,8 +49,6 @@
     <div class="row pl-5 pt-5">
       <p><%= form.submit 'Simulate' %></p>
     </div>
-  </div>
-
-<% end %>
-
+  <% end %>
+</div>
 <%#= link_to 'Simulate', '/district_systems/simulate' %>
