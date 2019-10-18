@@ -191,11 +191,11 @@ class DistrictSystemsController < ApplicationController
   ######################################################################################################################
   def add_system_types()
     v_system_types = []
-    v_system_types.push([@@sys_type_1_name, @@sys_type_1_dev, @sys_type_1_selected])
-    v_system_types.push([@@sys_type_2_name, @@sys_type_2_dev, @sys_type_2_selected])
-    v_system_types.push([@@sys_type_3_name, @@sys_type_3_dev, @sys_type_3_selected])
-    v_system_types.push([@@sys_type_4_name, @@sys_type_4_dev, @sys_type_4_selected])
-    v_system_types.push([@@sys_type_5_name, @@sys_type_5_dev, @sys_type_5_selected])
+    v_system_types.push([@@sys_type_1_name, @@sys_type_1_dev, @sys_type_1_selected, 'sys1'])
+    v_system_types.push([@@sys_type_2_name, @@sys_type_2_dev, @sys_type_2_selected, 'sys2'])
+    v_system_types.push([@@sys_type_3_name, @@sys_type_3_dev, @sys_type_3_selected, 'sys3'])
+    v_system_types.push([@@sys_type_4_name, @@sys_type_4_dev, @sys_type_4_selected, 'sys4'])
+    v_system_types.push([@@sys_type_5_name, @@sys_type_5_dev, @sys_type_5_selected, 'sys5'])
     return v_system_types
   end
 
