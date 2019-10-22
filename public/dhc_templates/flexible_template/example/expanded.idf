@@ -364,6 +364,10 @@ Branch,
   Test room Heating Coil HW Inlet,                         !- Component Inlet Node Name
   Test room Heating Coil HW Outlet;                        !- Component Outlet Node Name
 
+! ##############################################################################
+! Remove all the objects above
+! ##############################################################################
+
 Boiler:HotWater,
   Boiler No. 1,                                            !- Name
   NaturalGas,                                              !- Fuel Type
