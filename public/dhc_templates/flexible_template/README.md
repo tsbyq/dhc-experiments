@@ -17,7 +17,7 @@ HVACTemplate:Plant:Chiller,
 
  2. Use **ExpandObjects.exe** ([from EP](example/ExpandObjects.exe)) to expand the modified **in.idf** file. This will generate a new **expanded.idf**
  
- 3. Remove the zone fan coil objects in the **expanded.idf** ([example](example/expanded.idf))
+ 3. Remove the zone fan coil objects in the **expanded.idf** ([example](example/expanded.idf#L1-L365))
     * The following *branch* object and all the objects above it should be removed.
     ~~~
     Branch,
