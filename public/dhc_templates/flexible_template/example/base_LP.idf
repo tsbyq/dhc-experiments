@@ -185,32 +185,32 @@ Branch,
   ,                                       !- Pressure Drop Curve Name
   LoadProfile:Plant,                      !- Component Object Type 1
   District Heating Load Profile,          !- Component Name 1
-  Node 1,                                 !- Component Inlet Node Name 1
-  Node 2;                                 !- Component Outlet Node Name 1
+  District Heating Load Profile Inlet Node,                                 !- Component Inlet Node Name 1
+  District Heating Load Profile Outlet Node;                                 !- Component Outlet Node Name 1
 
 Branch,
   Chilled Water Loop Load Profile Demand Branch,     !- Name
   ,                                       !- Pressure Drop Curve Name
   LoadProfile:Plant,                      !- Component Object Type 1
   District Cooling Load Profile,          !- Component Name 1
-  Node 3,                                 !- Component Inlet Node Name 1
-  Node 4;                                 !- Component Outlet Node Name 1
+  District Cooling Load Profile Inlet Node,                                 !- Component Inlet Node Name 1
+  District Cooling Load Profile Outlet Node;                                 !- Component Outlet Node Name 1
 
 LoadProfile:Plant,
   District Heating Load Profile,          !- Name
-  Node 1,                                 !- Inlet Node Name
-  Node 2,                                 !- Outlet Node Name
+  District Heating Load Profile Inlet Node,                                 !- Inlet Node Name
+  District Heating Load Profile Outlet Node,                                 !- Outlet Node Name
   Heating Load Profile Schedule, !- Load Schedule Name (From CSV)
   0.001,                                  !- Peak Flow Rate {m3/s}
   HVACTemplate-Always 1;        !- Flow Rate Fraction Schedule Name
 
 LoadProfile:Plant,
   District Cooling Load Profile,          !- Name
-  Node 3,                                 !- Inlet Node Name
-  Node 4,                                 !- Outlet Node Name
+  District Cooling Load Profile Inlet Node,                                 !- Inlet Node Name
+  District Cooling Load Profile Outlet Node,                                 !- Outlet Node Name
   Cooling Load Profile Schedule, !- Load Schedule Name (From CSV)
   ! District Cooling Load Profile Schedule, !- Load Schedule Name (Fixed)
-  0.001,                                  !- Peak Flow Rate {m3/s}
+  0.1,                                  !- Peak Flow Rate {m3/s}
   HVACTemplate-Always 1;        !- Flow Rate Fraction Schedule Name
 
 Schedule:File,

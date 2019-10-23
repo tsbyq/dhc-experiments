@@ -165,11 +165,11 @@ if __name__ == '__main__':
     final_idf = 'final_now.idf'
     plant_configuration_json = 'plant_configuration.json'
 
-    # modify_template_idf(plant_configuration_json)
+    modify_template_idf(plant_configuration_json)
     expand_template_idf()
     prepare_LP_plantloop(expanded_plant_loop_idf, LP_plant_loop_idf)
     append_files(base_LP_idf, LP_plant_loop_idf, final_idf)
-    # cleanup(expanded_plant_loop_idf)
+    cleanup(expanded_plant_loop_idf)
     cleanup(LP_plant_loop_idf)
     cleanup('expandedidf.err')
-    # cleanup('in.idf')
+    cleanup('in.idf')
