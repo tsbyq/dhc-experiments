@@ -59,47 +59,23 @@ HVACTemplate:Plant:ChilledWaterLoop,
     6.7,                      !- Chilled Water Setpoint at Outdoor DryBulb High
     26.7;                     !- Chilled Water Reset Outdoor DryBulb High
 
-HVACTEMPLATE:PLANT:CHILLER,
-    Chiller No. 1,            !- Name
-    ElectricCentrifugalChiller,    !- Chiller Type
-    autosize,                 !- Capacity
-    6,                        !- Nominal COP
-    WaterCooled,              !- Condenser Type
-    ,                         !- Priority
-    1,                        !- Sizing Factor
-    0,                        !- Minimum Part Load Ratio
-    1,                        !- Maximum Part Load Ratio
-    1,                        !- Optimum Part Load Ratio
-    0.25,                     !- Minimum Unloading Ratio
-    5;                        !- Leaving Chilled Water Lower Temperature Limit
+HVACTemplate:Plant:Chiller,
+  Chiller No. 1,            !- Name
+  ElectricReciprocatingChiller,  !- Chiller Type
+  autosize,                !- Capacity {W}
+  3.2,                     !- Nominal COP {W/W}
+  WaterCooled,             !- Condenser Type
+  1,                       !- Priority
+  ;                        !- Sizing Factor
 
-HVACTEMPLATE:PLANT:CHILLER,
-    Chiller No. 2,            !- Name
-    ElectricReciprocatingChiller,    !- Chiller Type
-    autosize,                 !- Capacity
-    3,                        !- Nominal COP
-    WaterCooled,              !- Condenser Type
-    ,                         !- Priority
-    1,                        !- Sizing Factor
-    0,                        !- Minimum Part Load Ratio
-    1,                        !- Maximum Part Load Ratio
-    1,                        !- Optimum Part Load Ratio
-    0.25,                     !- Minimum Unloading Ratio
-    5;                        !- Leaving Chilled Water Lower Temperature Limit
-
-HVACTEMPLATE:PLANT:CHILLER,
-    Chiller No. 3,            !- Name
-    ElectricScrewChiller,     !- Chiller Type
-    autosize,                 !- Capacity
-    5,                        !- Nominal COP
-    WaterCooled,              !- Condenser Type
-    ,                         !- Priority
-    1,                        !- Sizing Factor
-    0,                        !- Minimum Part Load Ratio
-    1,                        !- Maximum Part Load Ratio
-    1,                        !- Optimum Part Load Ratio
-    0.25,                     !- Minimum Unloading Ratio
-    5;                        !- Leaving Chilled Water Lower Temperature Limit
+HVACTemplate:Plant:Chiller,
+  Chiller No. 2,            !- Name
+  ElectricReciprocatingChiller,  !- Chiller Type
+  autosize,                !- Capacity {W}
+  3.2,                     !- Nominal COP {W/W}
+  WaterCooled,             !- Condenser Type
+  1,                       !- Priority
+  ;                        !- Sizing Factor
 
 HVACTemplate:Plant:Tower,
     Main Tower,               !- Name
@@ -133,7 +109,7 @@ HVACTEMPLATE:PLANT:BOILER,
     ,                         !- Boiler Type
     autosize,                 !- Capacity
     0.8,                      !- Efficiency
-    ,                         !- Fuel Type
+    NaturalGas,               !- Fuel Type
     ,                         !- Priority
     1,                        !- Sizing Factor
     0,                        !- Minimum Part Load Ratio
@@ -146,7 +122,7 @@ HVACTEMPLATE:PLANT:BOILER,
     ,                         !- Boiler Type
     autosize,                 !- Capacity
     0.89,                     !- Efficiency
-    ,                         !- Fuel Type
+    NaturalGas,               !- Fuel Type
     ,                         !- Priority
     1,                        !- Sizing Factor
     0,                        !- Minimum Part Load Ratio

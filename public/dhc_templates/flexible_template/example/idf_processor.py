@@ -19,7 +19,6 @@ def modify_template_idf(plant_configuration_json_file,
     with open(plant_configuration_json_file) as json_file:
         data = json.load(json_file)
 
-
     def add_template_chiller(idf,
                              chiller_name,
                              chiller_type='ElectricCentrifugalChiller',
@@ -31,13 +30,21 @@ def modify_template_idf(plant_configuration_json_file,
         idf_new_template_chiller.Chiller_Type = chiller_type
         idf_new_template_chiller.Nominal_COP = cop
         idf_new_template_chiller.Condenser_Type = condenser_type
+        idf_new_template_chiller.Priority = 1
+        idf_new_template_chiller.Sizing_Factor = ''
+        idf_new_template_chiller.Minimum_Part_Load_Ratio = ''
+        idf_new_template_chiller.Maximum_Part_Load_Ratio = ''
+        idf_new_template_chiller.Optimum_Part_Load_Ratio = ''
+        idf_new_template_chiller.Minimum_Unloading_Ratio = ''
+        idf_new_template_chiller.Leaving_Chilled_Water_Lower_Temperature_Limit = ''
         return idf
 
-    def add_template_boiler(idf, boiler_name, efficiency=0.8):
+    def add_template_boiler(idf, boiler_name, efficiency=0.8, fuel_type="NaturalGas"):
         idf.newidfobject("HVACTemplate:Plant:Boiler")
         idf_new_template_boiler = idf.idfobjects['HVACTemplate:Plant:Boiler'][-1]
         idf_new_template_boiler.Name = boiler_name
         idf_new_template_boiler.Efficiency = efficiency
+        idf_new_template_boiler.Fuel_Type = fuel_type
         return idf
 
     for count, chiller in enumerate(data['chillers']):
@@ -52,19 +59,21 @@ def modify_template_idf(plant_configuration_json_file,
 
 def expand_template_idf(template_idf='in.idf',
                         expanded_template_idf='expanded.idf',
-                        expand_objects_exe='ExpandObjects.exe',
-                        idd_file = "C:/EnergyPlusV9-1-0/Energy+.idd"):
+                        expand_objects_exe='C:/EnergyPlusV9-1-0/ExpandObjects.exe',
+                        idd_file = "C:/EnergyPlusV9-1-0/Energy+.idd",
+                        out_dir='./'):
     cmd = [expand_objects_exe]
     p = subprocess.Popen(cmd)
+    p.wait()
 
 def prepare_LP_plantloop(expanded_plant_loop_idf='expanded.idf',
                          LP_plant_loop_idf='plant_loop.idf',
                          idd_file = "C:/EnergyPlusV9-1-0/Energy+.idd"):
+    # constants
     BRANCH_TO_DELETE = ['Test room Cooling Coil ChW Branch', 'Test room Heating Coil HW Branch']
     DEMAND_BRANCH_LISTS = ['Hot Water Loop HW Demand Side Branches', 'Chilled Water Loop ChW Demand Side Branches']
     DEMAND_SPLITTER_LISTS = ['Hot Water Loop HW Demand Splitter', 'Chilled Water Loop ChW Demand Splitter']
     DEMAND_MIXER_LISTS = ['Hot Water Loop HW Demand Mixer', 'Chilled Water Loop ChW Demand Mixer']
-
     OLD_HW_LP_BRANCH_NAME = 'Test room Heating Coil HW Branch'
     OLD_CW_LP_BRANCH_NAME = 'Test room Cooling Coil ChW Branch'
     NEW_HW_LP_BRANCH_NAME = 'Hot Water Loop Load Profile Demand Branch'
@@ -145,12 +154,22 @@ def append_files(file_1, file_2, file_out):
     f_final_content.write(plant_loop_content)
 
 
+def cleanup(file_path):
+    if os.path.exists(file_path):
+        os.remove(file_path)
+
 if __name__ == '__main__':
-    modify_template_idf('plant_configuration.json')
-    expand_template_idf()
     base_LP_idf = 'base_LP.idf'
     expanded_plant_loop_idf = 'expanded.idf'
     LP_plant_loop_idf = 'plant_loop.idf'
-    final_idf = 'final_999.idf'
+    final_idf = 'final_now.idf'
+    plant_configuration_json = 'plant_configuration.json'
+
+    # modify_template_idf(plant_configuration_json)
+    expand_template_idf()
     prepare_LP_plantloop(expanded_plant_loop_idf, LP_plant_loop_idf)
     append_files(base_LP_idf, LP_plant_loop_idf, final_idf)
+    # cleanup(expanded_plant_loop_idf)
+    cleanup(LP_plant_loop_idf)
+    cleanup('expandedidf.err')
+    # cleanup('in.idf')

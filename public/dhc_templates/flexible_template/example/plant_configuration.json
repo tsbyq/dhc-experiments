@@ -14,14 +14,21 @@
                 "type": "ElectricScrewChiller",
                 "COP": 5,
                 "condenser": "WaterCooled"
+            },
+            {
+                "type": "ElectricScrewChiller",
+                "COP": 5,
+                "condenser": "WaterCooled"
             }
         ],
     "boilers":[
             {
-                "efficiency": 0.8
+                "efficiency": 0.8,
+                "fuel": "NaturalGas"
             },
             {
-                "efficiency": 0.89
+                "efficiency": 0.89,
+                "fuel": "NaturalGas"
             }
     ],
     "cooling-towers":[

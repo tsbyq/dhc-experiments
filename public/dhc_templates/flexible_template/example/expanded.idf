@@ -59,47 +59,23 @@
 !     6.7,                      !- Chilled Water Setpoint at Outdoor DryBulb High
 !     26.7;                     !- Chilled Water Reset Outdoor DryBulb High
 ! 
-! HVACTEMPLATE:PLANT:CHILLER,
-!     Chiller No. 1,            !- Name
-!     ElectricCentrifugalChiller,    !- Chiller Type
-!     autosize,                 !- Capacity
-!     6,                        !- Nominal COP
-!     WaterCooled,              !- Condenser Type
-!     ,                         !- Priority
-!     1,                        !- Sizing Factor
-!     0,                        !- Minimum Part Load Ratio
-!     1,                        !- Maximum Part Load Ratio
-!     1,                        !- Optimum Part Load Ratio
-!     0.25,                     !- Minimum Unloading Ratio
-!     5;                        !- Leaving Chilled Water Lower Temperature Limit
+! HVACTemplate:Plant:Chiller,
+!   Chiller No. 1,            !- Name
+!   ElectricReciprocatingChiller,  !- Chiller Type
+!   autosize,                !- Capacity {W}
+!   3.2,                     !- Nominal COP {W/W}
+!   WaterCooled,             !- Condenser Type
+!   1,                       !- Priority
+!   ;                        !- Sizing Factor
 ! 
-! HVACTEMPLATE:PLANT:CHILLER,
-!     Chiller No. 2,            !- Name
-!     ElectricReciprocatingChiller,    !- Chiller Type
-!     autosize,                 !- Capacity
-!     3,                        !- Nominal COP
-!     WaterCooled,              !- Condenser Type
-!     ,                         !- Priority
-!     1,                        !- Sizing Factor
-!     0,                        !- Minimum Part Load Ratio
-!     1,                        !- Maximum Part Load Ratio
-!     1,                        !- Optimum Part Load Ratio
-!     0.25,                     !- Minimum Unloading Ratio
-!     5;                        !- Leaving Chilled Water Lower Temperature Limit
-! 
-! HVACTEMPLATE:PLANT:CHILLER,
-!     Chiller No. 3,            !- Name
-!     ElectricScrewChiller,     !- Chiller Type
-!     autosize,                 !- Capacity
-!     5,                        !- Nominal COP
-!     WaterCooled,              !- Condenser Type
-!     ,                         !- Priority
-!     1,                        !- Sizing Factor
-!     0,                        !- Minimum Part Load Ratio
-!     1,                        !- Maximum Part Load Ratio
-!     1,                        !- Optimum Part Load Ratio
-!     0.25,                     !- Minimum Unloading Ratio
-!     5;                        !- Leaving Chilled Water Lower Temperature Limit
+! HVACTemplate:Plant:Chiller,
+!   Chiller No. 2,            !- Name
+!   ElectricReciprocatingChiller,  !- Chiller Type
+!   autosize,                !- Capacity {W}
+!   3.2,                     !- Nominal COP {W/W}
+!   WaterCooled,             !- Condenser Type
+!   1,                       !- Priority
+!   ;                        !- Sizing Factor
 ! 
 ! HVACTemplate:Plant:Tower,
 !     Main Tower,               !- Name
@@ -133,7 +109,7 @@
 !     ,                         !- Boiler Type
 !     autosize,                 !- Capacity
 !     0.8,                      !- Efficiency
-!     ,                         !- Fuel Type
+!     NaturalGas,               !- Fuel Type
 !     ,                         !- Priority
 !     1,                        !- Sizing Factor
 !     0,                        !- Minimum Part Load Ratio
@@ -146,7 +122,7 @@
 !     ,                         !- Boiler Type
 !     autosize,                 !- Capacity
 !     0.89,                     !- Efficiency
-!     ,                         !- Fuel Type
+!     NaturalGas,               !- Fuel Type
 !     ,                         !- Priority
 !     1,                        !- Sizing Factor
 !     0,                        !- Minimum Part Load Ratio
@@ -351,7 +327,7 @@ Branch,
 
 Boiler:HotWater,
   Boiler No. 1,                                            !- Name
-  ,                                                        !- Fuel Type
+  NaturalGas,                                              !- Fuel Type
   autosize,                                                !- Nominal Capacity {W}
   0.8,                                                     !- Nominal Thermal Efficiency
   LeavingBoiler,                                           !- Efficiency Curve Temperature Evaluation Variable
@@ -385,7 +361,7 @@ Branch,
 
 Boiler:HotWater,
   Boiler No. 2,                                            !- Name
-  ,                                                        !- Fuel Type
+  NaturalGas,                                              !- Fuel Type
   autosize,                                                !- Nominal Capacity {W}
   0.89,                                                    !- Nominal Thermal Efficiency
   LeavingBoiler,                                           !- Efficiency Curve Temperature Evaluation Variable
@@ -420,31 +396,31 @@ Branch,
 Chiller:Electric:EIR,
   Chiller No. 1,                                           !- Name
   autosize,                                                !- Reference Capacity {W}
-  6,                                                       !- Reference COP {W/W}
+  3.2,                                                     !- Reference COP {W/W}
   6.67,                                                    !- Reference Leaving Chilled Water Temperature {C}
   29.4,                                                    !- Reference Entering Condenser Fluid Temperature {C}
   autosize,                                                !- Reference Evaporator Volumetric Water Flow Rate {m3/s}
   autosize,                                                !- Reference Condenser Volumetric Water Flow Rate {m3/s}
-  Chiller No. 1 CentCapFT,                                 !- Cooling Capacity Function of Temperature Curve Name
-  Chiller No. 1 CentEIRFT,                                 !- Electric Input to Cooling Output Ratio Function of Temperature Curve Name
-  Chiller No. 1 CentEIRFPLR,                               !- Electric Input to Cooling Output Ratio Function of Part Load Ratio Curve Name
-  0,                                                       !- Minimum Part Load Ratio
-  1,                                                       !- Maximum Part Load Ratio
-  1,                                                       !- Optimum Part Load Ratio
+  Chiller No. 1 RecipCapFT,                                !- Cooling Capacity Function of Temperature Curve Name
+  Chiller No. 1 RecipEIRFT,                                !- Electric Input to Cooling Output Ratio Function of Temperature Curve Name
+  Chiller No. 1 RecipEIRFPLR,                              !- Electric Input to Cooling Output Ratio Function of Part Load Ratio Curve Name
+  0.0,                                                     !- Minimum Part Load Ratio
+  1.0,                                                     !- Maximum Part Load Ratio
+  1.0,                                                     !- Optimum Part Load Ratio
   0.25,                                                    !- Minimum Unloading Ratio
   Chiller No. 1 ChW Inlet,                                 !- Chilled Water Inlet Node Name
   Chiller No. 1 ChW Outlet,                                !- Chilled Water Outlet Node Name
   Chiller No. 1 Cnd Inlet,                                 !- Condenser Inlet Node Name
   Chiller No. 1 Cnd Outlet,                                !- Condenser Outlet Node Name
   WaterCooled,                                             !- Condenser Type
-  0,                                                       !- Condenser Fan Power Ratio {W/W}
+  ,                                                        !- Condenser Fan Power Ratio {W/W}
   1,                                                       !- Compressor Motor Efficiency
-  5,                                                       !- Leaving Chilled Water Lower Temperature Limit {C}
+  5.0,                                                     !- Leaving Chilled Water Lower Temperature Limit {C}
   ConstantFlow,                                            !- Chiller Flow Mode
   0,                                                       !- Design Heat Recovery Water Flow Rate {m3/s}
   ,                                                        !- Heat Recovery Inlet Node Name
   ,                                                        !- Heat Recovery Outlet Node Name
-  1;                                                       !- Sizing Factor
+  1.0;                                                     !- Sizing Factor
 
 Branch,
   Chiller No. 1 ChW Branch,                                !- Name
@@ -463,49 +439,49 @@ Branch,
   Chiller No. 1 Cnd Outlet;                                !- Component Outlet Node Name
 
 Curve:Biquadratic,
-! Cooling Capacity Function of Temperature Curve for open or hermetic water-cooled centrifugal chillers
-! Same as DOE-2.1E HERM-CENT-CAP-FT (CCAPT3) and OPEN-CENT-CAP-FT (CCAPT1)
-  Chiller No. 1 CentCapFT,                                 !- Name
-  0.257896,                                                !- Coefficient1 Constant
-  0.0389016,                                               !- Coefficient2 x
-  -0.00021708,                                             !- Coefficient3 x**2
-  0.0468684,                                               !- Coefficient4 y
-  -0.00094284,                                             !- Coefficient5 y**2
-  -0.00034344,                                             !- Coefficient6 x*y
+! Cooling Capacity Function of Temperature Curve for open or hermetic water-cooled reciprocating chillers
+! Same as DOE-2.1E HERM-REC-CAP-FT (CCAPT4) and OPEN-REC-CAP-FT (CCAPT2)
+  Chiller No. 1 RecipCapFT,                                !- Name
+  0.507883,                                                !- Coefficient1 Constant
+  0.145228,                                                !- Coefficient2 x
+  -0.00625644,                                             !- Coefficient3 x**2
+  -0.0011178,                                              !- Coefficient4 y
+  -0.0001296,                                              !- Coefficient5 y**2
+  -0.00028188,                                             !- Coefficient6 x*y
   5,                                                       !- Minimum Value of x
   10,                                                      !- Maximum Value of x
   24,                                                      !- Minimum Value of y
   35;                                                      !- Maximum Value of y
 
 Curve:Biquadratic,
-! Energy Input to Cooling Output Ratio Function of Temperature Curve for open or hermetic water-cooled centrifugal chillers
-! Same as DOE-2.1E HERM-CENT-EIR-FT (EIRT3) and OPEN-CENT-EIR-FT (EIRT1)
-  Chiller No. 1 CentEIRFT,                                 !- Name
-  0.933884,                                                !- Coefficient1 Constant
-  -0.058212,                                               !- Coefficient2 x
-  0.00450036,                                              !- Coefficient3 x**2
-  0.00243,                                                 !- Coefficient4 y
-  0.000486,                                                !- Coefficient5 y**2
-  -0.001215,                                               !- Coefficient6 x*y
+! Energy Input to Cooling Output Ratio Function of Temperature Curve for open or hermetic water-cooled reciprocating chillers
+! Same as DOE-2.1E HERM-REC-EIR-FT (EIRT4) and OPEN-REC-EIR-FT (EIRT2)
+  Chiller No. 1 RecipEIRFT,                                !- Name
+  1.03076,                                                 !- Coefficient1 Constant
+  -0.103536,                                               !- Coefficient2 x
+  0.00710208,                                              !- Coefficient3 x**2
+  0.0093186,                                               !- Coefficient4 y
+  0.00031752,                                              !- Coefficient5 y**2
+  -0.00104328,                                             !- Coefficient6 x*y
   5,                                                       !- Minimum Value of x
   10,                                                      !- Maximum Value of x
   24,                                                      !- Minimum Value of y
   35;                                                      !- Maximum Value of y
 
 Curve:Quadratic,
-! Energy Input to Cooling Output Ratio Function of Part Load Ratio Curve for open or hermetic water-cooled centrifugal chillers
-! Same as DOE-2.1E HERM-CENT-EIR-FPLR (EIRPLR3) and OPEN-CENT-EIR-FPLR (EIRPLR1)
-  Chiller No. 1 CentEIRFPLR,                               !- Name
-  0.222903,                                                !- Coefficient1 Constant
-  0.313387,                                                !- Coefficient2 x
-  0.46371,                                                 !- Coefficient3 x**2
+! Energy Input to Cooling Output Ratio Function of Part Load Ratio Curve for open or hermetic water-cooled reciprocating chillers
+! Same as DOE-2.1E HERM-REC-EIR-FPLR (EIRPLR4) and OPEN-REC-EIR-FPLR (EIRPLR2)
+  Chiller No. 1 RecipEIRFPLR,                              !- Name
+  0.088065,                                                !- Coefficient1 Constant
+  1.137742,                                                !- Coefficient2 x
+  -0.225806,                                               !- Coefficient3 x**2
   0,                                                       !- Minimum Value of x
   1;                                                       !- Maximum Value of x
 
 Chiller:Electric:EIR,
   Chiller No. 2,                                           !- Name
   autosize,                                                !- Reference Capacity {W}
-  3,                                                       !- Reference COP {W/W}
+  3.2,                                                     !- Reference COP {W/W}
   6.67,                                                    !- Reference Leaving Chilled Water Temperature {C}
   29.4,                                                    !- Reference Entering Condenser Fluid Temperature {C}
   autosize,                                                !- Reference Evaporator Volumetric Water Flow Rate {m3/s}
@@ -513,9 +489,9 @@ Chiller:Electric:EIR,
   Chiller No. 2 RecipCapFT,                                !- Cooling Capacity Function of Temperature Curve Name
   Chiller No. 2 RecipEIRFT,                                !- Electric Input to Cooling Output Ratio Function of Temperature Curve Name
   Chiller No. 2 RecipEIRFPLR,                              !- Electric Input to Cooling Output Ratio Function of Part Load Ratio Curve Name
-  0,                                                       !- Minimum Part Load Ratio
-  1,                                                       !- Maximum Part Load Ratio
-  1,                                                       !- Optimum Part Load Ratio
+  0.0,                                                     !- Minimum Part Load Ratio
+  1.0,                                                     !- Maximum Part Load Ratio
+  1.0,                                                     !- Optimum Part Load Ratio
   0.25,                                                    !- Minimum Unloading Ratio
   Chiller No. 2 ChW Inlet,                                 !- Chilled Water Inlet Node Name
   Chiller No. 2 ChW Outlet,                                !- Chilled Water Outlet Node Name
@@ -524,12 +500,12 @@ Chiller:Electric:EIR,
   WaterCooled,                                             !- Condenser Type
   ,                                                        !- Condenser Fan Power Ratio {W/W}
   1,                                                       !- Compressor Motor Efficiency
-  5,                                                       !- Leaving Chilled Water Lower Temperature Limit {C}
+  5.0,                                                     !- Leaving Chilled Water Lower Temperature Limit {C}
   ConstantFlow,                                            !- Chiller Flow Mode
   0,                                                       !- Design Heat Recovery Water Flow Rate {m3/s}
   ,                                                        !- Heat Recovery Inlet Node Name
   ,                                                        !- Heat Recovery Outlet Node Name
-  1;                                                       !- Sizing Factor
+  1.0;                                                     !- Sizing Factor
 
 Branch,
   Chiller No. 2 ChW Branch,                                !- Name
@@ -584,91 +560,6 @@ Curve:Quadratic,
   0.088065,                                                !- Coefficient1 Constant
   1.137742,                                                !- Coefficient2 x
   -0.225806,                                               !- Coefficient3 x**2
-  0,                                                       !- Minimum Value of x
-  1;                                                       !- Maximum Value of x
-
-Chiller:Electric:EIR,
-  Chiller No. 3,                                           !- Name
-  autosize,                                                !- Reference Capacity {W}
-  5,                                                       !- Reference COP {W/W}
-  6.67,                                                    !- Reference Leaving Chilled Water Temperature {C}
-  29.4,                                                    !- Reference Entering Condenser Fluid Temperature {C}
-  autosize,                                                !- Reference Evaporator Volumetric Water Flow Rate {m3/s}
-  autosize,                                                !- Reference Condenser Volumetric Water Flow Rate {m3/s}
-  Chiller No. 3 ScrewCapFT,                                !- Cooling Capacity Function of Temperature Curve Name
-  Chiller No. 3 ScrewEIRFT,                                !- Electric Input to Cooling Output Ratio Function of Temperature Curve Name
-  Chiller No. 3 ScrewEIRFPLR,                              !- Electric Input to Cooling Output Ratio Function of Part Load Ratio Curve Name
-  0,                                                       !- Minimum Part Load Ratio
-  1,                                                       !- Maximum Part Load Ratio
-  1,                                                       !- Optimum Part Load Ratio
-  0.25,                                                    !- Minimum Unloading Ratio
-  Chiller No. 3 ChW Inlet,                                 !- Chilled Water Inlet Node Name
-  Chiller No. 3 ChW Outlet,                                !- Chilled Water Outlet Node Name
-  Chiller No. 3 Cnd Inlet,                                 !- Condenser Inlet Node Name
-  Chiller No. 3 Cnd Outlet,                                !- Condenser Outlet Node Name
-  WaterCooled,                                             !- Condenser Type
-  0,                                                       !- Condenser Fan Power Ratio {W/W}
-  1,                                                       !- Compressor Motor Efficiency
-  5,                                                       !- Leaving Chilled Water Lower Temperature Limit {C}
-  ConstantFlow,                                            !- Chiller Flow Mode
-  0,                                                       !- Design Heat Recovery Water Flow Rate {m3/s}
-  ,                                                        !- Heat Recovery Inlet Node Name
-  ,                                                        !- Heat Recovery Outlet Node Name
-  1;                                                       !- Sizing Factor
-
-Branch,
-  Chiller No. 3 ChW Branch,                                !- Name
-  ,                                                        !- Pressure Drop Curve Name
-  Chiller:Electric:EIR,                                    !- Component Object Type
-  Chiller No. 3,                                           !- Component Name
-  Chiller No. 3 ChW Inlet,                                 !- Component Inlet Node Name
-  Chiller No. 3 ChW Outlet;                                !- Component Outlet Node Name
-
-Branch,
-  Chiller No. 3 CndW Branch,                               !- Name
-  ,                                                        !- Pressure Drop Curve Name
-  Chiller:Electric:EIR,                                    !- Component Object Type
-  Chiller No. 3,                                           !- Component Name
-  Chiller No. 3 Cnd Inlet,                                 !- Component Inlet Node Name
-  Chiller No. 3 Cnd Outlet;                                !- Component Outlet Node Name
-
-Curve:Biquadratic,
-! Cooling Capacity Function of Temperature Curve for water cooled screw chillers
-! Based on COMNET 2010 Table 88.
-  Chiller No. 3 ScrewCapFT,                                !- Name
-  0.81302462,                                              !- Coefficient1 Constant
-  -0.01425319,                                             !- Coefficient2 x
-  -0.00161799,                                             !- Coefficient3 x**2
-  0.02638438,                                              !- Coefficient4 y
-  -0.00091543,                                             !- Coefficient5 y**2
-  0.00169601,                                              !- Coefficient6 x*y
-  5,                                                       !- Minimum Value of x
-  10,                                                      !- Maximum Value of x
-  24,                                                      !- Minimum Value of y
-  35;                                                      !- Maximum Value of y
-
-Curve:Biquadratic,
-! Energy Input to Cooling Output Ratio Function of Temperature Curve water cooled screw chillers
-! Based on COMNET 2010 Table 91.
-  Chiller No. 3 ScrewEIRFT,                                !- Name
-  0.63812315,                                              !- Coefficient1 Constant
-  0.00630389,                                              !- Coefficient2 x
-  0.00092334,                                              !- Coefficient3 x**2
-  -0.00455294,                                             !- Coefficient4 y
-  0.00082568,                                              !- Coefficient5 y**2
-  -0.00156152,                                             !- Coefficient6 x*y
-  5,                                                       !- Minimum Value of x
-  10,                                                      !- Maximum Value of x
-  24,                                                      !- Minimum Value of y
-  35;                                                      !- Maximum Value of y
-
-Curve:Quadratic,
-! Energy Input to Cooling Output Ratio Function of Part Load Ratio Curve for water cooled screw chiller
-! Based on COMNET 2010 Table 93.
-  Chiller No. 3 ScrewEIRFPLR,                              !- Name
-  0.33018833,                                              !- Coefficient1 Constant
-  0.23554291,                                              !- Coefficient2 x
-  0.46070828,                                              !- Coefficient3 x**2
   0,                                                       !- Minimum Value of x
   1;                                                       !- Maximum Value of x
 
@@ -981,15 +872,12 @@ PlantEquipmentList,
   Chiller:Electric:EIR,                                    !- Equipment Object Type
   Chiller No. 1,                                           !- Equipment Name
   Chiller:Electric:EIR,                                    !- Equipment Object Type
-  Chiller No. 2,                                           !- Equipment Name
-  Chiller:Electric:EIR,                                    !- Equipment Object Type
-  Chiller No. 3;                                           !- Equipment Name
+  Chiller No. 2;                                           !- Equipment Name
 
 NodeList,
   Chilled Water Loop ChW Supply Setpoint Nodes,            !- Name
   Chiller No. 1 ChW Outlet,                                !- Node Name
   Chiller No. 2 ChW Outlet,                                !- Node Name
-  Chiller No. 3 ChW Outlet,                                !- Node Name
   Chilled Water Loop ChW Supply Outlet;                    !- Node Name
 
 SetpointManager:OutdoorAirReset,
@@ -1006,7 +894,6 @@ BranchList,
   Chilled Water Loop ChW Supply Inlet Branch,              !- Name
   Chiller No. 1 ChW Branch,                                !- Name
   Chiller No. 2 ChW Branch,                                !- Name
-  Chiller No. 3 ChW Branch,                                !- Name
   Chilled Water Loop ChW Supply Bypass Branch,             !- Name
   Chilled Water Loop ChW Supply Outlet Branch;             !- Name
 
@@ -1022,16 +909,14 @@ Connector:Splitter,
   Chilled Water Loop ChW Supply Inlet Branch,              !- Inlet Branch Name
   Chilled Water Loop ChW Supply Bypass Branch,             !- Outlet Branch Name
   Chiller No. 1 ChW Branch,                                !- Outlet Branch Name
-  Chiller No. 2 ChW Branch,                                !- Outlet Branch Name
-  Chiller No. 3 ChW Branch;                                !- Outlet Branch Name
+  Chiller No. 2 ChW Branch;                                !- Outlet Branch Name
 
 Connector:Mixer,
   Chilled Water Loop ChW Supply Mixer,                     !- Name
   Chilled Water Loop ChW Supply Outlet Branch,             !- Outlet Branch Name
   Chilled Water Loop ChW Supply Bypass Branch,             !- Inlet Branch Name
   Chiller No. 1 ChW Branch,                                !- Inlet Branch Name
-  Chiller No. 2 ChW Branch,                                !- Inlet Branch Name
-  Chiller No. 3 ChW Branch;                                !- Inlet Branch Name
+  Chiller No. 2 ChW Branch;                                !- Inlet Branch Name
 
 Branch,
   Chilled Water Loop ChW Supply Bypass Branch,             !- Name
@@ -1290,7 +1175,6 @@ BranchList,
   Chilled Water Loop CndW Demand Inlet Branch,             !- Name
   Chiller No. 1 CndW Branch,                               !- Name
   Chiller No. 2 CndW Branch,                               !- Name
-  Chiller No. 3 CndW Branch,                               !- Name
   Chilled Water Loop CndW Demand Bypass Branch,            !- Name
   Chilled Water Loop CndW Demand Outlet Branch;            !- Name
 
@@ -1306,16 +1190,14 @@ Connector:Splitter,
   Chilled Water Loop CndW Demand Inlet Branch,             !- Inlet Branch Name
   Chilled Water Loop CndW Demand Bypass Branch,            !- Outlet Branch Name
   Chiller No. 1 CndW Branch,                               !- Outlet Branch Name
-  Chiller No. 2 CndW Branch,                               !- Outlet Branch Name
-  Chiller No. 3 CndW Branch;                               !- Outlet Branch Name
+  Chiller No. 2 CndW Branch;                               !- Outlet Branch Name
 
 Connector:Mixer,
   Chilled Water Loop CndW Demand Mixer,                    !- Name
   Chilled Water Loop CndW Demand Outlet Branch,            !- Outlet Branch Name
   Chilled Water Loop CndW Demand Bypass Branch,            !- Inlet Branch Name
   Chiller No. 1 CndW Branch,                               !- Inlet Branch Name
-  Chiller No. 2 CndW Branch,                               !- Inlet Branch Name
-  Chiller No. 3 CndW Branch;                               !- Inlet Branch Name
+  Chiller No. 2 CndW Branch;                               !- Inlet Branch Name
 
 Branch,
   Chilled Water Loop CndW Demand Inlet Branch,             !- Name
