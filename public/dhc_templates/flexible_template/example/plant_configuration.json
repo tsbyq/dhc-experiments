@@ -1,0 +1,35 @@
+{
+    "chillers":[
+            {
+                "type": "ElectricCentrifugalChiller",
+                "COP": 6,
+                "condenser": "WaterCooled"
+            },
+            {
+                "type": "ElectricReciprocatingChiller",
+                "COP": 3,
+                "condenser": "WaterCooled"
+            },
+            {
+                "type": "ElectricScrewChiller",
+                "COP": 5,
+                "condenser": "WaterCooled"
+            }
+        ],
+    "boilers":[
+            {
+                "efficiency": 0.8
+            },
+            {
+                "efficiency": 0.89
+            }
+    ],
+    "cooling-towers":[
+        {
+            "type": "single-speed"
+        },
+        {
+            "type": "single-speed"
+        }
+    ]
+}
