@@ -175,7 +175,8 @@ GlobalGeometryRules,
   Relative,                               !- Daylighting Reference Point Coordinate System
   Relative;                               !- Rectangular Surface Coordinate System
 
-
+ScheduleTypeLimits,
+  Any Number;                             !- Name
 ! ##############################################################################
 ! insert load profile from here
 ! ##############################################################################
@@ -231,6 +232,54 @@ Schedule:File,
   ,                                       !- Number of Hours of Data
   Comma,                                  !- Column Separator
   No;                                     !- Interpolate to Timestep
+
+! ######################################################################################
+! Outputs
+! ######################################################################################
+
+OutputControl:Table:Style,
+  HTML;                                   !- Column Separator
+
+Output:Table:SummaryReports,
+  AllSummary;                             !- Report Name 1
+
+Output:VariableDictionary,
+  IDF,                                    !- Key Field
+  Unsorted;                               !- Sort Option
+
+Output:SQLite,
+  SimpleAndTabular;                       !- Option Type
+
+
+
+Output:Meter:MeterFileOnly,
+  PlantLoopHeatingDemand:Facility,        !- Key Name
+  hourly;                                 !- Reporting Frequency
+
+Output:Meter:MeterFileOnly,
+  PlantLoopCoolingDemand:Facility,        !- Key Name
+  hourly;                                 !- Reporting Frequency
+
+Output:Meter:MeterFileOnly,
+  Gas:Facility,                           !- Key Name
+  Hourly;                                  !- Reporting Frequency
+
+Output:Meter:MeterFileOnly,
+  Electricity:Facility,                   !- Key Name
+  Hourly;                               !- Reporting Frequency
+
+Output:Meter:MeterFileOnly,
+  Electricity:Facility,                   !- Key Name
+  Hourly;                                  !- Reporting Frequency
+
+Output:Meter,
+  Electricity:Facility,                   !- Key Name
+  Hourly;                               !- Reporting Frequency
+
+Output:Meter,
+  Gas:Facility,                           !- Key Name
+  Hourly;                               !- Reporting Frequency
+
 
 ! ##############################################################################
 ! insert plant loop objects from here
