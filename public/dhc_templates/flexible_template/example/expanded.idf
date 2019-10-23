@@ -100,6 +100,15 @@
 !     4,                       !- Priority
 !     ;                        !- Sizing Factor
 ! 
+! HVACTemplate:Plant:Chiller,
+!     Chiller No. 5,          !- Name
+!     ElectricReciprocatingChiller,  !- Chiller Type
+!     autosize,                !- Capacity {W}
+!     3.2,                     !- Nominal COP {W/W}
+!     WaterCooled,             !- Condenser Type
+!     5,                       !- Priority
+!     ;                        !- Sizing Factor
+! 
 !-   ===========  ALL OBJECTS IN CLASS: HVACTEMPLATE:PLANT:TOWER ===========
 ! 
 ! HVACTemplate:Plant:Tower,
@@ -363,10 +372,6 @@ Branch,
   Test room Heating Coil,                                  !- Component Name
   Test room Heating Coil HW Inlet,                         !- Component Inlet Node Name
   Test room Heating Coil HW Outlet;                        !- Component Outlet Node Name
-
-! ##############################################################################
-! Remove all the objects above
-! ##############################################################################
 
 Boiler:HotWater,
   Boiler No. 1,                                            !- Name
@@ -810,6 +815,91 @@ Curve:Quadratic,
   0,                                                       !- Minimum Value of x
   1;                                                       !- Maximum Value of x
 
+Chiller:Electric:EIR,
+  Chiller No. 5,                                           !- Name
+  autosize,                                                !- Reference Capacity {W}
+  3.2,                                                     !- Reference COP {W/W}
+  6.67,                                                    !- Reference Leaving Chilled Water Temperature {C}
+  29.4,                                                    !- Reference Entering Condenser Fluid Temperature {C}
+  autosize,                                                !- Reference Evaporator Volumetric Water Flow Rate {m3/s}
+  autosize,                                                !- Reference Condenser Volumetric Water Flow Rate {m3/s}
+  Chiller No. 5 RecipCapFT,                                !- Cooling Capacity Function of Temperature Curve Name
+  Chiller No. 5 RecipEIRFT,                                !- Electric Input to Cooling Output Ratio Function of Temperature Curve Name
+  Chiller No. 5 RecipEIRFPLR,                              !- Electric Input to Cooling Output Ratio Function of Part Load Ratio Curve Name
+  0.0,                                                     !- Minimum Part Load Ratio
+  1.0,                                                     !- Maximum Part Load Ratio
+  1.0,                                                     !- Optimum Part Load Ratio
+  0.25,                                                    !- Minimum Unloading Ratio
+  Chiller No. 5 ChW Inlet,                                 !- Chilled Water Inlet Node Name
+  Chiller No. 5 ChW Outlet,                                !- Chilled Water Outlet Node Name
+  Chiller No. 5 Cnd Inlet,                                 !- Condenser Inlet Node Name
+  Chiller No. 5 Cnd Outlet,                                !- Condenser Outlet Node Name
+  WaterCooled,                                             !- Condenser Type
+  ,                                                        !- Condenser Fan Power Ratio {W/W}
+  1,                                                       !- Compressor Motor Efficiency
+  5.0,                                                     !- Leaving Chilled Water Lower Temperature Limit {C}
+  ConstantFlow,                                            !- Chiller Flow Mode
+  0,                                                       !- Design Heat Recovery Water Flow Rate {m3/s}
+  ,                                                        !- Heat Recovery Inlet Node Name
+  ,                                                        !- Heat Recovery Outlet Node Name
+  1.0;                                                     !- Sizing Factor
+
+Branch,
+  Chiller No. 5 ChW Branch,                                !- Name
+  ,                                                        !- Pressure Drop Curve Name
+  Chiller:Electric:EIR,                                    !- Component Object Type
+  Chiller No. 5,                                           !- Component Name
+  Chiller No. 5 ChW Inlet,                                 !- Component Inlet Node Name
+  Chiller No. 5 ChW Outlet;                                !- Component Outlet Node Name
+
+Branch,
+  Chiller No. 5 CndW Branch,                               !- Name
+  ,                                                        !- Pressure Drop Curve Name
+  Chiller:Electric:EIR,                                    !- Component Object Type
+  Chiller No. 5,                                           !- Component Name
+  Chiller No. 5 Cnd Inlet,                                 !- Component Inlet Node Name
+  Chiller No. 5 Cnd Outlet;                                !- Component Outlet Node Name
+
+Curve:Biquadratic,
+! Cooling Capacity Function of Temperature Curve for open or hermetic water-cooled reciprocating chillers
+! Same as DOE-2.1E HERM-REC-CAP-FT (CCAPT4) and OPEN-REC-CAP-FT (CCAPT2)
+  Chiller No. 5 RecipCapFT,                                !- Name
+  0.507883,                                                !- Coefficient1 Constant
+  0.145228,                                                !- Coefficient2 x
+  -0.00625644,                                             !- Coefficient3 x**2
+  -0.0011178,                                              !- Coefficient4 y
+  -0.0001296,                                              !- Coefficient5 y**2
+  -0.00028188,                                             !- Coefficient6 x*y
+  5,                                                       !- Minimum Value of x
+  10,                                                      !- Maximum Value of x
+  24,                                                      !- Minimum Value of y
+  35;                                                      !- Maximum Value of y
+
+Curve:Biquadratic,
+! Energy Input to Cooling Output Ratio Function of Temperature Curve for open or hermetic water-cooled reciprocating chillers
+! Same as DOE-2.1E HERM-REC-EIR-FT (EIRT4) and OPEN-REC-EIR-FT (EIRT2)
+  Chiller No. 5 RecipEIRFT,                                !- Name
+  1.03076,                                                 !- Coefficient1 Constant
+  -0.103536,                                               !- Coefficient2 x
+  0.00710208,                                              !- Coefficient3 x**2
+  0.0093186,                                               !- Coefficient4 y
+  0.00031752,                                              !- Coefficient5 y**2
+  -0.00104328,                                             !- Coefficient6 x*y
+  5,                                                       !- Minimum Value of x
+  10,                                                      !- Maximum Value of x
+  24,                                                      !- Minimum Value of y
+  35;                                                      !- Maximum Value of y
+
+Curve:Quadratic,
+! Energy Input to Cooling Output Ratio Function of Part Load Ratio Curve for open or hermetic water-cooled reciprocating chillers
+! Same as DOE-2.1E HERM-REC-EIR-FPLR (EIRPLR4) and OPEN-REC-EIR-FPLR (EIRPLR2)
+  Chiller No. 5 RecipEIRFPLR,                              !- Name
+  0.088065,                                                !- Coefficient1 Constant
+  1.137742,                                                !- Coefficient2 x
+  -0.225806,                                               !- Coefficient3 x**2
+  0,                                                       !- Minimum Value of x
+  1;                                                       !- Maximum Value of x
+
 CoolingTower:SingleSpeed,
   Main Tower,                                              !- Name
   Main Tower CndW Inlet,                                   !- Water Inlet Node Name
@@ -1129,7 +1219,9 @@ PlantEquipmentList,
   Chiller:Electric:EIR,                                    !- Equipment Object Type
   Chiller No. 3,                                           !- Equipment Name
   Chiller:Electric:EIR,                                    !- Equipment Object Type
-  Chiller No. 4;                                           !- Equipment Name
+  Chiller No. 4,                                           !- Equipment Name
+  Chiller:Electric:EIR,                                    !- Equipment Object Type
+  Chiller No. 5;                                           !- Equipment Name
 
 NodeList,
   Chilled Water Loop ChW Supply Setpoint Nodes,            !- Name
@@ -1137,6 +1229,7 @@ NodeList,
   Chiller No. 2 ChW Outlet,                                !- Node Name
   Chiller No. 3 ChW Outlet,                                !- Node Name
   Chiller No. 4 ChW Outlet,                                !- Node Name
+  Chiller No. 5 ChW Outlet,                                !- Node Name
   Chilled Water Loop ChW Supply Outlet;                    !- Node Name
 
 SetpointManager:OutdoorAirReset,
@@ -1155,6 +1248,7 @@ BranchList,
   Chiller No. 2 ChW Branch,                                !- Name
   Chiller No. 3 ChW Branch,                                !- Name
   Chiller No. 4 ChW Branch,                                !- Name
+  Chiller No. 5 ChW Branch,                                !- Name
   Chilled Water Loop ChW Supply Bypass Branch,             !- Name
   Chilled Water Loop ChW Supply Outlet Branch;             !- Name
 
@@ -1172,7 +1266,8 @@ Connector:Splitter,
   Chiller No. 1 ChW Branch,                                !- Outlet Branch Name
   Chiller No. 2 ChW Branch,                                !- Outlet Branch Name
   Chiller No. 3 ChW Branch,                                !- Outlet Branch Name
-  Chiller No. 4 ChW Branch;                                !- Outlet Branch Name
+  Chiller No. 4 ChW Branch,                                !- Outlet Branch Name
+  Chiller No. 5 ChW Branch;                                !- Outlet Branch Name
 
 Connector:Mixer,
   Chilled Water Loop ChW Supply Mixer,                     !- Name
@@ -1181,7 +1276,8 @@ Connector:Mixer,
   Chiller No. 1 ChW Branch,                                !- Inlet Branch Name
   Chiller No. 2 ChW Branch,                                !- Inlet Branch Name
   Chiller No. 3 ChW Branch,                                !- Inlet Branch Name
-  Chiller No. 4 ChW Branch;                                !- Inlet Branch Name
+  Chiller No. 4 ChW Branch,                                !- Inlet Branch Name
+  Chiller No. 5 ChW Branch;                                !- Inlet Branch Name
 
 Branch,
   Chilled Water Loop ChW Supply Bypass Branch,             !- Name
@@ -1442,6 +1538,7 @@ BranchList,
   Chiller No. 2 CndW Branch,                               !- Name
   Chiller No. 3 CndW Branch,                               !- Name
   Chiller No. 4 CndW Branch,                               !- Name
+  Chiller No. 5 CndW Branch,                               !- Name
   Chilled Water Loop CndW Demand Bypass Branch,            !- Name
   Chilled Water Loop CndW Demand Outlet Branch;            !- Name
 
@@ -1459,7 +1556,8 @@ Connector:Splitter,
   Chiller No. 1 CndW Branch,                               !- Outlet Branch Name
   Chiller No. 2 CndW Branch,                               !- Outlet Branch Name
   Chiller No. 3 CndW Branch,                               !- Outlet Branch Name
-  Chiller No. 4 CndW Branch;                               !- Outlet Branch Name
+  Chiller No. 4 CndW Branch,                               !- Outlet Branch Name
+  Chiller No. 5 CndW Branch;                               !- Outlet Branch Name
 
 Connector:Mixer,
   Chilled Water Loop CndW Demand Mixer,                    !- Name
@@ -1468,7 +1566,8 @@ Connector:Mixer,
   Chiller No. 1 CndW Branch,                               !- Inlet Branch Name
   Chiller No. 2 CndW Branch,                               !- Inlet Branch Name
   Chiller No. 3 CndW Branch,                               !- Inlet Branch Name
-  Chiller No. 4 CndW Branch;                               !- Inlet Branch Name
+  Chiller No. 4 CndW Branch,                               !- Inlet Branch Name
+  Chiller No. 5 CndW Branch;                               !- Inlet Branch Name
 
 Branch,
   Chilled Water Loop CndW Demand Inlet Branch,             !- Name

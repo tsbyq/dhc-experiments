@@ -100,6 +100,15 @@ HVACTemplate:Plant:Chiller,
     4,                       !- Priority
     ;                        !- Sizing Factor
 
+HVACTemplate:Plant:Chiller,
+    Chiller No. 5,          !- Name
+    ElectricReciprocatingChiller,  !- Chiller Type
+    autosize,                !- Capacity {W}
+    3.2,                     !- Nominal COP {W/W}
+    WaterCooled,             !- Condenser Type
+    5,                       !- Priority
+    ;                        !- Sizing Factor
+
 !-   ===========  ALL OBJECTS IN CLASS: HVACTEMPLATE:PLANT:TOWER ===========
 
 HVACTemplate:Plant:Tower,
