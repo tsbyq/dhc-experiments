@@ -98,7 +98,7 @@ def prepare_LP_plantloop(expanded_plant_loop_idf='expanded.idf',
         return idf
 
     remove_all_obj_by_type(idf, 'Sizing:Parameters')
-    remove_all_obj_by_type(idf, 'ScheduleTypeLimits')
+    remove_all_obj_by_type(idf, 'ScheduleTypeLimits', ['HVACTemplate Any Number'])
     remove_all_obj_by_type(idf, 'Schedule:Compact', ['HVACTemplate-Always 1', 'HVACTemplate-Always 29.4'])
     remove_all_obj_by_type(idf, 'DesignSpecification:OutdoorAir')
     remove_all_obj_by_type(idf, 'Sizing:Zone')
@@ -166,10 +166,10 @@ def auto_generate_from_template(base_LP_idf, base_plant_idf, plant_configuration
     expand_template_idf()
     prepare_LP_plantloop(expanded_plant_loop_idf, LP_plant_loop_idf)
     append_files(base_LP_idf, LP_plant_loop_idf, final_idf)
-    # cleanup(expanded_plant_loop_idf)
+    cleanup(expanded_plant_loop_idf)
     cleanup(LP_plant_loop_idf)
     cleanup('expandedidf.err')
-    # cleanup('in.idf')
+    cleanup('in.idf')
     if not os.path.exists(out_dir):
         os.mkdir(out_dir)
     shutil.move(final_idf, f"{out_dir}/{final_idf}")
@@ -180,7 +180,7 @@ if __name__ == '__main__':
     base_LP_idf = 'E:/Users/Han/Documents/GitHub/RoR/dhc-experiments/public/dhc_templates/flexible_template/example/base_LP.idf'
     base_plant_idf = 'E:/Users/Han/Documents/GitHub/RoR/dhc-experiments/public/dhc_templates/flexible_template/example/base_plant.idf'
     plant_configuration_json = 'E:/Users/Han/Documents/GitHub/RoR/dhc-experiments/public/dhc_templates/flexible_template/example/plant_configuration.json'
-    out_dir = './temp'
-    # out_dir = 'E:/Users/Han/Documents/GitHub/RoR/dhc-experiments/public/dhc_templates'
+    # out_dir = './temp'
+    out_dir = 'E:/Users/Han/Documents/GitHub/RoR/dhc-experiments/public/dhc_templates'
     auto_generate_from_template(base_LP_idf, base_plant_idf, plant_configuration_json, out_dir)
 

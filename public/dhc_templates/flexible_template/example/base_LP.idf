@@ -201,7 +201,7 @@ LoadProfile:Plant,
   District Heating Load Profile Inlet Node,                                 !- Inlet Node Name
   District Heating Load Profile Outlet Node,                                 !- Outlet Node Name
   Heating Load Profile Schedule, !- Load Schedule Name (From CSV)
-  0.1,                                  !- Peak Flow Rate {m3/s}
+  0.3,                                  !- Peak Flow Rate {m3/s}
   HVACTemplate-Always 1;        !- Flow Rate Fraction Schedule Name
 
 LoadProfile:Plant,
@@ -210,14 +210,14 @@ LoadProfile:Plant,
   District Cooling Load Profile Outlet Node,                                 !- Outlet Node Name
   Cooling Load Profile Schedule, !- Load Schedule Name (From CSV)
   ! District Cooling Load Profile Schedule, !- Load Schedule Name (Fixed)
-  0.1,                                  !- Peak Flow Rate {m3/s}
+  0.3,                                  !- Peak Flow Rate {m3/s}
   HVACTemplate-Always 1;        !- Flow Rate Fraction Schedule Name
 
 Schedule:File,
   Heating Load Profile Schedule,                        !- Name
   Any Number,                             !- Schedule Type Limits Name
   sample_loadprofile.csv, !- File Name
-  4,                                      !- Column Number
+  2,                                      !- Column Number
   1,                                      !- Rows to Skip at Top
   ,                                       !- Number of Hours of Data
   Comma,                                  !- Column Separator

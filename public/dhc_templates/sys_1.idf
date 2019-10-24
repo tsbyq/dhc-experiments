@@ -201,7 +201,7 @@ LoadProfile:Plant,
   District Heating Load Profile Inlet Node,                                 !- Inlet Node Name
   District Heating Load Profile Outlet Node,                                 !- Outlet Node Name
   Heating Load Profile Schedule, !- Load Schedule Name (From CSV)
-  0.1,                                  !- Peak Flow Rate {m3/s}
+  0.3,                                  !- Peak Flow Rate {m3/s}
   HVACTemplate-Always 1;        !- Flow Rate Fraction Schedule Name
 
 LoadProfile:Plant,
@@ -210,14 +210,14 @@ LoadProfile:Plant,
   District Cooling Load Profile Outlet Node,                                 !- Outlet Node Name
   Cooling Load Profile Schedule, !- Load Schedule Name (From CSV)
   ! District Cooling Load Profile Schedule, !- Load Schedule Name (Fixed)
-  0.1,                                  !- Peak Flow Rate {m3/s}
+  0.3,                                  !- Peak Flow Rate {m3/s}
   HVACTemplate-Always 1;        !- Flow Rate Fraction Schedule Name
 
 Schedule:File,
   Heating Load Profile Schedule,                        !- Name
   Any Number,                             !- Schedule Type Limits Name
   sample_loadprofile.csv, !- File Name
-  4,                                      !- Column Number
+  2,                                      !- Column Number
   1,                                      !- Rows to Skip at Top
   ,                                       !- Number of Hours of Data
   Comma,                                  !- Column Separator
@@ -292,6 +292,9 @@ Output:Meter,
 ! ##############################################################################
 !- Windows Line endings 
 
+ScheduleTypeLimits,
+    HVACTemplate Any Number;    !- Name
+
 Schedule:Compact,
     HVACTemplate-Always 1,    !- Name
     HVACTemplate Any Number,    !- Schedule Type Limits Name
@@ -333,6 +336,14 @@ Branch,
     Boiler No. 1,             !- Component 1 Name
     Boiler No. 1 HW Inlet,    !- Component 1 Inlet Node Name
     Boiler No. 1 HW Outlet;    !- Component 1 Outlet Node Name
+
+Branch,
+    Boiler No. 2 HW Branch,    !- Name
+    ,                         !- Pressure Drop Curve Name
+    Boiler:HotWater,          !- Component 1 Object Type
+    Boiler No. 2,             !- Component 1 Name
+    Boiler No. 2 HW Inlet,    !- Component 1 Inlet Node Name
+    Boiler No. 2 HW Outlet;    !- Component 1 Outlet Node Name
 
 Branch,
     Chiller No. 1 ChW Branch,    !- Name
@@ -554,8 +565,9 @@ BranchList,
     Hot Water Loop HW Supply Side Branches,    !- Name
     Hot Water Loop HW Supply Inlet Branch,    !- Branch 1 Name
     Boiler No. 1 HW Branch,    !- Branch 2 Name
-    Hot Water Loop HW Supply Bypass Branch,    !- Branch 3 Name
-    Hot Water Loop HW Supply Outlet Branch;    !- Branch 4 Name
+    Boiler No. 2 HW Branch,    !- Branch 3 Name
+    Hot Water Loop HW Supply Bypass Branch,    !- Branch 4 Name
+    Hot Water Loop HW Supply Outlet Branch;    !- Branch 5 Name
 
 BranchList,
     Hot Water Loop HW Demand Side Branches,    !- Name
@@ -602,7 +614,8 @@ Connector:Splitter,
     Hot Water Loop HW Supply Splitter,    !- Name
     Hot Water Loop HW Supply Inlet Branch,    !- Inlet Branch Name
     Boiler No. 1 HW Branch,    !- Outlet Branch 1 Name
-    Hot Water Loop HW Supply Bypass Branch;    !- Outlet Branch 2 Name
+    Boiler No. 2 HW Branch,    !- Outlet Branch 2 Name
+    Hot Water Loop HW Supply Bypass Branch;    !- Outlet Branch 3 Name
 
 Connector:Splitter,
     Hot Water Loop HW Demand Splitter,    !- Name
@@ -644,7 +657,8 @@ Connector:Mixer,
     Hot Water Loop HW Supply Mixer,    !- Name
     Hot Water Loop HW Supply Outlet Branch,    !- Outlet Branch Name
     Boiler No. 1 HW Branch,    !- Inlet Branch 1 Name
-    Hot Water Loop HW Supply Bypass Branch;    !- Inlet Branch 2 Name
+    Boiler No. 2 HW Branch,    !- Inlet Branch 2 Name
+    Hot Water Loop HW Supply Bypass Branch;    !- Inlet Branch 3 Name
 
 Connector:Mixer,
     Hot Water Loop HW Demand Mixer,    !- Name
@@ -727,7 +741,8 @@ ConnectorList,
 NodeList,
     Hot Water Loop HW Supply Setpoint Nodes,    !- Name
     Boiler No. 1 HW Outlet,    !- Node 1 Name
-    Hot Water Loop HW Supply Outlet;    !- Node 2 Name
+    Boiler No. 2 HW Outlet,    !- Node 2 Name
+    Hot Water Loop HW Supply Outlet;    !- Node 3 Name
 
 NodeList,
     Chilled Water Loop ChW Supply Setpoint Nodes,    !- Name
@@ -885,6 +900,24 @@ Boiler:HotWater,
     1,                        !- Optimum Part Load Ratio
     Boiler No. 1 HW Inlet,    !- Boiler Water Inlet Node Name
     Boiler No. 1 HW Outlet,    !- Boiler Water Outlet Node Name
+    100,                      !- Water Outlet Upper Temperature Limit
+    LeavingSetpointModulated,    !- Boiler Flow Mode
+    0,                        !- Parasitic Electric Load
+    1;                        !- Sizing Factor
+
+Boiler:HotWater,
+    Boiler No. 2,             !- Name
+    NaturalGas,               !- Fuel Type
+    autosize,                 !- Nominal Capacity
+    0.9,                      !- Nominal Thermal Efficiency
+    LeavingBoiler,            !- Efficiency Curve Temperature Evaluation Variable
+    Boiler No. 2 Efficiency Curve,    !- Normalized Boiler Efficiency Curve Name
+    autosize,                 !- Design Water Flow Rate
+    0,                        !- Minimum Part Load Ratio
+    1.1,                      !- Maximum Part Load Ratio
+    1,                        !- Optimum Part Load Ratio
+    Boiler No. 2 HW Inlet,    !- Boiler Water Inlet Node Name
+    Boiler No. 2 HW Outlet,    !- Boiler Water Outlet Node Name
     100,                      !- Water Outlet Upper Temperature Limit
     LeavingSetpointModulated,    !- Boiler Flow Mode
     0,                        !- Parasitic Electric Load
@@ -1116,7 +1149,9 @@ CondenserLoop,
 PlantEquipmentList,
     Hot Water Loop All Equipment,    !- Name
     Boiler:HotWater,          !- Equipment 1 Object Type
-    Boiler No. 1;             !- Equipment 1 Name
+    Boiler No. 1,             !- Equipment 1 Name
+    Boiler:HotWater,          !- Equipment 2 Object Type
+    Boiler No. 2;             !- Equipment 2 Name
 
 PlantEquipmentList,
     Chilled Water Loop All Chillers,    !- Name
@@ -1196,6 +1231,14 @@ SetpointManager:OutdoorAirReset,
 
 Curve:Quadratic,
     Boiler No. 1 Efficiency Curve,    !- Name
+    0.97,                     !- Coefficient1 Constant
+    0.0633,                   !- Coefficient2 x
+    -0.0333,                  !- Coefficient3 x2
+    0,                        !- Minimum Value of x
+    1;                        !- Maximum Value of x
+
+Curve:Quadratic,
+    Boiler No. 2 Efficiency Curve,    !- Name
     0.97,                     !- Coefficient1 Constant
     0.0633,                   !- Coefficient2 x
     -0.0333,                  !- Coefficient3 x2

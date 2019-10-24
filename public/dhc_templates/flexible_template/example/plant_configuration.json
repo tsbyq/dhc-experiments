@@ -25,6 +25,10 @@
             {
                 "efficiency": 0.8,
                 "fuel": "NaturalGas"
+            },
+            {
+                "efficiency": 0.9,
+                "fuel": "NaturalGas"
             }
     ],
     "cooling-towers":[
