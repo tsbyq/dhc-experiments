@@ -1,55 +1,36 @@
-<h1 class="text-center">This is the main page of the district systems feature.</h1>
-
-<div class="container text-center" style="display: none">
-  <br>
-  Test key stats rendering
-  <div class="col border border-primary">
-    <div class="col">
-      Instance variable approach
-      <br>
-      <% if @hash_key_stats.nil? %>
-        NIL
-      <% else %>
-        <%= @hash_key_stats %>
-      <% end %>
+<h1 class="text-center">This will be the main page of the district systems feature.</h1><br>
+<div class="container" style="background-color: #f6f6f6">
+  <div class="container pt-5">
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+      <li class="nav-item">
+        <a class="nav-link <%= @tabs[:upload_link_control] %>" id="home-tab" data-toggle="tab" href="#upload" role="tab" aria-controls="home" aria-selected="true">Loadprofile
+          Visualization</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link <%= @tabs[:config_link_control] %>" id="profile-tab" data-toggle="tab" href="#config" role="tab" aria-controls="profile" aria-selected="false">DHC
+          Simulation</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link <%= @tabs[:result_link_control] %>" id="contact-tab" data-toggle="tab" href="#results" role="tab" aria-controls="contact" aria-selected="false">Results</a>
+      </li>
+    </ul>
+    <div class="tab-content" id="myTabContent">
+      <div class="tab-pane fade <%= @tabs[:upload_tab_control] %>" id="upload" role="tabpanel" aria-labelledby="home-tab">
+        <%= render 'upload_loadprofile_form' %>
+      </div>
+      <div class="tab-pane fade <%= @tabs[:config_tab_control] %>" id="config" role="tabpanel" aria-labelledby="profile-tab">
+        <%= render 'dhc_system_config_form' %>
+      </div>
+      <div class="tab-pane fade <%= @tabs[:result_tab_control] %>" id="results" role="tabpanel" aria-labelledby="contact-tab">
+        <%= render 'dhc_system_results_form' %>
+      </div>
+      <div class="container pt-2">
+        <h4 class="text-danger"><%= @error_message[:error] %></h4>
+      </div>
     </div>
-    Local variable approach
     <br>
-    <% if defined?(hash_key_stats) %>
-      <%= hash_key_stats %>
-    <% end %>
+    <%= link_to 'Home', '/welcome/index' %>
   </div>
-</div>
 
-<div class="container pt-5">
-  <ul class="nav nav-tabs" id="myTab" role="tablist">
-    <li class="nav-item">
-      <a class="nav-link <%= @tabs[:upload_link_control] %>" id="home-tab" data-toggle="tab" href="#upload" role="tab" aria-controls="home" aria-selected="true">Loadprofile
-        Visualization</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link <%= @tabs[:config_link_control] %>" id="profile-tab" data-toggle="tab" href="#config" role="tab" aria-controls="profile" aria-selected="false">DHC
-        Simulation</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link <%= @tabs[:result_link_control] %>" id="contact-tab" data-toggle="tab" href="#results" role="tab" aria-controls="contact" aria-selected="false">Results</a>
-    </li>
-  </ul>
-  <div class="tab-content" id="myTabContent">
-    <div class="tab-pane fade <%= @tabs[:upload_tab_control] %>" id="upload" role="tabpanel" aria-labelledby="home-tab">
-      <%= render 'upload_loadprofile_form' %>
-    </div>
-    <div class="tab-pane fade <%= @tabs[:config_tab_control] %>" id="config" role="tabpanel" aria-labelledby="profile-tab">
-      <%= render 'dhc_system_config_form' %>
-    </div>
-    <div class="tab-pane fade <%= @tabs[:result_tab_control] %>" id="results" role="tabpanel" aria-labelledby="contact-tab">
-      <%= render 'dhc_system_results_form' %>
-    </div>
-    <div class="container pt-2">
-      <h4 class="text-danger"><%= @error_message[:error] %></h4>
-    </div>
-  </div>
-  <br>
-  <%= link_to 'Home', '/welcome/index' %>
-</div>
 
+</div>

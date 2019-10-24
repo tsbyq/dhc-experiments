@@ -1,0 +1,85 @@
+HVACTemplate:Zone:FanCoil,
+    Test room,                !- Zone Name
+    All Zones,                !- Template Thermostat Name
+    autosize,                 !- Supply Air Maximum Flow Rate
+    ,                         !- Zone Heating Sizing Factor
+    ,                         !- Zone Cooling Sizing Factor
+    flow/zone,                !- Outdoor Air Method
+    0,                        !- Outdoor Air Flow Rate per Person
+    0.00944,                  !- Outdoor Air Flow Rate per Zone Floor Area
+    0,                        !- Outdoor Air Flow Rate per Zone
+    FanAvailSched,            !- System Availability Schedule Name
+    0.7,                      !- Supply Fan Total Efficiency
+    75,                       !- Supply Fan Delta Pressure
+    0.9,                      !- Supply Fan Motor Efficiency
+    1,                        !- Supply Fan Motor in Air Stream Fraction
+    ChilledWater,             !- Cooling Coil Type
+    ,                         !- Cooling Coil Availability Schedule Name
+    14,                       !- Cooling Coil Design Setpoint
+    HotWater,                 !- Heating Coil Type
+    ,                         !- Heating Coil Availability Schedule Name
+    50,                       !- Heating Coil Design Setpoint
+    ,                         !- Dedicated Outdoor Air System Name
+    ,                         !- Zone Cooling Design Supply Air Temperature Input Method
+    ,                         !- Zone Cooling Design Supply Air Temperature Difference
+    ,                         !- Zone Heating Design Supply Air Temperature Input Method
+    ,                         !- Zone Heating Design Supply Air Temperature Difference
+    ,                         !- Design Specification Outdoor Air Object Name
+    ,                         !- Design Specification Zone Air Distribution Object Name
+    ,                         !- Capacity Control Method
+    ,                         !- Low Speed Supply Air Flow Ratio
+    ,                         !- Medium Speed Supply Air Flow Ratio
+    ,                         !- Outdoor Air Schedule Name
+    ,                         !- Baseboard Heating Type
+    ,                         !- Baseboard Heating Availability Schedule Name
+    ;                         !- Baseboard Heating Capacity
+
+HVACTemplate:Plant:ChilledWaterLoop,
+    Chilled Water Loop,       !- Name
+    ,                         !- Pump Schedule Name
+    INTERMITTENT,             !- Pump Control Type
+    Default,                  !- Chiller Plant Operation Scheme Type
+    ,                         !- Chiller Plant Equipment Operation Schemes Name
+    ,                         !- Chilled Water Setpoint Schedule Name
+    7.22,                     !- Chilled Water Design Setpoint
+    VariablePrimaryNoSecondary,    !- Chilled Water Pump Configuration
+    179352,                   !- Primary Chilled Water Pump Rated Head
+    179352,                   !- Secondary Chilled Water Pump Rated Head
+    Default,                  !- Condenser Plant Operation Scheme Type
+    ,                         !- Condenser Equipment Operation Schemes Name
+    ,                         !- Condenser Water Temperature Control Type
+    ,                         !- Condenser Water Setpoint Schedule Name
+    29.4,                     !- Condenser Water Design Setpoint
+    179352,                   !- Condenser Water Pump Rated Head
+    OutdoorAirTemperatureReset,    !- Chilled Water Setpoint Reset Type
+    12.2,                     !- Chilled Water Setpoint at Outdoor DryBulb Low
+    15.6,                     !- Chilled Water Reset Outdoor DryBulb Low
+    6.7,                      !- Chilled Water Setpoint at Outdoor DryBulb High
+    26.7;                     !- Chilled Water Reset Outdoor DryBulb High
+
+HVACTemplate:Plant:Tower,
+    Main Tower,               !- Name
+    SingleSpeed,              !- Tower Type
+    autosize,                 !- High Speed Nominal Capacity
+    autosize,                 !- High Speed Fan Power
+    autosize,                 !- Low Speed Nominal Capacity
+    autosize,                 !- Low Speed Fan Power
+    autosize,                 !- Free Convection Capacity
+    1,                        !- Priority
+    ;                         !- Sizing Factor
+
+HVACTemplate:Plant:HotWaterLoop,
+    Hot Water Loop,           !- Name
+    ,                         !- Pump Schedule Name
+    INTERMITTENT,             !- Pump Control Type
+    Default,                  !- Hot Water Plant Operation Scheme Type
+    ,                         !- Hot Water Plant Equipment Operation Schemes Name
+    ,                         !- Hot Water Setpoint Schedule Name
+    82,                       !- Hot Water Design Setpoint
+    VariableFlow,             !- Hot Water Pump Configuration
+    179352,                   !- Hot Water Pump Rated Head
+    OutdoorAirTemperatureReset,    !- Hot Water Setpoint Reset Type
+    82.2,                     !- Hot Water Setpoint at Outdoor DryBulb Low
+    -6.7,                     !- Hot Water Reset Outdoor DryBulb Low
+    65.6,                     !- Hot Water Setpoint at Outdoor DryBulb High
+    10;                       !- Hot Water Reset Outdoor DryBulb High
