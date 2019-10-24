@@ -10,7 +10,7 @@ from eppy.modeleditor import IDF
 def modify_template_idf(plant_configuration_json_file,
                         base_template_idf='base_plant.idf',
                         modified_template_idf='in.idf',
-                        idd_file = "C:/EnergyPlusV9-1-0/Energy+.idd"):
+                        idd_file = "E:/Users/Han/Documents/GitHub/RoR/dhc-experiments/public/scripts/Energy+.idd"):
 
     idf_file = base_template_idf
     IDF.setiddname(idd_file)
@@ -60,7 +60,7 @@ def modify_template_idf(plant_configuration_json_file,
 def expand_template_idf(template_idf='in.idf',
                         expanded_template_idf='expanded.idf',
                         expand_objects_exe='C:/EnergyPlusV9-1-0/ExpandObjects.exe',
-                        idd_file = "C:/EnergyPlusV9-1-0/Energy+.idd",
+                        idd_file = "E:/Users/Han/Documents/GitHub/RoR/dhc-experiments/public/scripts/Energy+.idd",
                         out_dir='./'):
     cmd = [expand_objects_exe]
     p = subprocess.Popen(cmd)
@@ -68,7 +68,7 @@ def expand_template_idf(template_idf='in.idf',
 
 def prepare_LP_plantloop(expanded_plant_loop_idf='expanded.idf',
                          LP_plant_loop_idf='plant_loop.idf',
-                         idd_file = "C:/EnergyPlusV9-1-0/Energy+.idd"):
+                         idd_file = "E:/Users/Han/Documents/GitHub/RoR/dhc-experiments/public/scripts/Energy+.idd"):
     # constants
     BRANCH_TO_DELETE = ['Test room Cooling Coil ChW Branch', 'Test room Heating Coil HW Branch']
     DEMAND_BRANCH_LISTS = ['Hot Water Loop HW Demand Side Branches', 'Chilled Water Loop ChW Demand Side Branches']

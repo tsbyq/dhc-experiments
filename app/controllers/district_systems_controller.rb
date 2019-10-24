@@ -6,9 +6,10 @@ require 'Time'
 
 class DistrictSystemsController < ApplicationController
   # Class variables, which don't vary by instance
+  @@root_path = File.expand_path("..", File.dirname(File.dirname(__FILE__)))
   @@python_command = 'python' # Or full Python command path
   @@ep_exe = 'ep91' # Or full EnergyPlus executable path
-  @@idd_file_dir = 'C:/EnergyPlusV9-1-0/Energy+.idd' # IDD path
+  @@idd_file_dir = @@root_path + '/public/scripts/Energy+.idd' # IDD path
 
   @@eplus_electricity_meter_annual = "Electricity:Facility [J](Annual)"
   @@eplus_natural_gas_meter_annual = "Gas:Facility [J](Annual)"
@@ -17,7 +18,6 @@ class DistrictSystemsController < ApplicationController
   @@eplus_cooling_demand_variable = "PlantLoopCoolingDemand:Facility [J](Hourly)"
   @@eplus_heating_demand_variable = "PlantLoopHeatingDemand:Facility [J](Hourly)"
 
-  @@root_path = File.expand_path("..", File.dirname(File.dirname(__FILE__)))
   @@user_uploads_path = @@root_path + '/public/user_uploads/'
   @@output_files_path = @@root_path + '/public/output_files/'
   @@dhc_template_path = @@root_path + '/public/dhc_templates/'

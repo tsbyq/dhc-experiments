@@ -11,12 +11,10 @@ from eppy.modeleditor import IDF
 def modify_template_idf(plant_configuration_json_file,
                         base_template_idf='base_plant.idf',
                         modified_template_idf='in.idf',
-                        idd_file = "C:/EnergyPlusV9-1-0/Energy+.idd"):
+                        idd_file="C:/EnergyPlusV9-1-0/Energy+.idd"):
 
-    idf_file = base_template_idf
     IDF.setiddname(idd_file)
-    idf = IDF(idf_file)
-
+    idf = IDF(base_template_idf)
     with open(plant_configuration_json_file) as json_file:
         data = json.load(json_file)
 
@@ -60,9 +58,7 @@ def modify_template_idf(plant_configuration_json_file,
 
 def expand_template_idf(template_idf='in.idf',
                         expanded_template_idf='expanded.idf',
-                        expand_objects_exe='C:/EnergyPlusV9-1-0/ExpandObjects.exe',
-                        idd_file = "C:/EnergyPlusV9-1-0/Energy+.idd",
-                        out_dir='./'):
+                        expand_objects_exe='C:/EnergyPlusV9-1-0/ExpandObjects.exe'):
     cmd = [expand_objects_exe]
     p = subprocess.Popen(cmd)
     p.wait()
@@ -157,8 +153,6 @@ def append_files(file_1, file_2, file_out):
 
 def cleanup(file_path):
     if os.path.exists(file_path):
-        print('--------------------------')
-        print(file_path)
         os.remove(file_path)
 
 def auto_generate_from_template(base_LP_idf, base_plant_idf, plant_configuration_json_file, out_dir, final_idf_name, idd_file):
@@ -166,12 +160,12 @@ def auto_generate_from_template(base_LP_idf, base_plant_idf, plant_configuration
     LP_plant_loop_idf = 'plant_loop.idf'
     modify_template_idf(plant_configuration_json_file, base_plant_idf, idd_file=idd_file)
     expand_template_idf()
-    prepare_LP_plantloop(expanded_plant_loop_idf, LP_plant_loop_idf)
+    prepare_LP_plantloop(expanded_plant_loop_idf, LP_plant_loop_idf, idd_file=idd_file)
     append_files(base_LP_idf, LP_plant_loop_idf, final_idf_name)
-    # cleanup(expanded_plant_loop_idf)
-    # cleanup(LP_plant_loop_idf)
+    cleanup(expanded_plant_loop_idf)
+    cleanup(LP_plant_loop_idf)
     cleanup('expandedidf.err')
-    # cleanup('in.idf')
+    cleanup('in.idf')
     if not os.path.exists(out_dir):
         os.mkdir(out_dir)
     shutil.move(final_idf_name, f"{out_dir}{final_idf_name}")
