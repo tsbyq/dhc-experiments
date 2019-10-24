@@ -21,14 +21,21 @@ class DistrictSystemsController < ApplicationController
   @@user_uploads_path = @@root_path + '/public/user_uploads/'
   @@output_files_path = @@root_path + '/public/output_files/'
   @@dhc_template_path = @@root_path + '/public/dhc_templates/'
-  @@idf_modifier_py = @@root_path + '/public/idf_modifier.py'
-  @@idf_runner_py = @@root_path + '/public/idf_runner.py'
+
+  @@sys_1_idf_processor_py = @@root_path + '/public/scripts/sys_1_idf_processor.py'
+  @@idf_modifier_py = @@root_path + '/public/scripts/idf_modifier.py'
+  @@idf_runner_py = @@root_path + '/public/scripts/idf_runner.py'
   @@run_path = @@root_path + '/public/runs/'
   @@sys_type_1_idf_name = 'sys_1.idf'
   @@sys_type_2_idf_name = 'sys_2.idf'
   @@sys_type_3_idf_name = 'sys_3.idf'
   @@sys_type_4_idf_name = 'sys_4.idf'
   @@sys_type_5_idf_name = 'sys_5.idf'
+
+  @@sys_type_1_plant_template_json_name = 'sys_1_plant_configuration.json'
+  @@sys_type_1_base_plant_template_idf_path = @@root_path + '/public/scripts/sys_1_base_plant.idf'
+  @@sys_type_1_base_loadprofile_template_idf_path = @@root_path + '/public/scripts/sys_1_base_LP.idf'
+
   @@sys_type_1_name = "Water-cooled Chillers + Boiler"
   @@sys_type_2_name = "Water-cooled Chillers with Ice-Storage + Boiler"
   @@sys_type_3_name = "Heat-recovery Chillers + Heat Pumps"
@@ -102,7 +109,7 @@ class DistrictSystemsController < ApplicationController
     redirect_to :action => "index"
   end
 
-  def simulate(params)
+  def simulate(params, dev = true)
     puts '---> Entering Simulate method...'
     # Check if a epw file is available, show error message if none exists.
     puts '-' * 100
@@ -135,54 +142,57 @@ class DistrictSystemsController < ApplicationController
     puts jobs_json_dir
     puts hash_incremental_cost
 
-    unless jobs_json_dir.nil?
-      simulation_success = run_simulate(jobs_json_dir)
+    unless dev
+      unless jobs_json_dir.nil?
+        simulation_success = run_simulate(jobs_json_dir)
+      end
+      #TODO: 3. Post-process the simulation results, prepare it as a hash, render it to the view.
+      puts "Simulations are successful = #{simulation_success}"
+      @simulation_results = params[:district_system_config]
+      jobs_json_hash = JSON.parse(File.read(jobs_json_dir))
+      puts "Simulations are done in: #{jobs_json_hash['run dir']}"
+
+      v_results = []
+      base_out_hash = {
+          "sys_type" => 'Baseline',
+          "annual electricity" => session[:base_annual_ele_consumption],
+          "annual gas" => session[:base_annual_gas_consumption],
+          "peak hourly ele consumption" => session[:base_peak_ele_consumption],
+          "annual electricity saving" => 0,
+          "annual utility cost" => session[:base_annual_ele_consumption] * @@ele_unit_cost + session[:base_annual_gas_consumption] * @@gas_unit_cost,
+          "annual utility cost saving" => 0,
+          "hourly electricity peak reduction" => 0,
+          "annual gas saving" => 0,
+          "incremental cost" => 0,
+          'simple payback' => 0,
+      }
+      v_results.push(base_out_hash)
+
+      jobs_json_hash['jobs'].each do |job|
+        job_out_csv = job['run_dir'] + '/eplusout.csv'
+        out_hash = read_eplus_output(job_out_csv)
+        out_hash['sys_type'] = job['sys_type']
+        out_hash["annual electricity saving"] = base_out_hash['annual electricity'] - out_hash["annual electricity"]
+        out_hash["annual gas saving"] = base_out_hash['annual gas'] - out_hash["annual gas"]
+        out_hash["hourly electricity peak reduction"] = base_out_hash["peak hourly ele consumption"].to_f - out_hash["peak hourly ele consumption"].to_f
+        out_hash['incremental cost'] = hash_incremental_cost[job['sys_type']]
+        out_hash['annual utility cost'] = out_hash["annual electricity"] * @@ele_unit_cost + out_hash["annual gas"] * @@gas_unit_cost
+        out_hash['annual utility cost saving'] = base_out_hash['annual utility cost'] - out_hash['annual utility cost']
+        out_hash['simple payback'] = out_hash['incremental cost'].to_f / out_hash['annual utility cost saving'].to_f
+        v_results.push(out_hash)
+      end
+
+      puts '=' * 100
+      puts v_results
+      puts '=' * 100
+
+      session[:v_results] = v_results
+      session[:v_results_js] = v_results.to_json.html_safe
+      @system_types = add_system_types
+      session[:tabs] = tab_control(false, false, true)
     end
 
-    #TODO: 3. Post-process the simulation results, prepare it as a hash, render it to the view.
-    puts "Simulations are successful = #{simulation_success}"
-    @simulation_results = params[:district_system_config]
-    jobs_json_hash = JSON.parse(File.read(jobs_json_dir))
-    puts "Simulations are done in: #{jobs_json_hash['run dir']}"
 
-    v_results = []
-    base_out_hash = {
-        "sys_type" => 'Baseline',
-        "annual electricity" => session[:base_annual_ele_consumption],
-        "annual gas" => session[:base_annual_gas_consumption],
-        "peak hourly ele consumption" => session[:base_peak_ele_consumption],
-        "annual electricity saving" => 0,
-        "annual utility cost" => session[:base_annual_ele_consumption] * @@ele_unit_cost + session[:base_annual_gas_consumption] * @@gas_unit_cost,
-        "annual utility cost saving" => 0,
-        "hourly electricity peak reduction" => 0,
-        "annual gas saving" => 0,
-        "incremental cost" => 0,
-        'simple payback' => 0,
-    }
-    v_results.push(base_out_hash)
-
-    jobs_json_hash['jobs'].each do |job|
-      job_out_csv = job['run_dir'] + '/eplusout.csv'
-      out_hash = read_eplus_output(job_out_csv)
-      out_hash['sys_type'] = job['sys_type']
-      out_hash["annual electricity saving"] = base_out_hash['annual electricity'] - out_hash["annual electricity"]
-      out_hash["annual gas saving"] = base_out_hash['annual gas'] - out_hash["annual gas"]
-      out_hash["hourly electricity peak reduction"] = base_out_hash["peak hourly ele consumption"].to_f - out_hash["peak hourly ele consumption"].to_f
-      out_hash['incremental cost'] = hash_incremental_cost[job['sys_type']]
-      out_hash['annual utility cost'] = out_hash["annual electricity"] * @@ele_unit_cost + out_hash["annual gas"] * @@gas_unit_cost
-      out_hash['annual utility cost saving'] = base_out_hash['annual utility cost'] - out_hash['annual utility cost']
-      out_hash['simple payback'] = out_hash['incremental cost'].to_f / out_hash['annual utility cost saving'].to_f
-      v_results.push(out_hash)
-    end
-
-    puts '=' * 100
-    puts v_results
-    puts '=' * 100
-
-    session[:v_results] = v_results
-    session[:v_results_js] = v_results.to_json.html_safe
-    @system_types = add_system_types
-    session[:tabs] = tab_control(false, false, true)
     redirect_to :action => "index"
   end
 
@@ -238,10 +248,11 @@ class DistrictSystemsController < ApplicationController
       v_simulation_jobs = []
 
       if @sys_type_1_selected
+        generate_sys_1_idf(params, temp_run_path, temp_run_path + @@sys_type_1_idf_name)
         sys_1_idf = temp_run_path + @@sys_type_1_idf_name
         sys_1_run_dir = temp_run_path + 'sys_1'
         hash_incremental_cost[@@sys_type_1_name] = params[:district_system_config][:incremental_cost_system_type_1]
-        FileUtils.cp(@@dhc_template_path + @@sys_type_1_idf_name, sys_1_idf)
+        # FileUtils.cp(@@dhc_template_path + @@sys_type_1_idf_name, sys_1_idf) # Old approach: Copy predefined template.
         idf_modifier(@@python_command, @@idf_modifier_py, sys_1_idf, run_epw_file, run_sch_file, @@idd_file_dir)
         v_simulation_jobs.push(create_simulation_job_hash(@@ep_exe, run_epw_file, sys_1_idf, sys_1_run_dir, @@sys_type_1_name))
       end
@@ -292,6 +303,92 @@ class DistrictSystemsController < ApplicationController
     return [jobs_json_dir, hash_incremental_cost]
   end
 
+  def generate_sys_1_idf(params, temp_run_path, idf_path)
+    reciprocating_chiller_cop = params[:district_system_config][:reciprocating_chiller_cop_type_1].to_f
+    reciprocating_chiller_number = params[:district_system_config][:reciprocating_chiller_number_type_1].to_i
+    screw_chiller_cop = params[:district_system_config][:screw_chiller_cop_type_1].to_f
+    screw_chiller_number = params[:district_system_config][:screw_chiller_number_type_1].to_i
+    centrifugal_chiller_cop = params[:district_system_config][:centrifugal_chiller_cop_type_1].to_f
+    centrifugal_chiller_number = params[:district_system_config][:centrifugal_chiller_number_type_1].to_i
+    electric_boiler_efficiency = params[:district_system_config][:electric_boiler_efficiency_type_1].to_f
+    electric_boiler_number = params[:district_system_config][:electric_boiler_number_type_1].to_i
+    gas_boiler_efficiency = params[:district_system_config][:gas_boiler_efficiency_type_1].to_f
+    gas_boiler_number = params[:district_system_config][:gas_boiler_number_type_1].to_i
+
+    # Create a json file with the chiller and boiler information to create template IDF
+    hash_plant_configuration = {
+        "chillers" => [],
+        "boilers" => [],
+        "cooling-towers" => [],
+    }
+
+    # Add chillers
+    unless reciprocating_chiller_number <= 0
+      hash_temp = {
+          "type" => "ElectricReciprocatingChiller",
+          "COP" => reciprocating_chiller_cop,
+          "condenser" => "WaterCooled"
+      }
+      v_reciprocating_chillers = Array.new(reciprocating_chiller_number, hash_temp)
+      hash_plant_configuration["chillers"] += v_reciprocating_chillers
+    end
+
+    unless screw_chiller_number <= 0
+      hash_temp = {
+          "type" => "ElectricScrewChiller",
+          "COP" => screw_chiller_cop,
+          "condenser" => "WaterCooled"
+      }
+      v_screw_chillers = Array.new(screw_chiller_number, hash_temp)
+      hash_plant_configuration["chillers"] += v_screw_chillers
+    end
+
+    unless centrifugal_chiller_number <= 0
+      hash_temp = {
+          "type" => "ElectricCentrifugalChiller",
+          "COP" => centrifugal_chiller_cop,
+          "condenser" => "WaterCooled"
+      }
+      v_centrifugal_chillers = Array.new(centrifugal_chiller_number, hash_temp)
+      hash_plant_configuration["chillers"] += v_centrifugal_chillers
+    end
+
+    # Add boilers
+    unless electric_boiler_number <= 0
+      hash_temp = {
+          "efficiency" => electric_boiler_efficiency,
+          "fuel" => "Electricity"
+      }
+      v_electric_boilers = Array.new(electric_boiler_number, hash_temp)
+      hash_plant_configuration["boilers"] += v_electric_boilers
+    end
+
+    unless gas_boiler_number <= 0
+      hash_temp = {
+          "efficiency" => gas_boiler_efficiency,
+          "fuel" => "NaturalGas"
+      }
+      v_gas_boilers = Array.new(gas_boiler_number, hash_temp)
+      hash_plant_configuration["boilers"] += v_gas_boilers
+    end
+
+    plant_template_json_dir = "#{temp_run_path}sys_1_plant_configuration.json"
+
+    File.open(plant_template_json_dir, "w") do |f|
+      f.write(hash_plant_configuration.to_json)
+    end
+
+    # Generate sys_1.idf in the temp run folder
+    sys_1_idf_processor(@@python_command,
+                        @@sys_1_idf_processor_py,
+                        @@sys_type_1_base_loadprofile_template_idf_path,
+                        @@sys_type_1_base_plant_template_idf_path,
+                        plant_template_json_dir,
+                        temp_run_path,
+                        @@sys_type_1_idf_name,
+                        @@idd_file_dir)
+  end
+
   def run_simulate(jobs_json_dir)
     begin
       run_command = "#{@@python_command} #{@@idf_runner_py} #{jobs_json_dir}"
@@ -308,6 +405,11 @@ class DistrictSystemsController < ApplicationController
 
   def idf_modifier(python_command, py_script, idf_file_dir, epw_file_dir, sch_file_dir, idd_file_dir)
     pid = spawn("#{python_command} #{py_script} #{idf_file_dir} #{epw_file_dir} #{sch_file_dir} #{idd_file_dir}")
+    Process.wait pid
+  end
+
+  def sys_1_idf_processor(python_command, py_script, base_loadprofile_idf_dir, base_plant_idf_dir, plant_configuration_json_dir, final_idf_dir, final_idf_name, idd_file_dir)
+    pid = spawn("#{python_command} #{py_script} #{base_loadprofile_idf_dir} #{base_plant_idf_dir} #{plant_configuration_json_dir} #{final_idf_dir} #{final_idf_name} #{idd_file_dir}")
     Process.wait pid
   end
 

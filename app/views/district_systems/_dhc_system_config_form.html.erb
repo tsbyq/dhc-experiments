@@ -25,7 +25,7 @@
           </a>
         </div>
         <div class="col-6">
-          <%= form.number_field "incremental_cost_system_type_#{index + 1}" %>
+          <%= form.number_field "incremental_cost_system_type_#{index + 1}", :value => 0, class: 'text-center' %>
         </div>
       </div>
       <div class="row pl-5">
@@ -93,16 +93,6 @@
                     </table>
                   </div>
                 </div>
-
-                <!--                <div class="radio">-->
-                <!--                  <label><input type="radio" name="optradio" checked> 1 Chiller + 1 Boiler</label>-->
-                <!--                </div>-->
-                <!--                <div class="radio">-->
-                <!--                  <label><input type="radio" name="optradio"> 3 Chillers + 1 Boiler</label>-->
-                <!--                </div>-->
-                <!--                <div class="radio">-->
-                <!--                  <label><input type="radio" name="optradio"> Option 3</label>-->
-                <!--                </div>-->
 
               <% elsif system_type[3] == 'sys2' %>
                 <p>Options for <b><%= system_type[0] %></b> is under development.</p>
