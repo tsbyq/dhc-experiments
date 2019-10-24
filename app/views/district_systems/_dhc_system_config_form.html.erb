@@ -9,9 +9,10 @@
     <!--      </p>-->
     <!--    </div>-->
     <h4 class="pt-3 pb-5">Choose the district system type and upload an epw file for simulations.</h4>
-    <h5>1. Select at least one of the following system types</h5>
+    <h5>1. Select system types</h5>
+    <h6 class="pl-3">Select at least one system type, click on the system type label to enter more details</h6>
     <div class="row pl-5 pb-3">
-      <div class="col-6"><b>System Type</b></div>
+      <div class="col-6"><b>System Type(s)</b></div>
       <div class="col-6"><b>Incremental Cost ($)</b></div>
     </div>
 
@@ -40,26 +41,26 @@
                     <table>
                       <thead>
                       <tr>
-                        <th class="text-center align-middle p-1" style="width:150px">Compressor Type</th>
-                        <th class="text-center align-middle p-1" style="width:80px">Nominal COP</th>
-                        <th class="text-center align-middle p-1" style="width:80px">Number of Chillers</th>
+                        <th class="text-center align-middle p-1" style="width:145px">Compressor Type</th>
+                        <th class="text-center align-middle p-1" style="width:60px">Nominal COP</th>
+                        <th class="text-center align-middle p-1" style="width:60px">Number of Chillers</th>
                       </tr>
                       </thead>
                       <tbody>
                       <tr>
                         <td class="text-center align-middle pl-1">Reciprocating</td>
-                        <td class="text-center align-middle pl-1"><%= form.number_field "reciprocating_chiller_cop_type_#{index + 1}" %></td>
-                        <td class="text-center align-middle pl-1"><%= form.number_field "reciprocating_chiller_number_type_#{index + 1}" %></td>
+                        <td class="text-center align-middle pl-1"><%= form.number_field "reciprocating_chiller_cop_type_#{index + 1}", :value => 3.5, class: 'text-center' %></td>
+                        <td class="text-center align-middle pl-1"><%= form.number_field "reciprocating_chiller_number_type_#{index + 1}", :value => 0, class: 'text-center' %></td>
                       </tr>
                       <tr>
                         <td class="text-center align-middle pl-1">Screw</td>
-                        <td class="text-center align-middle pl-1"><%= form.number_field "screw_chiller_cop_type_#{index + 1}" %></td>
-                        <td class="text-center align-middle pl-1"><%= form.number_field "screw_chiller_number_type_#{index + 1}" %></td>
+                        <td class="text-center align-middle pl-1"><%= form.number_field "screw_chiller_cop_type_#{index + 1}", :value => 5, class: 'text-center' %></td>
+                        <td class="text-center align-middle pl-1"><%= form.number_field "screw_chiller_number_type_#{index + 1}", :value => 0, class: 'text-center' %></td>
                       </tr>
                       <tr>
                         <td class="text-center align-middle pl-1">Centrifugal</td>
-                        <td class="text-center align-middle pl-1"><%= form.number_field "centrifugal_chiller_cop_type_#{index + 1}" %></td>
-                        <td class="text-center align-middle pl-1"><%= form.number_field "centrifugal_chiller_number_type_#{index + 1}" %></td>
+                        <td class="text-center align-middle pl-1"><%= form.number_field "centrifugal_chiller_cop_type_#{index + 1}", :value => 6.5, class: 'text-center' %></td>
+                        <td class="text-center align-middle pl-1"><%= form.number_field "centrifugal_chiller_number_type_#{index + 1}", :value => 3, class: 'text-center' %></td>
                       </tr>
                       </tbody>
                     </table>
@@ -72,21 +73,21 @@
                     <table>
                       <thead>
                       <tr>
-                        <th class="text-center align-middle p-1" style="width:150px">Fuel Type</th>
-                        <th class="text-center align-middle p-1" style="width:80px">Boiler Efficiency</th>
-                        <th class="text-center align-middle p-1" style="width:80px">Number of Boilers</th>
+                        <th class="text-center align-middle p-1" style="width:145px">Fuel Type</th>
+                        <th class="text-center align-middle p-1" style="width:60px">Boiler Efficiency</th>
+                        <th class="text-center align-middle p-1" style="width:60px">Number of Boilers</th>
                       </tr>
                       </thead>
                       <tbody>
                       <tr>
                         <td class="text-center align-middle pl-1">Electricity</td>
-                        <td class="text-center align-middle pl-1"><%= form.number_field "electric_boiler_efficiency_type_#{index + 1}" %></td>
-                        <td class="text-center align-middle pl-1"><%= form.number_field "electric_boiler_number_type_#{index + 1}" %></td>
+                        <td class="text-center align-middle pl-1"><%= form.number_field "electric_boiler_efficiency_type_#{index + 1}", :value => 0.9, class: 'text-center' %></td>
+                        <td class="text-center align-middle pl-1"><%= form.number_field "electric_boiler_number_type_#{index + 1}", :value => 0, class: 'text-center' %></td>
                       </tr>
                       <tr>
                         <td class="text-center align-middle pl-1">Natural Gas</td>
-                        <td class="text-center align-middle pl-1"><%= form.number_field "gas_boiler_efficiency_type_#{index + 1}" %></td>
-                        <td class="text-center align-middle pl-1"><%= form.number_field "gas_boiler_number_type_#{index + 1}" %></td>
+                        <td class="text-center align-middle pl-1"><%= form.number_field "gas_boiler_efficiency_type_#{index + 1}", :value => 0.8, class: 'text-center' %></td>
+                        <td class="text-center align-middle pl-1"><%= form.number_field "gas_boiler_number_type_#{index + 1}", :value => 3, class: 'text-center' %></td>
                       </tr>
                       </tbody>
                     </table>
@@ -118,8 +119,9 @@
         </div>
       </div>
     <% end %>
-
-    <h5>2. Choose the weather file (epw) for simulation.</h5>
+    <hr>
+    <h5>2. Choose weather file</h5>
+    <h6 class="pl-3">Upload an epw file for simulation</h6>
     <div class="row pl-5">
       <%= file_field_tag 'weather_epw' %>
       <% if @weather_epw_name %>
