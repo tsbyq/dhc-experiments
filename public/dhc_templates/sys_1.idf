@@ -1,6 +1,8 @@
+
 ! ######################################################################################
 ! High level information
 ! ######################################################################################
+
 Version,
   9.1;                                    !- Version Identifier
 
@@ -173,1750 +175,49 @@ GlobalGeometryRules,
   Relative,                               !- Daylighting Reference Point Coordinate System
   Relative;                               !- Rectangular Surface Coordinate System
 
-
-! ######################################################################################
-! Schedules
-! ######################################################################################
-
-ScheduleTypeLimits,
-  ActivityLevel,                          !- Name
-  0,                                      !- Lower Limit Value {BasedOnField A3}
-  ,                                       !- Upper Limit Value {BasedOnField A3}
-  Continuous,                             !- Numeric Type
-  activitylevel;                          !- Unit Type
-
-ScheduleTypeLimits,
-  Capacity,                               !- Name
-  0,                                      !- Lower Limit Value {BasedOnField A3}
-  ,                                       !- Upper Limit Value {BasedOnField A3}
-  Continuous,                             !- Numeric Type
-  capacity;                               !- Unit Type
-
 ScheduleTypeLimits,
   Any Number;                             !- Name
-
-ScheduleTypeLimits,
-  DeltaTemperature,                       !- Name
-  ,                                       !- Lower Limit Value {BasedOnField A3}
-  ,                                       !- Upper Limit Value {BasedOnField A3}
-  Continuous,                             !- Numeric Type
-  deltatemperature;                       !- Unit Type
-
-ScheduleTypeLimits,
-  Dimensionless,                          !- Name
-  ,                                       !- Lower Limit Value {BasedOnField A3}
-  ,                                       !- Upper Limit Value {BasedOnField A3}
-  Continuous;                             !- Numeric Type
-
-ScheduleTypeLimits,
-  Dimensionless 1,                        !- Name
-  -1,                                     !- Lower Limit Value {BasedOnField A3}
-  1,                                      !- Upper Limit Value {BasedOnField A3}
-  Continuous;                             !- Numeric Type
-
-ScheduleTypeLimits,
-  Dimensionless 2,                        !- Name
-  0.1,                                    !- Lower Limit Value {BasedOnField A3}
-  1000,                                   !- Upper Limit Value {BasedOnField A3}
-  Continuous;                             !- Numeric Type
-
-ScheduleTypeLimits,
-  Dimensionless 3,                        !- Name
-  0,                                      !- Lower Limit Value {BasedOnField A3}
-  1,                                      !- Upper Limit Value {BasedOnField A3}
-  Continuous,                             !- Numeric Type
-  dimensionless;                          !- Unit Type
-
-ScheduleTypeLimits,
-  Fractional,                             !- Name
-  0,                                      !- Lower Limit Value {BasedOnField A3}
-  1,                                      !- Upper Limit Value {BasedOnField A3}
-  Continuous;                             !- Numeric Type
-
-ScheduleTypeLimits,
-  OnOff,                                  !- Name
-  0,                                      !- Lower Limit Value {BasedOnField A3}
-  1,                                      !- Upper Limit Value {BasedOnField A3}
-  Discrete,                               !- Numeric Type
-  availability;                           !- Unit Type
-
-ScheduleTypeLimits,
-  OnOff hvac_library,                     !- Name
-  0,                                      !- Lower Limit Value {BasedOnField A3}
-  1,                                      !- Upper Limit Value {BasedOnField A3}
-  Discrete,                               !- Numeric Type
-  availability;                           !- Unit Type
-
-ScheduleTypeLimits,
-  Percent,                                !- Name
-  0,                                      !- Lower Limit Value {BasedOnField A3}
-  100,                                    !- Upper Limit Value {BasedOnField A3}
-  Continuous,                             !- Numeric Type
-  percent;                                !- Unit Type
-
-ScheduleTypeLimits,
-  Temperature,                            !- Name
-  ,                                       !- Lower Limit Value {BasedOnField A3}
-  ,                                       !- Upper Limit Value {BasedOnField A3}
-  Continuous,                             !- Numeric Type
-  temperature;                            !- Unit Type
-
-ScheduleTypeLimits,
-  Temperature 1,                          !- Name
-  -50,                                    !- Lower Limit Value {BasedOnField A3}
-  50,                                     !- Upper Limit Value {BasedOnField A3}
-  Continuous,                             !- Numeric Type
-  temperature;                            !- Unit Type
-
-ScheduleTypeLimits,
-  Temperature 2,                          !- Name
-  0,                                      !- Lower Limit Value {BasedOnField A3}
-  50,                                     !- Upper Limit Value {BasedOnField A3}
-  Continuous,                             !- Numeric Type
-  temperature;                            !- Unit Type
-
-ScheduleTypeLimits,
-  Temperature Schedule Type Limits,       !- Name
-  0,                                      !- Lower Limit Value {BasedOnField A3}
-  100,                                    !- Upper Limit Value {BasedOnField A3}
-  Continuous,                             !- Numeric Type
-  temperature;                            !- Unit Type
-
-ScheduleTypeLimits,
-  Velocity,                               !- Name
-  0,                                      !- Lower Limit Value {BasedOnField A3}
-  ,                                       !- Upper Limit Value {BasedOnField A3}
-  Continuous,                             !- Numeric Type
-  velocity;                               !- Unit Type
-
-Schedule:Constant,
-  Always On Discrete,                     !- Name
-  OnOff,                                  !- Schedule Type Limits Name
-  1;                                      !- Hourly Value
-
-Schedule:Constant,
-  Always On Discrete hvac_library,        !- Name
-  OnOff hvac_library,                     !- Schedule Type Limits Name
-  1;                                      !- Hourly Value
-
-Schedule:Day:Interval,
-  Chilled Water Loop Temp - 44F Default,  !- Name
-  Temperature,                            !- Schedule Type Limits Name
-  No,                                     !- Interpolate to Timestep
-  24:00,                                  !- Time 1 {hh:mm}
-  6.66666698455811;                       !- Value Until Time 1
-
-Schedule:Day:Interval,
-  Economizer Max OA Fraction 70 pct Default, !- Name
-  ,                                       !- Schedule Type Limits Name
-  No,                                     !- Interpolate to Timestep
-  24:00,                                  !- Time 1 {hh:mm}
-  0.7;                                    !- Value Until Time 1
-
-Schedule:Day:Interval,
-  Heat Pump Loop High Temp - 65F Default, !- Name
-  Temperature,                            !- Schedule Type Limits Name
-  No,                                     !- Interpolate to Timestep
-  24:00,                                  !- Time 1 {hh:mm}
-  18.3333333333334;                       !- Value Until Time 1
-
-Schedule:Day:Interval,
-  Heat Pump Loop High Temp - 65F Default 1, !- Name
-  Temperature,                            !- Schedule Type Limits Name
-  No,                                     !- Interpolate to Timestep
-  24:00,                                  !- Time 1 {hh:mm}
-  18.3333333333334;                       !- Value Until Time 1
-
-Schedule:Day:Interval,
-  Heat Pump Loop Low Temp - 41F Default,  !- Name
-  Temperature,                            !- Schedule Type Limits Name
-  No,                                     !- Interpolate to Timestep
-  24:00,                                  !- Time 1 {hh:mm}
-  5.00000000000006;                       !- Value Until Time 1
-
-Schedule:Day:Interval,
-  Heat Pump Loop Low Temp - 41F Default 1, !- Name
-  Temperature,                            !- Schedule Type Limits Name
-  No,                                     !- Interpolate to Timestep
-  24:00,                                  !- Time 1 {hh:mm}
-  5.00000000000006;                       !- Value Until Time 1
-
-Schedule:Day:Interval,
-  Hot Water Loop Temp - 180F Default,     !- Name
-  Temperature,                            !- Schedule Type Limits Name
-  No,                                     !- Interpolate to Timestep
-  24:00,                                  !- Time 1 {hh:mm}
-  82.2222222222223;                       !- Value Until Time 1
-
-Schedule:Day:Interval,
-  OfficeLarge ALWAYS_ON Default,          !- Name
-  Fractional,                             !- Schedule Type Limits Name
-  No,                                     !- Interpolate to Timestep
-  24:00,                                  !- Time 1 {hh:mm}
-  1;                                      !- Value Until Time 1
-
-Schedule:Day:Interval,
-  OfficeLarge ALWAYS_ON Summer Design Day, !- Name
-  Fractional,                             !- Schedule Type Limits Name
-  No,                                     !- Interpolate to Timestep
-  24:00,                                  !- Time 1 {hh:mm}
-  1;                                      !- Value Until Time 1
-
-Schedule:Day:Interval,
-  OfficeLarge ALWAYS_ON Winter Design Day, !- Name
-  Fractional,                             !- Schedule Type Limits Name
-  No,                                     !- Interpolate to Timestep
-  24:00,                                  !- Time 1 {hh:mm}
-  1;                                      !- Value Until Time 1
-
-Schedule:Day:Interval,
-  Schedule Day 25,                        !- Name
-  Temperature,                            !- Schedule Type Limits Name
-  No,                                     !- Interpolate to Timestep
-  24:00,                                  !- Time 1 {hh:mm}
-  22;                                     !- Value Until Time 1
-
-Schedule:Day:Interval,
-  Schedule Day 26,                        !- Name
-  Temperature,                            !- Schedule Type Limits Name
-  No,                                     !- Interpolate to Timestep
-  24:00,                                  !- Time 1 {hh:mm}
-  60;                                     !- Value Until Time 1
-
-Schedule:Week:Daily,
-  Chilled Water Loop Temp - 44F Week Rule - Jan1-Dec31, !- Name
-  Chilled Water Loop Temp - 44F Default,  !- Sunday Schedule:Day Name
-  Chilled Water Loop Temp - 44F Default,  !- Monday Schedule:Day Name
-  Chilled Water Loop Temp - 44F Default,  !- Tuesday Schedule:Day Name
-  Chilled Water Loop Temp - 44F Default,  !- Wednesday Schedule:Day Name
-  Chilled Water Loop Temp - 44F Default,  !- Thursday Schedule:Day Name
-  Chilled Water Loop Temp - 44F Default,  !- Friday Schedule:Day Name
-  Chilled Water Loop Temp - 44F Default,  !- Saturday Schedule:Day Name
-  Chilled Water Loop Temp - 44F Default,  !- Holiday Schedule:Day Name
-  Chilled Water Loop Temp - 44F Default,  !- SummerDesignDay Schedule:Day Name
-  Chilled Water Loop Temp - 44F Default,  !- WinterDesignDay Schedule:Day Name
-  Chilled Water Loop Temp - 44F Default,  !- CustomDay1 Schedule:Day Name
-  Chilled Water Loop Temp - 44F Default;  !- CustomDay2 Schedule:Day Name
-
-Schedule:Year,
-  Chilled Water Loop Temp - 44F,          !- Name
-  Temperature,                            !- Schedule Type Limits Name
-  Chilled Water Loop Temp - 44F Week Rule - Jan1-Dec31, !- Schedule:Week Name 1
-  1,                                      !- Start Month 1
-  1,                                      !- Start Day 1
-  12,                                     !- End Month 1
-  31;                                     !- End Day 1
-
-! ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-! Old fixed schedule for loadprofile:plant
-! ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Schedule:Year,
-  District Cooling Load Profile Schedule, !- Name
-  Dimensionless,                          !- Schedule Type Limits Name
-  District Cooling Load Profile Schedule Week Rule - Jan1-Dec31, !- Schedule:Week Name 1
-  1,                                      !- Start Month 1
-  1,                                      !- Start Day 1
-  12,                                     !- End Month 1
-  31;                                     !- End Day 1
-
-Schedule:Week:Daily,
-  District Cooling Load Profile Schedule Week Rule - Jan1-Dec31, !- Name
-  Schedule Day 10,                        !- Sunday Schedule:Day Name
-  Schedule Day 10,                        !- Monday Schedule:Day Name
-  Schedule Day 10,                        !- Tuesday Schedule:Day Name
-  Schedule Day 10,                        !- Wednesday Schedule:Day Name
-  Schedule Day 10,                        !- Thursday Schedule:Day Name
-  Schedule Day 10,                        !- Friday Schedule:Day Name
-  Schedule Day 10,                        !- Saturday Schedule:Day Name
-  Schedule Day 10,                        !- Holiday Schedule:Day Name
-  Schedule Day 10,                        !- SummerDesignDay Schedule:Day Name
-  Schedule Day 10,                        !- WinterDesignDay Schedule:Day Name
-  Schedule Day 10,                        !- CustomDay1 Schedule:Day Name
-  Schedule Day 10;                        !- CustomDay2 Schedule:Day Name
-
-Schedule:Day:Interval,
-  Schedule Day 10,                        !- Name
-  Dimensionless,                          !- Schedule Type Limits Name
-  No,                                     !- Interpolate to Timestep
-  24:00,                                  !- Time 1 {hh:mm}
-  -2999.99951171875;                      !- Value Until Time 1
-
-Schedule:Year,
-  District Heating Load Profile Schedule, !- Name
-  Dimensionless,                          !- Schedule Type Limits Name
-  District Heating Load Profile Schedule Week Rule - Jan1-Dec31, !- Schedule:Week Name 1
-  1,                                      !- Start Month 1
-  1,                                      !- Start Day 1
-  12,                                     !- End Month 1
-  31;                                     !- End Day 1
-
-Schedule:Week:Daily,
-  District Heating Load Profile Schedule Week Rule - Jan1-Dec31, !- Name
-  Schedule Day 27,                        !- Sunday Schedule:Day Name
-  Schedule Day 27,                        !- Monday Schedule:Day Name
-  Schedule Day 27,                        !- Tuesday Schedule:Day Name
-  Schedule Day 27,                        !- Wednesday Schedule:Day Name
-  Schedule Day 27,                        !- Thursday Schedule:Day Name
-  Schedule Day 27,                        !- Friday Schedule:Day Name
-  Schedule Day 27,                        !- Saturday Schedule:Day Name
-  Schedule Day 27,                        !- Holiday Schedule:Day Name
-  Schedule Day 27,                        !- SummerDesignDay Schedule:Day Name
-  Schedule Day 27,                        !- WinterDesignDay Schedule:Day Name
-  Schedule Day 27,                        !- CustomDay1 Schedule:Day Name
-  Schedule Day 27;                        !- CustomDay2 Schedule:Day Name
-
-Schedule:Day:Interval,
-  Schedule Day 27,                        !- Name
-  Dimensionless,                          !- Schedule Type Limits Name
-  No,                                     !- Interpolate to Timestep
-  24:00,                                  !- Time 1 {hh:mm}
-  10000;                                  !- Value Until Time 1
-! ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Schedule:Week:Daily,
-  Heat Pump Loop High Temp - 65F Week Rule - Jan1-Dec31, !- Name
-  Heat Pump Loop High Temp - 65F Default, !- Sunday Schedule:Day Name
-  Heat Pump Loop High Temp - 65F Default, !- Monday Schedule:Day Name
-  Heat Pump Loop High Temp - 65F Default, !- Tuesday Schedule:Day Name
-  Heat Pump Loop High Temp - 65F Default, !- Wednesday Schedule:Day Name
-  Heat Pump Loop High Temp - 65F Default, !- Thursday Schedule:Day Name
-  Heat Pump Loop High Temp - 65F Default, !- Friday Schedule:Day Name
-  Heat Pump Loop High Temp - 65F Default, !- Saturday Schedule:Day Name
-  Heat Pump Loop High Temp - 65F Default, !- Holiday Schedule:Day Name
-  Heat Pump Loop High Temp - 65F Default, !- SummerDesignDay Schedule:Day Name
-  Heat Pump Loop High Temp - 65F Default, !- WinterDesignDay Schedule:Day Name
-  Heat Pump Loop High Temp - 65F Default, !- CustomDay1 Schedule:Day Name
-  Heat Pump Loop High Temp - 65F Default; !- CustomDay2 Schedule:Day Name
-
-Schedule:Year,
-  Heat Pump Loop High Temp - 65F,         !- Name
-  Temperature,                            !- Schedule Type Limits Name
-  Heat Pump Loop High Temp - 65F Week Rule - Jan1-Dec31, !- Schedule:Week Name 1
-  1,                                      !- Start Month 1
-  1,                                      !- Start Day 1
-  12,                                     !- End Month 1
-  31;                                     !- End Day 1
-
-Schedule:Week:Daily,
-  Heat Pump Loop High Temp - 65F 1 Week Rule - Jan1-Dec31, !- Name
-  Heat Pump Loop High Temp - 65F Default 1, !- Sunday Schedule:Day Name
-  Heat Pump Loop High Temp - 65F Default 1, !- Monday Schedule:Day Name
-  Heat Pump Loop High Temp - 65F Default 1, !- Tuesday Schedule:Day Name
-  Heat Pump Loop High Temp - 65F Default 1, !- Wednesday Schedule:Day Name
-  Heat Pump Loop High Temp - 65F Default 1, !- Thursday Schedule:Day Name
-  Heat Pump Loop High Temp - 65F Default 1, !- Friday Schedule:Day Name
-  Heat Pump Loop High Temp - 65F Default 1, !- Saturday Schedule:Day Name
-  Heat Pump Loop High Temp - 65F Default 1, !- Holiday Schedule:Day Name
-  Heat Pump Loop High Temp - 65F Default 1, !- SummerDesignDay Schedule:Day Name
-  Heat Pump Loop High Temp - 65F Default 1, !- WinterDesignDay Schedule:Day Name
-  Heat Pump Loop High Temp - 65F Default 1, !- CustomDay1 Schedule:Day Name
-  Heat Pump Loop High Temp - 65F Default 1; !- CustomDay2 Schedule:Day Name
-
-Schedule:Year,
-  Heat Pump Loop High Temp - 65F 1,       !- Name
-  Temperature,                            !- Schedule Type Limits Name
-  Heat Pump Loop High Temp - 65F 1 Week Rule - Jan1-Dec31, !- Schedule:Week Name 1
-  1,                                      !- Start Month 1
-  1,                                      !- Start Day 1
-  12,                                     !- End Month 1
-  31;                                     !- End Day 1
-
-Schedule:Week:Daily,
-  Heat Pump Loop Low Temp - 41F Week Rule - Jan1-Dec31, !- Name
-  Heat Pump Loop Low Temp - 41F Default,  !- Sunday Schedule:Day Name
-  Heat Pump Loop Low Temp - 41F Default,  !- Monday Schedule:Day Name
-  Heat Pump Loop Low Temp - 41F Default,  !- Tuesday Schedule:Day Name
-  Heat Pump Loop Low Temp - 41F Default,  !- Wednesday Schedule:Day Name
-  Heat Pump Loop Low Temp - 41F Default,  !- Thursday Schedule:Day Name
-  Heat Pump Loop Low Temp - 41F Default,  !- Friday Schedule:Day Name
-  Heat Pump Loop Low Temp - 41F Default,  !- Saturday Schedule:Day Name
-  Heat Pump Loop Low Temp - 41F Default,  !- Holiday Schedule:Day Name
-  Heat Pump Loop Low Temp - 41F Default,  !- SummerDesignDay Schedule:Day Name
-  Heat Pump Loop Low Temp - 41F Default,  !- WinterDesignDay Schedule:Day Name
-  Heat Pump Loop Low Temp - 41F Default,  !- CustomDay1 Schedule:Day Name
-  Heat Pump Loop Low Temp - 41F Default;  !- CustomDay2 Schedule:Day Name
-
-Schedule:Year,
-  Heat Pump Loop Low Temp - 41F,          !- Name
-  Temperature,                            !- Schedule Type Limits Name
-  Heat Pump Loop Low Temp - 41F Week Rule - Jan1-Dec31, !- Schedule:Week Name 1
-  1,                                      !- Start Month 1
-  1,                                      !- Start Day 1
-  12,                                     !- End Month 1
-  31;                                     !- End Day 1
-
-Schedule:Week:Daily,
-  Heat Pump Loop Low Temp - 41F 1 Week Rule - Jan1-Dec31, !- Name
-  Heat Pump Loop Low Temp - 41F Default 1, !- Sunday Schedule:Day Name
-  Heat Pump Loop Low Temp - 41F Default 1, !- Monday Schedule:Day Name
-  Heat Pump Loop Low Temp - 41F Default 1, !- Tuesday Schedule:Day Name
-  Heat Pump Loop Low Temp - 41F Default 1, !- Wednesday Schedule:Day Name
-  Heat Pump Loop Low Temp - 41F Default 1, !- Thursday Schedule:Day Name
-  Heat Pump Loop Low Temp - 41F Default 1, !- Friday Schedule:Day Name
-  Heat Pump Loop Low Temp - 41F Default 1, !- Saturday Schedule:Day Name
-  Heat Pump Loop Low Temp - 41F Default 1, !- Holiday Schedule:Day Name
-  Heat Pump Loop Low Temp - 41F Default 1, !- SummerDesignDay Schedule:Day Name
-  Heat Pump Loop Low Temp - 41F Default 1, !- WinterDesignDay Schedule:Day Name
-  Heat Pump Loop Low Temp - 41F Default 1, !- CustomDay1 Schedule:Day Name
-  Heat Pump Loop Low Temp - 41F Default 1; !- CustomDay2 Schedule:Day Name
-
-Schedule:Year,
-  Heat Pump Loop Low Temp - 41F 1,        !- Name
-  Temperature,                            !- Schedule Type Limits Name
-  Heat Pump Loop Low Temp - 41F 1 Week Rule - Jan1-Dec31, !- Schedule:Week Name 1
-  1,                                      !- Start Month 1
-  1,                                      !- Start Day 1
-  12,                                     !- End Month 1
-  31;                                     !- End Day 1
-
-Schedule:Week:Daily,
-  Hot Water Loop Temp - 180F Week Rule - Jan1-Dec31, !- Name
-  Hot Water Loop Temp - 180F Default,     !- Sunday Schedule:Day Name
-  Hot Water Loop Temp - 180F Default,     !- Monday Schedule:Day Name
-  Hot Water Loop Temp - 180F Default,     !- Tuesday Schedule:Day Name
-  Hot Water Loop Temp - 180F Default,     !- Wednesday Schedule:Day Name
-  Hot Water Loop Temp - 180F Default,     !- Thursday Schedule:Day Name
-  Hot Water Loop Temp - 180F Default,     !- Friday Schedule:Day Name
-  Hot Water Loop Temp - 180F Default,     !- Saturday Schedule:Day Name
-  Hot Water Loop Temp - 180F Default,     !- Holiday Schedule:Day Name
-  Hot Water Loop Temp - 180F Default,     !- SummerDesignDay Schedule:Day Name
-  Hot Water Loop Temp - 180F Default,     !- WinterDesignDay Schedule:Day Name
-  Hot Water Loop Temp - 180F Default,     !- CustomDay1 Schedule:Day Name
-  Hot Water Loop Temp - 180F Default;     !- CustomDay2 Schedule:Day Name
-
-Schedule:Year,
-  Hot Water Loop Temp - 180F,             !- Name
-  Temperature,                            !- Schedule Type Limits Name
-  Hot Water Loop Temp - 180F Week Rule - Jan1-Dec31, !- Schedule:Week Name 1
-  1,                                      !- Start Month 1
-  1,                                      !- Start Day 1
-  12,                                     !- End Month 1
-  31;                                     !- End Day 1
-
-Schedule:Week:Daily,
-  OfficeLarge ALWAYS_ON Week Rule - Jan1-Dec31, !- Name
-  OfficeLarge ALWAYS_ON Default,          !- Sunday Schedule:Day Name
-  OfficeLarge ALWAYS_ON Default,          !- Monday Schedule:Day Name
-  OfficeLarge ALWAYS_ON Default,          !- Tuesday Schedule:Day Name
-  OfficeLarge ALWAYS_ON Default,          !- Wednesday Schedule:Day Name
-  OfficeLarge ALWAYS_ON Default,          !- Thursday Schedule:Day Name
-  OfficeLarge ALWAYS_ON Default,          !- Friday Schedule:Day Name
-  OfficeLarge ALWAYS_ON Default,          !- Saturday Schedule:Day Name
-  OfficeLarge ALWAYS_ON Default,          !- Holiday Schedule:Day Name
-  OfficeLarge ALWAYS_ON Summer Design Day, !- SummerDesignDay Schedule:Day Name
-  OfficeLarge ALWAYS_ON Winter Design Day, !- WinterDesignDay Schedule:Day Name
-  OfficeLarge ALWAYS_ON Default,          !- CustomDay1 Schedule:Day Name
-  OfficeLarge ALWAYS_ON Default;          !- CustomDay2 Schedule:Day Name
-
-Schedule:Year,
-  OfficeLarge ALWAYS_ON,                  !- Name
-  Fractional,                             !- Schedule Type Limits Name
-  OfficeLarge ALWAYS_ON Week Rule - Jan1-Dec31, !- Schedule:Week Name 1
-  1,                                      !- Start Month 1
-  1,                                      !- Start Day 1
-  12,                                     !- End Month 1
-  31;                                     !- End Day 1
-
-Schedule:Constant,
-  Always Off Discrete,                    !- Name
-  ,                                       !- Schedule Type Limits Name
-  0;                                      !- Hourly Value
-
-Schedule:Constant,
-  Always On Continuous,                   !- Name
-  ,                                       !- Schedule Type Limits Name
-  1;                                      !- Hourly Value
-
-OutdoorAir:Node,
-  Model Outdoor Air Node;                 !- Name
-
-
-! ######################################################################################
-! System configuration
-! ######################################################################################
-
-PlantLoop,
-  Chilled Water Loop,                     !- Name
-  Water,                                  !- Fluid Type
-  ,                                       !- User Defined Fluid Type
-  Chilled Water Loop Operation Schemes,   !- Plant Equipment Operation Scheme Name
-  Chilled Water Loop Supply Outlet Node,  !- Loop Temperature Setpoint Node Name
-  40,                                     !- Maximum Loop Temperature {C}
-  1,                                      !- Minimum Loop Temperature {C}
-  Autosize,                               !- Maximum Loop Flow Rate {m3/s}
-  0,                                      !- Minimum Loop Flow Rate {m3/s}
-  Autocalculate,                          !- Plant Loop Volume {m3}
-  Chilled Water Loop Supply Inlet Node,   !- Plant Side Inlet Node Name
-  Chilled Water Loop Supply Outlet Node,  !- Plant Side Outlet Node Name
-  Chilled Water Loop Supply Branches,     !- Plant Side Branch List Name
-  Chilled Water Loop Supply Connector List, !- Plant Side Connector List Name
-  Chilled Water Loop Demand Inlet Node,   !- Demand Side Inlet Node Name
-  Chilled Water Loop Demand Outlet Node,  !- Demand Side Outlet Node Name
-  Chilled Water Loop Demand Branches,     !- Demand Side Branch List Name
-  Chilled Water Loop Demand Connector List, !- Demand Side Connector List Name
-  Optimal,                                !- Load Distribution Scheme
-  ,                                       !- Availability Manager List Name
-  SingleSetpoint,                         !- Plant Loop Demand Calculation Scheme
-  CommonPipe;                             !- Common Pipe Simulation
-
-Sizing:Plant,
-  Chilled Water Loop,                     !- Plant or Condenser Loop Name
-  Cooling,                                !- Loop Type
-  6.66666666666669,                       !- Design Loop Exit Temperature {C}
-  5.61111111111111,                       !- Loop Design Temperature Difference {deltaC}
-  NonCoincident,                          !- Sizing Option
-  1,                                      !- Zone Timesteps in Averaging Window
-  None;                                   !- Coincident Sizing Factor Mode
-
-BranchList,
-  Chilled Water Loop Supply Branches,     !- Name
-  Chilled Water Loop Supply Inlet Branch, !- Branch Name 1
-  Chilled Water Loop Supply Branch 1,     !- Branch Name 2
-  Chilled Water Loop Supply Branch 2,     !- Branch Name 3
-  Chilled Water Loop Supply Outlet Branch; !- Branch Name 4
-
-ConnectorList,
-  Chilled Water Loop Supply Connector List, !- Name
-  Connector:Splitter,                     !- Connector Object Type 1
-  Chilled Water Loop Supply Splitter,     !- Connector Name 1
-  Connector:Mixer,                        !- Connector Object Type 2
-  Chilled Water Loop Supply Mixer;        !- Connector Name 2
-
-Connector:Splitter,
-  Chilled Water Loop Supply Splitter,     !- Name
-  Chilled Water Loop Supply Inlet Branch, !- Inlet Branch Name
-  Chilled Water Loop Supply Branch 1,     !- Outlet Branch Name 1
-  Chilled Water Loop Supply Branch 2;     !- Outlet Branch Name 2
-
-Connector:Mixer,
-  Chilled Water Loop Supply Mixer,        !- Name
-  Chilled Water Loop Supply Outlet Branch, !- Outlet Branch Name
-  Chilled Water Loop Supply Branch 1,     !- Inlet Branch Name 1
-  Chilled Water Loop Supply Branch 2;     !- Inlet Branch Name 2
-
+! ##############################################################################
+! insert load profile from here
+! ##############################################################################
 Branch,
-  Chilled Water Loop Supply Inlet Branch, !- Name
-  ,                                       !- Pressure Drop Curve Name
-  Pump:ConstantSpeed,                     !- Component Object Type 1
-  Chilled Water Loop Primary Pump,        !- Component Name 1
-  Chilled Water Loop Supply Inlet Node,   !- Component Inlet Node Name 1
-  Chilled Water Loop Primary Pump Outlet Water Node; !- Component Outlet Node Name 1
-
-Pump:ConstantSpeed,
-  Chilled Water Loop Primary Pump,        !- Name
-  Chilled Water Loop Supply Inlet Node,   !- Inlet Node Name
-  Chilled Water Loop Primary Pump Outlet Water Node, !- Outlet Node Name
-  Autosize,                               !- Design Flow Rate {m3/s}
-  44836.0038,                             !- Design Pump Head {Pa}
-  Autosize,                               !- Design Power Consumption {W}
-  0.917,                                  !- Motor Efficiency
-  0,                                      !- Fraction of Motor Inefficiencies to Fluid Stream
-  Intermittent,                           !- Pump Control Type
-  ,                                       !- Pump Flow Rate Schedule Name
-  ,                                       !- Pump Curve Name
-  ,                                       !- Impeller Diameter {m}
-  ,                                       !- Rotational Speed {rev/min}
-  ,                                       !- Zone Name
-  ,                                       !- Skin Loss Radiative Fraction
-  PowerPerFlowPerPressure,                !- Design Power Sizing Method
-  348701.1,                               !- Design Electric Power per Unit Flow Rate {W/(m3/s)}
-  1.282051282,                            !- Design Shaft Power per Unit Flow Rate per Unit Head
-  General;                                !- End-Use Subcategory
-
-Branch,
-  Chilled Water Loop Supply Branch 1,     !- Name
-  ,                                       !- Pressure Drop Curve Name
-  Chiller:Electric:EIR,                   !- Component Object Type 1
-  90.1-2010 WaterCooled  Centrifugal Chiller 0 762tons 0.6kW/ton, !- Component Name 1
-  90.1-2010 WaterCooled  Centrifugal Chiller 0 762tons 0.6kW/ton Supply Inlet Water Node, !- Component Inlet Node Name 1
-  90.1-2010 WaterCooled  Centrifugal Chiller 0 762tons 0.6kW/ton Supply Outlet Water Node; !- Component Outlet Node Name 1
-
-Chiller:Electric:EIR,
-  90.1-2010 WaterCooled  Centrifugal Chiller 0 762tons 0.6kW/ton, !- Name
-  Autosize,                               !- Reference Capacity {W}
-  6.17017543859649,                       !- Reference COP {W/W}
-  6.66666666666669,                       !- Reference Leaving Chilled Water Temperature {C}
-  35.0000000000001,                       !- Reference Entering Condenser Fluid Temperature {C}
-  Autosize,                               !- Reference Chilled Water Flow Rate {m3/s}
-  Autosize,                               !- Reference Condenser Fluid Flow Rate {m3/s}
-  WaterCooled_PositiveDisplacement_Chiller_GT150_2010_PathA_CAPFT, !- Cooling Capacity Function of Temperature Curve Name
-  WaterCooled_PositiveDisplacement_Chiller_GT150_2010_PathA_EIRFT, !- Electric Input to Cooling Output Ratio Function of Temperature Curve Name
-  ChlrWtrCentPathAAllEIRRatio_fQRatio,    !- Electric Input to Cooling Output Ratio Function of Part Load Ratio Curve Name
-  0.15,                                   !- Minimum Part Load Ratio
-  1,                                      !- Maximum Part Load Ratio
-  1,                                      !- Optimum Part Load Ratio
-  0.25,                                   !- Minimum Unloading Ratio
-  90.1-2010 WaterCooled  Centrifugal Chiller 0 762tons 0.6kW/ton Supply Inlet Water Node, !- Chilled Water Inlet Node Name
-  90.1-2010 WaterCooled  Centrifugal Chiller 0 762tons 0.6kW/ton Supply Outlet Water Node, !- Chilled Water Outlet Node Name
-  90.1-2010 WaterCooled  Centrifugal Chiller 0 762tons 0.6kW/ton Demand Inlet Water Node, !- Condenser Inlet Node Name
-  90.1-2010 WaterCooled  Centrifugal Chiller 0 762tons 0.6kW/ton Demand Outlet Water Node, !- Condenser Outlet Node Name
-  WaterCooled,                            !- Condenser Type
-  0,                                      !- Condenser Fan Power Ratio {W/W}
-  1,                                      !- Fraction of Compressor Electric Consumption Rejected by Condenser
-  2.22222222222229,                       !- Leaving Chilled Water Lower Temperature Limit {C}
-  ConstantFlow,                           !- Chiller Flow Mode
-  ,                                       !- Design Heat Recovery Water Flow Rate {m3/s}
-  ,                                       !- Heat Recovery Inlet Node Name
-  ,                                       !- Heat Recovery Outlet Node Name
-  1,                                      !- Sizing Factor
-  ,                                       !- Basin Heater Capacity {W/K}
-  ,                                       !- Basin Heater Setpoint Temperature {C}
-  ,                                       !- Basin Heater Operating Schedule Name
-  ,                                       !- Condenser Heat Recovery Relative Capacity Fraction
-  ,                                       !- Heat Recovery Inlet High Temperature Limit Schedule Name
-  ,                                       !- Heat Recovery Leaving Temperature Setpoint Node Name
-  General;                                !- End-Use Subcategory
-
-Curve:Biquadratic,
-  WaterCooled_PositiveDisplacement_Chiller_GT150_2010_PathA_CAPFT, !- Name
-  0.906115,                               !- Coefficient1 Constant
-  0.0292277,                              !- Coefficient2 x
-  -0.0003647,                             !- Coefficient3 x**2
-  -0.0009709,                             !- Coefficient4 y
-  -9.05e-005,                             !- Coefficient5 y**2
-  0.0002527,                              !- Coefficient6 x*y
-  5,                                      !- Minimum Value of x {BasedOnField A2}
-  10,                                     !- Maximum Value of x {BasedOnField A2}
-  17.78,                                  !- Minimum Value of y {BasedOnField A3}
-  46.11;                                  !- Maximum Value of y {BasedOnField A3}
-
-Curve:Biquadratic,
-  WaterCooled_PositiveDisplacement_Chiller_GT150_2010_PathA_EIRFT, !- Name
-  0.3773115,                              !- Coefficient1 Constant
-  -0.0229032,                             !- Coefficient2 x
-  0.0016504,                              !- Coefficient3 x**2
-  0.0118156,                              !- Coefficient4 y
-  0.0004345,                              !- Coefficient5 y**2
-  -0.0010132,                             !- Coefficient6 x*y
-  5,                                      !- Minimum Value of x {BasedOnField A2}
-  10,                                     !- Maximum Value of x {BasedOnField A2}
-  17.78,                                  !- Minimum Value of y {BasedOnField A3}
-  46.11;                                  !- Maximum Value of y {BasedOnField A3}
-
-Curve:Quadratic,
-  ChlrWtrCentPathAAllEIRRatio_fQRatio,    !- Name
-  0.222149,                               !- Coefficient1 Constant
-  0.503156,                               !- Coefficient2 x
-  0.256905,                               !- Coefficient3 x**2
-  0.1,                                    !- Minimum Value of x {BasedOnField A2}
-  1,                                      !- Maximum Value of x {BasedOnField A2}
-  0.28;                                   !- Minimum Curve Output {BasedOnField A3}
-
-Branch,
-  Chilled Water Loop Supply Branch 2,     !- Name
-  ,                                       !- Pressure Drop Curve Name
-  Pipe:Adiabatic,                         !- Component Object Type 1
-  Chilled Water Loop Chiller Bypass,      !- Component Name 1
-  Chilled Water Loop Chiller Bypass Inlet Water Node, !- Component Inlet Node Name 1
-  Chilled Water Loop Chiller Bypass Outlet Water Node; !- Component Outlet Node Name 1
-
-Pipe:Adiabatic,
-  Chilled Water Loop Chiller Bypass,      !- Name
-  Chilled Water Loop Chiller Bypass Inlet Water Node, !- Inlet Node Name
-  Chilled Water Loop Chiller Bypass Outlet Water Node; !- Outlet Node Name
-
-Branch,
-  Chilled Water Loop Supply Outlet Branch, !- Name
-  ,                                       !- Pressure Drop Curve Name
-  Pipe:Adiabatic,                         !- Component Object Type 1
-  Chilled Water Loop Supply Outlet,       !- Component Name 1
-  Chilled Water Loop Supply Outlet Inlet Water Node, !- Component Inlet Node Name 1
-  Chilled Water Loop Supply Outlet Node;  !- Component Outlet Node Name 1
-
-Pipe:Adiabatic,
-  Chilled Water Loop Supply Outlet,       !- Name
-  Chilled Water Loop Supply Outlet Inlet Water Node, !- Inlet Node Name
-  Chilled Water Loop Supply Outlet Node;  !- Outlet Node Name
-
-SetpointManager:Scheduled,
-  Chilled Water Loop Setpoint Manager,    !- Name
-  Temperature,                            !- Control Variable
-  Chilled Water Loop Temp - 44F,          !- Schedule Name
-  Chilled Water Loop Supply Outlet Node;  !- Setpoint Node or NodeList Name
-
-BranchList,
-  Chilled Water Loop Demand Branches,     !- Name
-  Chilled Water Loop Demand Inlet Branch, !- Branch Name 1
-  Chilled Water Loop Demand Branch 1,     !- Branch Name 2
-  Chilled Water Loop Demand Branch 2,     !- Branch Name 3
-  Chilled Water Loop Demand Bypass Branch, !- Branch Name 4
-  Chilled Water Loop Demand Outlet Branch; !- Branch Name 5
-
-ConnectorList,
-  Chilled Water Loop Demand Connector List, !- Name
-  Connector:Splitter,                     !- Connector Object Type 1
-  Chilled Water Loop Demand Splitter,     !- Connector Name 1
-  Connector:Mixer,                        !- Connector Object Type 2
-  Chilled Water Loop Demand Mixer;        !- Connector Name 2
-
-Connector:Splitter,
-  Chilled Water Loop Demand Splitter,     !- Name
-  Chilled Water Loop Demand Inlet Branch, !- Inlet Branch Name
-  Chilled Water Loop Demand Branch 1,     !- Outlet Branch Name 1
-  Chilled Water Loop Demand Branch 2,     !- Outlet Branch Name 2
-  Chilled Water Loop Demand Bypass Branch; !- Outlet Branch Name 3
-
-Connector:Mixer,
-  Chilled Water Loop Demand Mixer,        !- Name
-  Chilled Water Loop Demand Outlet Branch, !- Outlet Branch Name
-  Chilled Water Loop Demand Branch 1,     !- Inlet Branch Name 1
-  Chilled Water Loop Demand Branch 2,     !- Inlet Branch Name 2
-  Chilled Water Loop Demand Bypass Branch; !- Inlet Branch Name 3
-
-Branch,
-  Chilled Water Loop Demand Inlet Branch, !- Name
-  ,                                       !- Pressure Drop Curve Name
-  Pipe:Adiabatic,                         !- Component Object Type 1
-  Chilled Water Loop Demand Inlet,        !- Component Name 1
-  Chilled Water Loop Demand Inlet Node,   !- Component Inlet Node Name 1
-  Chilled Water Loop Demand Inlet Outlet Water Node, !- Component Outlet Node Name 1
-  Pump:VariableSpeed,                     !- Component Object Type 2
-  Chilled Water Loop Secondary Pump,      !- Component Name 2
-  Chilled Water Loop Demand Inlet Outlet Water Node, !- Component Inlet Node Name 2
-  Chilled Water Loop Secondary Pump Outlet Water Node; !- Component Outlet Node Name 2
-
-Pipe:Adiabatic,
-  Chilled Water Loop Demand Inlet,        !- Name
-  Chilled Water Loop Demand Inlet Node,   !- Inlet Node Name
-  Chilled Water Loop Demand Inlet Outlet Water Node; !- Outlet Node Name
-
-Pump:VariableSpeed,
-  Chilled Water Loop Secondary Pump,      !- Name
-  Chilled Water Loop Demand Inlet Outlet Water Node, !- Inlet Node Name
-  Chilled Water Loop Secondary Pump Outlet Water Node, !- Outlet Node Name
-  Autosize,                               !- Design Maximum Flow Rate {m3/s}
-  134508.0114,                            !- Design Pump Head {Pa}
-  Autosize,                               !- Design Power Consumption {W}
-  0.936,                                  !- Motor Efficiency
-  0,                                      !- Fraction of Motor Inefficiencies to Fluid Stream
-  0,                                      !- Coefficient 1 of the Part Load Performance Curve
-  0.0205,                                 !- Coefficient 2 of the Part Load Performance Curve
-  0.4101,                                 !- Coefficient 3 of the Part Load Performance Curve
-  0.5753,                                 !- Coefficient 4 of the Part Load Performance Curve
-  0,                                      !- Design Minimum Flow Rate {m3/s}
-  Intermittent,                           !- Pump Control Type
-  ,                                       !- Pump Flow Rate Schedule Name
-  ,                                       !- Pump Curve Name
-  ,                                       !- Impeller Diameter {m}
-  ,                                       !- VFD Control Type
-  ,                                       !- Pump rpm Schedule Name
-  ,                                       !- Minimum Pressure Schedule {Pa}
-  ,                                       !- Maximum Pressure Schedule {Pa}
-  ,                                       !- Minimum RPM Schedule {Rotations Per Minute}
-  ,                                       !- Maximum RPM Schedule {Rotations Per Minute}
-  ,                                       !- Zone Name
-  0.5,                                    !- Skin Loss Radiative Fraction
-  PowerPerFlowPerPressure,                !- Design Power Sizing Method
-  348701.1,                               !- Design Electric Power per Unit Flow Rate {W/(m3/s)}
-  1.282051282,                            !- Design Shaft Power per Unit Flow Rate per Unit Head
-  0,                                      !- Design Minimum Flow Rate Fraction
-  General;                                !- End-Use Subcategory
-
-Branch,
-  Chilled Water Loop Demand Branch 1,     !- Name
-  ,                                       !- Pressure Drop Curve Name
-  Pipe:Adiabatic,                         !- Component Object Type 1
-  Chilled Water Loop Coil Bypass,         !- Component Name 1
-  Chilled Water Loop Coil Bypass Inlet Water Node, !- Component Inlet Node Name 1
-  Chilled Water Loop Coil Bypass Outlet Water Node; !- Component Outlet Node Name 1
-
-Pipe:Adiabatic,
-  Chilled Water Loop Coil Bypass,         !- Name
-  Chilled Water Loop Coil Bypass Inlet Water Node, !- Inlet Node Name
-  Chilled Water Loop Coil Bypass Outlet Water Node; !- Outlet Node Name
-
-Branch,
-  Chilled Water Loop Demand Branch 2,     !- Name
-  ,                                       !- Pressure Drop Curve Name
-  LoadProfile:Plant,                      !- Component Object Type 1
-  District Cooling Load Profile,          !- Component Name 1
-  Node 3,                                 !- Component Inlet Node Name 1
-  Node 4;                                 !- Component Outlet Node Name 1
-
-Branch,
-  Chilled Water Loop Demand Bypass Branch, !- Name
-  ,                                       !- Pressure Drop Curve Name
-  Pipe:Adiabatic,                         !- Component Object Type 1
-  Chilled Water Loop Demand Bypass Pipe,  !- Component Name 1
-  Chilled Water Loop Demand Bypass Pipe Inlet Node, !- Component Inlet Node Name 1
-  Chilled Water Loop Demand Bypass Pipe Outlet Node; !- Component Outlet Node Name 1
-
-Pipe:Adiabatic,
-  Chilled Water Loop Demand Bypass Pipe,  !- Name
-  Chilled Water Loop Demand Bypass Pipe Inlet Node, !- Inlet Node Name
-  Chilled Water Loop Demand Bypass Pipe Outlet Node; !- Outlet Node Name
-
-Branch,
-  Chilled Water Loop Demand Outlet Branch, !- Name
-  ,                                       !- Pressure Drop Curve Name
-  Pipe:Adiabatic,                         !- Component Object Type 1
-  Chilled Water Loop Demand Outlet,       !- Component Name 1
-  Chilled Water Loop Demand Outlet Inlet Water Node, !- Component Inlet Node Name 1
-  Chilled Water Loop Demand Outlet Node;  !- Component Outlet Node Name 1
-
-Pipe:Adiabatic,
-  Chilled Water Loop Demand Outlet,       !- Name
-  Chilled Water Loop Demand Outlet Inlet Water Node, !- Inlet Node Name
-  Chilled Water Loop Demand Outlet Node;  !- Outlet Node Name
-
-PlantEquipmentOperationSchemes,
-  Chilled Water Loop Operation Schemes,   !- Name
-  PlantEquipmentOperation:CoolingLoad,    !- Control Scheme Object Type 1
-  Chilled Water Loop Cooling Operation Scheme, !- Control Scheme Name 1
-  Always On Discrete;                     !- Control Scheme Schedule Name 1
-
-PlantEquipmentOperation:CoolingLoad,
-  Chilled Water Loop Cooling Operation Scheme, !- Name
-  0,                                      !- Load Range Lower Limit 1 {W}
-  1000000000,                             !- Load Range Upper Limit 1 {W}
-  Chilled Water Loop Cooling Equipment List; !- Range Equipment List Name 1
-
-PlantEquipmentList,
-  Chilled Water Loop Cooling Equipment List, !- Name
-  Chiller:Electric:EIR,                   !- Equipment Object Type 1
-  90.1-2010 WaterCooled  Centrifugal Chiller 0 762tons 0.6kW/ton; !- Equipment Name 1
-
-PlantLoop,
-  Condenser Water Loop,                   !- Name
-  Water,                                  !- Fluid Type
-  ,                                       !- User Defined Fluid Type
-  Condenser Water Loop Operation Schemes, !- Plant Equipment Operation Scheme Name
-  Condenser Water Loop Supply Outlet Node, !- Loop Temperature Setpoint Node Name
-  80,                                     !- Maximum Loop Temperature {C}
-  5,                                      !- Minimum Loop Temperature {C}
-  Autosize,                               !- Maximum Loop Flow Rate {m3/s}
-  0,                                      !- Minimum Loop Flow Rate {m3/s}
-  Autocalculate,                          !- Plant Loop Volume {m3}
-  Condenser Water Loop Supply Inlet Node, !- Plant Side Inlet Node Name
-  Condenser Water Loop Supply Outlet Node, !- Plant Side Outlet Node Name
-  Condenser Water Loop Supply Branches,   !- Plant Side Branch List Name
-  Condenser Water Loop Supply Connector List, !- Plant Side Connector List Name
-  Condenser Water Loop Demand Inlet Node, !- Demand Side Inlet Node Name
-  Condenser Water Loop Demand Outlet Node, !- Demand Side Outlet Node Name
-  Condenser Water Loop Demand Branches,   !- Demand Side Branch List Name
-  Condenser Water Loop Demand Connector List, !- Demand Side Connector List Name
-  Optimal,                                !- Load Distribution Scheme
-  ,                                       !- Availability Manager List Name
-  SingleSetpoint,                         !- Plant Loop Demand Calculation Scheme
-  ;                                       !- Common Pipe Simulation
-
-Sizing:Plant,
-  Condenser Water Loop,                   !- Plant or Condenser Loop Name
-  Condenser,                              !- Loop Type
-  29.4444444444445,                       !- Design Loop Exit Temperature {C}
-  5.55555555555556,                       !- Loop Design Temperature Difference {deltaC}
-  NonCoincident,                          !- Sizing Option
-  1,                                      !- Zone Timesteps in Averaging Window
-  None;                                   !- Coincident Sizing Factor Mode
-
-BranchList,
-  Condenser Water Loop Supply Branches,   !- Name
-  Condenser Water Loop Supply Inlet Branch, !- Branch Name 1
-  Condenser Water Loop Supply Branch 1,   !- Branch Name 2
-  Condenser Water Loop Supply Branch 2,   !- Branch Name 3
-  Condenser Water Loop Supply Outlet Branch; !- Branch Name 4
-
-ConnectorList,
-  Condenser Water Loop Supply Connector List, !- Name
-  Connector:Splitter,                     !- Connector Object Type 1
-  Condenser Water Loop Supply Splitter,   !- Connector Name 1
-  Connector:Mixer,                        !- Connector Object Type 2
-  Condenser Water Loop Supply Mixer;      !- Connector Name 2
-
-Connector:Splitter,
-  Condenser Water Loop Supply Splitter,   !- Name
-  Condenser Water Loop Supply Inlet Branch, !- Inlet Branch Name
-  Condenser Water Loop Supply Branch 1,   !- Outlet Branch Name 1
-  Condenser Water Loop Supply Branch 2;   !- Outlet Branch Name 2
-
-Connector:Mixer,
-  Condenser Water Loop Supply Mixer,      !- Name
-  Condenser Water Loop Supply Outlet Branch, !- Outlet Branch Name
-  Condenser Water Loop Supply Branch 1,   !- Inlet Branch Name 1
-  Condenser Water Loop Supply Branch 2;   !- Inlet Branch Name 2
-
-Branch,
-  Condenser Water Loop Supply Inlet Branch, !- Name
-  ,                                       !- Pressure Drop Curve Name
-  Pump:ConstantSpeed,                     !- Component Object Type 1
-  Condenser Water Loop Constant Pump,     !- Component Name 1
-  Condenser Water Loop Supply Inlet Node, !- Component Inlet Node Name 1
-  Condenser Water Loop Constant Pump Outlet Water Node; !- Component Outlet Node Name 1
-
-Pump:ConstantSpeed,
-  Condenser Water Loop Constant Pump,     !- Name
-  Condenser Water Loop Supply Inlet Node, !- Inlet Node Name
-  Condenser Water Loop Constant Pump Outlet Water Node, !- Outlet Node Name
-  Autosize,                               !- Design Flow Rate {m3/s}
-  148556.625924,                          !- Design Pump Head {Pa}
-  Autosize,                               !- Design Power Consumption {W}
-  0.941,                                  !- Motor Efficiency
-  0,                                      !- Fraction of Motor Inefficiencies to Fluid Stream
-  Intermittent,                           !- Pump Control Type
-  ,                                       !- Pump Flow Rate Schedule Name
-  ,                                       !- Pump Curve Name
-  ,                                       !- Impeller Diameter {m}
-  ,                                       !- Rotational Speed {rev/min}
-  ,                                       !- Zone Name
-  ,                                       !- Skin Loss Radiative Fraction
-  PowerPerFlowPerPressure,                !- Design Power Sizing Method
-  348701.1,                               !- Design Electric Power per Unit Flow Rate {W/(m3/s)}
-  1.282051282,                            !- Design Shaft Power per Unit Flow Rate per Unit Head
-  General;                                !- End-Use Subcategory
-
-Branch,
-  Condenser Water Loop Supply Branch 1,   !- Name
-  ,                                       !- Pressure Drop Curve Name
-  CoolingTower:SingleSpeed,               !- Component Object Type 1
-  Centrifugal Fan Cycling Open Cooling Tower 38.2 gpm/hp, !- Component Name 1
-  Centrifugal Fan Cycling Open Cooling Tower 38.2 gpm/hp Inlet Water Node, !- Component Inlet Node Name 1
-  Centrifugal Fan Cycling Open Cooling Tower 38.2 gpm/hp Outlet Water Node; !- Component Outlet Node Name 1
-
-CoolingTower:SingleSpeed,
-  Centrifugal Fan Cycling Open Cooling Tower 38.2 gpm/hp, !- Name
-  Centrifugal Fan Cycling Open Cooling Tower 38.2 gpm/hp Inlet Water Node, !- Water Inlet Node Name
-  Centrifugal Fan Cycling Open Cooling Tower 38.2 gpm/hp Outlet Water Node, !- Water Outlet Node Name
-  Autosize,                               !- Design Water Flow Rate {m3/s}
-  Autosize,                               !- Design Air Flow Rate {m3/s}
-  Autosize,                               !- Design Fan Power {W}
-  Autosize,                               !- Design U-Factor Times Area Value {W/K}
-  Autosize,                               !- Free Convection Air Flow Rate {m3/s}
-  0.1,                                    !- Free Convection Air Flow Rate Sizing Factor
-  Autosize,                               !- Free Convection U-Factor Times Area Value {W/K}
-  0.1,                                    !- Free Convection U-Factor Times Area Value Sizing Factor
-  UFactorTimesAreaAndDesignWaterFlowRate, !- Performance Input Method
-  1.25,                                   !- Heat Rejection Capacity and Nominal Capacity Sizing Ratio
-  ,                                       !- Nominal Capacity {W}
-  0,                                      !- Free Convection Capacity {W}
-  0.1,                                    !- Free Convection Nominal Capacity Sizing Factor
-  25.6,                                   !- Design Inlet Air Dry-Bulb Temperature {C}
-  25.6,                                   !- Design Inlet Air Wet-Bulb Temperature {C}
-  Autosize,                               !- Design Approach Temperature {deltaC}
-  Autosize,                               !- Design Range Temperature {deltaC}
-  0,                                      !- Basin Heater Capacity {W/K}
-  2,                                      !- Basin Heater Setpoint Temperature {C}
-  ,                                       !- Basin Heater Operating Schedule Name
-  LossFactor,                             !- Evaporation Loss Mode
-  0.2,                                    !- Evaporation Loss Factor {percent/K}
-  0.008,                                  !- Drift Loss Percent {percent}
-  ConcentrationRatio,                     !- Blowdown Calculation Mode
-  3,                                      !- Blowdown Concentration Ratio
-  ,                                       !- Blowdown Makeup Water Usage Schedule Name
-  ,                                       !- Supply Water Storage Tank Name
-  ,                                       !- Outdoor Air Inlet Node Name
-  FanCycling,                             !- Capacity Control
-  2,                                      !- Number of Cells
-  MinimalCell,                            !- Cell Control
-  0.33,                                   !- Cell Minimum  Water Flow Rate Fraction
-  2.5,                                    !- Cell Maximum Water Flow Rate Fraction
-  1,                                      !- Sizing Factor
-  General;                                !- End-Use Subcategory
-
-Branch,
-  Condenser Water Loop Supply Branch 2,   !- Name
-  ,                                       !- Pressure Drop Curve Name
-  Pipe:Adiabatic,                         !- Component Object Type 1
-  Condenser Water Loop Cooling Tower Bypass, !- Component Name 1
-  Condenser Water Loop Cooling Tower Bypass Inlet Water Node, !- Component Inlet Node Name 1
-  Condenser Water Loop Cooling Tower Bypass Outlet Water Node; !- Component Outlet Node Name 1
-
-Pipe:Adiabatic,
-  Condenser Water Loop Cooling Tower Bypass, !- Name
-  Condenser Water Loop Cooling Tower Bypass Inlet Water Node, !- Inlet Node Name
-  Condenser Water Loop Cooling Tower Bypass Outlet Water Node; !- Outlet Node Name
-
-Branch,
-  Condenser Water Loop Supply Outlet Branch, !- Name
-  ,                                       !- Pressure Drop Curve Name
-  Pipe:Adiabatic,                         !- Component Object Type 1
-  Condenser Water Loop Supply Outlet,     !- Component Name 1
-  Condenser Water Loop Supply Outlet Inlet Water Node, !- Component Inlet Node Name 1
-  Condenser Water Loop Supply Outlet Node; !- Component Outlet Node Name 1
-
-Pipe:Adiabatic,
-  Condenser Water Loop Supply Outlet,     !- Name
-  Condenser Water Loop Supply Outlet Inlet Water Node, !- Inlet Node Name
-  Condenser Water Loop Supply Outlet Node; !- Outlet Node Name
-
-SetpointManager:FollowOutdoorAirTemperature,
-  Condenser Water Loop Setpoint Manager Follow OATwb with 7.0F Approach, !- Name
-  Temperature,                            !- Control Variable
-  OutdoorAirWetBulb,                      !- Reference Temperature Type
-  3.88888888888889,                       !- Offset Temperature Difference {deltaC}
-  29.4444444444445,                       !- Maximum Setpoint Temperature {C}
-  21.1111111111111,                       !- Minimum Setpoint Temperature {C}
-  Condenser Water Loop Supply Outlet Node; !- Setpoint Node or NodeList Name
-
-BranchList,
-  Condenser Water Loop Demand Branches,   !- Name
-  Condenser Water Loop Demand Inlet Branch, !- Branch Name 1
-  Condenser Water Loop Demand Branch 1,   !- Branch Name 2
-  Condenser Water Loop Demand Branch 2,   !- Branch Name 3
-  Condenser Water Loop Demand Bypass Branch, !- Branch Name 4
-  Condenser Water Loop Demand Outlet Branch; !- Branch Name 5
-
-ConnectorList,
-  Condenser Water Loop Demand Connector List, !- Name
-  Connector:Splitter,                     !- Connector Object Type 1
-  Condenser Water Loop Demand Splitter,   !- Connector Name 1
-  Connector:Mixer,                        !- Connector Object Type 2
-  Condenser Water Loop Demand Mixer;      !- Connector Name 2
-
-Connector:Splitter,
-  Condenser Water Loop Demand Splitter,   !- Name
-  Condenser Water Loop Demand Inlet Branch, !- Inlet Branch Name
-  Condenser Water Loop Demand Branch 1,   !- Outlet Branch Name 1
-  Condenser Water Loop Demand Branch 2,   !- Outlet Branch Name 2
-  Condenser Water Loop Demand Bypass Branch; !- Outlet Branch Name 3
-
-Connector:Mixer,
-  Condenser Water Loop Demand Mixer,      !- Name
-  Condenser Water Loop Demand Outlet Branch, !- Outlet Branch Name
-  Condenser Water Loop Demand Branch 1,   !- Inlet Branch Name 1
-  Condenser Water Loop Demand Branch 2,   !- Inlet Branch Name 2
-  Condenser Water Loop Demand Bypass Branch; !- Inlet Branch Name 3
-
-Branch,
-  Condenser Water Loop Demand Inlet Branch, !- Name
-  ,                                       !- Pressure Drop Curve Name
-  Pipe:Adiabatic,                         !- Component Object Type 1
-  Condenser Water Loop Demand Inlet,      !- Component Name 1
-  Condenser Water Loop Demand Inlet Node, !- Component Inlet Node Name 1
-  Condenser Water Loop Demand Inlet Outlet Water Node; !- Component Outlet Node Name 1
-
-Pipe:Adiabatic,
-  Condenser Water Loop Demand Inlet,      !- Name
-  Condenser Water Loop Demand Inlet Node, !- Inlet Node Name
-  Condenser Water Loop Demand Inlet Outlet Water Node; !- Outlet Node Name
-
-Branch,
-  Condenser Water Loop Demand Branch 1,   !- Name
-  ,                                       !- Pressure Drop Curve Name
-  Pipe:Adiabatic,                         !- Component Object Type 1
-  Condenser Water Loop Chiller Bypass,    !- Component Name 1
-  Condenser Water Loop Chiller Bypass Inlet Water Node, !- Component Inlet Node Name 1
-  Condenser Water Loop Chiller Bypass Outlet Water Node; !- Component Outlet Node Name 1
-
-Pipe:Adiabatic,
-  Condenser Water Loop Chiller Bypass,    !- Name
-  Condenser Water Loop Chiller Bypass Inlet Water Node, !- Inlet Node Name
-  Condenser Water Loop Chiller Bypass Outlet Water Node; !- Outlet Node Name
-
-Branch,
-  Condenser Water Loop Demand Branch 2,   !- Name
-  ,                                       !- Pressure Drop Curve Name
-  Chiller:Electric:EIR,                   !- Component Object Type 1
-  90.1-2010 WaterCooled  Centrifugal Chiller 0 762tons 0.6kW/ton, !- Component Name 1
-  90.1-2010 WaterCooled  Centrifugal Chiller 0 762tons 0.6kW/ton Demand Inlet Water Node, !- Component Inlet Node Name 1
-  90.1-2010 WaterCooled  Centrifugal Chiller 0 762tons 0.6kW/ton Demand Outlet Water Node; !- Component Outlet Node Name 1
-
-Branch,
-  Condenser Water Loop Demand Bypass Branch, !- Name
-  ,                                       !- Pressure Drop Curve Name
-  Pipe:Adiabatic,                         !- Component Object Type 1
-  Condenser Water Loop Demand Bypass Pipe, !- Component Name 1
-  Condenser Water Loop Demand Bypass Pipe Inlet Node, !- Component Inlet Node Name 1
-  Condenser Water Loop Demand Bypass Pipe Outlet Node; !- Component Outlet Node Name 1
-
-Pipe:Adiabatic,
-  Condenser Water Loop Demand Bypass Pipe, !- Name
-  Condenser Water Loop Demand Bypass Pipe Inlet Node, !- Inlet Node Name
-  Condenser Water Loop Demand Bypass Pipe Outlet Node; !- Outlet Node Name
-
-Branch,
-  Condenser Water Loop Demand Outlet Branch, !- Name
-  ,                                       !- Pressure Drop Curve Name
-  Pipe:Adiabatic,                         !- Component Object Type 1
-  Condenser Water Loop Demand Outlet,     !- Component Name 1
-  Condenser Water Loop Demand Outlet Inlet Water Node, !- Component Inlet Node Name 1
-  Condenser Water Loop Demand Outlet Node; !- Component Outlet Node Name 1
-
-Pipe:Adiabatic,
-  Condenser Water Loop Demand Outlet,     !- Name
-  Condenser Water Loop Demand Outlet Inlet Water Node, !- Inlet Node Name
-  Condenser Water Loop Demand Outlet Node; !- Outlet Node Name
-
-PlantEquipmentOperationSchemes,
-  Condenser Water Loop Operation Schemes, !- Name
-  PlantEquipmentOperation:CoolingLoad,    !- Control Scheme Object Type 1
-  Condenser Water Loop Cooling Operation Scheme, !- Control Scheme Name 1
-  Always On Discrete;                     !- Control Scheme Schedule Name 1
-
-PlantEquipmentOperation:CoolingLoad,
-  Condenser Water Loop Cooling Operation Scheme, !- Name
-  0,                                      !- Load Range Lower Limit 1 {W}
-  1000000000,                             !- Load Range Upper Limit 1 {W}
-  Condenser Water Loop Cooling Equipment List; !- Range Equipment List Name 1
-
-PlantEquipmentList,
-  Condenser Water Loop Cooling Equipment List, !- Name
-  CoolingTower:SingleSpeed,               !- Equipment Object Type 1
-  Centrifugal Fan Cycling Open Cooling Tower 38.2 gpm/hp; !- Equipment Name 1
-
-PlantLoop,
-  Heat Pump Loop,                         !- Name
-  Water,                                  !- Fluid Type
-  ,                                       !- User Defined Fluid Type
-  Heat Pump Loop Operation Schemes,       !- Plant Equipment Operation Scheme Name
-  Heat Pump Loop Supply Outlet Node,      !- Loop Temperature Setpoint Node Name
-  80,                                     !- Maximum Loop Temperature {C}
-  5,                                      !- Minimum Loop Temperature {C}
-  Autosize,                               !- Maximum Loop Flow Rate {m3/s}
-  0,                                      !- Minimum Loop Flow Rate {m3/s}
-  Autocalculate,                          !- Plant Loop Volume {m3}
-  Heat Pump Loop Supply Inlet Node,       !- Plant Side Inlet Node Name
-  Heat Pump Loop Supply Outlet Node,      !- Plant Side Outlet Node Name
-  Heat Pump Loop Supply Branches,         !- Plant Side Branch List Name
-  Heat Pump Loop Supply Connector List,   !- Plant Side Connector List Name
-  Heat Pump Loop Demand Inlet Node,       !- Demand Side Inlet Node Name
-  Heat Pump Loop Demand Outlet Node,      !- Demand Side Outlet Node Name
-  Heat Pump Loop Demand Branches,         !- Demand Side Branch List Name
-  Heat Pump Loop Demand Connector List,   !- Demand Side Connector List Name
-  Optimal,                                !- Load Distribution Scheme
-  ,                                       !- Availability Manager List Name
-  DualSetpointDeadband,                   !- Plant Loop Demand Calculation Scheme
-  ;                                       !- Common Pipe Simulation
-
-Sizing:Plant,
-  Heat Pump Loop,                         !- Plant or Condenser Loop Name
-  Heating,                                !- Loop Type
-  39.0000000000001,                       !- Design Loop Exit Temperature {C}
-  11,                                     !- Loop Design Temperature Difference {deltaC}
-  NonCoincident,                          !- Sizing Option
-  1,                                      !- Zone Timesteps in Averaging Window
-  None;                                   !- Coincident Sizing Factor Mode
-
-BranchList,
-  Heat Pump Loop Supply Branches,         !- Name
-  Heat Pump Loop Supply Inlet Branch,     !- Branch Name 1
-  Heat Pump Loop Supply Branch 1,         !- Branch Name 2
-  Heat Pump Loop Supply Branch 2,         !- Branch Name 3
-  Heat Pump Loop Supply Branch 3,         !- Branch Name 4
-  Heat Pump Loop Supply Outlet Branch;    !- Branch Name 5
-
-ConnectorList,
-  Heat Pump Loop Supply Connector List,   !- Name
-  Connector:Splitter,                     !- Connector Object Type 1
-  Heat Pump Loop Supply Splitter,         !- Connector Name 1
-  Connector:Mixer,                        !- Connector Object Type 2
-  Heat Pump Loop Supply Mixer;            !- Connector Name 2
-
-Connector:Splitter,
-  Heat Pump Loop Supply Splitter,         !- Name
-  Heat Pump Loop Supply Inlet Branch,     !- Inlet Branch Name
-  Heat Pump Loop Supply Branch 1,         !- Outlet Branch Name 1
-  Heat Pump Loop Supply Branch 2,         !- Outlet Branch Name 2
-  Heat Pump Loop Supply Branch 3;         !- Outlet Branch Name 3
-
-Connector:Mixer,
-  Heat Pump Loop Supply Mixer,            !- Name
-  Heat Pump Loop Supply Outlet Branch,    !- Outlet Branch Name
-  Heat Pump Loop Supply Branch 1,         !- Inlet Branch Name 1
-  Heat Pump Loop Supply Branch 2,         !- Inlet Branch Name 2
-  Heat Pump Loop Supply Branch 3;         !- Inlet Branch Name 3
-
-Branch,
-  Heat Pump Loop Supply Inlet Branch,     !- Name
-  ,                                       !- Pressure Drop Curve Name
-  Pump:ConstantSpeed,                     !- Component Object Type 1
-  Heat Pump Loop Pump,                    !- Component Name 1
-  Heat Pump Loop Supply Inlet Node,       !- Component Inlet Node Name 1
-  Heat Pump Loop Pump Outlet Water Node;  !- Component Outlet Node Name 1
-
-Pump:ConstantSpeed,
-  Heat Pump Loop Pump,                    !- Name
-  Heat Pump Loop Supply Inlet Node,       !- Inlet Node Name
-  Heat Pump Loop Pump Outlet Water Node,  !- Outlet Node Name
-  Autosize,                               !- Design Flow Rate {m3/s}
-  179344.0152,                            !- Design Pump Head {Pa}
-  Autosize,                               !- Design Power Consumption {W}
-  0.895,                                  !- Motor Efficiency
-  0,                                      !- Fraction of Motor Inefficiencies to Fluid Stream
-  Intermittent,                           !- Pump Control Type
-  ,                                       !- Pump Flow Rate Schedule Name
-  ,                                       !- Pump Curve Name
-  ,                                       !- Impeller Diameter {m}
-  ,                                       !- Rotational Speed {rev/min}
-  ,                                       !- Zone Name
-  ,                                       !- Skin Loss Radiative Fraction
-  PowerPerFlowPerPressure,                !- Design Power Sizing Method
-  348701.1,                               !- Design Electric Power per Unit Flow Rate {W/(m3/s)}
-  1.282051282,                            !- Design Shaft Power per Unit Flow Rate per Unit Head
-  General;                                !- End-Use Subcategory
-
-Branch,
-  Heat Pump Loop Supply Branch 1,         !- Name
-  ,                                       !- Pressure Drop Curve Name
-  Boiler:HotWater,                        !- Component Object Type 1
-  Heat Pump Loop Supplemental Boiler 1455kBtu/hr 0.8 Thermal Eff, !- Component Name 1
-  Heat Pump Loop Supplemental Boiler 1455kBtu/hr 0.8 Thermal Eff Inlet Water Node, !- Component Inlet Node Name 1
-  Heat Pump Loop Supplemental Boiler 1455kBtu/hr 0.8 Thermal Eff Outlet Water Node; !- Component Outlet Node Name 1
-
-Boiler:HotWater,
-  Heat Pump Loop Supplemental Boiler 1455kBtu/hr 0.8 Thermal Eff, !- Name
-  NaturalGas,                             !- Fuel Type
-  Autosize,                               !- Nominal Capacity {W}
-  0.8,                                    !- Nominal Thermal Efficiency
-  LeavingBoiler,                          !- Efficiency Curve Temperature Evaluation Variable
-  Boiler with No Minimum Turndown,        !- Normalized Boiler Efficiency Curve Name
-  Autosize,                               !- Design Water Flow Rate {m3/s}
-  0,                                      !- Minimum Part Load Ratio
-  1.2,                                    !- Maximum Part Load Ratio
-  1,                                      !- Optimum Part Load Ratio
-  Heat Pump Loop Supplemental Boiler 1455kBtu/hr 0.8 Thermal Eff Inlet Water Node, !- Boiler Water Inlet Node Name
-  Heat Pump Loop Supplemental Boiler 1455kBtu/hr 0.8 Thermal Eff Outlet Water Node, !- Boiler Water Outlet Node Name
-  95.0000000000001,                       !- Water Outlet Upper Temperature Limit {C}
-  ConstantFlow,                           !- Boiler Flow Mode
-  0,                                      !- Parasitic Electric Load {W}
-  1,                                      !- Sizing Factor
-  General;                                !- End-Use Subcategory
-
-Curve:Cubic,
-  Boiler with No Minimum Turndown,        !- Name
-  0.7463,                                 !- Coefficient1 Constant
-  1.3196,                                 !- Coefficient2 x
-  -2.2154,                                !- Coefficient3 x**2
-  1.1674,                                 !- Coefficient4 x**3
-  0,                                      !- Minimum Value of x {BasedOnField A2}
-  1.3;                                    !- Maximum Value of x {BasedOnField A2}
-
-SetpointManager:Scheduled:DualSetpoint,
-  Heat Pump Loop Boiler Scheduled Dual Setpoint, !- Name
-  Temperature,                            !- Control Variable
-  Heat Pump Loop High Temp - 65F,         !- High Setpoint Schedule Name
-  Heat Pump Loop Low Temp - 41F,          !- Low Setpoint Schedule Name
-  Heat Pump Loop Supplemental Boiler 1455kBtu/hr 0.8 Thermal Eff Outlet Water Node; !- Setpoint Node or NodeList Name
-
-Branch,
-  Heat Pump Loop Supply Branch 2,         !- Name
-  ,                                       !- Pressure Drop Curve Name
-  Pipe:Adiabatic,                         !- Component Object Type 1
-  Heat Pump Loop Supply Bypass,           !- Component Name 1
-  Heat Pump Loop Supply Bypass Inlet Water Node, !- Component Inlet Node Name 1
-  Heat Pump Loop Supply Bypass Outlet Water Node; !- Component Outlet Node Name 1
-
-Pipe:Adiabatic,
-  Heat Pump Loop Supply Bypass,           !- Name
-  Heat Pump Loop Supply Bypass Inlet Water Node, !- Inlet Node Name
-  Heat Pump Loop Supply Bypass Outlet Water Node; !- Outlet Node Name
-
-Branch,
-  Heat Pump Loop Supply Branch 3,         !- Name
-  ,                                       !- Pressure Drop Curve Name
-  CoolingTower:TwoSpeed,                  !- Component Object Type 1
-  Heat Pump Loop Central Tower 20.0 gpm/hp, !- Component Name 1
-  Heat Pump Loop Central Tower 20.0 gpm/hp Inlet Water Node, !- Component Inlet Node Name 1
-  Heat Pump Loop Central Tower 20.0 gpm/hp Outlet Water Node; !- Component Outlet Node Name 1
-
-CoolingTower:TwoSpeed,
-  Heat Pump Loop Central Tower 20.0 gpm/hp, !- Name
-  Heat Pump Loop Central Tower 20.0 gpm/hp Inlet Water Node, !- Water Inlet Node Name
-  Heat Pump Loop Central Tower 20.0 gpm/hp Outlet Water Node, !- Water Outlet Node Name
-  Autosize,                               !- Design Water Flow Rate {m3/s}
-  Autosize,                               !- High Fan Speed Air Flow Rate {m3/s}
-  5597.83087184055,                       !- High Fan Speed Fan Power {W}
-  Autosize,                               !- High Fan Speed U-Factor Times Area Value {W/K}
-  Autocalculate,                          !- Low Fan Speed Air Flow Rate {m3/s}
-  0.5,                                    !- Low Fan Speed Air Flow Rate Sizing Factor
-  1679.34926155216,                       !- Low Fan Speed Fan Power {W}
-  0.16,                                   !- Low Fan Speed Fan Power Sizing Factor
-  Autocalculate,                          !- Low Fan Speed U-Factor Times Area Value {W/K}
-  0.6,                                    !- Low Fan Speed U-Factor Times Area Sizing Factor
-  0,                                      !- Free Convection Regime Air Flow Rate {m3/s}
-  0.1,                                    !- Free Convection Regime Air Flow Rate Sizing Factor
-  0,                                      !- Free Convection Regime U-Factor Times Area Value {W/K}
-  0.1,                                    !- Free Convection U-Factor Times Area Value Sizing Factor
-  UFactorTimesAreaAndDesignWaterFlowRate, !- Performance Input Method
-  1.25,                                   !- Heat Rejection Capacity and Nominal Capacity Sizing Ratio
-  ,                                       !- High Speed Nominal Capacity {W}
-  ,                                       !- Low Speed Nominal Capacity {W}
-  0.5,                                    !- Low Speed Nominal Capacity Sizing Factor
-  ,                                       !- Free Convection Nominal Capacity {W}
-  0.1,                                    !- Free Convection Nominal Capacity Sizing Factor
-  25.6,                                   !- Design Inlet Air Dry-Bulb Temperature {C}
-  25.6,                                   !- Design Inlet Air Wet-Bulb Temperature {C}
-  Autosize,                               !- Design Approach Temperature {deltaC}
-  Autosize,                               !- Design Range Temperature {deltaC}
-  0,                                      !- Basin Heater Capacity {W/K}
-  2,                                      !- Basin Heater Setpoint Temperature {C}
-  ,                                       !- Basin Heater Operating Schedule Name
-  ,                                       !- Evaporation Loss Mode
-  0.2,                                    !- Evaporation Loss Factor {percent/K}
-  0.008,                                  !- Drift Loss Percent {percent}
-  ,                                       !- Blowdown Calculation Mode
-  3,                                      !- Blowdown Concentration Ratio
-  ,                                       !- Blowdown Makeup Water Usage Schedule Name
-  ,                                       !- Supply Water Storage Tank Name
-  ,                                       !- Outdoor Air Inlet Node Name
-  1,                                      !- Number of Cells
-  MinimalCell,                            !- Cell Control
-  0.33,                                   !- Cell Minimum  Water Flow Rate Fraction
-  2.5,                                    !- Cell Maximum Water Flow Rate Fraction
-  1,                                      !- Sizing Factor
-  General;                                !- End-Use Subcategory
-
-SetpointManager:Scheduled:DualSetpoint,
-  Heat Pump Loop Fluid Cooler Scheduled Dual Setpoint, !- Name
-  Temperature,                            !- Control Variable
-  Heat Pump Loop High Temp - 65F 1,       !- High Setpoint Schedule Name
-  Heat Pump Loop Low Temp - 41F 1,        !- Low Setpoint Schedule Name
-  Heat Pump Loop Central Tower 20.0 gpm/hp Outlet Water Node; !- Setpoint Node or NodeList Name
-
-Branch,
-  Heat Pump Loop Supply Outlet Branch,    !- Name
-  ,                                       !- Pressure Drop Curve Name
-  Pipe:Adiabatic,                         !- Component Object Type 1
-  Heat Pump Loop Supply Outlet,           !- Component Name 1
-  Heat Pump Loop Supply Outlet Inlet Water Node, !- Component Inlet Node Name 1
-  Heat Pump Loop Supply Outlet Node;      !- Component Outlet Node Name 1
-
-Pipe:Adiabatic,
-  Heat Pump Loop Supply Outlet,           !- Name
-  Heat Pump Loop Supply Outlet Inlet Water Node, !- Inlet Node Name
-  Heat Pump Loop Supply Outlet Node;      !- Outlet Node Name
-
-SetpointManager:Scheduled:DualSetpoint,
-  Heat Pump Loop Scheduled Dual Setpoint, !- Name
-  Temperature,                            !- Control Variable
-  Heat Pump Loop High Temp - 65F,         !- High Setpoint Schedule Name
-  Heat Pump Loop Low Temp - 41F,          !- Low Setpoint Schedule Name
-  Heat Pump Loop Supply Outlet Node;      !- Setpoint Node or NodeList Name
-
-BranchList,
-  Heat Pump Loop Demand Branches,         !- Name
-  Heat Pump Loop Demand Inlet Branch,     !- Branch Name 1
-  Heat Pump Loop Demand Branch 1,         !- Branch Name 2
-  Heat Pump Loop Demand Bypass Branch,    !- Branch Name 3
-  Heat Pump Loop Demand Outlet Branch;    !- Branch Name 4
-
-ConnectorList,
-  Heat Pump Loop Demand Connector List,   !- Name
-  Connector:Splitter,                     !- Connector Object Type 1
-  Heat Pump Loop Demand Splitter,         !- Connector Name 1
-  Connector:Mixer,                        !- Connector Object Type 2
-  Heat Pump Loop Demand Mixer;            !- Connector Name 2
-
-Connector:Splitter,
-  Heat Pump Loop Demand Splitter,         !- Name
-  Heat Pump Loop Demand Inlet Branch,     !- Inlet Branch Name
-  Heat Pump Loop Demand Branch 1,         !- Outlet Branch Name 1
-  Heat Pump Loop Demand Bypass Branch;    !- Outlet Branch Name 2
-
-Connector:Mixer,
-  Heat Pump Loop Demand Mixer,            !- Name
-  Heat Pump Loop Demand Outlet Branch,    !- Outlet Branch Name
-  Heat Pump Loop Demand Branch 1,         !- Inlet Branch Name 1
-  Heat Pump Loop Demand Bypass Branch;    !- Inlet Branch Name 2
-
-Branch,
-  Heat Pump Loop Demand Inlet Branch,     !- Name
-  ,                                       !- Pressure Drop Curve Name
-  Pipe:Adiabatic,                         !- Component Object Type 1
-  Heat Pump Loop Demand Inlet,            !- Component Name 1
-  Heat Pump Loop Demand Inlet Node,       !- Component Inlet Node Name 1
-  Heat Pump Loop Demand Inlet Outlet Water Node; !- Component Outlet Node Name 1
-
-Pipe:Adiabatic,
-  Heat Pump Loop Demand Inlet,            !- Name
-  Heat Pump Loop Demand Inlet Node,       !- Inlet Node Name
-  Heat Pump Loop Demand Inlet Outlet Water Node; !- Outlet Node Name
-
-Branch,
-  Heat Pump Loop Demand Branch 1,         !- Name
-  ,                                       !- Pressure Drop Curve Name
-  Pipe:Adiabatic,                         !- Component Object Type 1
-  Heat Pump Loop Demand Bypass,           !- Component Name 1
-  Heat Pump Loop Demand Bypass Inlet Water Node, !- Component Inlet Node Name 1
-  Heat Pump Loop Demand Bypass Outlet Water Node; !- Component Outlet Node Name 1
-
-Pipe:Adiabatic,
-  Heat Pump Loop Demand Bypass,           !- Name
-  Heat Pump Loop Demand Bypass Inlet Water Node, !- Inlet Node Name
-  Heat Pump Loop Demand Bypass Outlet Water Node; !- Outlet Node Name
-
-Branch,
-  Heat Pump Loop Demand Bypass Branch,    !- Name
-  ,                                       !- Pressure Drop Curve Name
-  Pipe:Adiabatic,                         !- Component Object Type 1
-  Heat Pump Loop Demand Bypass Pipe,      !- Component Name 1
-  Heat Pump Loop Demand Bypass Pipe Inlet Node, !- Component Inlet Node Name 1
-  Heat Pump Loop Demand Bypass Pipe Outlet Node; !- Component Outlet Node Name 1
-
-Pipe:Adiabatic,
-  Heat Pump Loop Demand Bypass Pipe,      !- Name
-  Heat Pump Loop Demand Bypass Pipe Inlet Node, !- Inlet Node Name
-  Heat Pump Loop Demand Bypass Pipe Outlet Node; !- Outlet Node Name
-
-Branch,
-  Heat Pump Loop Demand Outlet Branch,    !- Name
-  ,                                       !- Pressure Drop Curve Name
-  Pipe:Adiabatic,                         !- Component Object Type 1
-  Heat Pump Loop Demand Outlet,           !- Component Name 1
-  Heat Pump Loop Demand Outlet Inlet Water Node, !- Component Inlet Node Name 1
-  Heat Pump Loop Demand Outlet Node;      !- Component Outlet Node Name 1
-
-Pipe:Adiabatic,
-  Heat Pump Loop Demand Outlet,           !- Name
-  Heat Pump Loop Demand Outlet Inlet Water Node, !- Inlet Node Name
-  Heat Pump Loop Demand Outlet Node;      !- Outlet Node Name
-
-PlantEquipmentOperationSchemes,
-  Heat Pump Loop Operation Schemes,       !- Name
-  PlantEquipmentOperation:HeatingLoad,    !- Control Scheme Object Type 1
-  Heat Pump Loop Heating Operation Scheme, !- Control Scheme Name 1
-  Always On Discrete,                     !- Control Scheme Schedule Name 1
-  PlantEquipmentOperation:CoolingLoad,    !- Control Scheme Object Type 2
-  Heat Pump Loop Cooling Operation Scheme, !- Control Scheme Name 2
-  Always On Discrete,                     !- Control Scheme Schedule Name 2
-  PlantEquipmentOperation:ComponentSetpoint, !- Control Scheme Object Type 3
-  Heat Pump Loop Setpoint Operation Scheme, !- Control Scheme Name 3
-  Always On Discrete;                     !- Control Scheme Schedule Name 3
-
-PlantEquipmentOperation:HeatingLoad,
-  Heat Pump Loop Heating Operation Scheme, !- Name
-  0,                                      !- Load Range Lower Limit 1 {W}
-  1000000000,                             !- Load Range Upper Limit 1 {W}
-  Heat Pump Loop Heating Equipment List;  !- Range Equipment List Name 1
-
-PlantEquipmentList,
-  Heat Pump Loop Heating Equipment List,  !- Name
-  Boiler:HotWater,                        !- Equipment Object Type 1
-  Heat Pump Loop Supplemental Boiler 1455kBtu/hr 0.8 Thermal Eff; !- Equipment Name 1
-
-PlantEquipmentOperation:CoolingLoad,
-  Heat Pump Loop Cooling Operation Scheme, !- Name
-  0,                                      !- Load Range Lower Limit 1 {W}
-  1000000000,                             !- Load Range Upper Limit 1 {W}
-  Heat Pump Loop Cooling Equipment List;  !- Range Equipment List Name 1
-
-PlantEquipmentList,
-  Heat Pump Loop Cooling Equipment List,  !- Name
-  CoolingTower:TwoSpeed,                  !- Equipment Object Type 1
-  Heat Pump Loop Central Tower 20.0 gpm/hp; !- Equipment Name 1
-
-PlantEquipmentOperation:ComponentSetpoint,
-  Heat Pump Loop Setpoint Operation Scheme, !- Name
-  Boiler:HotWater,                        !- Equipment Object Type 1
-  Heat Pump Loop Supplemental Boiler 1455kBtu/hr 0.8 Thermal Eff, !- Equipment Name 1
-  Heat Pump Loop Supplemental Boiler 1455kBtu/hr 0.8 Thermal Eff Inlet Water Node, !- Demand Calculation Node Name 1
-  Heat Pump Loop Supplemental Boiler 1455kBtu/hr 0.8 Thermal Eff Outlet Water Node, !- Setpoint Node Name 1
-  Autosize,                               !- Component Flow Rate 1 {m3/s}
-  Heating,                                !- Operation Type 1
-  CoolingTower:TwoSpeed,                  !- Equipment Object Type 2
-  Heat Pump Loop Central Tower 20.0 gpm/hp, !- Equipment Name 2
-  Heat Pump Loop Central Tower 20.0 gpm/hp Inlet Water Node, !- Demand Calculation Node Name 2
-  Heat Pump Loop Central Tower 20.0 gpm/hp Outlet Water Node, !- Setpoint Node Name 2
-  Autosize,                               !- Component Flow Rate 2 {m3/s}
-  Cooling;                                !- Operation Type 2
-
-PlantLoop,
-  Hot Water Loop,                         !- Name
-  Water,                                  !- Fluid Type
-  ,                                       !- User Defined Fluid Type
-  Hot Water Loop Operation Schemes,       !- Plant Equipment Operation Scheme Name
-  Hot Water Loop Supply Outlet Node,      !- Loop Temperature Setpoint Node Name
-  100,                                    !- Maximum Loop Temperature {C}
-  10,                                     !- Minimum Loop Temperature {C}
-  Autosize,                               !- Maximum Loop Flow Rate {m3/s}
-  0,                                      !- Minimum Loop Flow Rate {m3/s}
-  Autocalculate,                          !- Plant Loop Volume {m3}
-  Hot Water Loop Supply Inlet Node,       !- Plant Side Inlet Node Name
-  Hot Water Loop Supply Outlet Node,      !- Plant Side Outlet Node Name
-  Hot Water Loop Supply Branches,         !- Plant Side Branch List Name
-  Hot Water Loop Supply Connector List,   !- Plant Side Connector List Name
-  Hot Water Loop Demand Inlet Node,       !- Demand Side Inlet Node Name
-  Hot Water Loop Demand Outlet Node,      !- Demand Side Outlet Node Name
-  Hot Water Loop Demand Branches,         !- Demand Side Branch List Name
-  Hot Water Loop Demand Connector List,   !- Demand Side Connector List Name
-  Optimal,                                !- Load Distribution Scheme
-  ,                                       !- Availability Manager List Name
-  SingleSetpoint,                         !- Plant Loop Demand Calculation Scheme
-  ;                                       !- Common Pipe Simulation
-
-Sizing:Plant,
-  Hot Water Loop,                         !- Plant or Condenser Loop Name
-  Heating,                                !- Loop Type
-  82.2222222222223,                       !- Design Loop Exit Temperature {C}
-  11.1111111111111,                       !- Loop Design Temperature Difference {deltaC}
-  NonCoincident,                          !- Sizing Option
-  1,                                      !- Zone Timesteps in Averaging Window
-  None;                                   !- Coincident Sizing Factor Mode
-
-BranchList,
-  Hot Water Loop Supply Branches,         !- Name
-  Hot Water Loop Supply Inlet Branch,     !- Branch Name 1
-  Hot Water Loop Supply Branch 1,         !- Branch Name 2
-  Hot Water Loop Supply Branch 2,         !- Branch Name 3
-  Hot Water Loop Supply Outlet Branch;    !- Branch Name 4
-
-ConnectorList,
-  Hot Water Loop Supply Connector List,   !- Name
-  Connector:Splitter,                     !- Connector Object Type 1
-  Hot Water Loop Supply Splitter,         !- Connector Name 1
-  Connector:Mixer,                        !- Connector Object Type 2
-  Hot Water Loop Supply Mixer;            !- Connector Name 2
-
-Connector:Splitter,
-  Hot Water Loop Supply Splitter,         !- Name
-  Hot Water Loop Supply Inlet Branch,     !- Inlet Branch Name
-  Hot Water Loop Supply Branch 1,         !- Outlet Branch Name 1
-  Hot Water Loop Supply Branch 2;         !- Outlet Branch Name 2
-
-Connector:Mixer,
-  Hot Water Loop Supply Mixer,            !- Name
-  Hot Water Loop Supply Outlet Branch,    !- Outlet Branch Name
-  Hot Water Loop Supply Branch 1,         !- Inlet Branch Name 1
-  Hot Water Loop Supply Branch 2;         !- Inlet Branch Name 2
-
-Branch,
-  Hot Water Loop Supply Inlet Branch,     !- Name
-  ,                                       !- Pressure Drop Curve Name
-  Pump:VariableSpeed,                     !- Component Object Type 1
-  Hot Water Loop Pump,                    !- Component Name 1
-  Hot Water Loop Supply Inlet Node,       !- Component Inlet Node Name 1
-  Hot Water Loop Pump Outlet Water Node;  !- Component Outlet Node Name 1
-
-Pump:VariableSpeed,
-  Hot Water Loop Pump,                    !- Name
-  Hot Water Loop Supply Inlet Node,       !- Inlet Node Name
-  Hot Water Loop Pump Outlet Water Node,  !- Outlet Node Name
-  Autosize,                               !- Design Maximum Flow Rate {m3/s}
-  179344.0152,                            !- Design Pump Head {Pa}
-  Autosize,                               !- Design Power Consumption {W}
-  0.917,                                  !- Motor Efficiency
-  0,                                      !- Fraction of Motor Inefficiencies to Fluid Stream
-  0,                                      !- Coefficient 1 of the Part Load Performance Curve
-  1,                                      !- Coefficient 2 of the Part Load Performance Curve
-  0,                                      !- Coefficient 3 of the Part Load Performance Curve
-  0,                                      !- Coefficient 4 of the Part Load Performance Curve
-  0,                                      !- Design Minimum Flow Rate {m3/s}
-  Intermittent,                           !- Pump Control Type
-  ,                                       !- Pump Flow Rate Schedule Name
-  ,                                       !- Pump Curve Name
-  ,                                       !- Impeller Diameter {m}
-  ,                                       !- VFD Control Type
-  ,                                       !- Pump rpm Schedule Name
-  ,                                       !- Minimum Pressure Schedule {Pa}
-  ,                                       !- Maximum Pressure Schedule {Pa}
-  ,                                       !- Minimum RPM Schedule {Rotations Per Minute}
-  ,                                       !- Maximum RPM Schedule {Rotations Per Minute}
-  ,                                       !- Zone Name
-  0.5,                                    !- Skin Loss Radiative Fraction
-  PowerPerFlowPerPressure,                !- Design Power Sizing Method
-  348701.1,                               !- Design Electric Power per Unit Flow Rate {W/(m3/s)}
-  1.282051282,                            !- Design Shaft Power per Unit Flow Rate per Unit Head
-  0,                                      !- Design Minimum Flow Rate Fraction
-  General;                                !- End-Use Subcategory
-
-Branch,
-  Hot Water Loop Supply Branch 1,         !- Name
-  ,                                       !- Pressure Drop Curve Name
-  Boiler:HotWater,                        !- Component Object Type 1
-  Boiler 4803kBtu/hr 0.8 Thermal Eff,     !- Component Name 1
-  Boiler 4803kBtu/hr 0.8 Thermal Eff Inlet Water Node, !- Component Inlet Node Name 1
-  Boiler 4803kBtu/hr 0.8 Thermal Eff Outlet Water Node; !- Component Outlet Node Name 1
-
-Boiler:HotWater,
-  Boiler 4803kBtu/hr 0.8 Thermal Eff,     !- Name
-  NaturalGas,                             !- Fuel Type
-  Autosize,                               !- Nominal Capacity {W}
-  0.8,                                    !- Nominal Thermal Efficiency
-  LeavingBoiler,                          !- Efficiency Curve Temperature Evaluation Variable
-  Boiler with No Minimum Turndown,        !- Normalized Boiler Efficiency Curve Name
-  Autosize,                               !- Design Water Flow Rate {m3/s}
-  0,                                      !- Minimum Part Load Ratio
-  1.2,                                    !- Maximum Part Load Ratio
-  1,                                      !- Optimum Part Load Ratio
-  Boiler 4803kBtu/hr 0.8 Thermal Eff Inlet Water Node, !- Boiler Water Inlet Node Name
-  Boiler 4803kBtu/hr 0.8 Thermal Eff Outlet Water Node, !- Boiler Water Outlet Node Name
-  95.0000000000001,                       !- Water Outlet Upper Temperature Limit {C}
-  LeavingSetpointModulated,               !- Boiler Flow Mode
-  0,                                      !- Parasitic Electric Load {W}
-  1,                                      !- Sizing Factor
-  General;                                !- End-Use Subcategory
-
-Branch,
-  Hot Water Loop Supply Branch 2,         !- Name
-  ,                                       !- Pressure Drop Curve Name
-  Pipe:Adiabatic,                         !- Component Object Type 1
-  Hot Water Loop Supply Equipment Bypass, !- Component Name 1
-  Hot Water Loop Supply Equipment Bypass Inlet Water Node, !- Component Inlet Node Name 1
-  Hot Water Loop Supply Equipment Bypass Outlet Water Node; !- Component Outlet Node Name 1
-
-Pipe:Adiabatic,
-  Hot Water Loop Supply Equipment Bypass, !- Name
-  Hot Water Loop Supply Equipment Bypass Inlet Water Node, !- Inlet Node Name
-  Hot Water Loop Supply Equipment Bypass Outlet Water Node; !- Outlet Node Name
-
-Branch,
-  Hot Water Loop Supply Outlet Branch,    !- Name
-  ,                                       !- Pressure Drop Curve Name
-  Pipe:Adiabatic,                         !- Component Object Type 1
-  Hot Water Loop Supply Outlet,           !- Component Name 1
-  Hot Water Loop Supply Outlet Inlet Water Node, !- Component Inlet Node Name 1
-  Hot Water Loop Supply Outlet Node;      !- Component Outlet Node Name 1
-
-Pipe:Adiabatic,
-  Hot Water Loop Supply Outlet,           !- Name
-  Hot Water Loop Supply Outlet Inlet Water Node, !- Inlet Node Name
-  Hot Water Loop Supply Outlet Node;      !- Outlet Node Name
-
-SetpointManager:Scheduled,
-  Hot Water Loop Setpoint Manager,        !- Name
-  Temperature,                            !- Control Variable
-  Hot Water Loop Temp - 180F,             !- Schedule Name
-  Hot Water Loop Supply Outlet Node;      !- Setpoint Node or NodeList Name
-
-BranchList,
-  Hot Water Loop Demand Branches,         !- Name
-  Hot Water Loop Demand Inlet Branch,     !- Branch Name 1
-  Hot Water Loop Demand Branch 1,         !- Branch Name 2
-  Hot Water Loop Demand Branch 2,         !- Branch Name 3
-  Hot Water Loop Demand Bypass Branch,    !- Branch Name 4
-  Hot Water Loop Demand Outlet Branch;    !- Branch Name 5
-
-ConnectorList,
-  Hot Water Loop Demand Connector List,   !- Name
-  Connector:Splitter,                     !- Connector Object Type 1
-  Hot Water Loop Demand Splitter,         !- Connector Name 1
-  Connector:Mixer,                        !- Connector Object Type 2
-  Hot Water Loop Demand Mixer;            !- Connector Name 2
-
-Connector:Splitter,
-  Hot Water Loop Demand Splitter,         !- Name
-  Hot Water Loop Demand Inlet Branch,     !- Inlet Branch Name
-  Hot Water Loop Demand Branch 1,         !- Outlet Branch Name 1
-  Hot Water Loop Demand Branch 2,         !- Outlet Branch Name 2
-  Hot Water Loop Demand Bypass Branch;    !- Outlet Branch Name 3
-
-Connector:Mixer,
-  Hot Water Loop Demand Mixer,            !- Name
-  Hot Water Loop Demand Outlet Branch,    !- Outlet Branch Name
-  Hot Water Loop Demand Branch 1,         !- Inlet Branch Name 1
-  Hot Water Loop Demand Branch 2,         !- Inlet Branch Name 2
-  Hot Water Loop Demand Bypass Branch;    !- Inlet Branch Name 3
-
-Branch,
-  Hot Water Loop Demand Inlet Branch,     !- Name
-  ,                                       !- Pressure Drop Curve Name
-  Pipe:Adiabatic,                         !- Component Object Type 1
-  Hot Water Loop Demand Inlet,            !- Component Name 1
-  Hot Water Loop Demand Inlet Node,       !- Component Inlet Node Name 1
-  Hot Water Loop Demand Inlet Outlet Water Node; !- Component Outlet Node Name 1
-
-Pipe:Adiabatic,
-  Hot Water Loop Demand Inlet,            !- Name
-  Hot Water Loop Demand Inlet Node,       !- Inlet Node Name
-  Hot Water Loop Demand Inlet Outlet Water Node; !- Outlet Node Name
-
-Branch,
-  Hot Water Loop Demand Branch 1,         !- Name
-  ,                                       !- Pressure Drop Curve Name
-  Pipe:Adiabatic,                         !- Component Object Type 1
-  Hot Water Loop Coil Bypass,             !- Component Name 1
-  Hot Water Loop Coil Bypass Inlet Water Node, !- Component Inlet Node Name 1
-  Hot Water Loop Coil Bypass Outlet Water Node; !- Component Outlet Node Name 1
-
-Pipe:Adiabatic,
-  Hot Water Loop Coil Bypass,             !- Name
-  Hot Water Loop Coil Bypass Inlet Water Node, !- Inlet Node Name
-  Hot Water Loop Coil Bypass Outlet Water Node; !- Outlet Node Name
-
-Branch,
-  Hot Water Loop Demand Branch 2,         !- Name
+  Hot Water Loop Load Profile Demand Branch,         !- Name
   ,                                       !- Pressure Drop Curve Name
   LoadProfile:Plant,                      !- Component Object Type 1
   District Heating Load Profile,          !- Component Name 1
-  Node 1,                                 !- Component Inlet Node Name 1
-  Node 2;                                 !- Component Outlet Node Name 1
+  District Heating Load Profile Inlet Node,                                 !- Component Inlet Node Name 1
+  District Heating Load Profile Outlet Node;                                 !- Component Outlet Node Name 1
 
 Branch,
-  Hot Water Loop Demand Bypass Branch,    !- Name
+  Chilled Water Loop Load Profile Demand Branch,     !- Name
   ,                                       !- Pressure Drop Curve Name
-  Pipe:Adiabatic,                         !- Component Object Type 1
-  Hot Water Loop Demand Bypass Pipe,      !- Component Name 1
-  Hot Water Loop Demand Bypass Pipe Inlet Node, !- Component Inlet Node Name 1
-  Hot Water Loop Demand Bypass Pipe Outlet Node; !- Component Outlet Node Name 1
-
-Pipe:Adiabatic,
-  Hot Water Loop Demand Bypass Pipe,      !- Name
-  Hot Water Loop Demand Bypass Pipe Inlet Node, !- Inlet Node Name
-  Hot Water Loop Demand Bypass Pipe Outlet Node; !- Outlet Node Name
-
-Branch,
-  Hot Water Loop Demand Outlet Branch,    !- Name
-  ,                                       !- Pressure Drop Curve Name
-  Pipe:Adiabatic,                         !- Component Object Type 1
-  Hot Water Loop Demand Outlet,           !- Component Name 1
-  Hot Water Loop Demand Outlet Inlet Water Node, !- Component Inlet Node Name 1
-  Hot Water Loop Demand Outlet Node;      !- Component Outlet Node Name 1
-
-Pipe:Adiabatic,
-  Hot Water Loop Demand Outlet,           !- Name
-  Hot Water Loop Demand Outlet Inlet Water Node, !- Inlet Node Name
-  Hot Water Loop Demand Outlet Node;      !- Outlet Node Name
-
-PlantEquipmentOperationSchemes,
-  Hot Water Loop Operation Schemes,       !- Name
-  PlantEquipmentOperation:HeatingLoad,    !- Control Scheme Object Type 1
-  Hot Water Loop Heating Operation Scheme, !- Control Scheme Name 1
-  Always On Discrete;                     !- Control Scheme Schedule Name 1
-
-PlantEquipmentOperation:HeatingLoad,
-  Hot Water Loop Heating Operation Scheme, !- Name
-  0,                                      !- Load Range Lower Limit 1 {W}
-  1000000000,                             !- Load Range Upper Limit 1 {W}
-  Hot Water Loop Heating Equipment List;  !- Range Equipment List Name 1
-
-PlantEquipmentList,
-  Hot Water Loop Heating Equipment List,  !- Name
-  Boiler:HotWater,                        !- Equipment Object Type 1
-  Boiler 4803kBtu/hr 0.8 Thermal Eff;     !- Equipment Name 1
-
-! Exterior:FuelEquipment,
-!   Fuel equipment 1,                       !- Name
-!   NaturalGas,                             !- Fuel Use Type
-!   Always On Discrete,                     !- Schedule Name
-!   244443.956043956,                       !- Design Level {W}
-!   General;                                !- End-Use Subcategory
-
-! Exterior:FuelEquipment,
-!   Fuel equipment 2,                       !- Name
-!   NaturalGas,                             !- Fuel Use Type
-!   Always On Discrete,                     !- Schedule Name
-!   1270.8,                                 !- Design Level {W}
-!   General;                                !- End-Use Subcategory
-
-
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-! ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-! LoadProfile:Plant
+  LoadProfile:Plant,                      !- Component Object Type 1
+  District Cooling Load Profile,          !- Component Name 1
+  District Cooling Load Profile Inlet Node,                                 !- Component Inlet Node Name 1
+  District Cooling Load Profile Outlet Node;                                 !- Component Outlet Node Name 1
 
 LoadProfile:Plant,
   District Heating Load Profile,          !- Name
-  Node 1,                                 !- Inlet Node Name
-  Node 2,                                 !- Outlet Node Name
+  District Heating Load Profile Inlet Node,                                 !- Inlet Node Name
+  District Heating Load Profile Outlet Node,                                 !- Outlet Node Name
   Heating Load Profile Schedule, !- Load Schedule Name (From CSV)
-  ! District Heating Load Profile Schedule, !- Load Schedule Name (Fixed)
-  0.6,                                  !- Peak Flow Rate {m3/s}
-  Always On Discrete hvac_library;        !- Flow Rate Fraction Schedule Name
+  0.1,                                  !- Peak Flow Rate {m3/s}
+  HVACTemplate-Always 1;        !- Flow Rate Fraction Schedule Name
 
 LoadProfile:Plant,
   District Cooling Load Profile,          !- Name
-  Node 3,                                 !- Inlet Node Name
-  Node 4,                                 !- Outlet Node Name
+  District Cooling Load Profile Inlet Node,                                 !- Inlet Node Name
+  District Cooling Load Profile Outlet Node,                                 !- Outlet Node Name
   Cooling Load Profile Schedule, !- Load Schedule Name (From CSV)
   ! District Cooling Load Profile Schedule, !- Load Schedule Name (Fixed)
-  0.6,                                  !- Peak Flow Rate {m3/s}
-  Always On Discrete hvac_library;        !- Flow Rate Fraction Schedule Name
-! ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-! Important: schedule file for loadprofile:plant
+  0.1,                                  !- Peak Flow Rate {m3/s}
+  HVACTemplate-Always 1;        !- Flow Rate Fraction Schedule Name
 
 Schedule:File,
   Heating Load Profile Schedule,                        !- Name
   Any Number,                             !- Schedule Type Limits Name
   sample_loadprofile.csv, !- File Name
-  2,                                      !- Column Number
+  4,                                      !- Column Number
   1,                                      !- Rows to Skip at Top
   ,                                       !- Number of Hours of Data
   Comma,                                  !- Column Separator
@@ -1931,8 +232,6 @@ Schedule:File,
   ,                                       !- Number of Hours of Data
   Comma,                                  !- Column Separator
   No;                                     !- Interpolate to Timestep
-
-
 
 ! ######################################################################################
 ! Outputs
@@ -1952,7 +251,6 @@ Output:SQLite,
   SimpleAndTabular;                       !- Option Type
 
 
-
 Output:Meter:MeterFileOnly,
   PlantLoopHeatingDemand:Facility,        !- Key Name
   hourly;                                 !- Reporting Frequency
@@ -1961,21 +259,17 @@ Output:Meter:MeterFileOnly,
   PlantLoopCoolingDemand:Facility,        !- Key Name
   hourly;                                 !- Reporting Frequency
 
-! Output:Meter:MeterFileOnly,
-!   Gas:Facility,                           !- Key Name
-!   Hourly;                                  !- Reporting Frequency
-
-! Output:Meter:MeterFileOnly,
-!   Electricity:Facility,                   !- Key Name
-!   Hourly;                               !- Reporting Frequency
-
-Output:Meter,
-  Electricity:Facility,                   !- Key Name
-  Annual;                               !- Reporting Frequency
-
-Output:Meter,
+Output:Meter:MeterFileOnly,
   Gas:Facility,                           !- Key Name
-  Annual;                               !- Reporting Frequency
+  Hourly;                                  !- Reporting Frequency
+
+Output:Meter:MeterFileOnly,
+  Electricity:Facility,                   !- Key Name
+  Hourly;                               !- Reporting Frequency
+
+Output:Meter:MeterFileOnly,
+  Electricity:Facility,                   !- Key Name
+  Hourly;                                  !- Reporting Frequency
 
 Output:Meter,
   Electricity:Facility,                   !- Key Name
@@ -1985,11 +279,1061 @@ Output:Meter,
   Gas:Facility,                           !- Key Name
   Hourly;                               !- Reporting Frequency
 
-! Output:Meter,Carbon Equivalent:Facility,annual; !- [kg]
-! Output:Meter,Carbon Equivalent:Facility,annual; !- [kg]
-! Output:Meter:Cumulative,Carbon Equivalent:Facility,annual; !- [kg]
-! Output:Meter,CarbonEquivalentEmissions:Carbon Equivalent,annual; !- [kg]
-! Output:Meter:Cumulative,CarbonEquivalentEmissions:Carbon Equivalent,annual; !- [kg]
-! Output:Variable,*,Environmental Impact Total N2O Emissions Carbon Equivalent Mass,annual; !- HVAC Sum [kg]
-! Output:Variable,*,Environmental Impact Total CH4 Emissions Carbon Equivalent Mass,annual; !- HVAC Sum [kg]
-! Output:Variable,*,Environmental Impact Total CO2 Emissions Carbon Equivalent Mass,annual; !- HVAC Sum [kg]
+Output:Meter,
+    Electricity:Facility,     !- Key Name
+    Annual;                   !- Reporting Frequency
+
+Output:Meter,
+    Gas:Facility,             !- Key Name
+    Annual;                   !- Reporting Frequency
+
+! ##############################################################################
+! insert plant loop objects from here
+! ##############################################################################
+!- Windows Line endings 
+
+Schedule:Compact,
+    HVACTemplate-Always 1,    !- Name
+    HVACTemplate Any Number,    !- Schedule Type Limits Name
+    Through: 12/31,           !- Field 1
+    For: AllDays,             !- Field 2
+    Until: 24:00,             !- Field 3
+    1;                        !- Field 4
+
+Schedule:Compact,
+    HVACTemplate-Always 29.4,    !- Name
+    HVACTemplate Any Number,    !- Schedule Type Limits Name
+    Through: 12/31,           !- Field 1
+    For: AllDays,             !- Field 2
+    Until: 24:00,             !- Field 3
+    29.4;                     !- Field 4
+
+Sizing:Plant,
+    Hot Water Loop Hot Water Loop,    !- Plant or Condenser Loop Name
+    Heating,                  !- Loop Type
+    82,                       !- Design Loop Exit Temperature
+    11;                       !- Loop Design Temperature Difference
+
+Sizing:Plant,
+    Chilled Water Loop Chilled Water Loop,    !- Plant or Condenser Loop Name
+    Cooling,                  !- Loop Type
+    7.22,                     !- Design Loop Exit Temperature
+    6.67;                     !- Loop Design Temperature Difference
+
+Sizing:Plant,
+    Chilled Water Loop Condenser Water Loop,    !- Plant or Condenser Loop Name
+    Condenser,                !- Loop Type
+    29.4,                     !- Design Loop Exit Temperature
+    5.6;                      !- Loop Design Temperature Difference
+
+Branch,
+    Boiler No. 1 HW Branch,    !- Name
+    ,                         !- Pressure Drop Curve Name
+    Boiler:HotWater,          !- Component 1 Object Type
+    Boiler No. 1,             !- Component 1 Name
+    Boiler No. 1 HW Inlet,    !- Component 1 Inlet Node Name
+    Boiler No. 1 HW Outlet;    !- Component 1 Outlet Node Name
+
+Branch,
+    Chiller No. 1 ChW Branch,    !- Name
+    ,                         !- Pressure Drop Curve Name
+    Chiller:Electric:EIR,     !- Component 1 Object Type
+    Chiller No. 1,            !- Component 1 Name
+    Chiller No. 1 ChW Inlet,    !- Component 1 Inlet Node Name
+    Chiller No. 1 ChW Outlet;    !- Component 1 Outlet Node Name
+
+Branch,
+    Chiller No. 1 CndW Branch,    !- Name
+    ,                         !- Pressure Drop Curve Name
+    Chiller:Electric:EIR,     !- Component 1 Object Type
+    Chiller No. 1,            !- Component 1 Name
+    Chiller No. 1 Cnd Inlet,    !- Component 1 Inlet Node Name
+    Chiller No. 1 Cnd Outlet;    !- Component 1 Outlet Node Name
+
+Branch,
+    Chiller No. 2 ChW Branch,    !- Name
+    ,                         !- Pressure Drop Curve Name
+    Chiller:Electric:EIR,     !- Component 1 Object Type
+    Chiller No. 2,            !- Component 1 Name
+    Chiller No. 2 ChW Inlet,    !- Component 1 Inlet Node Name
+    Chiller No. 2 ChW Outlet;    !- Component 1 Outlet Node Name
+
+Branch,
+    Chiller No. 2 CndW Branch,    !- Name
+    ,                         !- Pressure Drop Curve Name
+    Chiller:Electric:EIR,     !- Component 1 Object Type
+    Chiller No. 2,            !- Component 1 Name
+    Chiller No. 2 Cnd Inlet,    !- Component 1 Inlet Node Name
+    Chiller No. 2 Cnd Outlet;    !- Component 1 Outlet Node Name
+
+Branch,
+    Chiller No. 3 ChW Branch,    !- Name
+    ,                         !- Pressure Drop Curve Name
+    Chiller:Electric:EIR,     !- Component 1 Object Type
+    Chiller No. 3,            !- Component 1 Name
+    Chiller No. 3 ChW Inlet,    !- Component 1 Inlet Node Name
+    Chiller No. 3 ChW Outlet;    !- Component 1 Outlet Node Name
+
+Branch,
+    Chiller No. 3 CndW Branch,    !- Name
+    ,                         !- Pressure Drop Curve Name
+    Chiller:Electric:EIR,     !- Component 1 Object Type
+    Chiller No. 3,            !- Component 1 Name
+    Chiller No. 3 Cnd Inlet,    !- Component 1 Inlet Node Name
+    Chiller No. 3 Cnd Outlet;    !- Component 1 Outlet Node Name
+
+Branch,
+    Chiller No. 4 ChW Branch,    !- Name
+    ,                         !- Pressure Drop Curve Name
+    Chiller:Electric:EIR,     !- Component 1 Object Type
+    Chiller No. 4,            !- Component 1 Name
+    Chiller No. 4 ChW Inlet,    !- Component 1 Inlet Node Name
+    Chiller No. 4 ChW Outlet;    !- Component 1 Outlet Node Name
+
+Branch,
+    Chiller No. 4 CndW Branch,    !- Name
+    ,                         !- Pressure Drop Curve Name
+    Chiller:Electric:EIR,     !- Component 1 Object Type
+    Chiller No. 4,            !- Component 1 Name
+    Chiller No. 4 Cnd Inlet,    !- Component 1 Inlet Node Name
+    Chiller No. 4 Cnd Outlet;    !- Component 1 Outlet Node Name
+
+Branch,
+    Main Tower CndW Branch,    !- Name
+    ,                         !- Pressure Drop Curve Name
+    CoolingTower:SingleSpeed,    !- Component 1 Object Type
+    Main Tower,               !- Component 1 Name
+    Main Tower CndW Inlet,    !- Component 1 Inlet Node Name
+    Main Tower CndW Outlet;    !- Component 1 Outlet Node Name
+
+Branch,
+    Hot Water Loop HW Supply Bypass Branch,    !- Name
+    ,                         !- Pressure Drop Curve Name
+    Pipe:Adiabatic,           !- Component 1 Object Type
+    Hot Water Loop HW Supply Side Bypass Pipe,    !- Component 1 Name
+    Hot Water Loop HW Supply Bypass Inlet,    !- Component 1 Inlet Node Name
+    Hot Water Loop HW Supply Bypass Outlet;    !- Component 1 Outlet Node Name
+
+Branch,
+    Hot Water Loop HW Supply Inlet Branch,    !- Name
+    ,                         !- Pressure Drop Curve Name
+    Pump:VariableSpeed,       !- Component 1 Object Type
+    Hot Water Loop HW Supply Pump,    !- Component 1 Name
+    Hot Water Loop HW Supply Inlet,    !- Component 1 Inlet Node Name
+    Hot Water Loop HW Pump Outlet;    !- Component 1 Outlet Node Name
+
+Branch,
+    Hot Water Loop HW Supply Outlet Branch,    !- Name
+    ,                         !- Pressure Drop Curve Name
+    Pipe:Adiabatic,           !- Component 1 Object Type
+    Hot Water Loop HW Supply Outlet Pipe,    !- Component 1 Name
+    Hot Water Loop HW Supply Outlet Pipe Inlet,    !- Component 1 Inlet Node Name
+    Hot Water Loop HW Supply Outlet;    !- Component 1 Outlet Node Name
+
+Branch,
+    Hot Water Loop HW Demand Inlet Branch,    !- Name
+    ,                         !- Pressure Drop Curve Name
+    Pipe:Adiabatic,           !- Component 1 Object Type
+    Hot Water Loop HW Demand Inlet Pipe,    !- Component 1 Name
+    Hot Water Loop HW Demand Inlet,    !- Component 1 Inlet Node Name
+    Hot Water Loop HW Demand Inlet Pipe Outlet;    !- Component 1 Outlet Node Name
+
+Branch,
+    Hot Water Loop HW Demand Bypass Branch,    !- Name
+    ,                         !- Pressure Drop Curve Name
+    Pipe:Adiabatic,           !- Component 1 Object Type
+    Hot Water Loop HW Demand Side Bypass Pipe,    !- Component 1 Name
+    Hot Water Loop HW Demand Bypass Inlet,    !- Component 1 Inlet Node Name
+    Hot Water Loop HW Demand Bypass Outlet;    !- Component 1 Outlet Node Name
+
+Branch,
+    Hot Water Loop HW Demand Outlet Branch,    !- Name
+    ,                         !- Pressure Drop Curve Name
+    Pipe:Adiabatic,           !- Component 1 Object Type
+    Hot Water Loop HW Demand Outlet Pipe,    !- Component 1 Name
+    Hot Water Loop HW Demand Outlet Pipe Inlet,    !- Component 1 Inlet Node Name
+    Hot Water Loop HW Demand Outlet;    !- Component 1 Outlet Node Name
+
+Branch,
+    Chilled Water Loop ChW Supply Bypass Branch,    !- Name
+    ,                         !- Pressure Drop Curve Name
+    Pipe:Adiabatic,           !- Component 1 Object Type
+    Chilled Water Loop ChW Supply Side Bypass Pipe,    !- Component 1 Name
+    Chilled Water Loop ChW Supply Bypass Inlet,    !- Component 1 Inlet Node Name
+    Chilled Water Loop ChW Supply Bypass Outlet;    !- Component 1 Outlet Node Name
+
+Branch,
+    Chilled Water Loop ChW Supply Inlet Branch,    !- Name
+    ,                         !- Pressure Drop Curve Name
+    Pump:VariableSpeed,       !- Component 1 Object Type
+    Chilled Water Loop ChW Supply Pump,    !- Component 1 Name
+    Chilled Water Loop ChW Supply Inlet,    !- Component 1 Inlet Node Name
+    Chilled Water Loop ChW Pump Outlet;    !- Component 1 Outlet Node Name
+
+Branch,
+    Chilled Water Loop ChW Supply Outlet Branch,    !- Name
+    ,                         !- Pressure Drop Curve Name
+    Pipe:Adiabatic,           !- Component 1 Object Type
+    Chilled Water Loop ChW Supply Outlet Pipe,    !- Component 1 Name
+    Chilled Water Loop ChW Supply Outlet Pipe Inlet,    !- Component 1 Inlet Node Name
+    Chilled Water Loop ChW Supply Outlet;    !- Component 1 Outlet Node Name
+
+Branch,
+    Chilled Water Loop ChW Demand Inlet Branch,    !- Name
+    ,                         !- Pressure Drop Curve Name
+    Pipe:Adiabatic,           !- Component 1 Object Type
+    Chilled Water Loop ChW Demand Inlet Pipe,    !- Component 1 Name
+    Chilled Water Loop ChW Demand Inlet,    !- Component 1 Inlet Node Name
+    Chilled Water Loop ChW Demand Inlet Pipe Outlet;    !- Component 1 Outlet Node Name
+
+Branch,
+    Chilled Water Loop ChW Demand Bypass Branch,    !- Name
+    ,                         !- Pressure Drop Curve Name
+    Pipe:Adiabatic,           !- Component 1 Object Type
+    Chilled Water Loop ChW Demand Side Bypass Pipe,    !- Component 1 Name
+    Chilled Water Loop ChW Demand Bypass Inlet,    !- Component 1 Inlet Node Name
+    Chilled Water Loop ChW Demand Bypass Outlet;    !- Component 1 Outlet Node Name
+
+Branch,
+    Chilled Water Loop ChW Demand Outlet Branch,    !- Name
+    ,                         !- Pressure Drop Curve Name
+    Pipe:Adiabatic,           !- Component 1 Object Type
+    Chilled Water Loop ChW Demand Outlet Pipe,    !- Component 1 Name
+    Chilled Water Loop ChW Demand Outlet Pipe Inlet,    !- Component 1 Inlet Node Name
+    Chilled Water Loop ChW Demand Outlet;    !- Component 1 Outlet Node Name
+
+Branch,
+    Chilled Water Loop CndW Supply Inlet Branch,    !- Name
+    ,                         !- Pressure Drop Curve Name
+    Pump:VariableSpeed,       !- Component 1 Object Type
+    Chilled Water Loop CndW Supply Pump,    !- Component 1 Name
+    Chilled Water Loop CndW Supply Inlet,    !- Component 1 Inlet Node Name
+    Chilled Water Loop CndW Pump Outlet;    !- Component 1 Outlet Node Name
+
+Branch,
+    Chilled Water Loop CndW Supply Outlet Branch,    !- Name
+    ,                         !- Pressure Drop Curve Name
+    Pipe:Adiabatic,           !- Component 1 Object Type
+    Chilled Water Loop CndW Supply Outlet Pipe,    !- Component 1 Name
+    Chilled Water Loop CndW Supply Outlet Pipe Inlet,    !- Component 1 Inlet Node Name
+    Chilled Water Loop CndW Supply Outlet;    !- Component 1 Outlet Node Name
+
+Branch,
+    Chilled Water Loop CndW Supply Bypass Branch,    !- Name
+    ,                         !- Pressure Drop Curve Name
+    Pipe:Adiabatic,           !- Component 1 Object Type
+    Chilled Water Loop CndW Supply Side Bypass Pipe,    !- Component 1 Name
+    Chilled Water Loop CndW Supply Bypass Inlet,    !- Component 1 Inlet Node Name
+    Chilled Water Loop CndW Supply Bypass Outlet;    !- Component 1 Outlet Node Name
+
+Branch,
+    Chilled Water Loop CndW Demand Inlet Branch,    !- Name
+    ,                         !- Pressure Drop Curve Name
+    Pipe:Adiabatic,           !- Component 1 Object Type
+    Chilled Water Loop CndW Demand Inlet Pipe,    !- Component 1 Name
+    Chilled Water Loop CndW Demand Inlet,    !- Component 1 Inlet Node Name
+    Chilled Water Loop CndW Demand Inlet Pipe Outlet;    !- Component 1 Outlet Node Name
+
+Branch,
+    Chilled Water Loop CndW Demand Bypass Branch,    !- Name
+    ,                         !- Pressure Drop Curve Name
+    Pipe:Adiabatic,           !- Component 1 Object Type
+    Chilled Water Loop CndW Demand Side Bypass Pipe,    !- Component 1 Name
+    Chilled Water Loop CndW Demand Bypass Inlet,    !- Component 1 Inlet Node Name
+    Chilled Water Loop CndW Demand Bypass Outlet;    !- Component 1 Outlet Node Name
+
+Branch,
+    Chilled Water Loop CndW Demand Outlet Branch,    !- Name
+    ,                         !- Pressure Drop Curve Name
+    Pipe:Adiabatic,           !- Component 1 Object Type
+    Chilled Water Loop CndW Demand Outlet Pipe,    !- Component 1 Name
+    Chilled Water Loop CndW Demand Outlet Pipe Inlet,    !- Component 1 Inlet Node Name
+    Chilled Water Loop CndW Demand Outlet;    !- Component 1 Outlet Node Name
+
+BranchList,
+    Hot Water Loop HW Supply Side Branches,    !- Name
+    Hot Water Loop HW Supply Inlet Branch,    !- Branch 1 Name
+    Boiler No. 1 HW Branch,    !- Branch 2 Name
+    Hot Water Loop HW Supply Bypass Branch,    !- Branch 3 Name
+    Hot Water Loop HW Supply Outlet Branch;    !- Branch 4 Name
+
+BranchList,
+    Hot Water Loop HW Demand Side Branches,    !- Name
+    Hot Water Loop HW Demand Inlet Branch,    !- Branch 1 Name
+    Hot Water Loop Load Profile Demand Branch,    !- Branch 2 Name
+    Hot Water Loop HW Demand Bypass Branch,    !- Branch 3 Name
+    Hot Water Loop HW Demand Outlet Branch;    !- Branch 4 Name
+
+BranchList,
+    Chilled Water Loop ChW Supply Side Branches,    !- Name
+    Chilled Water Loop ChW Supply Inlet Branch,    !- Branch 1 Name
+    Chiller No. 1 ChW Branch,    !- Branch 2 Name
+    Chiller No. 2 ChW Branch,    !- Branch 3 Name
+    Chiller No. 3 ChW Branch,    !- Branch 4 Name
+    Chiller No. 4 ChW Branch,    !- Branch 5 Name
+    Chilled Water Loop ChW Supply Bypass Branch,    !- Branch 6 Name
+    Chilled Water Loop ChW Supply Outlet Branch;    !- Branch 7 Name
+
+BranchList,
+    Chilled Water Loop ChW Demand Side Branches,    !- Name
+    Chilled Water Loop ChW Demand Inlet Branch,    !- Branch 1 Name
+    Chilled Water Loop Load Profile Demand Branch,    !- Branch 2 Name
+    Chilled Water Loop ChW Demand Bypass Branch,    !- Branch 3 Name
+    Chilled Water Loop ChW Demand Outlet Branch;    !- Branch 4 Name
+
+BranchList,
+    Chilled Water Loop CndW Supply Side Branches,    !- Name
+    Chilled Water Loop CndW Supply Inlet Branch,    !- Branch 1 Name
+    Main Tower CndW Branch,    !- Branch 2 Name
+    Chilled Water Loop CndW Supply Bypass Branch,    !- Branch 3 Name
+    Chilled Water Loop CndW Supply Outlet Branch;    !- Branch 4 Name
+
+BranchList,
+    Chilled Water Loop CndW Demand Side Branches,    !- Name
+    Chilled Water Loop CndW Demand Inlet Branch,    !- Branch 1 Name
+    Chiller No. 1 CndW Branch,    !- Branch 2 Name
+    Chiller No. 2 CndW Branch,    !- Branch 3 Name
+    Chiller No. 3 CndW Branch,    !- Branch 4 Name
+    Chiller No. 4 CndW Branch,    !- Branch 5 Name
+    Chilled Water Loop CndW Demand Bypass Branch,    !- Branch 6 Name
+    Chilled Water Loop CndW Demand Outlet Branch;    !- Branch 7 Name
+
+Connector:Splitter,
+    Hot Water Loop HW Supply Splitter,    !- Name
+    Hot Water Loop HW Supply Inlet Branch,    !- Inlet Branch Name
+    Boiler No. 1 HW Branch,    !- Outlet Branch 1 Name
+    Hot Water Loop HW Supply Bypass Branch;    !- Outlet Branch 2 Name
+
+Connector:Splitter,
+    Hot Water Loop HW Demand Splitter,    !- Name
+    Hot Water Loop HW Demand Inlet Branch,    !- Inlet Branch Name
+    Hot Water Loop HW Demand Bypass Branch,    !- Outlet Branch 1 Name
+    Hot Water Loop Load Profile Demand Branch;    !- Outlet Branch 2 Name
+
+Connector:Splitter,
+    Chilled Water Loop ChW Supply Splitter,    !- Name
+    Chilled Water Loop ChW Supply Inlet Branch,    !- Inlet Branch Name
+    Chilled Water Loop ChW Supply Bypass Branch,    !- Outlet Branch 1 Name
+    Chiller No. 1 ChW Branch,    !- Outlet Branch 2 Name
+    Chiller No. 2 ChW Branch,    !- Outlet Branch 3 Name
+    Chiller No. 3 ChW Branch,    !- Outlet Branch 4 Name
+    Chiller No. 4 ChW Branch;    !- Outlet Branch 5 Name
+
+Connector:Splitter,
+    Chilled Water Loop ChW Demand Splitter,    !- Name
+    Chilled Water Loop ChW Demand Inlet Branch,    !- Inlet Branch Name
+    Chilled Water Loop ChW Demand Bypass Branch,    !- Outlet Branch 1 Name
+    Chilled Water Loop Load Profile Demand Branch;    !- Outlet Branch 2 Name
+
+Connector:Splitter,
+    Chilled Water Loop CndW Supply Splitter,    !- Name
+    Chilled Water Loop CndW Supply Inlet Branch,    !- Inlet Branch Name
+    Chilled Water Loop CndW Supply Bypass Branch,    !- Outlet Branch 1 Name
+    Main Tower CndW Branch;    !- Outlet Branch 2 Name
+
+Connector:Splitter,
+    Chilled Water Loop CndW Demand Splitter,    !- Name
+    Chilled Water Loop CndW Demand Inlet Branch,    !- Inlet Branch Name
+    Chilled Water Loop CndW Demand Bypass Branch,    !- Outlet Branch 1 Name
+    Chiller No. 1 CndW Branch,    !- Outlet Branch 2 Name
+    Chiller No. 2 CndW Branch,    !- Outlet Branch 3 Name
+    Chiller No. 3 CndW Branch,    !- Outlet Branch 4 Name
+    Chiller No. 4 CndW Branch;    !- Outlet Branch 5 Name
+
+Connector:Mixer,
+    Hot Water Loop HW Supply Mixer,    !- Name
+    Hot Water Loop HW Supply Outlet Branch,    !- Outlet Branch Name
+    Boiler No. 1 HW Branch,    !- Inlet Branch 1 Name
+    Hot Water Loop HW Supply Bypass Branch;    !- Inlet Branch 2 Name
+
+Connector:Mixer,
+    Hot Water Loop HW Demand Mixer,    !- Name
+    Hot Water Loop HW Demand Outlet Branch,    !- Outlet Branch Name
+    Hot Water Loop HW Demand Bypass Branch,    !- Inlet Branch 1 Name
+    Hot Water Loop Load Profile Demand Branch;    !- Inlet Branch 2 Name
+
+Connector:Mixer,
+    Chilled Water Loop ChW Supply Mixer,    !- Name
+    Chilled Water Loop ChW Supply Outlet Branch,    !- Outlet Branch Name
+    Chilled Water Loop ChW Supply Bypass Branch,    !- Inlet Branch 1 Name
+    Chiller No. 1 ChW Branch,    !- Inlet Branch 2 Name
+    Chiller No. 2 ChW Branch,    !- Inlet Branch 3 Name
+    Chiller No. 3 ChW Branch,    !- Inlet Branch 4 Name
+    Chiller No. 4 ChW Branch;    !- Inlet Branch 5 Name
+
+Connector:Mixer,
+    Chilled Water Loop ChW Demand Mixer,    !- Name
+    Chilled Water Loop ChW Demand Outlet Branch,    !- Outlet Branch Name
+    Chilled Water Loop ChW Demand Bypass Branch,    !- Inlet Branch 1 Name
+    Chilled Water Loop Load Profile Demand Branch;    !- Inlet Branch 2 Name
+
+Connector:Mixer,
+    Chilled Water Loop CndW Supply Mixer,    !- Name
+    Chilled Water Loop CndW Supply Outlet Branch,    !- Outlet Branch Name
+    Chilled Water Loop CndW Supply Bypass Branch,    !- Inlet Branch 1 Name
+    Main Tower CndW Branch;    !- Inlet Branch 2 Name
+
+Connector:Mixer,
+    Chilled Water Loop CndW Demand Mixer,    !- Name
+    Chilled Water Loop CndW Demand Outlet Branch,    !- Outlet Branch Name
+    Chilled Water Loop CndW Demand Bypass Branch,    !- Inlet Branch 1 Name
+    Chiller No. 1 CndW Branch,    !- Inlet Branch 2 Name
+    Chiller No. 2 CndW Branch,    !- Inlet Branch 3 Name
+    Chiller No. 3 CndW Branch,    !- Inlet Branch 4 Name
+    Chiller No. 4 CndW Branch;    !- Inlet Branch 5 Name
+
+ConnectorList,
+    Hot Water Loop HW Supply Side Connectors,    !- Name
+    Connector:Splitter,       !- Connector 1 Object Type
+    Hot Water Loop HW Supply Splitter,    !- Connector 1 Name
+    Connector:Mixer,          !- Connector 2 Object Type
+    Hot Water Loop HW Supply Mixer;    !- Connector 2 Name
+
+ConnectorList,
+    Hot Water Loop HW Demand Side Connectors,    !- Name
+    Connector:Splitter,       !- Connector 1 Object Type
+    Hot Water Loop HW Demand Splitter,    !- Connector 1 Name
+    Connector:Mixer,          !- Connector 2 Object Type
+    Hot Water Loop HW Demand Mixer;    !- Connector 2 Name
+
+ConnectorList,
+    Chilled Water Loop ChW Supply Side Connectors,    !- Name
+    Connector:Splitter,       !- Connector 1 Object Type
+    Chilled Water Loop ChW Supply Splitter,    !- Connector 1 Name
+    Connector:Mixer,          !- Connector 2 Object Type
+    Chilled Water Loop ChW Supply Mixer;    !- Connector 2 Name
+
+ConnectorList,
+    Chilled Water Loop ChW Demand Side Connectors,    !- Name
+    Connector:Splitter,       !- Connector 1 Object Type
+    Chilled Water Loop ChW Demand Splitter,    !- Connector 1 Name
+    Connector:Mixer,          !- Connector 2 Object Type
+    Chilled Water Loop ChW Demand Mixer;    !- Connector 2 Name
+
+ConnectorList,
+    Chilled Water Loop CndW Supply Side Connectors,    !- Name
+    Connector:Splitter,       !- Connector 1 Object Type
+    Chilled Water Loop CndW Supply Splitter,    !- Connector 1 Name
+    Connector:Mixer,          !- Connector 2 Object Type
+    Chilled Water Loop CndW Supply Mixer;    !- Connector 2 Name
+
+ConnectorList,
+    Chilled Water Loop CndW Demand Side Connectors,    !- Name
+    Connector:Splitter,       !- Connector 1 Object Type
+    Chilled Water Loop CndW Demand Splitter,    !- Connector 1 Name
+    Connector:Mixer,          !- Connector 2 Object Type
+    Chilled Water Loop CndW Demand Mixer;    !- Connector 2 Name
+
+NodeList,
+    Hot Water Loop HW Supply Setpoint Nodes,    !- Name
+    Boiler No. 1 HW Outlet,    !- Node 1 Name
+    Hot Water Loop HW Supply Outlet;    !- Node 2 Name
+
+NodeList,
+    Chilled Water Loop ChW Supply Setpoint Nodes,    !- Name
+    Chiller No. 1 ChW Outlet,    !- Node 1 Name
+    Chiller No. 2 ChW Outlet,    !- Node 2 Name
+    Chiller No. 3 ChW Outlet,    !- Node 3 Name
+    Chiller No. 4 ChW Outlet,    !- Node 4 Name
+    Chilled Water Loop ChW Supply Outlet;    !- Node 5 Name
+
+NodeList,
+    Chilled Water Loop CndW Supply Setpoint Nodes,    !- Name
+    Main Tower CndW Outlet,    !- Node 1 Name
+    Chilled Water Loop CndW Supply Outlet;    !- Node 2 Name
+
+OutdoorAir:Node,
+    Main Tower Cooling Tower Outdoor Air Inlet Node,    !- Name
+    -1;                       !- Height Above Ground
+
+Pipe:Adiabatic,
+    Hot Water Loop HW Supply Side Bypass Pipe,    !- Name
+    Hot Water Loop HW Supply Bypass Inlet,    !- Inlet Node Name
+    Hot Water Loop HW Supply Bypass Outlet;    !- Outlet Node Name
+
+Pipe:Adiabatic,
+    Hot Water Loop HW Supply Outlet Pipe,    !- Name
+    Hot Water Loop HW Supply Outlet Pipe Inlet,    !- Inlet Node Name
+    Hot Water Loop HW Supply Outlet;    !- Outlet Node Name
+
+Pipe:Adiabatic,
+    Hot Water Loop HW Demand Inlet Pipe,    !- Name
+    Hot Water Loop HW Demand Inlet,    !- Inlet Node Name
+    Hot Water Loop HW Demand Inlet Pipe Outlet;    !- Outlet Node Name
+
+Pipe:Adiabatic,
+    Hot Water Loop HW Demand Side Bypass Pipe,    !- Name
+    Hot Water Loop HW Demand Bypass Inlet,    !- Inlet Node Name
+    Hot Water Loop HW Demand Bypass Outlet;    !- Outlet Node Name
+
+Pipe:Adiabatic,
+    Hot Water Loop HW Demand Outlet Pipe,    !- Name
+    Hot Water Loop HW Demand Outlet Pipe Inlet,    !- Inlet Node Name
+    Hot Water Loop HW Demand Outlet;    !- Outlet Node Name
+
+Pipe:Adiabatic,
+    Chilled Water Loop ChW Supply Side Bypass Pipe,    !- Name
+    Chilled Water Loop ChW Supply Bypass Inlet,    !- Inlet Node Name
+    Chilled Water Loop ChW Supply Bypass Outlet;    !- Outlet Node Name
+
+Pipe:Adiabatic,
+    Chilled Water Loop ChW Supply Outlet Pipe,    !- Name
+    Chilled Water Loop ChW Supply Outlet Pipe Inlet,    !- Inlet Node Name
+    Chilled Water Loop ChW Supply Outlet;    !- Outlet Node Name
+
+Pipe:Adiabatic,
+    Chilled Water Loop ChW Demand Inlet Pipe,    !- Name
+    Chilled Water Loop ChW Demand Inlet,    !- Inlet Node Name
+    Chilled Water Loop ChW Demand Inlet Pipe Outlet;    !- Outlet Node Name
+
+Pipe:Adiabatic,
+    Chilled Water Loop ChW Demand Side Bypass Pipe,    !- Name
+    Chilled Water Loop ChW Demand Bypass Inlet,    !- Inlet Node Name
+    Chilled Water Loop ChW Demand Bypass Outlet;    !- Outlet Node Name
+
+Pipe:Adiabatic,
+    Chilled Water Loop ChW Demand Outlet Pipe,    !- Name
+    Chilled Water Loop ChW Demand Outlet Pipe Inlet,    !- Inlet Node Name
+    Chilled Water Loop ChW Demand Outlet;    !- Outlet Node Name
+
+Pipe:Adiabatic,
+    Chilled Water Loop CndW Supply Outlet Pipe,    !- Name
+    Chilled Water Loop CndW Supply Outlet Pipe Inlet,    !- Inlet Node Name
+    Chilled Water Loop CndW Supply Outlet;    !- Outlet Node Name
+
+Pipe:Adiabatic,
+    Chilled Water Loop CndW Supply Side Bypass Pipe,    !- Name
+    Chilled Water Loop CndW Supply Bypass Inlet,    !- Inlet Node Name
+    Chilled Water Loop CndW Supply Bypass Outlet;    !- Outlet Node Name
+
+Pipe:Adiabatic,
+    Chilled Water Loop CndW Demand Inlet Pipe,    !- Name
+    Chilled Water Loop CndW Demand Inlet,    !- Inlet Node Name
+    Chilled Water Loop CndW Demand Inlet Pipe Outlet;    !- Outlet Node Name
+
+Pipe:Adiabatic,
+    Chilled Water Loop CndW Demand Side Bypass Pipe,    !- Name
+    Chilled Water Loop CndW Demand Bypass Inlet,    !- Inlet Node Name
+    Chilled Water Loop CndW Demand Bypass Outlet;    !- Outlet Node Name
+
+Pipe:Adiabatic,
+    Chilled Water Loop CndW Demand Outlet Pipe,    !- Name
+    Chilled Water Loop CndW Demand Outlet Pipe Inlet,    !- Inlet Node Name
+    Chilled Water Loop CndW Demand Outlet;    !- Outlet Node Name
+
+Pump:VariableSpeed,
+    Hot Water Loop HW Supply Pump,    !- Name
+    Hot Water Loop HW Supply Inlet,    !- Inlet Node Name
+    Hot Water Loop HW Pump Outlet,    !- Outlet Node Name
+    autosize,                 !- Design Maximum Flow Rate
+    179352,                   !- Design Pump Head
+    autosize,                 !- Design Power Consumption
+    0.9,                      !- Motor Efficiency
+    0,                        !- Fraction of Motor Inefficiencies to Fluid Stream
+    0,                        !- Coefficient 1 of the Part Load Performance Curve
+    0,                        !- Coefficient 2 of the Part Load Performance Curve
+    1,                        !- Coefficient 3 of the Part Load Performance Curve
+    0,                        !- Coefficient 4 of the Part Load Performance Curve
+    0,                        !- Design Minimum Flow Rate
+    INTERMITTENT,             !- Pump Control Type
+    ;                         !- Pump Flow Rate Schedule Name
+
+Pump:VariableSpeed,
+    Chilled Water Loop ChW Supply Pump,    !- Name
+    Chilled Water Loop ChW Supply Inlet,    !- Inlet Node Name
+    Chilled Water Loop ChW Pump Outlet,    !- Outlet Node Name
+    autosize,                 !- Design Maximum Flow Rate
+    179352,                   !- Design Pump Head
+    autosize,                 !- Design Power Consumption
+    0.9,                      !- Motor Efficiency
+    0,                        !- Fraction of Motor Inefficiencies to Fluid Stream
+    0,                        !- Coefficient 1 of the Part Load Performance Curve
+    0,                        !- Coefficient 2 of the Part Load Performance Curve
+    1,                        !- Coefficient 3 of the Part Load Performance Curve
+    0,                        !- Coefficient 4 of the Part Load Performance Curve
+    0,                        !- Design Minimum Flow Rate
+    INTERMITTENT,             !- Pump Control Type
+    ;                         !- Pump Flow Rate Schedule Name
+
+Pump:VariableSpeed,
+    Chilled Water Loop CndW Supply Pump,    !- Name
+    Chilled Water Loop CndW Supply Inlet,    !- Inlet Node Name
+    Chilled Water Loop CndW Pump Outlet,    !- Outlet Node Name
+    autosize,                 !- Design Maximum Flow Rate
+    179352,                   !- Design Pump Head
+    autosize,                 !- Design Power Consumption
+    0.9,                      !- Motor Efficiency
+    0,                        !- Fraction of Motor Inefficiencies to Fluid Stream
+    0,                        !- Coefficient 1 of the Part Load Performance Curve
+    0,                        !- Coefficient 2 of the Part Load Performance Curve
+    1,                        !- Coefficient 3 of the Part Load Performance Curve
+    0,                        !- Coefficient 4 of the Part Load Performance Curve
+    0,                        !- Design Minimum Flow Rate
+    INTERMITTENT,             !- Pump Control Type
+    ;                         !- Pump Flow Rate Schedule Name
+
+Boiler:HotWater,
+    Boiler No. 1,             !- Name
+    NaturalGas,               !- Fuel Type
+    autosize,                 !- Nominal Capacity
+    0.8,                      !- Nominal Thermal Efficiency
+    LeavingBoiler,            !- Efficiency Curve Temperature Evaluation Variable
+    Boiler No. 1 Efficiency Curve,    !- Normalized Boiler Efficiency Curve Name
+    autosize,                 !- Design Water Flow Rate
+    0,                        !- Minimum Part Load Ratio
+    1.1,                      !- Maximum Part Load Ratio
+    1,                        !- Optimum Part Load Ratio
+    Boiler No. 1 HW Inlet,    !- Boiler Water Inlet Node Name
+    Boiler No. 1 HW Outlet,    !- Boiler Water Outlet Node Name
+    100,                      !- Water Outlet Upper Temperature Limit
+    LeavingSetpointModulated,    !- Boiler Flow Mode
+    0,                        !- Parasitic Electric Load
+    1;                        !- Sizing Factor
+
+Chiller:Electric:EIR,
+    Chiller No. 1,            !- Name
+    autosize,                 !- Reference Capacity
+    6,                        !- Reference COP
+    6.67,                     !- Reference Leaving Chilled Water Temperature
+    29.4,                     !- Reference Entering Condenser Fluid Temperature
+    autosize,                 !- Reference Chilled Water Flow Rate
+    autosize,                 !- Reference Condenser Fluid Flow Rate
+    Chiller No. 1 CentCapFT,    !- Cooling Capacity Function of Temperature Curve Name
+    Chiller No. 1 CentEIRFT,    !- Electric Input to Cooling Output Ratio Function of Temperature Curve Name
+    Chiller No. 1 CentEIRFPLR,    !- Electric Input to Cooling Output Ratio Function of Part Load Ratio Curve Name
+    0,                        !- Minimum Part Load Ratio
+    1,                        !- Maximum Part Load Ratio
+    1,                        !- Optimum Part Load Ratio
+    0.25,                     !- Minimum Unloading Ratio
+    Chiller No. 1 ChW Inlet,    !- Chilled Water Inlet Node Name
+    Chiller No. 1 ChW Outlet,    !- Chilled Water Outlet Node Name
+    Chiller No. 1 Cnd Inlet,    !- Condenser Inlet Node Name
+    Chiller No. 1 Cnd Outlet,    !- Condenser Outlet Node Name
+    WaterCooled,              !- Condenser Type
+    0,                        !- Condenser Fan Power Ratio
+    1,                        !- Fraction of Compressor Electric Consumption Rejected by Condenser
+    5,                        !- Leaving Chilled Water Lower Temperature Limit
+    LeavingSetpointModulated,    !- Chiller Flow Mode
+    0,                        !- Design Heat Recovery Water Flow Rate
+    ,                         !- Heat Recovery Inlet Node Name
+    ,                         !- Heat Recovery Outlet Node Name
+    1;                        !- Sizing Factor
+
+Chiller:Electric:EIR,
+    Chiller No. 2,            !- Name
+    autosize,                 !- Reference Capacity
+    3,                        !- Reference COP
+    6.67,                     !- Reference Leaving Chilled Water Temperature
+    29.4,                     !- Reference Entering Condenser Fluid Temperature
+    autosize,                 !- Reference Chilled Water Flow Rate
+    autosize,                 !- Reference Condenser Fluid Flow Rate
+    Chiller No. 2 RecipCapFT,    !- Cooling Capacity Function of Temperature Curve Name
+    Chiller No. 2 RecipEIRFT,    !- Electric Input to Cooling Output Ratio Function of Temperature Curve Name
+    Chiller No. 2 RecipEIRFPLR,    !- Electric Input to Cooling Output Ratio Function of Part Load Ratio Curve Name
+    0,                        !- Minimum Part Load Ratio
+    1,                        !- Maximum Part Load Ratio
+    1,                        !- Optimum Part Load Ratio
+    0.25,                     !- Minimum Unloading Ratio
+    Chiller No. 2 ChW Inlet,    !- Chilled Water Inlet Node Name
+    Chiller No. 2 ChW Outlet,    !- Chilled Water Outlet Node Name
+    Chiller No. 2 Cnd Inlet,    !- Condenser Inlet Node Name
+    Chiller No. 2 Cnd Outlet,    !- Condenser Outlet Node Name
+    WaterCooled,              !- Condenser Type
+    ,                         !- Condenser Fan Power Ratio
+    1,                        !- Fraction of Compressor Electric Consumption Rejected by Condenser
+    5,                        !- Leaving Chilled Water Lower Temperature Limit
+    LeavingSetpointModulated,    !- Chiller Flow Mode
+    0,                        !- Design Heat Recovery Water Flow Rate
+    ,                         !- Heat Recovery Inlet Node Name
+    ,                         !- Heat Recovery Outlet Node Name
+    1;                        !- Sizing Factor
+
+Chiller:Electric:EIR,
+    Chiller No. 3,            !- Name
+    autosize,                 !- Reference Capacity
+    5,                        !- Reference COP
+    6.67,                     !- Reference Leaving Chilled Water Temperature
+    29.4,                     !- Reference Entering Condenser Fluid Temperature
+    autosize,                 !- Reference Chilled Water Flow Rate
+    autosize,                 !- Reference Condenser Fluid Flow Rate
+    Chiller No. 3 ScrewCapFT,    !- Cooling Capacity Function of Temperature Curve Name
+    Chiller No. 3 ScrewEIRFT,    !- Electric Input to Cooling Output Ratio Function of Temperature Curve Name
+    Chiller No. 3 ScrewEIRFPLR,    !- Electric Input to Cooling Output Ratio Function of Part Load Ratio Curve Name
+    0,                        !- Minimum Part Load Ratio
+    1,                        !- Maximum Part Load Ratio
+    1,                        !- Optimum Part Load Ratio
+    0.25,                     !- Minimum Unloading Ratio
+    Chiller No. 3 ChW Inlet,    !- Chilled Water Inlet Node Name
+    Chiller No. 3 ChW Outlet,    !- Chilled Water Outlet Node Name
+    Chiller No. 3 Cnd Inlet,    !- Condenser Inlet Node Name
+    Chiller No. 3 Cnd Outlet,    !- Condenser Outlet Node Name
+    WaterCooled,              !- Condenser Type
+    0,                        !- Condenser Fan Power Ratio
+    1,                        !- Fraction of Compressor Electric Consumption Rejected by Condenser
+    5,                        !- Leaving Chilled Water Lower Temperature Limit
+    LeavingSetpointModulated,    !- Chiller Flow Mode
+    0,                        !- Design Heat Recovery Water Flow Rate
+    ,                         !- Heat Recovery Inlet Node Name
+    ,                         !- Heat Recovery Outlet Node Name
+    1;                        !- Sizing Factor
+
+Chiller:Electric:EIR,
+    Chiller No. 4,            !- Name
+    autosize,                 !- Reference Capacity
+    5,                        !- Reference COP
+    6.67,                     !- Reference Leaving Chilled Water Temperature
+    29.4,                     !- Reference Entering Condenser Fluid Temperature
+    autosize,                 !- Reference Chilled Water Flow Rate
+    autosize,                 !- Reference Condenser Fluid Flow Rate
+    Chiller No. 4 ScrewCapFT,    !- Cooling Capacity Function of Temperature Curve Name
+    Chiller No. 4 ScrewEIRFT,    !- Electric Input to Cooling Output Ratio Function of Temperature Curve Name
+    Chiller No. 4 ScrewEIRFPLR,    !- Electric Input to Cooling Output Ratio Function of Part Load Ratio Curve Name
+    0,                        !- Minimum Part Load Ratio
+    1,                        !- Maximum Part Load Ratio
+    1,                        !- Optimum Part Load Ratio
+    0.25,                     !- Minimum Unloading Ratio
+    Chiller No. 4 ChW Inlet,    !- Chilled Water Inlet Node Name
+    Chiller No. 4 ChW Outlet,    !- Chilled Water Outlet Node Name
+    Chiller No. 4 Cnd Inlet,    !- Condenser Inlet Node Name
+    Chiller No. 4 Cnd Outlet,    !- Condenser Outlet Node Name
+    WaterCooled,              !- Condenser Type
+    0,                        !- Condenser Fan Power Ratio
+    1,                        !- Fraction of Compressor Electric Consumption Rejected by Condenser
+    5,                        !- Leaving Chilled Water Lower Temperature Limit
+    LeavingSetpointModulated,    !- Chiller Flow Mode
+    0,                        !- Design Heat Recovery Water Flow Rate
+    ,                         !- Heat Recovery Inlet Node Name
+    ,                         !- Heat Recovery Outlet Node Name
+    1;                        !- Sizing Factor
+
+CoolingTower:SingleSpeed,
+    Main Tower,               !- Name
+    Main Tower CndW Inlet,    !- Water Inlet Node Name
+    Main Tower CndW Outlet,    !- Water Outlet Node Name
+    autosize,                 !- Design Water Flow Rate
+    autosize,                 !- Design Air Flow Rate
+    autosize,                 !- Design Fan Power
+    autosize,                 !- Design UFactor Times Area Value
+    autocalculate,            !- Free Convection Air Flow Rate
+    ,                         !- Free Convection Air Flow Rate Sizing Factor
+    autocalculate,            !- Free Convection UFactor Times Area Value
+    ,                         !- Free Convection UFactor Times Area Value Sizing Factor
+    UFactorTimesAreaAndDesignWaterFlowRate,    !- Performance Input Method
+    ,                         !- Heat Rejection Capacity and Nominal Capacity Sizing Ratio
+    ,                         !- Nominal Capacity
+    autocalculate,            !- Free Convection Capacity
+    ,                         !- Free Convection Nominal Capacity Sizing Factor
+    ,                         !- Design Inlet Air DryBulb Temperature
+    ,                         !- Design Inlet Air WetBulb Temperature
+    ,                         !- Design Approach Temperature
+    ,                         !- Design Range Temperature
+    ,                         !- Basin Heater Capacity
+    ,                         !- Basin Heater Setpoint Temperature
+    ,                         !- Basin Heater Operating Schedule Name
+    SaturatedExit,            !- Evaporation Loss Mode
+    ,                         !- Evaporation Loss Factor
+    0.008,                    !- Drift Loss Percent
+    ConcentrationRatio,       !- Blowdown Calculation Mode
+    3,                        !- Blowdown Concentration Ratio
+    ,                         !- Blowdown Makeup Water Usage Schedule Name
+    ,                         !- Supply Water Storage Tank Name
+    Main Tower Cooling Tower Outdoor Air Inlet Node,    !- Outdoor Air Inlet Node Name
+    FanCycling,               !- Capacity Control
+    ,                         !- Number of Cells
+    ,                         !- Cell Control
+    ,                         !- Cell Minimum Water Flow Rate Fraction
+    ,                         !- Cell Maximum Water Flow Rate Fraction
+    1;                        !- Sizing Factor
+
+PlantLoop,
+    Hot Water Loop Hot Water Loop,    !- Name
+    Water,                    !- Fluid Type
+    ,                         !- User Defined Fluid Type
+    Hot Water Loop Operation,    !- Plant Equipment Operation Scheme Name
+    Hot Water Loop HW Supply Outlet,    !- Loop Temperature Setpoint Node Name
+    100,                      !- Maximum Loop Temperature
+    10,                       !- Minimum Loop Temperature
+    autosize,                 !- Maximum Loop Flow Rate
+    0,                        !- Minimum Loop Flow Rate
+    autosize,                 !- Plant Loop Volume
+    Hot Water Loop HW Supply Inlet,    !- Plant Side Inlet Node Name
+    Hot Water Loop HW Supply Outlet,    !- Plant Side Outlet Node Name
+    Hot Water Loop HW Supply Side Branches,    !- Plant Side Branch List Name
+    Hot Water Loop HW Supply Side Connectors,    !- Plant Side Connector List Name
+    Hot Water Loop HW Demand Inlet,    !- Demand Side Inlet Node Name
+    Hot Water Loop HW Demand Outlet,    !- Demand Side Outlet Node Name
+    Hot Water Loop HW Demand Side Branches,    !- Demand Side Branch List Name
+    Hot Water Loop HW Demand Side Connectors,    !- Demand Side Connector List Name
+    SequentialLoad,           !- Load Distribution Scheme
+    ,                         !- Availability Manager List Name
+    SingleSetpoint;           !- Plant Loop Demand Calculation Scheme
+
+PlantLoop,
+    Chilled Water Loop Chilled Water Loop,    !- Name
+    Water,                    !- Fluid Type
+    ,                         !- User Defined Fluid Type
+    Chilled Water Loop Chiller Operation,    !- Plant Equipment Operation Scheme Name
+    Chilled Water Loop ChW Supply Outlet,    !- Loop Temperature Setpoint Node Name
+    98,                       !- Maximum Loop Temperature
+    1,                        !- Minimum Loop Temperature
+    autosize,                 !- Maximum Loop Flow Rate
+    0,                        !- Minimum Loop Flow Rate
+    autosize,                 !- Plant Loop Volume
+    Chilled Water Loop ChW Supply Inlet,    !- Plant Side Inlet Node Name
+    Chilled Water Loop ChW Supply Outlet,    !- Plant Side Outlet Node Name
+    Chilled Water Loop ChW Supply Side Branches,    !- Plant Side Branch List Name
+    Chilled Water Loop ChW Supply Side Connectors,    !- Plant Side Connector List Name
+    Chilled Water Loop ChW Demand Inlet,    !- Demand Side Inlet Node Name
+    Chilled Water Loop ChW Demand Outlet,    !- Demand Side Outlet Node Name
+    Chilled Water Loop ChW Demand Side Branches,    !- Demand Side Branch List Name
+    Chilled Water Loop ChW Demand Side Connectors,    !- Demand Side Connector List Name
+    SequentialLoad,           !- Load Distribution Scheme
+    ,                         !- Availability Manager List Name
+    SingleSetpoint,           !- Plant Loop Demand Calculation Scheme
+    None;                     !- Common Pipe Simulation
+
+CondenserLoop,
+    Chilled Water Loop Condenser Water Loop,    !- Name
+    Water,                    !- Fluid Type
+    ,                         !- User Defined Fluid Type
+    Chilled Water Loop Condenser Operation,    !- Condenser Equipment Operation Scheme Name
+    Chilled Water Loop CndW Supply Outlet,    !- Condenser Loop Temperature Setpoint Node Name
+    80,                       !- Maximum Loop Temperature
+    5,                        !- Minimum Loop Temperature
+    autosize,                 !- Maximum Loop Flow Rate
+    0,                        !- Minimum Loop Flow Rate
+    autosize,                 !- Condenser Loop Volume
+    Chilled Water Loop CndW Supply Inlet,    !- Condenser Side Inlet Node Name
+    Chilled Water Loop CndW Supply Outlet,    !- Condenser Side Outlet Node Name
+    Chilled Water Loop CndW Supply Side Branches,    !- Condenser Side Branch List Name
+    Chilled Water Loop CndW Supply Side Connectors,    !- Condenser Side Connector List Name
+    Chilled Water Loop CndW Demand Inlet,    !- Demand Side Inlet Node Name
+    Chilled Water Loop CndW Demand Outlet,    !- Demand Side Outlet Node Name
+    Chilled Water Loop CndW Demand Side Branches,    !- Condenser Demand Side Branch List Name
+    Chilled Water Loop CndW Demand Side Connectors,    !- Condenser Demand Side Connector List Name
+    SequentialLoad;           !- Load Distribution Scheme
+
+PlantEquipmentList,
+    Hot Water Loop All Equipment,    !- Name
+    Boiler:HotWater,          !- Equipment 1 Object Type
+    Boiler No. 1;             !- Equipment 1 Name
+
+PlantEquipmentList,
+    Chilled Water Loop All Chillers,    !- Name
+    Chiller:Electric:EIR,     !- Equipment 1 Object Type
+    Chiller No. 1,            !- Equipment 1 Name
+    Chiller:Electric:EIR,     !- Equipment 2 Object Type
+    Chiller No. 2,            !- Equipment 2 Name
+    Chiller:Electric:EIR,     !- Equipment 3 Object Type
+    Chiller No. 3,            !- Equipment 3 Name
+    Chiller:Electric:EIR,     !- Equipment 4 Object Type
+    Chiller No. 4;            !- Equipment 4 Name
+
+CondenserEquipmentList,
+    Chilled Water Loop All Condensers,    !- Name
+    CoolingTower:SingleSpeed,    !- Equipment 1 Object Type
+    Main Tower;               !- Equipment 1 Name
+
+PlantEquipmentOperation:CoolingLoad,
+    Chilled Water Loop Chiller Operation All Hours,    !- Name
+    0,                        !- Load Range 1 Lower Limit
+    1000000000000000,         !- Load Range 1 Upper Limit
+    Chilled Water Loop All Chillers;    !- Range 1 Equipment List Name
+
+PlantEquipmentOperation:CoolingLoad,
+    Chilled Water Loop Condenser Operation All Hours,    !- Name
+    0,                        !- Load Range 1 Lower Limit
+    1000000000000000,         !- Load Range 1 Upper Limit
+    Chilled Water Loop All Condensers;    !- Range 1 Equipment List Name
+
+PlantEquipmentOperation:HeatingLoad,
+    Hot Water Loop Operation All Hours,    !- Name
+    0,                        !- Load Range 1 Lower Limit
+    1000000000000000,         !- Load Range 1 Upper Limit
+    Hot Water Loop All Equipment;    !- Range 1 Equipment List Name
+
+PlantEquipmentOperationSchemes,
+    Hot Water Loop Operation,    !- Name
+    PlantEquipmentOperation:HeatingLoad,    !- Control Scheme 1 Object Type
+    Hot Water Loop Operation All Hours,    !- Control Scheme 1 Name
+    HVACTemplate-Always 1;    !- Control Scheme 1 Schedule Name
+
+PlantEquipmentOperationSchemes,
+    Chilled Water Loop Chiller Operation,    !- Name
+    PlantEquipmentOperation:CoolingLoad,    !- Control Scheme 1 Object Type
+    Chilled Water Loop Chiller Operation All Hours,    !- Control Scheme 1 Name
+    HVACTemplate-Always 1;    !- Control Scheme 1 Schedule Name
+
+CondenserEquipmentOperationSchemes,
+    Chilled Water Loop Condenser Operation,    !- Name
+    PlantEquipmentOperation:CoolingLoad,    !- Control Scheme 1 Object Type
+    Chilled Water Loop Condenser Operation All Hours,    !- Control Scheme 1 Name
+    HVACTemplate-Always 1;    !- Control Scheme 1 Schedule Name
+
+SetpointManager:Scheduled,
+    Chilled Water Loop CndW Temp Manager,    !- Name
+    Temperature,              !- Control Variable
+    HVACTemplate-Always 29.4,    !- Schedule Name
+    Chilled Water Loop CndW Supply Setpoint Nodes;    !- Setpoint Node or NodeList Name
+
+SetpointManager:OutdoorAirReset,
+    Hot Water Loop HW Temp Manager,    !- Name
+    Temperature,              !- Control Variable
+    82.2,                     !- Setpoint at Outdoor Low Temperature
+    -6.7,                     !- Outdoor Low Temperature
+    65.6,                     !- Setpoint at Outdoor High Temperature
+    10,                       !- Outdoor High Temperature
+    Hot Water Loop HW Supply Setpoint Nodes;    !- Setpoint Node or NodeList Name
+
+SetpointManager:OutdoorAirReset,
+    Chilled Water Loop ChW Temp Manager,    !- Name
+    Temperature,              !- Control Variable
+    12.2,                     !- Setpoint at Outdoor Low Temperature
+    15.6,                     !- Outdoor Low Temperature
+    6.7,                      !- Setpoint at Outdoor High Temperature
+    26.7,                     !- Outdoor High Temperature
+    Chilled Water Loop ChW Supply Setpoint Nodes;    !- Setpoint Node or NodeList Name
+
+Curve:Quadratic,
+    Boiler No. 1 Efficiency Curve,    !- Name
+    0.97,                     !- Coefficient1 Constant
+    0.0633,                   !- Coefficient2 x
+    -0.0333,                  !- Coefficient3 x2
+    0,                        !- Minimum Value of x
+    1;                        !- Maximum Value of x
+
+Curve:Quadratic,
+    Chiller No. 1 CentEIRFPLR,    !- Name
+    0.222903,                 !- Coefficient1 Constant
+    0.313387,                 !- Coefficient2 x
+    0.46371,                  !- Coefficient3 x2
+    0,                        !- Minimum Value of x
+    1;                        !- Maximum Value of x
+
+Curve:Quadratic,
+    Chiller No. 2 RecipEIRFPLR,    !- Name
+    0.088065,                 !- Coefficient1 Constant
+    1.137742,                 !- Coefficient2 x
+    -0.225806,                !- Coefficient3 x2
+    0,                        !- Minimum Value of x
+    1;                        !- Maximum Value of x
+
+Curve:Quadratic,
+    Chiller No. 3 ScrewEIRFPLR,    !- Name
+    0.33018833,               !- Coefficient1 Constant
+    0.23554291,               !- Coefficient2 x
+    0.46070828,               !- Coefficient3 x2
+    0,                        !- Minimum Value of x
+    1;                        !- Maximum Value of x
+
+Curve:Quadratic,
+    Chiller No. 4 ScrewEIRFPLR,    !- Name
+    0.33018833,               !- Coefficient1 Constant
+    0.23554291,               !- Coefficient2 x
+    0.46070828,               !- Coefficient3 x2
+    0,                        !- Minimum Value of x
+    1;                        !- Maximum Value of x
+
+Curve:Biquadratic,
+    Chiller No. 1 CentCapFT,    !- Name
+    0.257896,                 !- Coefficient1 Constant
+    0.0389016,                !- Coefficient2 x
+    -0.00021708,              !- Coefficient3 x2
+    0.0468684,                !- Coefficient4 y
+    -0.00094284,              !- Coefficient5 y2
+    -0.00034344,              !- Coefficient6 xy
+    5,                        !- Minimum Value of x
+    10,                       !- Maximum Value of x
+    24,                       !- Minimum Value of y
+    35;                       !- Maximum Value of y
+
+Curve:Biquadratic,
+    Chiller No. 1 CentEIRFT,    !- Name
+    0.933884,                 !- Coefficient1 Constant
+    -0.058212,                !- Coefficient2 x
+    0.00450036,               !- Coefficient3 x2
+    0.00243,                  !- Coefficient4 y
+    0.000486,                 !- Coefficient5 y2
+    -0.001215,                !- Coefficient6 xy
+    5,                        !- Minimum Value of x
+    10,                       !- Maximum Value of x
+    24,                       !- Minimum Value of y
+    35;                       !- Maximum Value of y
+
+Curve:Biquadratic,
+    Chiller No. 2 RecipCapFT,    !- Name
+    0.507883,                 !- Coefficient1 Constant
+    0.145228,                 !- Coefficient2 x
+    -0.00625644,              !- Coefficient3 x2
+    -0.0011178,               !- Coefficient4 y
+    -0.0001296,               !- Coefficient5 y2
+    -0.00028188,              !- Coefficient6 xy
+    5,                        !- Minimum Value of x
+    10,                       !- Maximum Value of x
+    24,                       !- Minimum Value of y
+    35;                       !- Maximum Value of y
+
+Curve:Biquadratic,
+    Chiller No. 2 RecipEIRFT,    !- Name
+    1.03076,                  !- Coefficient1 Constant
+    -0.103536,                !- Coefficient2 x
+    0.00710208,               !- Coefficient3 x2
+    0.0093186,                !- Coefficient4 y
+    0.00031752,               !- Coefficient5 y2
+    -0.00104328,              !- Coefficient6 xy
+    5,                        !- Minimum Value of x
+    10,                       !- Maximum Value of x
+    24,                       !- Minimum Value of y
+    35;                       !- Maximum Value of y
+
+Curve:Biquadratic,
+    Chiller No. 3 ScrewCapFT,    !- Name
+    0.81302462,               !- Coefficient1 Constant
+    -0.01425319,              !- Coefficient2 x
+    -0.00161799,              !- Coefficient3 x2
+    0.02638438,               !- Coefficient4 y
+    -0.00091543,              !- Coefficient5 y2
+    0.00169601,               !- Coefficient6 xy
+    5,                        !- Minimum Value of x
+    10,                       !- Maximum Value of x
+    24,                       !- Minimum Value of y
+    35;                       !- Maximum Value of y
+
+Curve:Biquadratic,
+    Chiller No. 3 ScrewEIRFT,    !- Name
+    0.63812315,               !- Coefficient1 Constant
+    0.00630389,               !- Coefficient2 x
+    0.00092334,               !- Coefficient3 x2
+    -0.00455294,              !- Coefficient4 y
+    0.00082568,               !- Coefficient5 y2
+    -0.00156152,              !- Coefficient6 xy
+    5,                        !- Minimum Value of x
+    10,                       !- Maximum Value of x
+    24,                       !- Minimum Value of y
+    35;                       !- Maximum Value of y
+
+Curve:Biquadratic,
+    Chiller No. 4 ScrewCapFT,    !- Name
+    0.81302462,               !- Coefficient1 Constant
+    -0.01425319,              !- Coefficient2 x
+    -0.00161799,              !- Coefficient3 x2
+    0.02638438,               !- Coefficient4 y
+    -0.00091543,              !- Coefficient5 y2
+    0.00169601,               !- Coefficient6 xy
+    5,                        !- Minimum Value of x
+    10,                       !- Maximum Value of x
+    24,                       !- Minimum Value of y
+    35;                       !- Maximum Value of y
+
+Curve:Biquadratic,
+    Chiller No. 4 ScrewEIRFT,    !- Name
+    0.63812315,               !- Coefficient1 Constant
+    0.00630389,               !- Coefficient2 x
+    0.00092334,               !- Coefficient3 x2
+    -0.00455294,              !- Coefficient4 y
+    0.00082568,               !- Coefficient5 y2
+    -0.00156152,              !- Coefficient6 xy
+    5,                        !- Minimum Value of x
+    10,                       !- Maximum Value of x
+    24,                       !- Minimum Value of y
+    35;                       !- Maximum Value of y

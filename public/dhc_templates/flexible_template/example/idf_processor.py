@@ -161,15 +161,15 @@ def cleanup(file_path):
 def auto_generate_from_template(base_LP_idf, base_plant_idf, plant_configuration_json_file, out_dir):
     expanded_plant_loop_idf = 'expanded.idf'
     LP_plant_loop_idf = 'plant_loop.idf'
-    final_idf = 'final_now.idf'
+    final_idf = 'sys_1.idf'
     modify_template_idf(plant_configuration_json, base_plant_idf)
     expand_template_idf()
     prepare_LP_plantloop(expanded_plant_loop_idf, LP_plant_loop_idf)
     append_files(base_LP_idf, LP_plant_loop_idf, final_idf)
-    cleanup(expanded_plant_loop_idf)
+    # cleanup(expanded_plant_loop_idf)
     cleanup(LP_plant_loop_idf)
     cleanup('expandedidf.err')
-    cleanup('in.idf')
+    # cleanup('in.idf')
     if not os.path.exists(out_dir):
         os.mkdir(out_dir)
     shutil.move(final_idf, f"{out_dir}/{final_idf}")
@@ -180,6 +180,7 @@ if __name__ == '__main__':
     base_LP_idf = 'E:/Users/Han/Documents/GitHub/RoR/dhc-experiments/public/dhc_templates/flexible_template/example/base_LP.idf'
     base_plant_idf = 'E:/Users/Han/Documents/GitHub/RoR/dhc-experiments/public/dhc_templates/flexible_template/example/base_plant.idf'
     plant_configuration_json = 'E:/Users/Han/Documents/GitHub/RoR/dhc-experiments/public/dhc_templates/flexible_template/example/plant_configuration.json'
-    out_dir = './out'
+    out_dir = './temp'
+    # out_dir = 'E:/Users/Han/Documents/GitHub/RoR/dhc-experiments/public/dhc_templates'
     auto_generate_from_template(base_LP_idf, base_plant_idf, plant_configuration_json, out_dir)
 

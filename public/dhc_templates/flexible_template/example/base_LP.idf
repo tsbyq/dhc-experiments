@@ -201,7 +201,7 @@ LoadProfile:Plant,
   District Heating Load Profile Inlet Node,                                 !- Inlet Node Name
   District Heating Load Profile Outlet Node,                                 !- Outlet Node Name
   Heating Load Profile Schedule, !- Load Schedule Name (From CSV)
-  0.001,                                  !- Peak Flow Rate {m3/s}
+  0.1,                                  !- Peak Flow Rate {m3/s}
   HVACTemplate-Always 1;        !- Flow Rate Fraction Schedule Name
 
 LoadProfile:Plant,
@@ -251,7 +251,6 @@ Output:SQLite,
   SimpleAndTabular;                       !- Option Type
 
 
-
 Output:Meter:MeterFileOnly,
   PlantLoopHeatingDemand:Facility,        !- Key Name
   hourly;                                 !- Reporting Frequency
@@ -280,6 +279,13 @@ Output:Meter,
   Gas:Facility,                           !- Key Name
   Hourly;                               !- Reporting Frequency
 
+Output:Meter,
+    Electricity:Facility,     !- Key Name
+    Annual;                   !- Reporting Frequency
+
+Output:Meter,
+    Gas:Facility,             !- Key Name
+    Annual;                   !- Reporting Frequency
 
 ! ##############################################################################
 ! insert plant loop objects from here

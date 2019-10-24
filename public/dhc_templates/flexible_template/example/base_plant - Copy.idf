@@ -42,7 +42,7 @@ HVACTemplate:Plant:ChilledWaterLoop,
     ,                         !- Chiller Plant Equipment Operation Schemes Name
     ,                         !- Chilled Water Setpoint Schedule Name
     7.22,                     !- Chilled Water Design Setpoint
-    VariablePrimaryNoSecondary,    !- Chilled Water Pump Configuration
+    ConstantPrimaryNoSecondary,    !- Chilled Water Pump Configuration
     179352,                   !- Primary Chilled Water Pump Rated Head
     179352,                   !- Secondary Chilled Water Pump Rated Head
     Default,                  !- Condenser Plant Operation Scheme Type
@@ -76,7 +76,7 @@ HVACTemplate:Plant:HotWaterLoop,
     ,                         !- Hot Water Plant Equipment Operation Schemes Name
     ,                         !- Hot Water Setpoint Schedule Name
     82,                       !- Hot Water Design Setpoint
-    VariableFlow,             !- Hot Water Pump Configuration
+    ConstantFlow,             !- Hot Water Pump Configuration
     179352,                   !- Hot Water Pump Rated Head
     OutdoorAirTemperatureReset,    !- Hot Water Setpoint Reset Type
     82.2,                     !- Hot Water Setpoint at Outdoor DryBulb Low
