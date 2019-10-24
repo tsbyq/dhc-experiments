@@ -34,15 +34,75 @@
             <div class="card card-body" style="background-color: #dcdcdc">
               <!--TODO:Conditionally show system options-->
               <% if system_type[3] == 'sys1' %>
-                <div class="radio">
-                  <label><input type="radio" name="optradio" checked> 1 Chiller + 1 Boiler</label>
+                <div class="row">
+                  <div class="col-2"><h5>Chillers</h5></div>
+                  <div class="col-10">
+                    <table>
+                      <thead>
+                      <tr>
+                        <th class="text-center align-middle p-1" style="width:150px">Compressor Type</th>
+                        <th class="text-center align-middle p-1" style="width:80px">Nominal COP</th>
+                        <th class="text-center align-middle p-1" style="width:80px">Number of Chillers</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      <tr>
+                        <td class="text-center align-middle pl-1">Reciprocating</td>
+                        <td class="text-center align-middle pl-1"><%= form.number_field "reciprocating_chiller_cop_type_#{index + 1}" %></td>
+                        <td class="text-center align-middle pl-1"><%= form.number_field "reciprocating_chiller_number_type_#{index + 1}" %></td>
+                      </tr>
+                      <tr>
+                        <td class="text-center align-middle pl-1">Screw</td>
+                        <td class="text-center align-middle pl-1"><%= form.number_field "screw_chiller_cop_type_#{index + 1}" %></td>
+                        <td class="text-center align-middle pl-1"><%= form.number_field "screw_chiller_number_type_#{index + 1}" %></td>
+                      </tr>
+                      <tr>
+                        <td class="text-center align-middle pl-1">Centrifugal</td>
+                        <td class="text-center align-middle pl-1"><%= form.number_field "centrifugal_chiller_cop_type_#{index + 1}" %></td>
+                        <td class="text-center align-middle pl-1"><%= form.number_field "centrifugal_chiller_number_type_#{index + 1}" %></td>
+                      </tr>
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
-                <div class="radio">
-                  <label><input type="radio" name="optradio"> 3 Chillers + 1 Boiler</label>
+                <hr>
+                <div class="row">
+                  <div class="col-2"><h5>Boilers</h5></div>
+                  <div class="col-10">
+                    <table>
+                      <thead>
+                      <tr>
+                        <th class="text-center align-middle p-1" style="width:150px">Fuel Type</th>
+                        <th class="text-center align-middle p-1" style="width:80px">Boiler Efficiency</th>
+                        <th class="text-center align-middle p-1" style="width:80px">Number of Boilers</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      <tr>
+                        <td class="text-center align-middle pl-1">Electricity</td>
+                        <td class="text-center align-middle pl-1"><%= form.number_field "electric_boiler_efficiency_type_#{index + 1}" %></td>
+                        <td class="text-center align-middle pl-1"><%= form.number_field "electric_boiler_number_type_#{index + 1}" %></td>
+                      </tr>
+                      <tr>
+                        <td class="text-center align-middle pl-1">Natural Gas</td>
+                        <td class="text-center align-middle pl-1"><%= form.number_field "gas_boiler_efficiency_type_#{index + 1}" %></td>
+                        <td class="text-center align-middle pl-1"><%= form.number_field "gas_boiler_number_type_#{index + 1}" %></td>
+                      </tr>
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
-                <div class="radio">
-                  <label><input type="radio" name="optradio"> Option 3</label>
-                </div>
+
+                <!--                <div class="radio">-->
+                <!--                  <label><input type="radio" name="optradio" checked> 1 Chiller + 1 Boiler</label>-->
+                <!--                </div>-->
+                <!--                <div class="radio">-->
+                <!--                  <label><input type="radio" name="optradio"> 3 Chillers + 1 Boiler</label>-->
+                <!--                </div>-->
+                <!--                <div class="radio">-->
+                <!--                  <label><input type="radio" name="optradio"> Option 3</label>-->
+                <!--                </div>-->
+
               <% elsif system_type[3] == 'sys2' %>
                 <p>Options for <b><%= system_type[0] %></b> is under development.</p>
               <% elsif system_type[3] == 'sys3' %>
