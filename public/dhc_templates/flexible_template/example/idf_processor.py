@@ -51,7 +51,7 @@ def modify_template_idf(plant_configuration_json_file,
         idf = add_template_chiller(idf, f"Chiller No. {count+1}", chiller['type'], chiller['COP'], chiller['condenser'])
 
     for count, boiler in enumerate(data['boilers']):
-        idf = add_template_boiler(idf, f"Boiler No. {count+1}", boiler['efficiency'])
+        idf = add_template_boiler(idf, f"Boiler No. {count+1}", boiler['efficiency'], fuel_type=boiler['fuel'])
 
     print('---> Adding template chiller and boiler done.')
     idf.saveas(modified_template_idf)
@@ -179,8 +179,9 @@ def auto_generate_from_template(base_LP_idf, base_plant_idf, plant_configuration
 if __name__ == '__main__':
     base_LP_idf = 'E:/Users/Han/Documents/GitHub/RoR/dhc-experiments/public/dhc_templates/flexible_template/example/base_LP.idf'
     base_plant_idf = 'E:/Users/Han/Documents/GitHub/RoR/dhc-experiments/public/dhc_templates/flexible_template/example/base_plant.idf'
-    plant_configuration_json = 'E:/Users/Han/Documents/GitHub/RoR/dhc-experiments/public/dhc_templates/flexible_template/example/plant_configuration.json'
-    # out_dir = './temp'
-    out_dir = 'E:/Users/Han/Documents/GitHub/RoR/dhc-experiments/public/dhc_templates'
+    # plant_configuration_json = 'E:/Users/Han/Documents/GitHub/RoR/dhc-experiments/public/dhc_templates/flexible_template/example/plant_configuration.json'
+    plant_configuration_json = 'E:/Users/Han/Documents/GitHub/RoR/dhc-experiments/public/dhc_templates/flexible_template/example/sys_1_plant_configuration.json'
+    out_dir = './temp'
+    # out_dir = 'E:/Users/Han/Documents/GitHub/RoR/dhc-experiments/public/dhc_templates'
     auto_generate_from_template(base_LP_idf, base_plant_idf, plant_configuration_json, out_dir)
 

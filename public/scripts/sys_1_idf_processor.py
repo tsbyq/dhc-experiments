@@ -52,7 +52,7 @@ def modify_template_idf(plant_configuration_json_file,
         idf = add_template_chiller(idf, f"Chiller No. {count+1}", chiller['type'], chiller['COP'], chiller['condenser'])
 
     for count, boiler in enumerate(data['boilers']):
-        idf = add_template_boiler(idf, f"Boiler No. {count+1}", boiler['efficiency'])
+        idf = add_template_boiler(idf, f"Boiler No. {count+1}", boiler['efficiency'], fuel_type=boiler['fuel'])
 
     print('---> Adding template chiller and boiler done.')
     idf.saveas(modified_template_idf)
@@ -157,6 +157,8 @@ def append_files(file_1, file_2, file_out):
 
 def cleanup(file_path):
     if os.path.exists(file_path):
+        print('--------------------------')
+        print(file_path)
         os.remove(file_path)
 
 def auto_generate_from_template(base_LP_idf, base_plant_idf, plant_configuration_json_file, out_dir, final_idf_name, idd_file):
@@ -166,10 +168,10 @@ def auto_generate_from_template(base_LP_idf, base_plant_idf, plant_configuration
     expand_template_idf()
     prepare_LP_plantloop(expanded_plant_loop_idf, LP_plant_loop_idf)
     append_files(base_LP_idf, LP_plant_loop_idf, final_idf_name)
-    cleanup(expanded_plant_loop_idf)
-    cleanup(LP_plant_loop_idf)
+    # cleanup(expanded_plant_loop_idf)
+    # cleanup(LP_plant_loop_idf)
     cleanup('expandedidf.err')
-    cleanup('in.idf')
+    # cleanup('in.idf')
     if not os.path.exists(out_dir):
         os.mkdir(out_dir)
     shutil.move(final_idf_name, f"{out_dir}{final_idf_name}")

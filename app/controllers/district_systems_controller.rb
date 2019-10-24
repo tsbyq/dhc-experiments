@@ -109,7 +109,7 @@ class DistrictSystemsController < ApplicationController
     redirect_to :action => "index"
   end
 
-  def simulate(params, dev = true)
+  def simulate(params, dev = false)
     puts '---> Entering Simulate method...'
     # Check if a epw file is available, show error message if none exists.
     puts '-' * 100
@@ -191,7 +191,6 @@ class DistrictSystemsController < ApplicationController
       @system_types = add_system_types
       session[:tabs] = tab_control(false, false, true)
     end
-
 
     redirect_to :action => "index"
   end
