@@ -36,6 +36,11 @@
               <!--TODO:Conditionally show system options-->
               <% if system_type[3] == 'sys1' %>
                 <div class="row">
+                  <p class="pl-3 pr-3 pb-1">This system type consists of traditional water-cooled chiller and boilers.
+                    You can specify the performance indices (nominal COP for chillers and overall efficiency for
+                    boilers) and numbers of different plant equipment. The system is automatically sized. </p>
+                </div>
+                <div class="row">
                   <div class="col-2"><h5>Chillers</h5></div>
                   <div class="col-10">
                     <table>
@@ -97,7 +102,26 @@
               <% elsif system_type[3] == 'sys2' %>
                 <p>Options for <b><%= system_type[0] %></b> is under development.</p>
               <% elsif system_type[3] == 'sys3' %>
-                <p>Options for <b><%= system_type[0] %></b> is under development.</p>
+                <div class="row">
+                  <p class="pl-3 pr-3 pb-1">This system type consists of central chillers & heat-pumps (chiller-heater)
+                    modules. Each individual chiller-heater module can switch between cooling and heating modes. When
+                    there are simultaneous heating and cooling demands, the heat from the condenser side of chillers are
+                    recovered to meet the heating demand. You can specify the cooling condition COP of the
+                    chiller-heater module, and the number of modules. The system is automatically sized. </p>
+                </div>
+                <div class="row">
+                  <div class="col-12">
+                    <table>
+                      <tr>
+                        <th class="text-center align-middle p-1">Nominal COP</th>
+                        <td class="text-center align-middle pl-1"><%= form.number_field "chiller_heater_number_type_#{index + 1}", step: 1, :value => 3, class: 'text-center' %></td>
+                        <th class="text-center align-middle p-1">Number of Modules</th>
+                        <td class="text-center align-middle pl-1"><%= form.number_field "chiller_heater_cop_type_#{index + 1}", step: 1, :value => 3, class: 'text-center' %></td>
+                      </tr>
+                    </table>
+                  </div>
+                </div>
+
               <% elsif system_type[3] == 'sys4' %>
                 <p>Options for <b><%= system_type[0] %></b> is under development.</p>
               <% elsif system_type[3] == 'sys5' %>
