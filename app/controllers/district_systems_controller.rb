@@ -37,6 +37,8 @@ class DistrictSystemsController < ApplicationController
   @@sys_type_1_base_plant_template_idf_path = @@root_path + '/public/scripts/sys_1_base_plant.idf'
   @@sys_type_1_base_loadprofile_template_idf_path = @@root_path + '/public/scripts/sys_1_base_LP.idf'
 
+  @@sys_type_3_base_template_idf_path = @@root_path + '/public/scripts/sys_3_base.idf'
+
   @@sys_type_1_name = "Water-cooled Chillers + Boiler"
   @@sys_type_2_name = "Water-cooled Chillers with Ice-Storage + Boiler"
   @@sys_type_3_name = "Heat-recovery Chillers + Heat Pumps"
@@ -110,7 +112,7 @@ class DistrictSystemsController < ApplicationController
     redirect_to :action => "index"
   end
 
-  def simulate(params, dev = true)
+  def simulate(params, dev = false)
     puts '---> Entering Simulate method...'
     # Check if a epw file is available, show error message if none exists.
     puts '-' * 100
@@ -269,7 +271,7 @@ class DistrictSystemsController < ApplicationController
         sys_3_idf = temp_run_path + @@sys_type_3_idf_name
         sys_3_run_dir = temp_run_path + 'sys_3'
         hash_incremental_cost[@@sys_type_3_name] = params[:district_system_config][:incremental_cost_system_type_3]
-        FileUtils.cp(@@dhc_template_path + @@sys_type_3_idf_name, sys_3_idf)
+        # FileUtils.cp(@@dhc_template_path + @@sys_type_3_idf_name, sys_3_idf)
         idf_modifier(@@python_command, @@idf_modifier_py, sys_3_idf, run_epw_file, run_sch_file, @@idd_file_dir)
         v_simulation_jobs.push(create_simulation_job_hash(@@ep_exe, run_epw_file, sys_3_idf, sys_3_run_dir, @@sys_type_3_name))
       end
@@ -394,8 +396,13 @@ class DistrictSystemsController < ApplicationController
     puts '+' * 100
     chiller_heater_number = params[:district_system_config][:chiller_heater_number_type_3].to_i
     chiller_heater_cop = params[:district_system_config][:chiller_heater_cop_type_3].to_f
-    puts chiller_heater_number
-    puts chiller_heater_cop
+    sys_3_idf_processor(@@python_command,
+                        @@sys_3_idf_processor_py,
+                        chiller_heater_cop,
+                        chiller_heater_number,
+                        @@sys_type_3_base_template_idf_path,
+                        temp_run_path + @@sys_type_3_idf_name,
+                        @@idd_file_dir)
     puts '+' * 100
   end
 
@@ -423,8 +430,8 @@ class DistrictSystemsController < ApplicationController
     Process.wait pid
   end
 
-  def sys_3_idf_processor(python_command, py_script, base_loadprofile_idf_dir, base_plant_idf_dir, plant_configuration_json_dir, final_idf_dir, final_idf_name, idd_file_dir)
-    pid = spawn("#{python_command} #{py_script} #{base_loadprofile_idf_dir} #{base_plant_idf_dir} #{plant_configuration_json_dir} #{final_idf_dir} #{final_idf_name} #{idd_file_dir}")
+  def sys_3_idf_processor(python_command, py_script, cop, number, base_idf_dir, final_idf_dir, idd_file_dir)
+    pid = spawn("#{python_command} #{py_script} #{cop} #{number} #{base_idf_dir} #{final_idf_dir} #{idd_file_dir}")
     Process.wait pid
   end
 
