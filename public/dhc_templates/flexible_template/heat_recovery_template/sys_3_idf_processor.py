@@ -7,28 +7,23 @@ import os
 import sys
 from eppy.modeleditor import IDF
 
-def modify_template_idf(plant_configuration_json_file,
-                        base_template_idf='base_plant.idf',
-                        modified_template_idf='in.idf',
-                        idd_file="C:/EnergyPlusV9-1-0/Energy+.idd"):
-
-    IDF.setiddname(idd_file)
-    idf = IDF(base_template_idf)
-    with open(plant_configuration_json_file) as json_file:
-        data = json.load(json_file)
+def auto_generate_from_template(cop, number, base_idf_dir, final_idf_dir, idd_file_dir):
+    IDF.setiddname(idd_file_dir)
+    idf = IDF(base_idf_dir)
+    idf.idfobjects['ChillerHeaterPerformance:Electric:EIR'][0].Reference_Cooling_Mode_COP = cop
+    idf.idfobjects['CentralHeatPumpSystem'][0].Number_of_Chiller_Heater_Modules_1 = number
+    idf.save(final_idf_dir)
 
 
-idd_file="C:/EnergyPlusV9-1-0/Energy+.idd"
-base_template_idf = "sys_3_template.idf"
-
-IDF.setiddname(idd_file)
-idf = IDF(base_template_idf)
-
-NOMINAL_COP = 6.5
-DICT_CHILLER_HEATER = 1
-
-idf.idfobjects['ChillerHeaterPerformance:Electric:EIR'][0].Reference_Cooling_Mode_COP = NOMINAL_COP
-idf.idfobjects['CentralHeatPumpSystem'][0].Number_of_Chiller_Heater_Modules_1 = DICT_CHILLER_HEATER
-
-
-idf.save("C:/Users/hlee9/Documents/GitHub/dhc-experiments/public/dhc_templates/temp/heat_recovery/sys_3_mutated.idf")
+if __name__ == "__main__":
+    try:
+        print('Creating IDF for system type 3.')
+        cop = sys.argv[1]
+        number = sys.argv[2]
+        base_idf_dir = sys.argv[3]
+        final_idf_dir = sys.argv[4]
+        idd_file_dir = sys.argv[5]
+        auto_generate_from_template(cop, number, base_idf_dir, final_idf_dir, idd_file_dir)
+    except:
+        # Show usage instruction
+        print('Usage: Python <this_script.py> <cop> <number> <base_idf_dir> <final_idf_dir> <idd_file_dir>')

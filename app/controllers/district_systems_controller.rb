@@ -23,6 +23,7 @@ class DistrictSystemsController < ApplicationController
   @@dhc_template_path = @@root_path + '/public/dhc_templates/'
 
   @@sys_1_idf_processor_py = @@root_path + '/public/scripts/sys_1_idf_processor.py'
+  @@sys_3_idf_processor_py = @@root_path + '/public/scripts/sys_3_idf_processor.py'
   @@idf_modifier_py = @@root_path + '/public/scripts/idf_modifier.py'
   @@idf_runner_py = @@root_path + '/public/scripts/idf_runner.py'
   @@run_path = @@root_path + '/public/runs/'
@@ -109,7 +110,7 @@ class DistrictSystemsController < ApplicationController
     redirect_to :action => "index"
   end
 
-  def simulate(params, dev = false)
+  def simulate(params, dev = true)
     puts '---> Entering Simulate method...'
     # Check if a epw file is available, show error message if none exists.
     puts '-' * 100
@@ -247,7 +248,7 @@ class DistrictSystemsController < ApplicationController
       v_simulation_jobs = []
 
       if @sys_type_1_selected
-        generate_sys_1_idf(params, temp_run_path, temp_run_path + @@sys_type_1_idf_name)
+        generate_sys_1_idf(params, temp_run_path)
         sys_1_idf = temp_run_path + @@sys_type_1_idf_name
         sys_1_run_dir = temp_run_path + 'sys_1'
         hash_incremental_cost[@@sys_type_1_name] = params[:district_system_config][:incremental_cost_system_type_1]
@@ -264,6 +265,7 @@ class DistrictSystemsController < ApplicationController
         v_simulation_jobs.push(create_simulation_job_hash(@@ep_exe, run_epw_file, sys_2_idf, sys_2_run_dir, @@sys_type_2_name))
       end
       if @sys_type_3_selected
+        generate_sys_3_idf(params, temp_run_path)
         sys_3_idf = temp_run_path + @@sys_type_3_idf_name
         sys_3_run_dir = temp_run_path + 'sys_3'
         hash_incremental_cost[@@sys_type_3_name] = params[:district_system_config][:incremental_cost_system_type_3]
@@ -302,7 +304,7 @@ class DistrictSystemsController < ApplicationController
     return [jobs_json_dir, hash_incremental_cost]
   end
 
-  def generate_sys_1_idf(params, temp_run_path, idf_path)
+  def generate_sys_1_idf(params, temp_run_path)
     reciprocating_chiller_cop = params[:district_system_config][:reciprocating_chiller_cop_type_1].to_f
     reciprocating_chiller_number = params[:district_system_config][:reciprocating_chiller_number_type_1].to_i
     screw_chiller_cop = params[:district_system_config][:screw_chiller_cop_type_1].to_f
@@ -388,6 +390,15 @@ class DistrictSystemsController < ApplicationController
                         @@idd_file_dir)
   end
 
+  def generate_sys_3_idf(params, temp_run_path)
+    puts '+' * 100
+    chiller_heater_number = params[:district_system_config][:chiller_heater_number_type_3].to_i
+    chiller_heater_cop = params[:district_system_config][:chiller_heater_cop_type_3].to_f
+    puts chiller_heater_number
+    puts chiller_heater_cop
+    puts '+' * 100
+  end
+
   def run_simulate(jobs_json_dir)
     begin
       run_command = "#{@@python_command} #{@@idf_runner_py} #{jobs_json_dir}"
@@ -408,6 +419,11 @@ class DistrictSystemsController < ApplicationController
   end
 
   def sys_1_idf_processor(python_command, py_script, base_loadprofile_idf_dir, base_plant_idf_dir, plant_configuration_json_dir, final_idf_dir, final_idf_name, idd_file_dir)
+    pid = spawn("#{python_command} #{py_script} #{base_loadprofile_idf_dir} #{base_plant_idf_dir} #{plant_configuration_json_dir} #{final_idf_dir} #{final_idf_name} #{idd_file_dir}")
+    Process.wait pid
+  end
+
+  def sys_3_idf_processor(python_command, py_script, base_loadprofile_idf_dir, base_plant_idf_dir, plant_configuration_json_dir, final_idf_dir, final_idf_name, idd_file_dir)
     pid = spawn("#{python_command} #{py_script} #{base_loadprofile_idf_dir} #{base_plant_idf_dir} #{plant_configuration_json_dir} #{final_idf_dir} #{final_idf_name} #{idd_file_dir}")
     Process.wait pid
   end

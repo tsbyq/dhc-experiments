@@ -113,10 +113,10 @@
                   <div class="col-12">
                     <table>
                       <tr>
-                        <th class="text-center align-middle p-1">Nominal COP</th>
-                        <td class="text-center align-middle pl-1"><%= form.number_field "chiller_heater_number_type_#{index + 1}", step: 1, :value => 3, class: 'text-center' %></td>
                         <th class="text-center align-middle p-1">Number of Modules</th>
-                        <td class="text-center align-middle pl-1"><%= form.number_field "chiller_heater_cop_type_#{index + 1}", step: 1, :value => 3, class: 'text-center' %></td>
+                        <td class="text-center align-middle pl-1"><%= form.number_field "chiller_heater_number_type_#{index + 1}", step: 1, :value => 3, class: 'text-center' %></td>
+                        <th class="text-center align-middle p-1">Nominal COP</th>
+                        <td class="text-center align-middle pl-1"><%= form.number_field "chiller_heater_cop_type_#{index + 1}", step: :any, :value => 3.5, class: 'text-center' %></td>
                       </tr>
                     </table>
                   </div>
