@@ -24,6 +24,8 @@ class DistrictSystemsController < ApplicationController
 
   @@sys_1_idf_processor_py = @@root_path + '/public/scripts/sys_1_idf_processor.py'
   @@sys_3_idf_processor_py = @@root_path + '/public/scripts/sys_3_idf_processor.py'
+  @@sys_4_idf_processor_py = @@root_path + '/public/scripts/sys_4_idf_processor.py'
+
   @@idf_modifier_py = @@root_path + '/public/scripts/idf_modifier.py'
   @@idf_runner_py = @@root_path + '/public/scripts/idf_runner.py'
   @@run_path = @@root_path + '/public/runs/'
@@ -38,6 +40,7 @@ class DistrictSystemsController < ApplicationController
   @@sys_type_1_base_loadprofile_template_idf_path = @@root_path + '/public/scripts/sys_1_base_LP.idf'
 
   @@sys_type_3_base_template_idf_path = @@root_path + '/public/scripts/sys_3_base.idf'
+  @@sys_type_4_base_template_idf_path = @@root_path + '/public/scripts/sys_4_base.idf'
 
   @@sys_type_1_name = "Water-cooled Chillers + Boiler"
   @@sys_type_2_name = "Water-cooled Chillers with Ice-Storage + Boiler"
@@ -112,7 +115,7 @@ class DistrictSystemsController < ApplicationController
     redirect_to :action => "index"
   end
 
-  def simulate(params, dev = false)
+  def simulate(params, dev = true)
     puts '---> Entering Simulate method...'
     # Check if a epw file is available, show error message if none exists.
     puts '-' * 100
@@ -276,10 +279,12 @@ class DistrictSystemsController < ApplicationController
         v_simulation_jobs.push(create_simulation_job_hash(@@ep_exe, run_epw_file, sys_3_idf, sys_3_run_dir, @@sys_type_3_name))
       end
       if @sys_type_4_selected
+        params[:district_system_config][:key_stats] = session[:hash_key_stats]
+        generate_sys_4_idf(params, temp_run_path)
         sys_4_idf = temp_run_path + @@sys_type_4_idf_name
         sys_4_run_dir = temp_run_path + 'sys_4'
         hash_incremental_cost[@@sys_type_4_name] = params[:district_system_config][:incremental_cost_system_type_4]
-        FileUtils.cp(@@dhc_template_path + @@sys_type_4_idf_name, sys_4_idf)
+        # FileUtils.cp(@@dhc_template_path + @@sys_type_4_idf_name, sys_4_idf)
         idf_modifier(@@python_command, @@idf_modifier_py, sys_4_idf, run_epw_file, run_sch_file, @@idd_file_dir)
         v_simulation_jobs.push(create_simulation_job_hash(@@ep_exe, run_epw_file, sys_4_idf, sys_4_run_dir, @@sys_type_4_name))
       end
@@ -404,6 +409,35 @@ class DistrictSystemsController < ApplicationController
                         @@idd_file_dir)
   end
 
+  def generate_sys_4_idf(params, temp_run_path)
+    puts '+' * 100
+    key_stats = params[:district_system_config][:key_stats]
+    peak_heating_w_system_type_4 = key_stats["peak heating demand"].to_f
+    peak_cooling_w_system_type_4 = key_stats["peak cooling demand"].to_f
+    heating_cop = params[:district_system_config][:heating_cop_type_4].to_f
+    cooling_cop = params[:district_system_config][:cooling_cop_type_4].to_f
+    n_borehole = params[:district_system_config][:n_borehole_type_4].to_i
+    soil_k = params[:district_system_config][:soil_k_number_type_4].to_f
+    puts peak_heating_w_system_type_4
+    puts peak_cooling_w_system_type_4
+    puts heating_cop
+    puts cooling_cop
+    puts n_borehole
+    puts soil_k
+    sys_4_idf_processor(@@python_command,
+                        @@sys_4_idf_processor_py,
+                        peak_heating_w_system_type_4,
+                        peak_cooling_w_system_type_4,
+                        heating_cop,
+                        cooling_cop,
+                        n_borehole,
+                        soil_k,
+                        @@sys_type_4_base_template_idf_path,
+                        temp_run_path + @@sys_type_4_idf_name,
+                        @@idd_file_dir)
+    puts '+' * 100
+  end
+
   def run_simulate(jobs_json_dir)
     begin
       run_command = "#{@@python_command} #{@@idf_runner_py} #{jobs_json_dir}"
@@ -430,6 +464,11 @@ class DistrictSystemsController < ApplicationController
 
   def sys_3_idf_processor(python_command, py_script, cop, number, base_idf_dir, final_idf_dir, idd_file_dir)
     pid = spawn("#{python_command} #{py_script} #{cop} #{number} #{base_idf_dir} #{final_idf_dir} #{idd_file_dir}")
+    Process.wait pid
+  end
+
+  def sys_4_idf_processor(python_command, py_script, peak_heating_w, peak_cooling_w, heating_cop, cooling_cop, n_borehole, soil_k, base_idf_dir, final_idf_dir, idd_file_dir)
+    pid = spawn("#{python_command} #{py_script} #{peak_heating_w} #{peak_cooling_w} #{heating_cop} #{cooling_cop} #{n_borehole} #{soil_k} #{base_idf_dir} #{final_idf_dir} #{idd_file_dir}")
     Process.wait pid
   end
 

@@ -1,0 +1,1295 @@
+! ##############################################################################
+!                   Basic simulation required objects
+! ##############################################################################
+
+Version,
+  9.1;                                    !- Version Identifier
+
+Timestep,
+  6;                                      !- Number of Timesteps per Hour
+
+Building,
+  -LargeOffice-ASHRAE 169-2006-2A created: 2019-06-18 16:12:49 -0700, !- Name
+  0,                                      !- North Axis {deg}
+  City,                                   !- Terrain
+  0.04,                                   !- Loads Convergence Tolerance Value
+  0.2,                                    !- Temperature Convergence Tolerance Value {deltaC}
+  FullInteriorAndExterior,                !- Solar Distribution
+  25,                                     !- Maximum Number of Warmup Days
+  6;                                      !- Minimum Number of Warmup Days
+
+SimulationControl,
+  No,                                     !- Do Zone Sizing Calculation
+  No,                                     !- Do System Sizing Calculation
+  Yes,                                    !- Do Plant Sizing Calculation
+  No,                                     !- Run Simulation for Sizing Periods
+  Yes;                                    !- Run Simulation for Weather File Run Periods
+
+RunPeriodControl:DaylightSavingTime,
+  2nd Sunday in March,                    !- Start Date
+  1st Sunday in November;                 !- End Date
+
+OutputControl:ReportingTolerances,
+  0.2,                                    !- Tolerance for Time Heating Setpoint Not Met {deltaC}
+  0.2;                                    !- Tolerance for Time Cooling Setpoint Not Met {deltaC}
+
+RunPeriod,
+  Run Period 1,                           !- Name
+  1,                                      !- Begin Month
+  1,                                      !- Begin Day of Month
+  2006,                                   !- Begin Year
+  12,                                     !- End Month
+  31,                                     !- End Day of Month
+  2006,                                   !- End Year
+  Sunday,                                 !- Day of Week for Start Day
+  No,                                     !- Use Weather File Holidays and Special Days
+  No,                                     !- Use Weather File Daylight Saving Period
+  No,                                     !- Apply Weekend Holiday Rule
+  Yes,                                    !- Use Weather File Rain Indicators
+  Yes;                                    !- Use Weather File Snow Indicators
+
+GlobalGeometryRules,
+  UpperLeftCorner,                        !- Starting Vertex Position
+  Counterclockwise,                       !- Vertex Entry Direction
+  Relative,                               !- Coordinate System
+  Relative,                               !- Daylighting Reference Point Coordinate System
+  Relative;                               !- Rectangular Surface Coordinate System
+
+SizingPeriod:DesignDay,
+  Houston Bush Intercontinental Ann Clg .4% Condns DB=>MWB, !- Name
+  7,                                      !- Month
+  21,                                     !- Day of Month
+  SummerDesignDay,                        !- Day Type
+  36,                                     !- Maximum Dry-Bulb Temperature {C}
+  10.1,                                   !- Daily Dry-Bulb Temperature Range {deltaC}
+  DefaultMultipliers,                     !- Dry-Bulb Temperature Range Modifier Type
+  ,                                       !- Dry-Bulb Temperature Range Modifier Day Schedule Name
+  Wetbulb,                                !- Humidity Condition Type
+  24.8,                                   !- Wetbulb or DewPoint at Maximum Dry-Bulb {C}
+  ,                                       !- Humidity Condition Day Schedule Name
+  ,                                       !- Humidity Ratio at Maximum Dry-Bulb {kgWater/kgDryAir}
+  ,                                       !- Enthalpy at Maximum Dry-Bulb {J/kg}
+  ,                                       !- Daily Wet-Bulb Temperature Range {deltaC}
+  100977,                                 !- Barometric Pressure {Pa}
+  3.5,                                    !- Wind Speed {m/s}
+  170,                                    !- Wind Direction {deg}
+  No,                                     !- Rain Indicator
+  No,                                     !- Snow Indicator
+  No,                                     !- Daylight Saving Time Indicator
+  ASHRAETau,                              !- Solar Model Indicator
+  ,                                       !- Beam Solar Day Schedule Name
+  ,                                       !- Diffuse Solar Day Schedule Name
+  0.499,                                  !- ASHRAE Clear Sky Optical Depth for Beam Irradiance (taub) {dimensionless}
+  1.97;                                   !- ASHRAE Clear Sky Optical Depth for Diffuse Irradiance (taud) {dimensionless}
+
+SizingPeriod:DesignDay,
+  Houston Bush Intercontinental Ann Htg 99.6% Condns DB, !- Name
+  1,                                      !- Month
+  21,                                     !- Day of Month
+  WinterDesignDay,                        !- Day Type
+  -1.6,                                   !- Maximum Dry-Bulb Temperature {C}
+  0,                                      !- Daily Dry-Bulb Temperature Range {deltaC}
+  DefaultMultipliers,                     !- Dry-Bulb Temperature Range Modifier Type
+  ,                                       !- Dry-Bulb Temperature Range Modifier Day Schedule Name
+  Wetbulb,                                !- Humidity Condition Type
+  -1.6,                                   !- Wetbulb or DewPoint at Maximum Dry-Bulb {C}
+  ,                                       !- Humidity Condition Day Schedule Name
+  ,                                       !- Humidity Ratio at Maximum Dry-Bulb {kgWater/kgDryAir}
+  ,                                       !- Enthalpy at Maximum Dry-Bulb {J/kg}
+  ,                                       !- Daily Wet-Bulb Temperature Range {deltaC}
+  100977,                                 !- Barometric Pressure {Pa}
+  2.8,                                    !- Wind Speed {m/s}
+  0,                                      !- Wind Direction {deg}
+  No,                                     !- Rain Indicator
+  No,                                     !- Snow Indicator
+  No,                                     !- Daylight Saving Time Indicator
+  ASHRAEClearSky,                         !- Solar Model Indicator
+  ,                                       !- Beam Solar Day Schedule Name
+  ,                                       !- Diffuse Solar Day Schedule Name
+  ,                                       !- ASHRAE Clear Sky Optical Depth for Beam Irradiance (taub) {dimensionless}
+  ,                                       !- ASHRAE Clear Sky Optical Depth for Diffuse Irradiance (taud) {dimensionless}
+  0;                                      !- Sky Clearness
+
+
+! ##############################################################################
+!                             Plant loops
+! ##############################################################################
+! ------------------------------------------------------------------------------
+!           Chiller Plant
+! ------------------------------------------------------------------------------
+Sizing:Plant,
+    CHW Loop 1,              !- Plant or Condenser Loop Name
+    Cooling,                 !- Loop Type
+    6.00,                    !- Design Loop Exit Temperature {C}
+    4.00;                    !- Loop Design Temperature Difference {deltaC}
+
+PlantLoop,
+    CHW Loop 1,              !- Name
+    Water,                   !- Fluid Type
+    ,                        !- User Defined Fluid Type
+    CHW Loop 1 Operation,    !- Plant Equipment Operation Scheme Name
+    CHW Loop 1 Supply Side Outlet,  !- Loop Temperature Setpoint Node Name
+    80.00,                   !- Maximum Loop Temperature {C}
+    0.00,                    !- Minimum Loop Temperature {C}
+    autosize,                !- Maximum Loop Flow Rate {m3/s}
+    0.000000,                !- Minimum Loop Flow Rate {m3/s}
+    autocalculate,           !- Plant Loop Volume {m3}
+    CHW Loop 1 Supply Side Inlet,  !- Plant Side Inlet Node Name
+    CHW Loop 1 Supply Side Outlet,  !- Plant Side Outlet Node Name
+    CHW Loop 1 Supply Side Branches,  !- Plant Side Branch List Name
+    CHW Loop 1 Supply Side Connectors,  !- Plant Side Connector List Name
+    Chilled Water Loop Demand Inlet Node,  !- Demand Side Inlet Node Name
+    Chilled Water Loop Demand Outlet Node,  !- Demand Side Outlet Node Name
+    Chilled Water Loop Demand Branches,  !- Demand Side Branch List Name
+    Chilled Water Loop Demand Connector List,  !- Demand Side Connector List Name
+    SequentialLoad,          !- Load Distribution Scheme
+    CHW Loop 1 AvailabilityManager List,  !- Availability Manager List Name
+    SingleSetpoint,          !- Plant Loop Demand Calculation Scheme
+    CommonPipe,                    !- Common Pipe Simulation
+    None;                    !- Pressure Simulation Type
+
+NodeList,
+    CHW Loop 1 Setpoint Manager Node List,  !- Name
+    CHW Loop 1 Supply Side Outlet;  !- Node 1 Name
+
+SetpointManager:Scheduled,
+    CHW Loop 1 Setpoint Manager,  !- Name
+    Temperature,             !- Control Variable
+    CHW Supply Temperature Setpoint Schedule,                      !- Schedule Name
+    CHW Loop 1 Setpoint Manager Node List;  !- Setpoint Node or NodeList Name
+
+PlantEquipmentOperationSchemes,
+    CHW Loop 1 Operation,    !- Name
+    PlantEquipmentOperation:CoolingLoad,  !- Control Scheme 1 Object Type
+    CHW Loop 1 Scheme 1,     !- Control Scheme 1 Name
+    plant loop availability schedule;                       !- Control Scheme 1 Schedule Name
+
+PlantEquipmentOperation:CoolingLoad,
+    CHW Loop 1 Scheme 1,     !- Name
+    0.00,                    !- Load Range 1 Lower Limit {W}
+    1000000000000000.00,     !- Load Range 1 Upper Limit {W}
+    CHW Loop 1 Scheme 1 Range 1 Equipment List;  !- Range 1 Equipment List Name
+
+PlantEquipmentList,
+    CHW Loop 1 Scheme 1 Range 1 Equipment List,  !- Name
+    HeatPump:WaterToWater:EquationFit:Cooling,  !- Equipment 1 Object Type
+    Heat Pump Cooling,       !- Equipment 1 Name
+    DistrictCooling,         !- Equipment 2 Object Type
+    Purchased Cooling;       !- Equipment 2 Name
+
+HeatPump:WaterToWater:EquationFit:Cooling,
+    Heat Pump Cooling,       !- Name
+    Heat Pump Cooling Condenser Inlet Node,  !- Source Side Inlet Node Name
+    Heat Pump Cooling Condenser Outlet Node,  !- Source Side Outlet Node Name
+    Heat Pump Cooling CHW Inlet Node,  !- Load Side Inlet Node Name
+    Heat Pump Cooling CHW Outlet Node,  !- Load Side Outlet Node Name
+    autosize,                !- Reference Load Side Flow Rate {m3/s}
+    autosize,                !- Reference Source Side Flow Rate {m3/s}
+    46000.0000,              !- Reference Cooling Capacity {W}
+    10200.000000000,         !- Reference Cooling Power Consumption {W}
+    -1.337274140,            !- Cooling Capacity Coefficient 1
+    3.210654520,             !- Cooling Capacity Coefficient 2
+    -1.195344670,            !- Cooling Capacity Coefficient 3
+    0.096568740,             !- Cooling Capacity Coefficient 4
+    0.051093690,             !- Cooling Capacity Coefficient 5
+    -2.904653070,            !- Cooling Compressor Power Coefficient 1
+    0.269451590,             !- Cooling Compressor Power Coefficient 2
+    3.246103980,             !- Cooling Compressor Power Coefficient 3
+    0.008731360,             !- Cooling Compressor Power Coefficient 4
+    -0.133857150;            !- Cooling Compressor Power Coefficient 5
+
+AvailabilityManagerAssignmentList,
+    CHW Loop 1 AvailabilityManager List,  !- Name
+    AvailabilityManager:Scheduled,  !- Availability Manager 1 Object Type
+    CHW Loop 1 Availability; !- Availability Manager 1 Name
+
+AvailabilityManager:Scheduled,
+    CHW Loop 1 Availability, !- Name
+    CHW loop availability schedule;                      !- Schedule Name
+
+! ------------------------------------------------------------------------------
+!           Heater Plant
+! ------------------------------------------------------------------------------
+Sizing:Plant,
+    HW Loop 1,               !- Plant or Condenser Loop Name
+    Heating,                 !- Loop Type
+    80.00,                   !- Design Loop Exit Temperature {C}
+    10.00;                   !- Loop Design Temperature Difference {deltaC}
+
+PlantLoop,
+    HW Loop 1,               !- Name
+    Water,                   !- Fluid Type
+    ,                        !- User Defined Fluid Type
+    HW Loop 1 Operation,     !- Plant Equipment Operation Scheme Name
+    HW Loop 1 Supply Side Outlet,  !- Loop Temperature Setpoint Node Name
+    100.00,                  !- Maximum Loop Temperature {C}
+    10.00,                   !- Minimum Loop Temperature {C}
+    autosize,                !- Maximum Loop Flow Rate {m3/s}
+    0.000000,                !- Minimum Loop Flow Rate {m3/s}
+    autocalculate,           !- Plant Loop Volume {m3}
+    HW Loop 1 Supply Side Inlet,  !- Plant Side Inlet Node Name
+    HW Loop 1 Supply Side Outlet,  !- Plant Side Outlet Node Name
+    HW Loop 1 Supply Side Branches,  !- Plant Side Branch List Name
+    HW Loop 1 Supply Side Connectors,  !- Plant Side Connector List Name
+    Hot Water Loop Demand Inlet Node,  !- Demand Side Inlet Node Name
+    Hot Water Loop Demand Outlet Node,  !- Demand Side Outlet Node Name
+    Hot Water Loop Demand Branches,  !- Demand Side Branch List Name
+    Hot Water Loop Demand Connector List,  !- Demand Side Connector List Name
+    SequentialLoad,          !- Load Distribution Scheme
+    HW Loop 1 AvailabilityManager List,  !- Availability Manager List Name
+    SingleSetpoint,          !- Plant Loop Demand Calculation Scheme
+    None,                    !- Common Pipe Simulation
+    None;                    !- Pressure Simulation Type
+
+NodeList,
+    HW Loop 1 Setpoint Manager Node List,  !- Name
+    HW Loop 1 Supply Side Outlet;  !- Node 1 Name
+
+SetpointManager:Scheduled,
+    HW Loop 1 Setpoint Manager,  !- Name
+    Temperature,             !- Control Variable
+    HW Supply Temperature Setpoint Schedule,                      !- Schedule Name
+    HW Loop 1 Setpoint Manager Node List;  !- Setpoint Node or NodeList Name
+
+PlantEquipmentOperationSchemes,
+    HW Loop 1 Operation,     !- Name
+    PlantEquipmentOperation:HeatingLoad,  !- Control Scheme 1 Object Type
+    HW Loop 1 Scheme 1,      !- Control Scheme 1 Name
+    plant loop availability schedule;                       !- Control Scheme 1 Schedule Name
+
+PlantEquipmentOperation:HeatingLoad,
+    HW Loop 1 Scheme 1,      !- Name
+    0.00,                    !- Load Range 1 Lower Limit {W}
+    1000000000000000.00,     !- Load Range 1 Upper Limit {W}
+    HW Loop 1 Scheme 1 Range 1 Equipment List;  !- Range 1 Equipment List Name
+
+PlantEquipmentList,
+    HW Loop 1 Scheme 1 Range 1 Equipment List,  !- Name
+    HeatPump:WaterToWater:EquationFit:Heating,  !- Equipment 1 Object Type
+    Heat Pump Heating,       !- Equipment 1 Name
+    DistrictHeating,         !- Equipment 2 Object Type
+    Purchased Heating;       !- Equipment 2 Name
+
+! Be careful with the reference capacity
+HeatPump:WaterToWater:EquationFit:Heating,
+    Heat Pump Heating,       !- Name
+    Heat Pump Heating Condenser Inlet Node,  !- Source Side Inlet Node Name
+    Heat Pump Heating Condenser Outlet Node,  !- Source Side Outlet Node Name
+    Heat Pump Heating HW Inlet Node,  !- Load Side Inlet Node Name
+    Heat Pump Heating HW Outlet Node,  !- Load Side Outlet Node Name
+    autosize,                !- Reference Load Side Flow Rate {m3/s}
+    autosize,                !- Reference Source Side Flow Rate {m3/s}
+    50000.0000,              !- Reference Heating Capacity {W}
+    12000.000000000,         !- Reference Heating Power Consumption {W}
+    -1.604163340,            !- Heating Capacity Coefficient 1
+    -0.983064150,            !- Heating Capacity Coefficient 2
+    3.247859850,             !- Heating Capacity Coefficient 3
+    0.099980470,             !- Heating Capacity Coefficient 4
+    0.079842920,             !- Heating Capacity Coefficient 5
+    -2.675705440,            !- Heating Compressor Power Coefficient 1
+    2.692155330,             !- Heating Compressor Power Coefficient 2
+    0.393406910,             !- Heating Compressor Power Coefficient 3
+    0.010877340,             !- Heating Compressor Power Coefficient 4
+    0.014918220;             !- Heating Compressor Power Coefficient 5
+
+AvailabilityManagerAssignmentList,
+    HW Loop 1 AvailabilityManager List,  !- Name
+    AvailabilityManager:Scheduled,  !- Availability Manager 1 Object Type
+    HW Loop 1 Availability;  !- Availability Manager 1 Name
+
+AvailabilityManager:Scheduled,
+    HW Loop 1 Availability,  !- Name
+    plant loop availability schedule;                       !- Schedule Name
+
+! ------------------------------------------------------------------------------
+!           Condenser Plant
+! ------------------------------------------------------------------------------
+Sizing:Plant,
+    Condenser Loop,          !- Plant or Condenser Loop Name
+    Condenser,               !- Loop Type
+    29.00,                   !- Design Loop Exit Temperature {C}
+    5.00;                    !- Loop Design Temperature Difference {deltaC}
+
+CondenserLoop,
+    Condenser Loop,          !- Name
+    Water,                   !- Fluid Type
+    ,                        !- User Defined Fluid Type
+    Condenser Loop Operation,!- Condenser Equipment Operation Scheme Name
+    Condenser Loop Supply Side Outlet,  !- Condenser Loop Temperature Setpoint Node Name
+    50.00,                   !- Maximum Loop Temperature {C}
+    5.00,                    !- Minimum Loop Temperature {C}
+    1,                !- Maximum Loop Flow Rate {m3/s}
+    0.000000,                !- Minimum Loop Flow Rate {m3/s}
+    autocalculate,           !- Condenser Loop Volume {m3}
+    Condenser Loop Supply Side Inlet,  !- Condenser Side Inlet Node Name
+    Condenser Loop Supply Side Outlet,  !- Condenser Side Outlet Node Name
+    Condenser Loop Supply Side Branches,  !- Condenser Side Branch List Name
+    Condenser Loop Supply Side Connectors,  !- Condenser Side Connector List Name
+    Condenser Loop Demand Side Inlet,  !- Demand Side Inlet Node Name
+    Condenser Loop Demand Side Outlet,  !- Demand Side Outlet Node Name
+    Condenser Loop Demand Side Branches,  !- Condenser Demand Side Branch List Name
+    Condenser Loop Demand Side Connectors,  !- Condenser Demand Side Connector List Name
+    SequentialLoad,          !- Load Distribution Scheme
+    None;                    !- Pressure Simulation Type
+
+CondenserEquipmentOperationSchemes,
+    Condenser Loop Operation,!- Name
+    PlantEquipmentOperation:Uncontrolled,  !- Control Scheme 1 Object Type
+    Condenser Loop Scheme 1, !- Control Scheme 1 Name
+    plant loop availability schedule;                       !- Control Scheme 1 Schedule Name
+
+CondenserEquipmentList,
+    Condenser Loop Scheme 1 Equipment List,  !- Name
+    GroundHeatExchanger:System,  !- Equipment 1 Object Type
+    Ground Heat Exchanger;   !- Equipment 1 Name
+
+GroundHeatExchanger:System,
+    Ground Heat Exchanger,   !- Name
+    Ground Heat Exchanger Water Inlet Node,  !- Inlet Node Name
+    Ground Heat Exchanger Water Outlet Node,  !- Outlet Node Name
+    0.0884,                !- Design Flow Rate {m3/s}
+    Site:GroundTemperature:Undisturbed:KusudaAchenbach,  !- Undisturbed Ground Temperature Model Type
+    Ground Heat Exchanger Undisturbed Ground Temperature Model,  !- Undisturbed Ground Temperature Model Name
+    0.6926,                  !- Ground Thermal Conductivity {W/m-K}
+    2347000.0000,            !- Ground Thermal Heat Capacity {J/m3-K}
+    Ground Heat Exchanger Response Factors Object;  !- GHE:Vertical:ResponseFactors Object Name
+
+Site:GroundTemperature:Undisturbed:KusudaAchenbach,
+   Ground Heat Exchanger Undisturbed Ground Temperature Model,                                         ! - Component name
+   1.8000,                                                                                             ! - Soil thermal conductivity (W/mK)
+   920.0000,                                                                                           ! - Soil thermal conductivity (kg/m3)
+   2200.0000,                                                                                          ! - Soil specific heat (J/kgK)
+   13.38,                                                                                              ! - Ground temperature (C)
+   3.20,                                                                                               ! - Average amplitude of annual ground surface temperature (C)
+   8; 
+
+GroundHeatExchanger:ResponseFactors,
+    Ground Heat Exchanger Response Factors Object,  !- Name
+    Ground Heat Exchanger Vertical Properties Object,  !- GHE:Vertical:Properties Object Name
+    800,                      !- Number of Boreholes
+    0.00083600,              !- G-Function Reference Ratio {dimensionless}
+    -15.795833,              !- g-Function Ln(T/Ts) Value 1
+    -0.868005,               !- g-Function g Value 1
+    -15.646939,              !- g-Function Ln(T/Ts) Value 2
+    -0.841532,               !- g-Function g Value 2
+    -15.498044,              !- g-Function Ln(T/Ts) Value 3
+    -0.813862,               !- g-Function g Value 3
+    -15.349150,              !- g-Function Ln(T/Ts) Value 4
+    -0.784824,               !- g-Function g Value 4
+    -15.200255,              !- g-Function Ln(T/Ts) Value 5
+    -0.754311,               !- g-Function g Value 5
+    -15.051361,              !- g-Function Ln(T/Ts) Value 6
+    -0.722260,               !- g-Function g Value 6
+    -14.902466,              !- g-Function Ln(T/Ts) Value 7
+    -0.688635,               !- g-Function g Value 7
+    -14.753571,              !- g-Function Ln(T/Ts) Value 8
+    -0.653424,               !- g-Function g Value 8
+    -14.604677,              !- g-Function Ln(T/Ts) Value 9
+    -0.616633,               !- g-Function g Value 9
+    -14.455782,              !- g-Function Ln(T/Ts) Value 10
+    -0.578288,               !- g-Function g Value 10
+    -14.306888,              !- g-Function Ln(T/Ts) Value 11
+    -0.538426,               !- g-Function g Value 11
+    -14.157993,              !- g-Function Ln(T/Ts) Value 12
+    -0.497093,               !- g-Function g Value 12
+    -14.009099,              !- g-Function Ln(T/Ts) Value 13
+    -0.454339,               !- g-Function g Value 13
+    -13.860204,              !- g-Function Ln(T/Ts) Value 14
+    -0.410206,               !- g-Function g Value 14
+    -13.711310,              !- g-Function Ln(T/Ts) Value 15
+    -0.364726,               !- g-Function g Value 15
+    -13.562415,              !- g-Function Ln(T/Ts) Value 16
+    -0.317904,               !- g-Function g Value 16
+    -13.413520,              !- g-Function Ln(T/Ts) Value 17
+    -0.269714,               !- g-Function g Value 17
+    -13.264626,              !- g-Function Ln(T/Ts) Value 18
+    -0.220096,               !- g-Function g Value 18
+    -13.115731,              !- g-Function Ln(T/Ts) Value 19
+    -0.168953,               !- g-Function g Value 19
+    -12.966837,              !- g-Function Ln(T/Ts) Value 20
+    -0.116163,               !- g-Function g Value 20
+    -12.817942,              !- g-Function Ln(T/Ts) Value 21
+    -0.061585,               !- g-Function g Value 21
+    -12.669048,              !- g-Function Ln(T/Ts) Value 22
+    -0.005079,               !- g-Function g Value 22
+    -12.520153,              !- g-Function Ln(T/Ts) Value 23
+    0.053480,                !- g-Function g Value 23
+    -12.371259,              !- g-Function Ln(T/Ts) Value 24
+    0.114187,                !- g-Function g Value 24
+    -12.222364,              !- g-Function Ln(T/Ts) Value 25
+    0.177098,                !- g-Function g Value 25
+    -12.073469,              !- g-Function Ln(T/Ts) Value 26
+    0.242221,                !- g-Function g Value 26
+    -11.924575,              !- g-Function Ln(T/Ts) Value 27
+    0.309516,                !- g-Function g Value 27
+    -11.775680,              !- g-Function Ln(T/Ts) Value 28
+    0.378895,                !- g-Function g Value 28
+    -11.626786,              !- g-Function Ln(T/Ts) Value 29
+    0.450230,                !- g-Function g Value 29
+    -11.477891,              !- g-Function Ln(T/Ts) Value 30
+    0.523360,                !- g-Function g Value 30
+    -11.328997,              !- g-Function Ln(T/Ts) Value 31
+    0.598093,                !- g-Function g Value 31
+    -11.180102,              !- g-Function Ln(T/Ts) Value 32
+    0.674224,                !- g-Function g Value 32
+    -11.031208,              !- g-Function Ln(T/Ts) Value 33
+    0.751534,                !- g-Function g Value 33
+    -10.882313,              !- g-Function Ln(T/Ts) Value 34
+    0.829805,                !- g-Function g Value 34
+    -10.733418,              !- g-Function Ln(T/Ts) Value 35
+    0.908825,                !- g-Function g Value 35
+    -10.584524,              !- g-Function Ln(T/Ts) Value 36
+    0.988392,                !- g-Function g Value 36
+    -10.435629,              !- g-Function Ln(T/Ts) Value 37
+    1.068324,                !- g-Function g Value 37
+    -10.286735,              !- g-Function Ln(T/Ts) Value 38
+    1.148459,                !- g-Function g Value 38
+    -10.137840,              !- g-Function Ln(T/Ts) Value 39
+    1.228656,                !- g-Function g Value 39
+    -9.988946,               !- g-Function Ln(T/Ts) Value 40
+    1.308799,                !- g-Function g Value 40
+    -9.840051,               !- g-Function Ln(T/Ts) Value 41
+    1.388797,                !- g-Function g Value 41
+    -9.691156,               !- g-Function Ln(T/Ts) Value 42
+    1.468579,                !- g-Function g Value 42
+    -9.542262,               !- g-Function Ln(T/Ts) Value 43
+    1.548092,                !- g-Function g Value 43
+    -9.393367,               !- g-Function Ln(T/Ts) Value 44
+    1.627303,                !- g-Function g Value 44
+    -9.244473,               !- g-Function Ln(T/Ts) Value 45
+    1.706193,                !- g-Function g Value 45
+    -9.095578,               !- g-Function Ln(T/Ts) Value 46
+    1.784752,                !- g-Function g Value 46
+    -8.946684,               !- g-Function Ln(T/Ts) Value 47
+    1.862983,                !- g-Function g Value 47
+    -8.797789,               !- g-Function Ln(T/Ts) Value 48
+    1.940892,                !- g-Function g Value 48
+    -8.648895,               !- g-Function Ln(T/Ts) Value 49
+    2.018493,                !- g-Function g Value 49
+    -8.500000,               !- g-Function Ln(T/Ts) Value 50
+    2.157703,                !- g-Function g Value 50
+    -7.800000,               !- g-Function Ln(T/Ts) Value 51
+    2.501703,                !- g-Function g Value 51
+    -7.200000,               !- g-Function Ln(T/Ts) Value 52
+    2.798169,                !- g-Function g Value 52
+    -6.500000,               !- g-Function Ln(T/Ts) Value 53
+    3.154434,                !- g-Function g Value 53
+    -5.900000,               !- g-Function Ln(T/Ts) Value 54
+    3.513287,                !- g-Function g Value 54
+    -5.200000,               !- g-Function Ln(T/Ts) Value 55
+    4.132497,                !- g-Function g Value 55
+    -4.500000,               !- g-Function Ln(T/Ts) Value 56
+    5.190094,                !- g-Function g Value 56
+    -3.963000,               !- g-Function Ln(T/Ts) Value 57
+    6.328059,                !- g-Function g Value 57
+    -3.270000,               !- g-Function Ln(T/Ts) Value 58
+    8.914195,                !- g-Function g Value 58
+    -2.864000,               !- g-Function Ln(T/Ts) Value 59
+    10.949425,               !- g-Function g Value 59
+    -2.577000,               !- g-Function Ln(T/Ts) Value 60
+    12.650707,               !- g-Function g Value 60
+    -2.171000,               !- g-Function Ln(T/Ts) Value 61
+    15.383839,               !- g-Function g Value 61
+    -1.884000,               !- g-Function Ln(T/Ts) Value 62
+    17.526914,               !- g-Function g Value 62
+    -1.191000,               !- g-Function Ln(T/Ts) Value 63
+    23.017708,               !- g-Function g Value 63
+    -0.497000,               !- g-Function Ln(T/Ts) Value 64
+    28.529688,               !- g-Function g Value 64
+    -0.274000,               !- g-Function Ln(T/Ts) Value 65
+    30.101558,               !- g-Function g Value 65
+    -0.051000,               !- g-Function Ln(T/Ts) Value 66
+    31.550580,               !- g-Function g Value 66
+    0.196000,                !- g-Function Ln(T/Ts) Value 67
+    32.967472,               !- g-Function g Value 67
+    0.419000,                !- g-Function Ln(T/Ts) Value 68
+    34.090581,               !- g-Function g Value 68
+    0.642000,                !- g-Function Ln(T/Ts) Value 69
+    35.056826,               !- g-Function g Value 69
+    0.873000,                !- g-Function Ln(T/Ts) Value 70
+    35.901876,               !- g-Function g Value 70
+    1.112000,                !- g-Function Ln(T/Ts) Value 71
+    36.616997,               !- g-Function g Value 71
+    1.335000,                !- g-Function Ln(T/Ts) Value 72
+    37.151187,               !- g-Function g Value 72
+    1.679000,                !- g-Function Ln(T/Ts) Value 73
+    37.757509,               !- g-Function g Value 73
+    2.028000,                !- g-Function Ln(T/Ts) Value 74
+    38.169434,               !- g-Function g Value 74
+    2.275000,                !- g-Function Ln(T/Ts) Value 75
+    38.369297,               !- g-Function g Value 75
+    3.003000,                !- g-Function Ln(T/Ts) Value 76
+    38.700624;               !- g-Function g Value 76
+
+GroundHeatExchanger:Vertical:Properties,
+    Ground Heat Exchanger Vertical Properties Object,  !- Name
+    1.0000,                  !- Depth of Top of Borehole {m}
+    76.0000,                 !- Borehole Length {m}
+    0.1270,                  !- Borehole Diameter {m}
+    0.6926,                  !- Grout Thermal Conductivity {W/m-K}
+    3900000.0000,            !- Grout Thermal Heat Capacity {J/m3-K}
+    0.3913,                  !- Pipe Thermal Conductivity {W/m-K}
+    1770000.0000,            !- Pipe Thermal Heat Capacity {J/m3-K}
+    0.02666670,              !- Pipe Outer Diameter {m}
+    0.00241285,              !- Pipe Thickness {m}
+    0.02539770;              !- U-Tube Distance {m}
+
+PlantEquipmentOperation:Uncontrolled,
+    Condenser Loop Scheme 1, !- Name
+    Condenser Loop Scheme 1 Equipment List;  !- Equipment List Name
+
+AvailabilityManagerAssignmentList,
+    Condenser Loop AvailabilityManager List,  !- Name
+    AvailabilityManager:Scheduled,  !- Availability Manager 1 Object Type
+    Condenser Loop Availability;  !- Availability Manager 1 Name
+
+AvailabilityManager:Scheduled,
+    Condenser Loop Availability,  !- Name
+    plant loop availability schedule;                       !- Schedule Name
+
+NodeList,
+    Condenser Loop Setpoint Manager Node List,  !- Name
+    Condenser Loop Supply Side Outlet;  !- Node 1 Name
+
+SetpointManager:FollowGroundTemperature,
+    Condenser Loop Setpoint Manager,  !- Name
+    Temperature,             !- Control Variable
+    Site:GroundTemperature:Deep,  !- Reference Ground Temperature Object Type
+    0.00,                    !- Offset Temperature Difference {deltaC}
+    50.00,                   !- Maximum Setpoint Temperature {C}
+    10.00,                   !- Minimum Setpoint Temperature {C}
+    Condenser Loop Setpoint Manager Node List;  !- Setpoint Node or NodeList Name
+
+Site:GroundTemperature:Deep,
+    14,                      !- January Deep Ground Temperature {C}
+    14,                      !- February Deep Ground Temperature {C}
+    14,                      !- March Deep Ground Temperature {C}
+    14,                      !- April Deep Ground Temperature {C}
+    14,                      !- May Deep Ground Temperature {C}
+    14,                      !- June Deep Ground Temperature {C}
+    14,                      !- July Deep Ground Temperature {C}
+    14,                      !- August Deep Ground Temperature {C}
+    14,                      !- September Deep Ground Temperature {C}
+    14,                      !- October Deep Ground Temperature {C}
+    14,                      !- November Deep Ground Temperature {C}
+    14;                      !- December Deep Ground Temperature {C}
+
+! ------------------------------------------------------------------------------
+!           related objects
+! ------------------------------------------------------------------------------
+Schedule:Compact,
+    plant loop availability schedule,                       !- Name
+    Any Number,              !- Schedule Type Limits Name
+    Through: 12/31,          !- Field 1
+    For: AllDays,            !- Field 2
+    Until: 24:00,            !- Field 3
+    1 ;                      !- Field 4
+
+! Ground Source Condenser 
+! May need to change this per location
+Schedule:Compact,
+    CHW loop availability schedule,                      !- Name
+    Fraction,                !- Schedule Type Limits Name
+    Through: 31 Mar,         !- Field 1
+    For: AllDays,            !- Field 2
+    Until: 24:00,            !- Field 3
+    0,                       !- Field 4
+    Through: 30 Sep,         !- Field 5
+    For: AllDays,            !- Field 6
+    Until: 24:00,            !- Field 7
+    1,                       !- Field 8
+    Through: 31 Dec,         !- Field 9
+    For: AllDays,            !- Field 10
+    Until: 24:00,            !- Field 11
+    0;                       !- Field 12
+
+Schedule:Compact,
+    CHW Supply Temperature Setpoint Schedule,                      !- Name
+    Any Number,              !- Schedule Type Limits Name
+    Through: 12/31,          !- Field 1
+    For: AllDays,            !- Field 2
+    Until: 24:00,            !- Field 3
+    6 ;                      !- Field 4
+
+Schedule:Compact,
+    HW Supply Temperature Setpoint Schedule,                      !- Name
+    Any Number,              !- Schedule Type Limits Name
+    Through: 12/31,          !- Field 1
+    For: AllDays,            !- Field 2
+    Until: 24:00,            !- Field 3
+    40;                     !- Field 4
+
+ScheduleTypeLimits,
+    Fraction,                !- Name
+    0.0,                     !- Lower Limit Value
+    1.0,                     !- Upper Limit Value
+    CONTINUOUS;              !- Numeric Type
+
+! ##############################################################################
+!                             Supply loops
+! ##############################################################################
+! ------------------------------------------------------------------------------
+!           Chilled Water Supply Branches
+! ------------------------------------------------------------------------------
+BranchList,
+    CHW Loop 1 Supply Side Branches,  !- Name
+    CHW Loop 1 Supply Side Inlet Branch,  !- Branch 1 Name
+    CHW Loop 1 Supply Side Bypass Branch,  !- Branch 2 Name
+    Heat Pump Cooling CHW Loop 1 Supply Side Branch,  !- Branch 3 Name
+    Purchased Cooling Branch,  !- Branch 3 Name
+    CHW Loop 1 Supply Side Outlet Branch;  !- Branch 4 Name
+
+ConnectorList,
+    CHW Loop 1 Supply Side Connectors,  !- Name
+    Connector:Splitter,      !- Connector 1 Object Type
+    CHW Loop 1 Supply Splitter,  !- Connector 1 Name
+    Connector:Mixer,         !- Connector 2 Object Type
+    CHW Loop 1 Supply Mixer; !- Connector 2 Name
+
+Connector:Splitter,
+    CHW Loop 1 Supply Splitter,  !- Name
+    CHW Loop 1 Supply Side Inlet Branch,  !- Inlet Branch Name
+    CHW Loop 1 Supply Side Bypass Branch,  !- Outlet Branch 1 Name
+    Heat Pump Cooling CHW Loop 1 Supply Side Branch,  !- Outlet Branch 2 Name
+    Purchased Cooling Branch;  !- Outlet Branch 2 Name
+
+Connector:Mixer,
+    CHW Loop 1 Supply Mixer, !- Name
+    CHW Loop 1 Supply Side Outlet Branch,  !- Outlet Branch Name
+    Heat Pump Cooling CHW Loop 1 Supply Side Branch,  !- Inlet Branch 1 Name
+    Purchased Cooling Branch,  !- Inlet Branch 1 Name
+    CHW Loop 1 Supply Side Bypass Branch;  !- Inlet Branch 2 Name
+
+Branch,
+    CHW Loop 1 Supply Side Inlet Branch,  !- Name
+    ,                        !- Pressure Drop Curve Name
+    Pump:VariableSpeed,      !- Component 1 Object Type
+    CHW Loop 1 Supply Pump,  !- Component 1 Name
+    CHW Loop 1 Supply Side Inlet,  !- Component 1 Inlet Node Name
+    CHW Loop 1 Supply Pump Water Outlet Node;  !- Component 1 Outlet Node Name
+
+Pump:VariableSpeed,
+    CHW Loop 1 Supply Pump,  !- Name
+    CHW Loop 1 Supply Side Inlet,  !- Inlet Node Name
+    CHW Loop 1 Supply Pump Water Outlet Node,  !- Outlet Node Name
+    autosize,                !- Design Maximum Flow Rate {m3/s}
+    20000.00,                !- Design Pump Head {Pa}
+    autosize,                !- Design Power Consumption {W}
+    0.90,                    !- Motor Efficiency
+    0.00,                    !- Fraction of Motor Inefficiencies to Fluid Stream
+    0.0000,                  !- Coefficient 1 of the Part Load Performance Curve
+    1.0000,                  !- Coefficient 2 of the Part Load Performance Curve
+    0.0000,                  !- Coefficient 3 of the Part Load Performance Curve
+    0.0000,                  !- Coefficient 4 of the Part Load Performance Curve
+    0.000000,                !- Design Minimum Flow Rate {m3/s}
+    Continuous;              !- Pump Control Type
+
+Branch,
+    CHW Loop 1 Supply Side Bypass Branch,  !- Name
+    ,                        !- Pressure Drop Curve Name
+    Pipe:Adiabatic,          !- Component 1 Object Type
+    CHW Loop 1 Supply Side Bypass Pipe,  !- Component 1 Name
+    CHW Loop 1 Supply Side Bypass Pipe Inlet Node,  !- Component 1 Inlet Node Name
+    CHW Loop 1 Supply Side Bypass Pipe Outlet Node;  !- Component 1 Outlet Node Name
+
+Pipe:Adiabatic,
+    CHW Loop 1 Supply Side Bypass Pipe,  !- Name
+    CHW Loop 1 Supply Side Bypass Pipe Inlet Node,  !- Inlet Node Name
+    CHW Loop 1 Supply Side Bypass Pipe Outlet Node;  !- Outlet Node Name
+
+Branch,
+    Heat Pump Cooling CHW Loop 1 Supply Side Branch,  !- Name
+    ,                        !- Pressure Drop Curve Name
+    HeatPump:WaterToWater:EquationFit:Cooling,  !- Component 1 Object Type
+    Heat Pump Cooling,       !- Component 1 Name
+    Heat Pump Cooling CHW Inlet Node,  !- Component 1 Inlet Node Name
+    Heat Pump Cooling CHW Outlet Node;  !- Component 1 Outlet Node Name
+
+Branch,
+  Purchased Cooling Branch,          !- Name
+  ,                        !- Pressure Drop Curve Name
+  DistrictCooling,         !- Component 1 Object Type
+  Purchased Cooling,       !- Component 1 Name
+  Supply Cooling Inlet Node,  !- Component 1 Inlet Node Name
+  Supply Cooling Outlet Node;  !- Component 1 Outlet Node Name
+
+DistrictCooling,
+  Purchased Cooling,       !- Name
+  Supply Cooling Inlet Node,  !- Hot Water Inlet Node Name
+  Supply Cooling Outlet Node,  !- Hot Water Outlet Node Name
+  Autosize;                !- Nominal Capacity {W}
+
+Branch,
+    CHW Loop 1 Supply Side Outlet Branch,  !- Name
+    ,                        !- Pressure Drop Curve Name
+    Pipe:Adiabatic,          !- Component 1 Object Type
+    CHW Loop 1 Supply Side Outlet Branch Pipe,  !- Component 1 Name
+    CHW Loop 1 Supply Side Outlet Branch Pipe Inlet,  !- Component 1 Inlet Node Name
+    CHW Loop 1 Supply Side Outlet;  !- Component 1 Outlet Node Name
+
+Pipe:Adiabatic,
+    CHW Loop 1 Supply Side Outlet Branch Pipe,  !- Name
+    CHW Loop 1 Supply Side Outlet Branch Pipe Inlet,  !- Inlet Node Name
+    CHW Loop 1 Supply Side Outlet;  !- Outlet Node Name
+
+! ------------------------------------------------------------------------------
+!           Hot Water Supply Branches
+! ------------------------------------------------------------------------------
+BranchList,
+    HW Loop 1 Supply Side Branches,  !- Name
+    HW Loop 1 Supply Side Inlet Branch,  !- Branch 1 Name
+    HW Loop 1 Supply Side Bypass Branch,  !- Branch 2 Name
+    Heat Pump Heating HW Loop 1 Supply Side Branch,  !- Branch 3 Name
+    Purchased Heating Branch,  !- Branch 3 Name // Puchased Heating
+    HW Loop 1 Supply Side Outlet Branch;  !- Branch 4 Name
+
+ConnectorList,
+    HW Loop 1 Supply Side Connectors,  !- Name
+    Connector:Splitter,      !- Connector 1 Object Type
+    HW Loop 1 Supply Splitter,  !- Connector 1 Name
+    Connector:Mixer,         !- Connector 2 Object Type
+    HW Loop 1 Supply Mixer;  !- Connector 2 Name
+
+Connector:Splitter,
+    HW Loop 1 Supply Splitter,  !- Name
+    HW Loop 1 Supply Side Inlet Branch,  !- Inlet Branch Name
+    HW Loop 1 Supply Side Bypass Branch,  !- Outlet Branch 1 Name
+    Heat Pump Heating HW Loop 1 Supply Side Branch,  !- Outlet Branch 2 Name
+    Purchased Heating Branch;  !- Outlet Branch 2 Name
+
+Connector:Mixer,
+    HW Loop 1 Supply Mixer,  !- Name
+    HW Loop 1 Supply Side Outlet Branch,  !- Outlet Branch Name
+    Heat Pump Heating HW Loop 1 Supply Side Branch,  !- Inlet Branch 1 Name
+    HW Loop 1 Supply Side Bypass Branch,  !- Inlet Branch 2 Name
+    Purchased Heating Branch;  !- Inlet Branch 2 Name
+
+Branch,
+    HW Loop 1 Supply Side Inlet Branch,  !- Name
+    ,                        !- Pressure Drop Curve Name
+    Pump:VariableSpeed,      !- Component 1 Object Type
+    HW Loop 1 Supply Pump,   !- Component 1 Name
+    HW Loop 1 Supply Side Inlet,  !- Component 1 Inlet Node Name
+    HW Loop 1 Supply Pump Water Outlet Node;  !- Component 1 Outlet Node Name
+
+Pump:VariableSpeed,
+    HW Loop 1 Supply Pump,   !- Name
+    HW Loop 1 Supply Side Inlet,  !- Inlet Node Name
+    HW Loop 1 Supply Pump Water Outlet Node,  !- Outlet Node Name
+    autosize,                !- Design Maximum Flow Rate {m3/s}
+    20000.00,                !- Design Pump Head {Pa}
+    autosize,                !- Design Power Consumption {W}
+    0.90,                    !- Motor Efficiency
+    0.00,                    !- Fraction of Motor Inefficiencies to Fluid Stream
+    0.0000,                  !- Coefficient 1 of the Part Load Performance Curve
+    1.0000,                  !- Coefficient 2 of the Part Load Performance Curve
+    0.0000,                  !- Coefficient 3 of the Part Load Performance Curve
+    0.0000,                  !- Coefficient 4 of the Part Load Performance Curve
+    0.000000,                !- Design Minimum Flow Rate {m3/s}
+    Intermittent;            !- Pump Control Type
+
+Branch,
+    HW Loop 1 Supply Side Bypass Branch,  !- Name
+    ,                        !- Pressure Drop Curve Name
+    Pipe:Adiabatic,          !- Component 1 Object Type
+    HW Loop 1 Supply Side Bypass Pipe,  !- Component 1 Name
+    HW Loop 1 Supply Side Bypass Pipe Inlet Node,  !- Component 1 Inlet Node Name
+    HW Loop 1 Supply Side Bypass Pipe Outlet Node;  !- Component 1 Outlet Node Name
+
+Pipe:Adiabatic,
+    HW Loop 1 Supply Side Bypass Pipe,  !- Name
+    HW Loop 1 Supply Side Bypass Pipe Inlet Node,  !- Inlet Node Name
+    HW Loop 1 Supply Side Bypass Pipe Outlet Node;  !- Outlet Node Name
+
+Branch,
+    Heat Pump Heating HW Loop 1 Supply Side Branch,  !- Name
+    ,                        !- Pressure Drop Curve Name
+    HeatPump:WaterToWater:EquationFit:Heating,  !- Component 1 Object Type
+    Heat Pump Heating,       !- Component 1 Name
+    Heat Pump Heating HW Inlet Node,  !- Component 1 Inlet Node Name
+    Heat Pump Heating HW Outlet Node;  !- Component 1 Outlet Node Name
+
+Branch,
+  Purchased Heating Branch,          !- Name
+  ,                        !- Pressure Drop Curve Name
+  DistrictHeating,         !- Component 1 Object Type
+  Purchased Heating,       !- Component 1 Name
+  Supply Heating Inlet Node,  !- Component 1 Inlet Node Name
+  Supply Heating Outlet Node;  !- Component 1 Outlet Node Name
+
+DistrictHeating,
+  Purchased Heating,       !- Name
+  Supply Heating Inlet Node,  !- Hot Water Inlet Node Name
+  Supply Heating Outlet Node,  !- Hot Water Outlet Node Name
+  Autosize;                !- Nominal Capacity {W}
+
+Branch,
+    HW Loop 1 Supply Side Outlet Branch,  !- Name
+    ,                        !- Pressure Drop Curve Name
+    Pipe:Adiabatic,          !- Component 1 Object Type
+    HW Loop 1 Supply Side Outlet Branch Pipe,  !- Component 1 Name
+    HW Loop 1 Supply Side Outlet Branch Pipe Inlet,  !- Component 1 Inlet Node Name
+    HW Loop 1 Supply Side Outlet;  !- Component 1 Outlet Node Name
+
+Pipe:Adiabatic,
+    HW Loop 1 Supply Side Outlet Branch Pipe,  !- Name
+    HW Loop 1 Supply Side Outlet Branch Pipe Inlet,  !- Inlet Node Name
+    HW Loop 1 Supply Side Outlet;  !- Outlet Node Name
+
+! ------------------------------------------------------------------------------
+!           Condensing Supply Branches
+! ------------------------------------------------------------------------------
+BranchList,
+    Condenser Loop Supply Side Branches,  !- Name
+    Condenser Loop Supply Side Inlet Branch,  !- Branch 1 Name
+    Condenser Loop Supply Side Bypass Branch,  !- Branch 2 Name
+    Ground Heat Exchanger Condenser Loop Supply Side Branch,  !- Branch 3 Name
+    Condenser Loop Supply Side Outlet Branch;  !- Branch 4 Name
+
+ConnectorList,
+    Condenser Loop Supply Side Connectors,  !- Name
+    Connector:Splitter,      !- Connector 1 Object Type
+    Condenser Loop Supply Splitter,  !- Connector 1 Name
+    Connector:Mixer,         !- Connector 2 Object Type
+    Condenser Loop Supply Mixer;  !- Connector 2 Name
+
+Connector:Splitter,
+    Condenser Loop Supply Splitter,  !- Name
+    Condenser Loop Supply Side Inlet Branch,  !- Inlet Branch Name
+    Condenser Loop Supply Side Bypass Branch,  !- Outlet Branch 1 Name
+    Ground Heat Exchanger Condenser Loop Supply Side Branch;  !- Outlet Branch 2 Name
+
+Connector:Mixer,
+    Condenser Loop Supply Mixer,  !- Name
+    Condenser Loop Supply Side Outlet Branch,  !- Outlet Branch Name
+    Ground Heat Exchanger Condenser Loop Supply Side Branch,  !- Inlet Branch 1 Name
+    Condenser Loop Supply Side Bypass Branch;  !- Inlet Branch 2 Name
+
+Branch,
+    Condenser Loop Supply Side Inlet Branch,  !- Name
+    ,                        !- Pressure Drop Curve Name
+    Pump:VariableSpeed,      !- Component 1 Object Type
+    Condenser Loop Supply Pump,  !- Component 1 Name
+    Condenser Loop Supply Side Inlet,  !- Component 1 Inlet Node Name
+    Condenser Loop Supply Pump Water Outlet Node;  !- Component 1 Outlet Node Name
+
+Pump:VariableSpeed,
+    Condenser Loop Supply Pump,  !- Name
+    Condenser Loop Supply Side Inlet,  !- Inlet Node Name
+    Condenser Loop Supply Pump Water Outlet Node,  !- Outlet Node Name
+    autosize,                !- Design Maximum Flow Rate {m3/s}
+    20000.00,                !- Design Pump Head {Pa}
+    autosize,                !- Design Power Consumption {W}
+    0.90,                    !- Motor Efficiency
+    0.00,                    !- Fraction of Motor Inefficiencies to Fluid Stream
+    0.0000,                  !- Coefficient 1 of the Part Load Performance Curve
+    1.0000,                  !- Coefficient 2 of the Part Load Performance Curve
+    0.0000,                  !- Coefficient 3 of the Part Load Performance Curve
+    0.0000,                  !- Coefficient 4 of the Part Load Performance Curve
+    0.000000,                !- Design Minimum Flow Rate {m3/s}
+    Intermittent;            !- Pump Control Type
+
+Branch,
+    Condenser Loop Supply Side Bypass Branch,  !- Name
+    ,                        !- Pressure Drop Curve Name
+    Pipe:Adiabatic,          !- Component 1 Object Type
+    Condenser Loop Supply Side Bypass Pipe,  !- Component 1 Name
+    Condenser Loop Supply Side Bypass Pipe Inlet Node,  !- Component 1 Inlet Node Name
+    Condenser Loop Supply Side Bypass Pipe Outlet Node;  !- Component 1 Outlet Node Name
+
+Pipe:Adiabatic,
+    Condenser Loop Supply Side Bypass Pipe,  !- Name
+    Condenser Loop Supply Side Bypass Pipe Inlet Node,  !- Inlet Node Name
+    Condenser Loop Supply Side Bypass Pipe Outlet Node;  !- Outlet Node Name
+
+Branch,
+    Ground Heat Exchanger Condenser Loop Supply Side Branch,  !- Name
+    ,                        !- Pressure Drop Curve Name
+    GroundHeatExchanger:System,  !- Component 1 Object Type
+    Ground Heat Exchanger,   !- Component 1 Name
+    Ground Heat Exchanger Water Inlet Node,  !- Component 1 Inlet Node Name
+    Ground Heat Exchanger Water Outlet Node;  !- Component 1 Outlet Node Name
+
+Branch,
+    Condenser Loop Supply Side Outlet Branch,  !- Name
+    ,                        !- Pressure Drop Curve Name
+    Pipe:Adiabatic,          !- Component 1 Object Type
+    Condenser Loop Supply Side Outlet Branch Pipe,  !- Component 1 Name
+    Condenser Loop Supply Side Outlet Branch Pipe Inlet,  !- Component 1 Inlet Node Name
+    Condenser Loop Supply Side Outlet;  !- Component 1 Outlet Node Name
+
+Pipe:Adiabatic,
+    Condenser Loop Supply Side Outlet Branch Pipe,  !- Name
+    Condenser Loop Supply Side Outlet Branch Pipe Inlet,  !- Inlet Node Name
+    Condenser Loop Supply Side Outlet;  !- Outlet Node Name
+
+! ------------------------------------------------------------------------------
+!           Condensing Demand Branches
+! ------------------------------------------------------------------------------
+BranchList,
+    Condenser Loop Demand Side Branches,  !- Name
+    Condenser Loop Demand Side Inlet Branch,  !- Branch 1 Name
+    Condenser Loop Demand Side Bypass Branch,  !- Branch 2 Name
+    Heat Pump Cooling Condenser Loop Demand Side Branch,  !- Branch 3 Name
+    Heat Pump Heating Condenser Loop Demand Side Branch,  !- Branch 4 Name
+    Condenser Loop Demand Side Outlet Branch;  !- Branch 5 Name
+
+ConnectorList,
+    Condenser Loop Demand Side Connectors,  !- Name
+    Connector:Splitter,      !- Connector 1 Object Type
+    Condenser Loop Demand Splitter,  !- Connector 1 Name
+    Connector:Mixer,         !- Connector 2 Object Type
+    Condenser Loop Demand Mixer;  !- Connector 2 Name
+
+Connector:Splitter,
+    Condenser Loop Demand Splitter,  !- Name
+    Condenser Loop Demand Side Inlet Branch,  !- Inlet Branch Name
+    Condenser Loop Demand Side Bypass Branch,  !- Outlet Branch 1 Name
+    Heat Pump Cooling Condenser Loop Demand Side Branch,  !- Outlet Branch 2 Name
+    Heat Pump Heating Condenser Loop Demand Side Branch;  !- Outlet Branch 3 Name
+
+Connector:Mixer,
+    Condenser Loop Demand Mixer,  !- Name
+    Condenser Loop Demand Side Outlet Branch,  !- Outlet Branch Name
+    Heat Pump Cooling Condenser Loop Demand Side Branch,  !- Inlet Branch 1 Name
+    Condenser Loop Demand Side Bypass Branch,  !- Inlet Branch 2 Name
+    Heat Pump Heating Condenser Loop Demand Side Branch;  !- Inlet Branch 3 Name
+
+
+Branch,
+    Condenser Loop Demand Side Inlet Branch,  !- Name
+    ,                        !- Pressure Drop Curve Name
+    Pipe:Adiabatic,          !- Component 1 Object Type
+    Condenser Loop Demand Side Inlet Branch Pipe,  !- Component 1 Name
+    Condenser Loop Demand Side Inlet,  !- Component 1 Inlet Node Name
+    Condenser Loop Demand Side Inlet Branch Pipe Outlet;  !- Component 1 Outlet Node Name
+
+Pipe:Adiabatic,
+    Condenser Loop Demand Side Inlet Branch Pipe,  !- Name
+    Condenser Loop Demand Side Inlet,  !- Inlet Node Name
+    Condenser Loop Demand Side Inlet Branch Pipe Outlet;  !- Outlet Node Name
+
+Branch,
+    Condenser Loop Demand Side Bypass Branch,  !- Name
+    ,                        !- Pressure Drop Curve Name
+    Pipe:Adiabatic,          !- Component 1 Object Type
+    Condenser Loop Demand Side Bypass Pipe,  !- Component 1 Name
+    Condenser Loop Demand Side Bypass Pipe Inlet Node,  !- Component 1 Inlet Node Name
+    Condenser Loop Demand Side Bypass Pipe Outlet Node;  !- Component 1 Outlet Node Name
+
+Pipe:Adiabatic,
+    Condenser Loop Demand Side Bypass Pipe,  !- Name
+    Condenser Loop Demand Side Bypass Pipe Inlet Node,  !- Inlet Node Name
+    Condenser Loop Demand Side Bypass Pipe Outlet Node;  !- Outlet Node Name
+
+Branch,
+    Heat Pump Cooling Condenser Loop Demand Side Branch,  !- Name
+    ,                        !- Pressure Drop Curve Name
+    HeatPump:WaterToWater:EquationFit:Cooling,  !- Component 1 Object Type
+    Heat Pump Cooling,       !- Component 1 Name
+    Heat Pump Cooling Condenser Inlet Node,  !- Component 1 Inlet Node Name
+    Heat Pump Cooling Condenser Outlet Node;  !- Component 1 Outlet Node Name
+
+Branch,
+    Heat Pump Heating Condenser Loop Demand Side Branch,  !- Name
+    ,                        !- Pressure Drop Curve Name
+    HeatPump:WaterToWater:EquationFit:Heating,  !- Component 1 Object Type
+    Heat Pump Heating,       !- Component 1 Name
+    Heat Pump Heating Condenser Inlet Node,  !- Component 1 Inlet Node Name
+    Heat Pump Heating Condenser Outlet Node;  !- Component 1 Outlet Node Name
+
+Branch,
+    Condenser Loop Demand Side Outlet Branch,  !- Name
+    ,                        !- Pressure Drop Curve Name
+    Pipe:Adiabatic,          !- Component 1 Object Type
+    Condenser Loop Demand Side Outlet Branch Pipe,  !- Component 1 Name
+    Condenser Loop Demand Side Outlet Branch Pipe Inlet,  !- Component 1 Inlet Node Name
+    Condenser Loop Demand Side Outlet;  !- Component 1 Outlet Node Name
+
+Pipe:Adiabatic,
+    Condenser Loop Demand Side Outlet Branch Pipe,  !- Name
+    Condenser Loop Demand Side Outlet Branch Pipe Inlet,  !- Inlet Node Name
+    Condenser Loop Demand Side Outlet;  !- Outlet Node Name
+
+! ##############################################################################
+!                             Damand loops
+! ##############################################################################
+! ------------------------------------------------------------------------------
+!           Cooling Demand Branches
+! ------------------------------------------------------------------------------
+BranchList,
+  Chilled Water Loop Demand Branches,     !- Name
+  Chilled Water Loop Demand Inlet Branch, !- Branch Name 1
+  Chilled Water Loop Demand Loadprofile Branch,     !- Branch Name 2
+  Chilled Water Loop Demand Bypass Branch, !- Branch Name 3
+  Chilled Water Loop Demand Outlet Branch; !- Branch Name 4
+
+ConnectorList,
+  Chilled Water Loop Demand Connector List, !- Name
+  Connector:Splitter,                     !- Connector Object Type 1
+  Chilled Water Loop Demand Splitter,     !- Connector Name 1
+  Connector:Mixer,                        !- Connector Object Type 2
+  Chilled Water Loop Demand Mixer;        !- Connector Name 2
+
+Connector:Splitter,
+  Chilled Water Loop Demand Splitter,     !- Name
+  Chilled Water Loop Demand Inlet Branch, !- Inlet Branch Name
+  Chilled Water Loop Demand Loadprofile Branch,     !- Outlet Branch Name 1
+  Chilled Water Loop Demand Bypass Branch; !- Outlet Branch Name 2
+
+Connector:Mixer,
+  Chilled Water Loop Demand Mixer,        !- Name
+  Chilled Water Loop Demand Outlet Branch, !- Outlet Branch Name
+  Chilled Water Loop Demand Loadprofile Branch,     !- Inlet Branch Name 1
+  Chilled Water Loop Demand Bypass Branch; !- Inlet Branch Name 2
+
+! --> 1. Chilled Water Loop Demand Inlet Branch
+Branch,
+  Chilled Water Loop Demand Inlet Branch, !- Name
+  ,                                       !- Pressure Drop Curve Name
+  Pipe:Adiabatic,                         !- Component Object Type 1
+  Chilled Water Loop Demand Inlet Pipe,        !- Component Name 1
+  Chilled Water Loop Demand Inlet Node,   !- Component Inlet Node Name 1
+  Chilled Water Loop Demand Inlet Outlet Water Node, !- Component Outlet Node Name 1
+  Pump:VariableSpeed,                     !- Component Object Type 2
+  Chilled Water Loop Secondary Pump,      !- Component Name 2
+  Chilled Water Loop Demand Inlet Outlet Water Node, !- Component Inlet Node Name 2
+  Chilled Water Loop Secondary Pump Outlet Water Node; !- Component Outlet Node Name 2
+
+Pipe:Adiabatic,
+  Chilled Water Loop Demand Inlet Pipe,        !- Name
+  Chilled Water Loop Demand Inlet Node,   !- Inlet Node Name
+  Chilled Water Loop Demand Inlet Outlet Water Node; !- Outlet Node Name
+
+Pump:VariableSpeed,
+  Chilled Water Loop Secondary Pump,      !- Name
+  Chilled Water Loop Demand Inlet Outlet Water Node, !- Inlet Node Name
+  Chilled Water Loop Secondary Pump Outlet Water Node, !- Outlet Node Name
+  Autosize,                               !- Design Maximum Flow Rate {m3/s}
+  134508.0114,                            !- Design Pump Head {Pa}
+  Autosize,                               !- Design Power Consumption {W}
+  0.936,                                  !- Motor Efficiency
+  0,                                      !- Fraction of Motor Inefficiencies to Fluid Stream
+  0,                                      !- Coefficient 1 of the Part Load Performance Curve
+  0.0205,                                 !- Coefficient 2 of the Part Load Performance Curve
+  0.4101,                                 !- Coefficient 3 of the Part Load Performance Curve
+  0.5753,                                 !- Coefficient 4 of the Part Load Performance Curve
+  0,                                      !- Design Minimum Flow Rate {m3/s}
+  Intermittent,                           !- Pump Control Type
+  ,                                       !- Pump Flow Rate Schedule Name
+  ,                                       !- Pump Curve Name
+  ,                                       !- Impeller Diameter {m}
+  ,                                       !- VFD Control Type
+  ,                                       !- Pump rpm Schedule Name
+  ,                                       !- Minimum Pressure Schedule {Pa}
+  ,                                       !- Maximum Pressure Schedule {Pa}
+  ,                                       !- Minimum RPM Schedule {Rotations Per Minute}
+  ,                                       !- Maximum RPM Schedule {Rotations Per Minute}
+  ,                                       !- Zone Name
+  0.5,                                    !- Skin Loss Radiative Fraction
+  PowerPerFlowPerPressure,                !- Design Power Sizing Method
+  348701.1,                               !- Design Electric Power per Unit Flow Rate {W/(m3/s)}
+  1.282051282,                            !- Design Shaft Power per Unit Flow Rate per Unit Head
+  0,                                      !- Design Minimum Flow Rate Fraction
+  General;                                !- End-Use Subcategory
+
+Branch,
+  Chilled Water Loop Demand Loadprofile Branch,     !- Name
+  ,                                       !- Pressure Drop Curve Name
+  LoadProfile:Plant,                      !- Component Object Type 1
+  District Cooling Load Profile,          !- Component Name 1
+  Cooling Loadprofile Inlet Node,         !- Component Inlet Node Name 1
+  Cooling Loadprofile Outlet Node;        !- Component Outlet Node Name 1
+
+! LoadProfile:Plant,
+!   District Cooling Load Profile,          !- Name
+!   Cooling Loadprofile Inlet Node,         !- Inlet Node Name
+!   Cooling Loadprofile Outlet Node,        !- Outlet Node Name
+!   Cooling Load Profile Schedule, !- Load Schedule Name (From CSV)
+!   0.002,                                  !- Peak Flow Rate {m3/s}
+!   Always On Discrete hvac_library;        !- Flow Rate Fraction Schedule Name
+
+Branch,
+  Chilled Water Loop Demand Bypass Branch, !- Name
+  ,                                       !- Pressure Drop Curve Name
+  Pipe:Adiabatic,                         !- Component Object Type 1
+  Chilled Water Loop Demand Bypass Pipe,  !- Component Name 1
+  Chilled Water Loop Demand Bypass Pipe Inlet Node, !- Component Inlet Node Name 1
+  Chilled Water Loop Demand Bypass Pipe Outlet Node; !- Component Outlet Node Name 1
+
+Pipe:Adiabatic,
+  Chilled Water Loop Demand Bypass Pipe,  !- Name
+  Chilled Water Loop Demand Bypass Pipe Inlet Node, !- Inlet Node Name
+  Chilled Water Loop Demand Bypass Pipe Outlet Node; !- Outlet Node Name
+
+Branch,
+  Chilled Water Loop Demand Outlet Branch, !- Name
+  ,                                       !- Pressure Drop Curve Name
+  Pipe:Adiabatic,                         !- Component Object Type 1
+  Chilled Water Loop Demand Outlet Pipe,       !- Component Name 1
+  Chilled Water Loop Demand Outlet Inlet Water Node, !- Component Inlet Node Name 1
+  Chilled Water Loop Demand Outlet Node;  !- Component Outlet Node Name 1
+
+Pipe:Adiabatic,
+  Chilled Water Loop Demand Outlet Pipe,       !- Name
+  Chilled Water Loop Demand Outlet Inlet Water Node, !- Inlet Node Name
+  Chilled Water Loop Demand Outlet Node;  !- Outlet Node Name
+
+! ------------------------------------------------------------------------------
+!           Heating Demand Branches
+! ------------------------------------------------------------------------------
+BranchList,
+  Hot Water Loop Demand Branches,         !- Name
+  Hot Water Loop Demand Inlet Branch,     !- Branch Name 1
+  Hot Water Loop Demand Loadprofile Branch,         !- Branch Name 2
+  Hot Water Loop Demand Bypass Branch,    !- Branch Name 3
+  Hot Water Loop Demand Outlet Branch;    !- Branch Name 4
+
+ConnectorList,
+  Hot Water Loop Demand Connector List,   !- Name
+  Connector:Splitter,                     !- Connector Object Type 1
+  Hot Water Loop Demand Splitter,         !- Connector Name 1
+  Connector:Mixer,                        !- Connector Object Type 2
+  Hot Water Loop Demand Mixer;            !- Connector Name 2
+
+Connector:Splitter,
+  Hot Water Loop Demand Splitter,         !- Name
+  Hot Water Loop Demand Inlet Branch,     !- Inlet Branch Name
+  Hot Water Loop Demand Loadprofile Branch,         !- Outlet Branch Name 1
+  Hot Water Loop Demand Bypass Branch;    !- Outlet Branch Name 2
+
+Connector:Mixer,
+  Hot Water Loop Demand Mixer,            !- Name
+  Hot Water Loop Demand Outlet Branch,    !- Outlet Branch Name
+  Hot Water Loop Demand Loadprofile Branch,         !- Inlet Branch Name 1
+  Hot Water Loop Demand Bypass Branch;    !- Inlet Branch Name 2
+
+Branch,
+  Hot Water Loop Demand Inlet Branch,     !- Name
+  ,                                       !- Pressure Drop Curve Name
+  Pipe:Adiabatic,                         !- Component Object Type 1
+  Hot Water Loop Demand Inlet Pipe,            !- Component Name 1
+  Hot Water Loop Demand Inlet Node,       !- Component Inlet Node Name 1
+  Hot Water Loop Demand Inlet Outlet Water Node; !- Component Outlet Node Name 1
+
+Pipe:Adiabatic,
+  Hot Water Loop Demand Inlet Pipe,            !- Name
+  Hot Water Loop Demand Inlet Node,       !- Inlet Node Name
+  Hot Water Loop Demand Inlet Outlet Water Node; !- Outlet Node Name
+
+Branch,
+  Hot Water Loop Demand Loadprofile Branch,         !- Name
+  ,                                       !- Pressure Drop Curve Name
+  LoadProfile:Plant,                      !- Component Object Type 1
+  District Heating Load Profile,          !- Component Name 1
+  Heating Loadprofile Inlet Node,         !- Component Inlet Node Name 1
+  Heating Loadprofile Outlet Node;        !- Component Outlet Node Name 1
+
+! LoadProfile:Plant,
+!   District Heating Load Profile,          !- Name
+!   Heating Loadprofile Inlet Node,                                 !- Inlet Node Name
+!   Heating Loadprofile Outlet Node,                                 !- Outlet Node Name
+!   Heating Load Profile Schedule, !- Load Schedule Name (From CSV)
+!   0.002,                                  !- Peak Flow Rate {m3/s}
+!   Always On Discrete hvac_library;        !- Flow Rate Fraction Schedule Name
+
+Branch,
+  Hot Water Loop Demand Bypass Branch,    !- Name
+  ,                                       !- Pressure Drop Curve Name
+  Pipe:Adiabatic,                         !- Component Object Type 1
+  Hot Water Loop Demand Bypass Pipe,      !- Component Name 1
+  Hot Water Loop Demand Bypass Pipe Inlet Node, !- Component Inlet Node Name 1
+  Hot Water Loop Demand Bypass Pipe Outlet Node; !- Component Outlet Node Name 1
+
+Pipe:Adiabatic,
+  Hot Water Loop Demand Bypass Pipe,      !- Name
+  Hot Water Loop Demand Bypass Pipe Inlet Node, !- Inlet Node Name
+  Hot Water Loop Demand Bypass Pipe Outlet Node; !- Outlet Node Name
+
+Branch,
+  Hot Water Loop Demand Outlet Branch,    !- Name
+  ,                                       !- Pressure Drop Curve Name
+  Pipe:Adiabatic,                         !- Component Object Type 1
+  Hot Water Loop Demand Outlet Pipe,           !- Component Name 1
+  Hot Water Loop Demand Outlet Inlet Water Node, !- Component Inlet Node Name 1
+  Hot Water Loop Demand Outlet Node;      !- Component Outlet Node Name 1
+
+Pipe:Adiabatic,
+  Hot Water Loop Demand Outlet Pipe,           !- Name
+  Hot Water Loop Demand Outlet Inlet Water Node, !- Inlet Node Name
+  Hot Water Loop Demand Outlet Node;      !- Outlet Node Name
+
+! ------------------------------------------------------------------------------
+!           Related Schdules
+! ------------------------------------------------------------------------------
+
+LoadProfile:Plant,
+  District Heating Load Profile,          !- Name
+  Heating Loadprofile Inlet Node,                                 !- Inlet Node Name
+  Heating Loadprofile Outlet Node,                                 !- Outlet Node Name
+  Heating Load Profile Schedule, !- Load Schedule Name (From CSV)
+  3,                                  !- Peak Flow Rate {m3/s}
+  Always On Discrete hvac_library;        !- Flow Rate Fraction Schedule Name
+
+LoadProfile:Plant,
+  District Cooling Load Profile,          !- Name
+  Cooling Loadprofile Inlet Node,         !- Inlet Node Name
+  Cooling Loadprofile Outlet Node,        !- Outlet Node Name
+  Cooling Load Profile Schedule, !- Load Schedule Name (From CSV)
+  5,                                  !- Peak Flow Rate {m3/s}
+  Always On Discrete hvac_library;        !- Flow Rate Fraction Schedule Name
+
+
+Schedule:File,
+  Heating Load Profile Schedule,                        !- Name
+  Any Number,                             !- Schedule Type Limits Name
+  sample_loadprofile.csv, !- File Name
+  2,                                      !- Column Number
+  1,                                      !- Rows to Skip at Top
+  ,                                       !- Number of Hours of Data
+  Comma,                                  !- Column Separator
+  No;                                     !- Interpolate to Timestep
+
+Schedule:File,
+  Cooling Load Profile Schedule,                        !- Name
+  Any Number,                             !- Schedule Type Limits Name
+  sample_loadprofile.csv, !- File Name
+  3,                                      !- Column Number
+  1,                                      !- Rows to Skip at Top
+  ,                                       !- Number of Hours of Data
+  Comma,                                  !- Column Separator
+  No;                                     !- Interpolate to Timestep
+
+
+Schedule:Constant,
+  Always On Discrete hvac_library,        !- Name
+  OnOff hvac_library,                     !- Schedule Type Limits Name
+  1;                                      !- Hourly Value
+
+ScheduleTypeLimits,
+  Any Number;                             !- Name
+
+ScheduleTypeLimits,
+  OnOff hvac_library,                     !- Name
+  0,                                      !- Lower Limit Value {BasedOnField A3}
+  1,                                      !- Upper Limit Value {BasedOnField A3}
+  Discrete,                               !- Numeric Type
+  availability;                           !- Unit Type
+
+
+
+Output:Meter,
+  Electricity:Facility,                   !- Key Name
+  Annual;                               !- Reporting Frequency
+
+Output:Meter,
+  Gas:Facility,                           !- Key Name
+  Annual;                               !- Reporting Frequency
+
+Output:Meter,
+  Electricity:Facility,                   !- Key Name
+  Hourly;                               !- Reporting Frequency
+
+Output:Meter,
+  Gas:Facility,                           !- Key Name
+  Hourly;                               !- Reporting Frequency

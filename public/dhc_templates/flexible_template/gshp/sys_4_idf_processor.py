@@ -54,16 +54,18 @@ def auto_update_ghex_system(idf, peak_heating_w, peak_cooling_w, heating_cop, co
 
 
 
-def auto_generate_from_template(lp_key_json, heating_cop, cooling_cop, n_borehole, soil_k, base_idf_dir, final_idf_dir, idd_file_dir):
+def auto_generate_from_template(peak_heating_w, 
+                                peak_cooling_w, 
+                                heating_cop, 
+                                cooling_cop, 
+                                n_borehole, 
+                                soil_k, 
+                                base_idf_dir, 
+                                final_idf_dir, 
+                                idd_file_dir):
 
     IDF.setiddname(idd_file_dir)
     idf = IDF(base_idf_dir)
-
-    with open(lp_key_json) as json_file:
-        dict_lp = json.load(json_file)
-
-    peak_cooling_w = dict_lp["peak_cooling_w"]
-    peak_heating_w = dict_lp["peak_heating_w"]
 
     idf = auto_update_LP_flow_rates(idf, peak_heating_w, peak_cooling_w)
     idf = auto_update_ghex_system(idf, peak_heating_w, peak_cooling_w, heating_cop, cooling_cop, n_borehole, soil_k)
@@ -75,24 +77,17 @@ def auto_generate_from_template(lp_key_json, heating_cop, cooling_cop, n_borehol
 if __name__ == "__main__":
     try:
         print('Creating IDF for system type 4.')
-        # cop = sys.argv[1]
-        # number = sys.argv[2]
-        # base_idf_dir = sys.argv[3]
-        # final_idf_dir = sys.argv[4]
-        # idd_file_dir = sys.argv[5]
-        
-
-        lp_key_json = 'key_stats.json'
-        heating_cop = 3
-        cooling_cop = 4
-        n_borehole = 400
-        soil_k = 2
-        base_idf_dir = "sys_4_base.idf"
-        final_idf_dir = "./temp/sys_4_out.idf"
-        idd_file_dir = "C:/EnergyPlusV9-1-0/Energy+.idd"
-
-        auto_generate_from_template(lp_key_json, heating_cop, cooling_cop, n_borehole, soil_k, base_idf_dir, final_idf_dir, idd_file_dir)
+        peak_heating_w = sys.argv[1]
+        peak_cooling_w = sys.argv[2]
+        heating_cop = sys.argv[3]
+        cooling_cop = sys.argv[4]
+        n_borehole = sys.argv[5]
+        soil_k = sys.argv[6]
+        base_idf_dir = sys.argv[7]
+        final_idf_dir = sys.argv[8]
+        idd_file_dir = sys.argv[9]
+        auto_generate_from_template(peak_heating_w, peak_cooling_w, heating_cop, cooling_cop, n_borehole, soil_k, base_idf_dir, final_idf_dir, idd_file_dir)
     
     except:
         # Show usage instruction
-        print('Usage: Python <this_script.py> <cop> <number> <base_idf_dir> <final_idf_dir> <idd_file_dir>')
+        print('Usage: Python <this_script.py> <peak_heating_w>, <peak_cooling_w>, <heating_cop>, <cooling_cop>, <n_borehole>, <soil_k>, <base_idf_dir>, <final_idf_dir>, <idd_file_dir>')
