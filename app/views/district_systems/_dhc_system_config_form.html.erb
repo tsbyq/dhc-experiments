@@ -124,13 +124,35 @@
 
               <% elsif system_type[3] == 'sys4' %>
                 <div class="row">
-                  <p class="pl-3 pr-3 pb-1">This system type consists of a central ground source heat pump supplemented
-                    by boiler(s).
-                    modules. Each individual chiller-heater module can switch between cooling and heating modes. When
-                    there are simultaneous heating and cooling demands, the heat from the condenser side of chillers are
-                    recovered to meet the heating demand. You can specify the cooling condition COP of the
-                    chiller-heater module, and the number of modules. The system is automatically sized. </p>
+                  <p class="pl-3 pr-3 pb-1">Below are inputs for the central ground source heat pump system. The ground
+                    heat exchanger consists of vertical boreholes. You can specify the nominal cooling and heating COP,
+                    number of boreholes, and soil thermal conductivity. The heating and cooling capacity of the heat
+                    pump are determined by the user uploaded heating and cooling demands. The design flow rate of the
+                    ground heat exchanger is also determined by the heating and cooling demands. </p>
                 </div>
+                <div class="row">
+                  <div class="col-12">
+                    <table>
+                      <tr>
+                        <th class="text-right pr-2">Heating COP</th>
+                        <td class="text-center align-middle pl-1"><%= form.number_field "heating_cop_type_#{index + 1}", step: 0.1, :value => 3, class: 'text-center' %></td>
+                      </tr>
+                      <tr>
+                        <th class="text-right pr-2">Cooling COP</th>
+                        <td class="text-center align-middle pl-1"><%= form.number_field "cooling_cop_type_#{index + 1}", step: 0.1, :value => 4, class: 'text-center' %></td>
+                      </tr>
+                      <tr>
+                        <th class="text-right pr-2">Number of Boreholes</th>
+                        <td class="text-center align-middle pl-1"><%= form.number_field "n_borehole_type_#{index + 1}", step: 1, :value => 200, class: 'text-center' %></td>
+                      </tr>
+                      <tr>
+                        <th class="text-right pr-2">Soil Thermal Conductivity [W/(m*K)]</th>
+                        <td class="text-center align-middle pl-1"><%= form.number_field "soil_k_number_type_#{index + 1}", step: :any, :value => 1.8, class: 'text-center' %></td>
+                      </tr>
+                    </table>
+                  </div>
+                </div>
+
               <% elsif system_type[3] == 'sys5' %>
                 <p>Options for <b><%= system_type[0] %></b> is under development.</p>
               <% end %>
