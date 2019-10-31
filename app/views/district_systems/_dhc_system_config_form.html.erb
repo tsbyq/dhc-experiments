@@ -123,7 +123,14 @@
                 </div>
 
               <% elsif system_type[3] == 'sys4' %>
-                <p>Options for <b><%= system_type[0] %></b> is under development.</p>
+                <div class="row">
+                  <p class="pl-3 pr-3 pb-1">This system type consists of a central ground source heat pump supplemented
+                    by boiler(s).
+                    modules. Each individual chiller-heater module can switch between cooling and heating modes. When
+                    there are simultaneous heating and cooling demands, the heat from the condenser side of chillers are
+                    recovered to meet the heating demand. You can specify the cooling condition COP of the
+                    chiller-heater module, and the number of modules. The system is automatically sized. </p>
+                </div>
               <% elsif system_type[3] == 'sys5' %>
                 <p>Options for <b><%= system_type[0] %></b> is under development.</p>
               <% end %>
