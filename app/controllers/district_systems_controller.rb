@@ -393,7 +393,6 @@ class DistrictSystemsController < ApplicationController
   end
 
   def generate_sys_3_idf(params, temp_run_path)
-    puts '+' * 100
     chiller_heater_number = params[:district_system_config][:chiller_heater_number_type_3].to_i
     chiller_heater_cop = params[:district_system_config][:chiller_heater_cop_type_3].to_f
     sys_3_idf_processor(@@python_command,
@@ -403,7 +402,6 @@ class DistrictSystemsController < ApplicationController
                         @@sys_type_3_base_template_idf_path,
                         temp_run_path + @@sys_type_3_idf_name,
                         @@idd_file_dir)
-    puts '+' * 100
   end
 
   def run_simulate(jobs_json_dir)
