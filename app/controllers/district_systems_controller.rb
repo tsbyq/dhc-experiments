@@ -115,7 +115,7 @@ class DistrictSystemsController < ApplicationController
     redirect_to :action => "index"
   end
 
-  def simulate(params, dev = true)
+  def simulate(params, dev = false)
     puts '---> Entering Simulate method...'
     # Check if a epw file is available, show error message if none exists.
     puts '-' * 100

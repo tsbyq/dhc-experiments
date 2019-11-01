@@ -73,19 +73,6 @@ def auto_generate_from_template(peak_heating_w,
     idf.save(final_idf_dir)
  
 
-
-# peak_heating_w = sys.argv[1]
-# peak_cooling_w = sys.argv[2]
-# heating_cop = sys.argv[3]
-# cooling_cop = sys.argv[4]
-# n_borehole = sys.argv[5]
-# soil_k = sys.argv[6]
-# base_idf_dir = sys.argv[7]
-# final_idf_dir = sys.argv[8]
-# idd_file_dir = sys.argv[9]
-# auto_generate_from_template(peak_heating_w, peak_cooling_w, heating_cop, cooling_cop, n_borehole, soil_k, base_idf_dir, final_idf_dir, idd_file_dir)
-
-
 if __name__ == "__main__":
     try:
         print('Creating IDF for system type 4.')
