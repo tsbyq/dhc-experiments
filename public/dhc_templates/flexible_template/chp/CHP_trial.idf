@@ -1,0 +1,1694 @@
+
+! ######################################################################################
+! High level information
+! ######################################################################################
+
+Version,
+  9.1;                                    !- Version Identifier
+
+Timestep,
+  6;                                      !- Number of Timesteps per Hour
+
+Building,
+  -LargeOffice-ASHRAE 169-2006-2A created: 2019-06-18 16:12:49 -0700, !- Name
+  0,                                      !- North Axis {deg}
+  City,                                   !- Terrain
+  0.04,                                   !- Loads Convergence Tolerance Value
+  0.2,                                    !- Temperature Convergence Tolerance Value {deltaC}
+  FullInteriorAndExterior,                !- Solar Distribution
+  25,                                     !- Maximum Number of Warmup Days
+  6;                                      !- Minimum Number of Warmup Days
+
+SimulationControl,
+  No,                                     !- Do Zone Sizing Calculation
+  No,                                     !- Do System Sizing Calculation
+  Yes,                                    !- Do Plant Sizing Calculation
+  No,                                     !- Run Simulation for Sizing Periods
+  Yes;                                    !- Run Simulation for Weather File Run Periods
+
+RunPeriodControl:DaylightSavingTime,
+  2nd Sunday in March,                    !- Start Date
+  1st Sunday in November;                 !- End Date
+
+OutputControl:ReportingTolerances,
+  0.2,                                    !- Tolerance for Time Heating Setpoint Not Met {deltaC}
+  0.2;                                    !- Tolerance for Time Cooling Setpoint Not Met {deltaC}
+
+Site:Location,
+  Houston Bush Intercontinental_TX_USA,   !- Name
+  30,                                     !- Latitude {deg}
+  -95.37,                                 !- Longitude {deg}
+  -6,                                     !- Time Zone {hr}
+  29;                                     !- Elevation {m}
+
+Site:GroundTemperature:BuildingSurface,
+  19.527,                                 !- January Ground Temperature {C}
+  19.502,                                 !- February Ground Temperature {C}
+  19.536,                                 !- March Ground Temperature {C}
+  19.598,                                 !- April Ground Temperature {C}
+  20.002,                                 !- May Ground Temperature {C}
+  21.64,                                  !- June Ground Temperature {C}
+  22.225,                                 !- July Ground Temperature {C}
+  22.375,                                 !- August Ground Temperature {C}
+  21.449,                                 !- September Ground Temperature {C}
+  20.121,                                 !- October Ground Temperature {C}
+  19.802,                                 !- November Ground Temperature {C}
+  19.633;                                 !- December Ground Temperature {C}
+
+Site:WaterMainsTemperature,
+  Correlation,                            !- Calculation Method
+  ,                                       !- Temperature Schedule Name
+  20.3166666666667,                       !- Annual Average Outdoor Air Temperature {C}
+  17.8;                                   !- Maximum Difference In Monthly Average Outdoor Air Temperatures {deltaC}
+
+SizingPeriod:DesignDay,
+  Houston Bush Intercontinental Ann Clg .4% Condns DB=>MWB, !- Name
+  7,                                      !- Month
+  21,                                     !- Day of Month
+  SummerDesignDay,                        !- Day Type
+  36,                                     !- Maximum Dry-Bulb Temperature {C}
+  10.1,                                   !- Daily Dry-Bulb Temperature Range {deltaC}
+  DefaultMultipliers,                     !- Dry-Bulb Temperature Range Modifier Type
+  ,                                       !- Dry-Bulb Temperature Range Modifier Day Schedule Name
+  Wetbulb,                                !- Humidity Condition Type
+  24.8,                                   !- Wetbulb or DewPoint at Maximum Dry-Bulb {C}
+  ,                                       !- Humidity Condition Day Schedule Name
+  ,                                       !- Humidity Ratio at Maximum Dry-Bulb {kgWater/kgDryAir}
+  ,                                       !- Enthalpy at Maximum Dry-Bulb {J/kg}
+  ,                                       !- Daily Wet-Bulb Temperature Range {deltaC}
+  100977,                                 !- Barometric Pressure {Pa}
+  3.5,                                    !- Wind Speed {m/s}
+  170,                                    !- Wind Direction {deg}
+  No,                                     !- Rain Indicator
+  No,                                     !- Snow Indicator
+  No,                                     !- Daylight Saving Time Indicator
+  ASHRAETau,                              !- Solar Model Indicator
+  ,                                       !- Beam Solar Day Schedule Name
+  ,                                       !- Diffuse Solar Day Schedule Name
+  0.499,                                  !- ASHRAE Clear Sky Optical Depth for Beam Irradiance (taub) {dimensionless}
+  1.97;                                   !- ASHRAE Clear Sky Optical Depth for Diffuse Irradiance (taud) {dimensionless}
+
+SizingPeriod:DesignDay,
+  Houston Bush Intercontinental Ann Htg 99.6% Condns DB, !- Name
+  1,                                      !- Month
+  21,                                     !- Day of Month
+  WinterDesignDay,                        !- Day Type
+  -1.6,                                   !- Maximum Dry-Bulb Temperature {C}
+  0,                                      !- Daily Dry-Bulb Temperature Range {deltaC}
+  DefaultMultipliers,                     !- Dry-Bulb Temperature Range Modifier Type
+  ,                                       !- Dry-Bulb Temperature Range Modifier Day Schedule Name
+  Wetbulb,                                !- Humidity Condition Type
+  -1.6,                                   !- Wetbulb or DewPoint at Maximum Dry-Bulb {C}
+  ,                                       !- Humidity Condition Day Schedule Name
+  ,                                       !- Humidity Ratio at Maximum Dry-Bulb {kgWater/kgDryAir}
+  ,                                       !- Enthalpy at Maximum Dry-Bulb {J/kg}
+  ,                                       !- Daily Wet-Bulb Temperature Range {deltaC}
+  100977,                                 !- Barometric Pressure {Pa}
+  2.8,                                    !- Wind Speed {m/s}
+  0,                                      !- Wind Direction {deg}
+  No,                                     !- Rain Indicator
+  No,                                     !- Snow Indicator
+  No,                                     !- Daylight Saving Time Indicator
+  ASHRAEClearSky,                         !- Solar Model Indicator
+  ,                                       !- Beam Solar Day Schedule Name
+  ,                                       !- Diffuse Solar Day Schedule Name
+  ,                                       !- ASHRAE Clear Sky Optical Depth for Beam Irradiance (taub) {dimensionless}
+  ,                                       !- ASHRAE Clear Sky Optical Depth for Diffuse Irradiance (taud) {dimensionless}
+  0;                                      !- Sky Clearness
+
+
+ConvergenceLimits,
+  1;                                      !- Minimum System Timestep {minutes}
+
+HeatBalanceAlgorithm,
+  ConductionTransferFunction,             !- Algorithm
+  200;                                    !- Surface Temperature Upper Limit {C}
+
+RunPeriod,
+  Run Period 1,                           !- Name
+  1,                                      !- Begin Month
+  1,                                      !- Begin Day of Month
+  2006,                                   !- Begin Year
+  12,                                     !- End Month
+  31,                                     !- End Day of Month
+  2006,                                   !- End Year
+  Sunday,                                 !- Day of Week for Start Day
+  No,                                     !- Use Weather File Holidays and Special Days
+  No,                                     !- Use Weather File Daylight Saving Period
+  No,                                     !- Apply Weekend Holiday Rule
+  Yes,                                    !- Use Weather File Rain Indicators
+  Yes;                                    !- Use Weather File Snow Indicators
+
+ShadowCalculation,
+  AverageOverDaysInFrequency,             !- Calculation Method
+  20,                                     !- Calculation Frequency
+  15000;                                  !- Maximum Figures in Shadow Overlap Calculations
+
+SurfaceConvectionAlgorithm:Inside,
+  TARP;                                   !- Algorithm
+
+SurfaceConvectionAlgorithm:Outside,
+  TARP;                                   !- Algorithm
+
+Sizing:Parameters,
+  1,                                      !- Heating Sizing Factor
+  1;                                      !- Cooling Sizing Factor
+
+ZoneAirContaminantBalance,
+  No;                                     !- Carbon Dioxide Concentration
+
+ZoneAirHeatBalanceAlgorithm,
+  ThirdOrderBackwardDifference;           !- Algorithm
+
+ZoneCapacitanceMultiplier:ResearchSpecial,
+  Zone Capacitance Multiplier Research Special, !- Name
+  ,                                       !- Zone or ZoneList Name
+  ,                                       !- Temperature Capacity Multiplier
+  ,                                       !- Humidity Capacity Multiplier
+  ,                                       !- Carbon Dioxide Capacity Multiplier
+  ;                                       !- Generic Contaminant Capacity Multiplier
+
+GlobalGeometryRules,
+  UpperLeftCorner,                        !- Starting Vertex Position
+  Counterclockwise,                       !- Vertex Entry Direction
+  Relative,                               !- Coordinate System
+  Relative,                               !- Daylighting Reference Point Coordinate System
+  Relative;                               !- Rectangular Surface Coordinate System
+
+ScheduleTypeLimits,
+  Any Number;                             !- Name
+! ##############################################################################
+! insert load profile from here
+! ##############################################################################
+Branch,
+  Hot Water Loop Load Profile Demand Branch,         !- Name
+  ,                                       !- Pressure Drop Curve Name
+  LoadProfile:Plant,                      !- Component Object Type 1
+  District Heating Load Profile,          !- Component Name 1
+  District Heating Load Profile Inlet Node,                                 !- Component Inlet Node Name 1
+  District Heating Load Profile Outlet Node;                                 !- Component Outlet Node Name 1
+
+Branch,
+  Chilled Water Loop Load Profile Demand Branch,     !- Name
+  ,                                       !- Pressure Drop Curve Name
+  LoadProfile:Plant,                      !- Component Object Type 1
+  District Cooling Load Profile,          !- Component Name 1
+  District Cooling Load Profile Inlet Node,                                 !- Component Inlet Node Name 1
+  District Cooling Load Profile Outlet Node;                                 !- Component Outlet Node Name 1
+
+LoadProfile:Plant,
+  District Heating Load Profile,          !- Name
+  District Heating Load Profile Inlet Node,                                 !- Inlet Node Name
+  District Heating Load Profile Outlet Node,                                 !- Outlet Node Name
+  Heating Load Profile Schedule, !- Load Schedule Name (From CSV)
+  0.3,                                  !- Peak Flow Rate {m3/s}
+  HVACTemplate-Always 1;        !- Flow Rate Fraction Schedule Name
+
+LoadProfile:Plant,
+  District Cooling Load Profile,          !- Name
+  District Cooling Load Profile Inlet Node,                                 !- Inlet Node Name
+  District Cooling Load Profile Outlet Node,                                 !- Outlet Node Name
+  Cooling Load Profile Schedule, !- Load Schedule Name (From CSV)
+  ! District Cooling Load Profile Schedule, !- Load Schedule Name (Fixed)
+  0.3,                                  !- Peak Flow Rate {m3/s}
+  HVACTemplate-Always 1;        !- Flow Rate Fraction Schedule Name
+
+Schedule:File,
+  Heating Load Profile Schedule,                        !- Name
+  Any Number,                             !- Schedule Type Limits Name
+  sample_loadprofile.csv, !- File Name
+  2,                                      !- Column Number
+  1,                                      !- Rows to Skip at Top
+  ,                                       !- Number of Hours of Data
+  Comma,                                  !- Column Separator
+  No;                                     !- Interpolate to Timestep
+
+Schedule:File,
+  Cooling Load Profile Schedule,                        !- Name
+  Any Number,                             !- Schedule Type Limits Name
+  sample_loadprofile.csv, !- File Name
+  3,                                      !- Column Number
+  1,                                      !- Rows to Skip at Top
+  ,                                       !- Number of Hours of Data
+  Comma,                                  !- Column Separator
+  No;                                     !- Interpolate to Timestep
+
+! ######################################################################################
+! Outputs
+! ######################################################################################
+
+OutputControl:Table:Style,
+  HTML;                                   !- Column Separator
+
+Output:Table:SummaryReports,
+  AllSummary;                             !- Report Name 1
+
+Output:VariableDictionary,
+  IDF,                                    !- Key Field
+  Unsorted;                               !- Sort Option
+
+Output:SQLite,
+  SimpleAndTabular;                       !- Option Type
+
+
+Output:Meter:MeterFileOnly,
+  PlantLoopHeatingDemand:Facility,        !- Key Name
+  hourly;                                 !- Reporting Frequency
+
+Output:Meter:MeterFileOnly,
+  PlantLoopCoolingDemand:Facility,        !- Key Name
+  hourly;                                 !- Reporting Frequency
+
+Output:Meter:MeterFileOnly,
+  Gas:Facility,                           !- Key Name
+  Hourly;                                  !- Reporting Frequency
+
+Output:Meter:MeterFileOnly,
+  Electricity:Facility,                   !- Key Name
+  Hourly;                               !- Reporting Frequency
+
+Output:Meter:MeterFileOnly,
+  Electricity:Facility,                   !- Key Name
+  Hourly;                                  !- Reporting Frequency
+
+Output:Meter,
+  Electricity:Facility,                   !- Key Name
+  Hourly;                               !- Reporting Frequency
+
+Output:Meter,
+  Gas:Facility,                           !- Key Name
+  Hourly;                               !- Reporting Frequency
+
+Output:Meter,
+    Electricity:Facility,     !- Key Name
+    Annual;                   !- Reporting Frequency
+
+Output:Meter,
+    Gas:Facility,             !- Key Name
+    Annual;                   !- Reporting Frequency
+
+! ##############################################################################
+! insert plant loop objects from here
+! ##############################################################################
+
+
+!***** Schedules *****
+  Schedule:Compact,
+    ALWAYS_ON,               !- Name
+    On/Off,                  !- Schedule Type Limits Name
+    Through: 12/31,          !- Field 1
+    For: AllDays,            !- Field 2
+    Until: 24:00,1;          !- Field 3
+
+  Schedule:Compact,
+    ALWAYS_OFF,              !- Name
+    On/Off,                  !- Schedule Type Limits Name
+    Through: 12/31,          !- Field 1
+    For: AllDays,            !- Field 2
+    Until: 24:00,0;          !- Field 3
+  
+  ScheduleTypeLimits,
+    Temperature,             !- Name
+    -60,                     !- Lower Limit Value
+    200,                     !- Upper Limit Value
+    CONTINUOUS,              !- Numeric Type
+    Temperature;             !- Unit Type
+
+  ScheduleTypeLimits,
+    On/Off,                  !- Name
+    0,                       !- Lower Limit Value
+    1,                       !- Upper Limit Value
+    DISCRETE;                !- Numeric Type
+
+!***** PLANT Loop: SHWSys1 *****
+
+  PlantLoop,
+    SHWSys1,                 !- Name
+    WATER,                   !- Fluid Type
+    ,                        !- User Defined Fluid Type
+    SHWSys1 Loop Operation Scheme List,  !- Plant Equipment Operation Scheme Name
+    SHWSys1 Supply Outlet Node,  !- Loop Temperature Setpoint Node Name
+    85.0,                    !- Maximum Loop Temperature {C}
+    10.0,                    !- Minimum Loop Temperature {C}
+    AUTOSIZE,                !- Maximum Loop Flow Rate {m3/s}
+    0.0,                     !- Minimum Loop Flow Rate {m3/s}
+    AUTOSIZE,                !- Plant Loop Volume {m3}
+    SHWSys1 Supply Inlet Node,  !- Plant Side Inlet Node Name
+    SHWSys1 Supply Outlet Node,  !- Plant Side Outlet Node Name
+    SHWSys1 Supply Branches, !- Plant Side Branch List Name
+    SHWSys1 Supply Connectors,  !- Plant Side Connector List Name
+    SHWSys1 Demand Inlet Node,  !- Demand Side Inlet Node Name
+    SHWSys1 Demand Outlet Node,  !- Demand Side Outlet Node Name
+    SHWSys1 Demand Branches, !- Demand Side Branch List Name
+    SHWSys1 Demand Connectors,  !- Demand Side Connector List Name
+    OPTIMAL;                 !- Load Distribution Scheme
+
+  Sizing:Plant,
+    SHWSys1,                 !- Plant or Condenser Loop Name
+    HEATING,                 !- Loop Type
+    60,                      !- Design Loop Exit Temperature {C}
+    5.0;                     !- Loop Design Temperature Difference {deltaC}
+
+  SetpointManager:Scheduled,
+    SHWSys1 Loop Setpoint Manager,  !- Name
+    Temperature,             !- Control Variable
+    SHWSys1-Loop-Temp-Schedule,  !- Schedule Name
+    SHWSys1 Supply Outlet Node;  !- Setpoint Node or NodeList Name
+
+  PlantEquipmentOperationSchemes,
+    SHWSys1 Loop Operation Scheme List,  !- Name
+    PlantEquipmentOperation:HeatingLoad,  !- Control Scheme 1 Object Type
+    SHWSys1 Operation Scheme,!- Control Scheme 1 Name
+    PlantOnSched;            !- Control Scheme 1 Schedule Name
+
+  PlantEquipmentOperation:HeatingLoad,
+    SHWSys1 Operation Scheme,!- Name
+    0.0,                     !- Load Range 1 Lower Limit {W}
+    1000000000000000,        !- Load Range 1 Upper Limit {W}
+    SHWSys1 Equipment List;  !- Range 1 Equipment List Name
+
+  Schedule:Compact,
+    SHWSys1-Loop-Temp-Schedule,  !- Name
+    Temperature,             !- Schedule Type Limits Name
+    Through: 12/31,          !- Field 1
+    For: AllDays,            !- Field 2
+    Until: 24:00,60;         !- Field 3
+
+  PlantEquipmentList,
+    SHWSys1 Equipment List,  !- Name
+    WaterHeater:Stratified,  !- Equipment 1 Object Type
+    SHWSys1 Water Heater;    !- Equipment 1 Name
+
+  BranchList,
+    SHWSys1 Supply Branches, !- Name
+    SHWSys1 Supply Inlet Branch,  !- Branch 1 Name
+    SHWSys1 Supply Equipment Branch,  !- Branch 2 Name
+    SHWSys1 Supply Equipment Bypass Branch,  !- Branch 3 Name
+    SHWSys1 Supply Outlet Branch;  !- Branch 4 Name
+
+  ConnectorList,
+    SHWSys1 Supply Connectors,  !- Name
+    Connector:Splitter,      !- Connector 1 Object Type
+    SHWSys1 Supply Splitter, !- Connector 1 Name
+    Connector:Mixer,         !- Connector 2 Object Type
+    SHWSys1 Supply Mixer;    !- Connector 2 Name
+
+  Connector:Splitter,
+    SHWSys1 Supply Splitter, !- Name
+    SHWSys1 Supply Inlet Branch,  !- Inlet Branch Name
+    SHWSys1 Supply Equipment Branch,  !- Outlet Branch 1 Name
+    SHWSys1 Supply Equipment Bypass Branch;  !- Outlet Branch 2 Name
+
+  Connector:Mixer,
+    SHWSys1 Supply Mixer,    !- Name
+    SHWSys1 Supply Outlet Branch,  !- Outlet Branch Name
+    SHWSys1 Supply Equipment Branch,  !- Inlet Branch 1 Name
+    SHWSys1 Supply Equipment Bypass Branch;  !- Inlet Branch 2 Name
+
+  Branch,
+    SHWSys1 Supply Inlet Branch,  !- Name
+    ,                        !- Pressure Drop Curve Name
+    Pump:VariableSpeed,      !- Component 1 Object Type
+    SHWSys1 Pump,            !- Component 1 Name
+    SHWSys1 Supply Inlet Node,  !- Component 1 Inlet Node Name
+    SHWSys1 Water Inlet NodeviaConnector;  !- Component 1 Outlet Node Name
+
+  Branch,
+    SHWSys1 Supply Equipment Branch,  !- Name
+    ,                        !- Pressure Drop Curve Name
+    WaterHeater:Stratified,  !- Component 1 Object Type
+    SHWSys1 Water Heater,    !- Component 1 Name
+    SHWSys1 Water Inlet Node,!- Component 1 Inlet Node Name
+    SHWSys1 Water Outlet Node;  !- Component 1 Outlet Node Name
+
+  Pump:VariableSpeed,
+    SHWSys1 Pump,            !- Name
+    SHWSys1 Supply Inlet Node,  !- Inlet Node Name
+    SHWSys1 Water Inlet NodeviaConnector,  !- Outlet Node Name
+    AUTOSIZE,                !- Design Maximum Flow Rate {m3/s}
+    1,                       !- Design Pump Head {Pa}
+    AUTOSIZE,                !- Design Power Consumption {W}
+    1,                       !- Motor Efficiency
+    0.0,                     !- Fraction of Motor Inefficiencies to Fluid Stream
+    0,                       !- Coefficient 1 of the Part Load Performance Curve
+    1,                       !- Coefficient 2 of the Part Load Performance Curve
+    0,                       !- Coefficient 3 of the Part Load Performance Curve
+    0,                       !- Coefficient 4 of the Part Load Performance Curve
+    0.0,                     !- Design Minimum Flow Rate {m3/s}
+    INTERMITTENT;            !- Pump Control Type
+
+  WaterHeater:Stratified,
+    SHWSys1 Water Heater,    !- Name
+    tank backup,             !- End-Use Subcategory
+    1.5000,                  !- Tank Volume {m3}
+    0.9697,                  !- Tank Height {m}
+    VerticalCylinder,        !- Tank Shape
+    ,                        !- Tank Perimeter {m}
+    98.00,                   !- Maximum Temperature Limit {C}
+    MasterSlave,             !- Heater Priority Control
+    SHWSys1 Water Heater Setpoint Temperature Schedule,  !- Heater 1 Setpoint Temperature Schedule Name
+    10.0000,                 !- Heater 1 Deadband Temperature Difference {deltaC}
+    4500.0000,               !- Heater 1 Capacity {W}
+    0.8728,                  !- Heater 1 Height {m}
+    SHWSys1 Water Heater Setpoint Temperature Schedule,  !- Heater 2 Setpoint Temperature Schedule Name
+    5.0000,                  !- Heater 2 Deadband Temperature Difference {deltaC}
+    0.0000,                  !- Heater 2 Capacity {W}
+    0.0000,                  !- Heater 2 Height {m}
+    NATURALGAS,              !- Heater Fuel Type
+    0.8000,                  !- Heater Thermal Efficiency
+    0.0,                     !- Off Cycle Parasitic Fuel Consumption Rate {W}
+    NATURALGAS,              !- Off Cycle Parasitic Fuel Type
+    0.8000,                  !- Off Cycle Parasitic Heat Fraction to Tank
+    0.5000,                  !- Off Cycle Parasitic Height {m}
+    ,                        !- On Cycle Parasitic Fuel Consumption Rate {W}
+    NATURALGAS,              !- On Cycle Parasitic Fuel Type
+    ,                        !- On Cycle Parasitic Heat Fraction to Tank
+    0.5000,                  !- On Cycle Parasitic Height {m}
+    SCHEDULE,                !- Ambient Temperature Indicator
+    SHWSys1 Water Heater Ambient Temperature Schedule,  !- Ambient Temperature Schedule Name
+    ,                        !- Ambient Temperature Zone Name
+    ,                        !- Ambient Temperature Outdoor Air Node Name
+    0.6000,                  !- Uniform Skin Loss Coefficient per Unit Area to Ambient Temperature {W/m2-K}
+    1.0000,                  !- Skin Loss Fraction to Zone
+    6.0,                     !- Off Cycle Flue Loss Coefficient to Ambient Temperature {W/K}
+    ,                        !- Off Cycle Flue Loss Fraction to Zone
+    ,                        !- Peak Use Flow Rate {m3/s}
+    ,                        !- Use Flow Rate Fraction Schedule Name
+    ,                        !- Cold Water Supply Temperature Schedule Name
+    SHWSys1 Water Inlet Node,!- Use Side Inlet Node Name
+    SHWSys1 Water Outlet Node,  !- Use Side Outlet Node Name
+    1.0,                     !- Use Side Effectiveness
+    0.0485,                  !- Use Side Inlet Height {m}
+    0.9212,                  !- Use Side Outlet Height {m}
+    MICROCHP SENERTECH Water Inlet Node,  !- Source Side Inlet Node Name
+    MICROCHP SENERTECH Water Outlet Node,  !- Source Side Outlet Node Name
+    1.0,                     !- Source Side Effectiveness
+    0.9212,                  !- Source Side Inlet Height {m}
+    0.0485,                  !- Source Side Outlet Height {m}
+    FIXED,                   !- Inlet Mode
+    AUTOSIZE,                !- Use Side Design Flow Rate {m3/s}
+    AUTOSIZE,                !- Source Side Design Flow Rate {m3/s}
+    0.75,                    !- Indirect Water Heating Recovery Time {hr}
+    10,                      !- Number of Nodes
+    0.1000;                  !- Additional Destratification Conductivity {W/m-K}
+
+  Schedule:Compact,
+    SHWSys1 Water Heater Setpoint Temperature Schedule,  !- Name
+    Temperature,             !- Schedule Type Limits Name
+    Through: 12/31,          !- Field 1
+    For: AllDays,            !- Field 2
+    Until: 24:00,60.0;       !- Field 3
+
+  Schedule:Compact,
+    SHWSys1 Water Heater Ambient Temperature Schedule,  !- Name
+    Temperature,             !- Schedule Type Limits Name
+    Through: 12/31,          !- Field 1
+    For: AllDays,            !- Field 2
+    Until: 24:00,22.0;       !- Field 3
+
+  Branch,
+    SHWSys1 Supply Equipment Bypass Branch,  !- Name
+    ,                        !- Pressure Drop Curve Name
+    Pipe:Adiabatic,          !- Component 1 Object Type
+    SHWSys1 Supply Equipment Bypass Pipe,  !- Component 1 Name
+    SHWSys1 Supply Equip Bypass Inlet Node,  !- Component 1 Inlet Node Name
+    SHWSys1 Supply Equip Bypass Outlet Node;  !- Component 1 Outlet Node Name
+
+  Pipe:Adiabatic,
+    SHWSys1 Supply Equipment Bypass Pipe,  !- Name
+    SHWSys1 Supply Equip Bypass Inlet Node,  !- Inlet Node Name
+    SHWSys1 Supply Equip Bypass Outlet Node;  !- Outlet Node Name
+
+  Branch,
+    SHWSys1 Supply Outlet Branch,  !- Name
+    ,                        !- Pressure Drop Curve Name
+    Pipe:Adiabatic,          !- Component 1 Object Type
+    SHWSys1 Supply Outlet Pipe,  !- Component 1 Name
+    SHWSys1 Supply Mixer-SHWSys1 Supply Outlet Pipe,  !- Component 1 Inlet Node Name
+    SHWSys1 Supply Outlet Node;  !- Component 1 Outlet Node Name
+
+  Pipe:Adiabatic,
+    SHWSys1 Supply Outlet Pipe,  !- Name
+    SHWSys1 Supply Mixer-SHWSys1 Supply Outlet Pipe,  !- Inlet Node Name
+    SHWSys1 Supply Outlet Node;  !- Outlet Node Name
+
+  BranchList,
+    SHWSys1 Demand Branches, !- Name
+    SHWSys1 Demand Inlet Branch,  !- Branch 1 Name
+    ! SHWSys1 Demand Load Branch 1,  !- Branch 2 Name
+    ! SHWSys1 Demand Load Branch 2,  !- Branch 3 Name
+    ! SHWSys1 Demand Load Branch 3,  !- Branch 4 Name
+    ! SHWSys1 Demand Load Branch 4,  !- Branch 5 Name
+    ! SHWSys1 Demand Load Branch 5,  !- Branch 6 Name
+    ! SHWSys1 Demand Load Branch 6,  !- Branch 7 Name
+    ! SHWSys1 Demand Load Branch 7,  !- Branch 8 Name
+    ! SHWSys1 Demand Load Branch 8,  !- Branch 9 Name
+    ! SHWSys1 Demand Load Branch 9,  !- Branch 10 Name
+    ! SHWSys1 Demand Load Branch 10,  !- Branch 11 Name
+    SHWSys1 Demand Bypass Branch,  !- Branch 12 Name
+    SHWSys1 Demand Outlet Branch;  !- Branch 13 Name
+
+  ConnectorList,
+    SHWSys1 Demand Connectors,  !- Name
+    Connector:Splitter,      !- Connector 1 Object Type
+    SHWSys1 Demand Splitter, !- Connector 1 Name
+    Connector:Mixer,         !- Connector 2 Object Type
+    SHWSys1 Demand Mixer;    !- Connector 2 Name
+
+  Connector:Splitter,
+    SHWSys1 Demand Splitter, !- Name
+    SHWSys1 Demand Inlet Branch,  !- Inlet Branch Name
+    ! SHWSys1 Demand Load Branch 1,  !- Outlet Branch 1 Name
+    ! SHWSys1 Demand Load Branch 2,  !- Outlet Branch 2 Name
+    ! SHWSys1 Demand Load Branch 3,  !- Outlet Branch 3 Name
+    ! SHWSys1 Demand Load Branch 4,  !- Outlet Branch 4 Name
+    ! SHWSys1 Demand Load Branch 5,  !- Outlet Branch 5 Name
+    ! SHWSys1 Demand Load Branch 6,  !- Outlet Branch 6 Name
+    ! SHWSys1 Demand Load Branch 7,  !- Outlet Branch 7 Name
+    ! SHWSys1 Demand Load Branch 8,  !- Outlet Branch 8 Name
+    ! SHWSys1 Demand Load Branch 9,  !- Outlet Branch 9 Name
+    ! SHWSys1 Demand Load Branch 10,  !- Outlet Branch 10 Name
+    SHWSys1 Demand Bypass Branch;  !- Outlet Branch 11 Name
+
+  Connector:Mixer,
+    SHWSys1 Demand Mixer,    !- Name
+    SHWSys1 Demand Outlet Branch,  !- Outlet Branch Name
+    ! SHWSys1 Demand Load Branch 1,  !- Inlet Branch 1 Name
+    ! SHWSys1 Demand Load Branch 2,  !- Inlet Branch 2 Name
+    ! SHWSys1 Demand Load Branch 3,  !- Inlet Branch 3 Name
+    ! SHWSys1 Demand Load Branch 4,  !- Inlet Branch 4 Name
+    ! SHWSys1 Demand Load Branch 5,  !- Inlet Branch 5 Name
+    ! SHWSys1 Demand Load Branch 6,  !- Inlet Branch 6 Name
+    ! SHWSys1 Demand Load Branch 7,  !- Inlet Branch 7 Name
+    ! SHWSys1 Demand Load Branch 8,  !- Inlet Branch 8 Name
+    ! SHWSys1 Demand Load Branch 9,  !- Inlet Branch 9 Name
+    ! SHWSys1 Demand Load Branch 10,  !- Inlet Branch 10 Name
+    SHWSys1 Demand Bypass Branch;  !- Inlet Branch 11 Name
+
+  Branch,
+    SHWSys1 Demand Inlet Branch,  !- Name
+    ,                        !- Pressure Drop Curve Name
+    Pipe:Adiabatic,          !- Component 1 Object Type
+    SHWSys1 Demand Inlet Pipe,  !- Component 1 Name
+    SHWSys1 Demand Inlet Node,  !- Component 1 Inlet Node Name
+    SHWSys1 Demand Inlet Pipe-SHWSys1 Demand Mixer;  !- Component 1 Outlet Node Name
+
+  Pipe:Adiabatic,
+    SHWSys1 Demand Inlet Pipe,  !- Name
+    SHWSys1 Demand Inlet Node,  !- Inlet Node Name
+    SHWSys1 Demand Inlet Pipe-SHWSys1 Demand Mixer;  !- Outlet Node Name
+
+  Branch,
+    SHWSys1 Demand Bypass Branch,  !- Name
+    ,                        !- Pressure Drop Curve Name
+    Pipe:Adiabatic,          !- Component 1 Object Type
+    SHWSys1 Demand Bypass Pipe,  !- Component 1 Name
+    SHWSys1 Demand Bypass Pipe Inlet Node,  !- Component 1 Inlet Node Name
+    SHWSys1 Demand Bypass Pipe Outlet Node;  !- Component 1 Outlet Node Name
+
+  Pipe:Adiabatic,
+    SHWSys1 Demand Bypass Pipe,  !- Name
+    SHWSys1 Demand Bypass Pipe Inlet Node,  !- Inlet Node Name
+    SHWSys1 Demand Bypass Pipe Outlet Node;  !- Outlet Node Name
+
+  Branch,
+    SHWSys1 Demand Outlet Branch,  !- Name
+    ,                        !- Pressure Drop Curve Name
+    Pipe:Adiabatic,          !- Component 1 Object Type
+    SHWSys1 Demand Outlet Pipe,  !- Component 1 Name
+    SHWSys1 Demand Mixer-SHWSys1 Demand Outlet Pipe,  !- Component 1 Inlet Node Name
+    SHWSys1 Demand Outlet Node;  !- Component 1 Outlet Node Name
+
+  Pipe:Adiabatic,
+    SHWSys1 Demand Outlet Pipe,  !- Name
+    SHWSys1 Demand Mixer-SHWSys1 Demand Outlet Pipe,  !- Inlet Node Name
+    SHWSys1 Demand Outlet Node;  !- Outlet Node Name
+
+!***** PLANT Loop: MICROCHP SENERTECH *****
+
+  PlantLoop,
+    MICROCHP SENERTECH,      !- Name
+    WATER,                   !- Fluid Type
+    ,                        !- User Defined Fluid Type
+    MICROCHP SENERTECH Loop Operation Scheme List,  !- Plant Equipment Operation Scheme Name
+    MICROCHP SENERTECH Supply Outlet Node,  !- Loop Temperature Setpoint Node Name
+    98.0,                    !- Maximum Loop Temperature {C}
+    10.0,                    !- Minimum Loop Temperature {C}
+    0.0010,                  !- Maximum Loop Flow Rate {m3/s}
+    0.0,                     !- Minimum Loop Flow Rate {m3/s}
+    AUTOSIZE,                !- Plant Loop Volume {m3}
+    MICROCHP SENERTECH Supply Inlet Node,  !- Plant Side Inlet Node Name
+    MICROCHP SENERTECH Supply Outlet Node,  !- Plant Side Outlet Node Name
+    MICROCHP SENERTECH Supply Branches,  !- Plant Side Branch List Name
+    MICROCHP SENERTECH Supply Connectors,  !- Plant Side Connector List Name
+    MICROCHP SENERTECH Demand Inlet Node,  !- Demand Side Inlet Node Name
+    MICROCHP SENERTECH Demand Outlet Node,  !- Demand Side Outlet Node Name
+    MICROCHP SENERTECH Demand Branches,  !- Demand Side Branch List Name
+    MICROCHP SENERTECH Demand Connectors,  !- Demand Side Connector List Name
+    OPTIMAL;                 !- Load Distribution Scheme
+
+  Sizing:Plant,
+    MICROCHP SENERTECH,      !- Plant or Condenser Loop Name
+    HEATING,                 !- Loop Type
+    70,                      !- Design Loop Exit Temperature {C}
+    10.0;                    !- Loop Design Temperature Difference {deltaC}
+
+  SetpointManager:Scheduled,
+    MICROCHP SENERTECH Loop Setpoint Manager,  !- Name
+    Temperature,             !- Control Variable
+    MICROCHP SENERTECH Loop Setpoint Sched,  !- Schedule Name
+    MICROCHP SENERTECH Supply Outlet Node;  !- Setpoint Node or NodeList Name
+
+  Schedule:Compact,
+    MICROCHP SENERTECH Loop Setpoint Sched,  !- Name
+    Temperature,             !- Schedule Type Limits Name
+    Through: 12/31,          !- Field 1
+    For: AllDays,            !- Field 2
+    Until: 24:00,70.0000;    !- Field 3
+
+  PlantEquipmentOperationSchemes,
+    MICROCHP SENERTECH Loop Operation Scheme List,  !- Name
+    PlantEquipmentOperation:HeatingLoad,  !- Control Scheme 1 Object Type
+    MICROCHP SENERTECH Operation Scheme,  !- Control Scheme 1 Name
+    ALWAYS_ON;               !- Control Scheme 1 Schedule Name
+
+  PlantEquipmentOperation:HeatingLoad,
+    MICROCHP SENERTECH Operation Scheme,  !- Name
+    0,                       !- Load Range 1 Lower Limit {W}
+    1000000,                 !- Load Range 1 Upper Limit {W}
+    MICROCHP SENERTECH Equipment List;  !- Range 1 Equipment List Name
+
+  PlantEquipmentList,
+    MICROCHP SENERTECH Equipment List,  !- Name
+    Generator:MicroCHP,      !- Equipment 1 Object Type
+    MicroCoGen1;             !- Equipment 1 Name
+
+  BranchList,
+    MICROCHP SENERTECH Supply Branches,  !- Name
+    MICROCHP SENERTECH Supply Inlet Branch,  !- Branch 1 Name
+    MICROCHP SENERTECH Supply Equipment Branch,  !- Branch 2 Name
+    SOFC Supply Equipment Branch,  !- Branch 3 Name
+    MICROCHP SENERTECH Supply Equipment Bypass Branch,  !- Branch 4 Name
+    MICROCHP SENERTECH Supply Outlet Branch;  !- Branch 5 Name
+
+  ConnectorList,
+    MICROCHP SENERTECH Supply Connectors,  !- Name
+    Connector:Splitter,      !- Connector 1 Object Type
+    MICROCHP SENERTECH Supply Splitter,  !- Connector 1 Name
+    Connector:Mixer,         !- Connector 2 Object Type
+    MICROCHP SENERTECH Supply Mixer;  !- Connector 2 Name
+
+  Connector:Splitter,
+    MICROCHP SENERTECH Supply Splitter,  !- Name
+    MICROCHP SENERTECH Supply Inlet Branch,  !- Inlet Branch Name
+    MICROCHP SENERTECH Supply Equipment Branch,  !- Outlet Branch 1 Name
+    SOFC Supply Equipment Branch,  !- Outlet Branch 2 Name
+    MICROCHP SENERTECH Supply Equipment Bypass Branch;  !- Outlet Branch 3 Name
+
+  Connector:Mixer,
+    MICROCHP SENERTECH Supply Mixer,  !- Name
+    MICROCHP SENERTECH Supply Outlet Branch,  !- Outlet Branch Name
+    MICROCHP SENERTECH Supply Equipment Branch,  !- Inlet Branch 1 Name
+    SOFC Supply Equipment Branch,  !- Inlet Branch 2 Name
+    MICROCHP SENERTECH Supply Equipment Bypass Branch;  !- Inlet Branch 3 Name
+
+  Branch,
+    MICROCHP SENERTECH Supply Inlet Branch,  !- Name
+    ,                        !- Pressure Drop Curve Name
+    Pump:VariableSpeed,      !- Component 1 Object Type
+    MICROCHP SENERTECH Pump, !- Component 1 Name
+    MICROCHP SENERTECH Supply Inlet Node,  !- Component 1 Inlet Node Name
+    MICROCHP SENERTECH Pump-MicroCoGen1NodeviaConnector;  !- Component 1 Outlet Node Name
+
+  Branch,
+    MICROCHP SENERTECH Supply Equipment Branch,  !- Name
+    ,                        !- Pressure Drop Curve Name
+    Generator:MicroCHP,      !- Component 1 Object Type
+    MicroCoGen1,             !- Component 1 Name
+    MICROCHP SENERTECH Pump-MicroCoGen1Node,  !- Component 1 Inlet Node Name
+    MICROCHP SENERTECH Supply Equipment Outlet Node;  !- Component 1 Outlet Node Name
+
+  Branch,
+    SOFC Supply Equipment Branch,  !- Name
+    ,                        !- Pressure Drop Curve Name
+    Generator:FuelCell:ExhaustGasToWaterHeatExchanger,  !- Component 1 Object Type
+    FCT SOFC Exhaust HX,     !- Component 1 Name
+    Small SOFC Heat Rec Inlet Node,  !- Component 1 Inlet Node Name
+    Small SOFC Heat Rec Outlet Node;  !- Component 1 Outlet Node Name
+
+  Pump:VariableSpeed,
+    MICROCHP SENERTECH Pump, !- Name
+    MICROCHP SENERTECH Supply Inlet Node,  !- Inlet Node Name
+    MICROCHP SENERTECH Pump-MicroCoGen1NodeviaConnector,  !- Outlet Node Name
+    0.0008,                  !- Design Maximum Flow Rate {m3/s}
+    20000,                   !- Design Pump Head {Pa}
+    140.0000,                !- Design Power Consumption {W}
+    0.87,                    !- Motor Efficiency
+    0.0,                     !- Fraction of Motor Inefficiencies to Fluid Stream
+    0,                       !- Coefficient 1 of the Part Load Performance Curve
+    1,                       !- Coefficient 2 of the Part Load Performance Curve
+    0,                       !- Coefficient 3 of the Part Load Performance Curve
+    0,                       !- Coefficient 4 of the Part Load Performance Curve
+    0.0,                     !- Design Minimum Flow Rate {m3/s}
+    INTERMITTENT;            !- Pump Control Type
+
+  Generator:MicroCHP,
+    MicroCoGen1,             !- Name
+    SENERTECH5_5KW,          !- Performance Parameters Name
+    ZN_1_FLR_1_SEC_1,        !- Zone Name
+    MICROCHP SENERTECH Pump-MicroCoGen1Node,  !- Cooling Water Inlet Node Name
+    MICROCHP SENERTECH Supply Equipment Outlet Node,  !- Cooling Water Outlet Node Name
+    MicroCoGen1 air inlet node,  !- Air Inlet Node Name
+    ,                        !- Air Outlet Node Name
+    NATURALGAS,              !- Generator Fuel Supply Name
+    ALWAYS_ON;               !- Availability Schedule Name
+
+  Generator:MicroCHP:NonNormalizedParameters,
+    SENERTECH5_5KW,          !- Name
+    5500.0000,               !- Maximum Electric Power {W}
+    0.0000,                  !- Minimum Electric Power {W}
+    0.0000,                  !- Minimum Cooling Water Flow Rate {kg/s}
+    80.0000,                 !- Maximum Cooling Water Temperature {C}
+    SenerTechElEff,          !- Electrical Efficiency Curve Name
+    SenerTechThermEff,       !- Thermal Efficiency Curve Name
+    InternalControl,         !- Cooling Water Flow Rate Mode
+    SenerTechCoolWaterflow,  !- Cooling Water Flow Rate Curve Name
+    SenerTechAirFlow,        !- Air Flow Rate Curve Name
+    1000000000.0000,         !- Maximum Net Electrical Power Rate of Change {W/s}
+    1000000000.0000,         !- Maximum Fuel Flow Rate of Change {kg/s2}
+    741.0000,                !- Heat Exchanger U-Factor Times Area Value {W/K}
+    13.7000,                 !- Skin Loss U-Factor Times Area Value {W/K}
+    0.5000,                  !- Skin Loss Radiative Fraction
+    63605.6000,              !- Aggregated Thermal Mass of Energy Conversion Portion of Generator {W/K}
+    1000.7000,               !- Aggregated Thermal Mass of Heat Recovery Portion of Generator {W/K}
+    0.0000,                  !- Standby Power {W}
+    TimeDelay,               !- Warm Up Mode
+    ,                        !- Warm Up Fuel Flow Rate Coefficient
+    ,                        !- Nominal Engine Operating Temperature {C}
+    ,                        !- Warm Up Power Coefficient
+    ,                        !- Warm Up Fuel Flow Rate Limit Ratio
+    60.0000,                 !- Warm Up Delay Time {s}
+    0.0000,                  !- Cool Down Power {W}
+    60.0000,                 !- Cool Down Delay Time {s}
+    OptionalCoolDown;        !- Restart Mode
+
+  Curve:Quadratic,
+    SenerTechAirFlow,        !- Name
+    0.0000,                  !- Coefficient1 Constant
+    2.0000,                  !- Coefficient2 x
+    -10000.0000,             !- Coefficient3 x**2
+    0.0000,                  !- Minimum Value of x
+    1000000000000.0000;      !- Maximum Value of x
+
+  Curve:Biquadratic,
+    SenerTechCoolWaterflow,  !- Name
+    0.4000,                  !- Coefficient1 Constant
+    0.0000,                  !- Coefficient2 x
+    0.0000,                  !- Coefficient3 x**2
+    0.0000,                  !- Coefficient4 y
+    0.0000,                  !- Coefficient5 y**2
+    0.0000,                  !- Coefficient6 x*y
+    0.0000,                  !- Minimum Value of x
+    1.0E12,                  !- Maximum Value of x
+    0.0000,                  !- Minimum Value of y
+    1.0E12;                  !- Maximum Value of y
+
+  Curve:Triquadratic,
+    SenerTechThermEff,       !- Name
+    0.6600,                  !- Coefficient1 Constant
+    0.0000,                  !- Coefficient2 x**2
+    0.0000,                  !- Coefficient3 x
+    0.0000,                  !- Coefficient4 y**2
+    0.0000,                  !- Coefficient5 y
+    0.0000,                  !- Coefficient6 z**2
+    0.0000,                  !- Coefficient7 z
+    0.0000,                  !- Coefficient8 x**2*y**2
+    0.0000,                  !- Coefficient9 x*y
+    0.0000,                  !- Coefficient10 x*y**2
+    0.0000,                  !- Coefficient11 x**2*y
+    0.0000,                  !- Coefficient12 x**2*z**2
+    0.0000,                  !- Coefficient13 x*z
+    0.0000,                  !- Coefficient14 x*z**2
+    0.0000,                  !- Coefficient15 x**2*z
+    0.0000,                  !- Coefficient16 y**2*z**2
+    0.0000,                  !- Coefficient17 y*z
+    0.0000,                  !- Coefficient18 y*z**2
+    0.0000,                  !- Coefficient19 y**2*z
+    0.0000,                  !- Coefficient20 x**2*y**2*z**2
+    0.0000,                  !- Coefficient21 x**2*y**2*z
+    0.0000,                  !- Coefficient22 x**2*y*z**2
+    0.0000,                  !- Coefficient23 x*y**2*z**2
+    0.0000,                  !- Coefficient24 x**2*y*z
+    0.0000,                  !- Coefficient25 x*y**2*z
+    0.0000,                  !- Coefficient26 x*y*z**2
+    0.0000,                  !- Coefficient27 x*y*z
+    0.0000,                  !- Minimum Value of x
+    1000000000.0000,         !- Maximum Value of x
+    0.0000,                  !- Minimum Value of y
+    1000000000.0000,         !- Maximum Value of y
+    0.0000,                  !- Minimum Value of z
+    1000000000.0000;         !- Maximum Value of z
+
+  Curve:Triquadratic,
+    SenerTechElEff,          !- Name
+    0.2700,                  !- Coefficient1 Constant
+    0.0000,                  !- Coefficient2 x**2
+    0.0000,                  !- Coefficient3 x
+    0.0000,                  !- Coefficient4 y**2
+    0.0000,                  !- Coefficient5 y
+    0.0000,                  !- Coefficient6 z**2
+    0.0000,                  !- Coefficient7 z
+    0.0000,                  !- Coefficient8 x**2*y**2
+    0.0000,                  !- Coefficient9 x*y
+    0.0000,                  !- Coefficient10 x*y**2
+    0.0000,                  !- Coefficient11 x**2*y
+    0.0000,                  !- Coefficient12 x**2*z**2
+    0.0000,                  !- Coefficient13 x*z
+    0.0000,                  !- Coefficient14 x*z**2
+    0.0000,                  !- Coefficient15 x**2*z
+    0.0000,                  !- Coefficient16 y**2*z**2
+    0.0000,                  !- Coefficient17 y*z
+    0.0000,                  !- Coefficient18 y*z**2
+    0.0000,                  !- Coefficient19 y**2*z
+    0.0000,                  !- Coefficient20 x**2*y**2*z**2
+    0.0000,                  !- Coefficient21 x**2*y**2*z
+    0.0000,                  !- Coefficient22 x**2*y*z**2
+    0.0000,                  !- Coefficient23 x*y**2*z**2
+    0.0000,                  !- Coefficient24 x**2*y*z
+    0.0000,                  !- Coefficient25 x*y**2*z
+    0.0000,                  !- Coefficient26 x*y*z**2
+    0.0000,                  !- Coefficient27 x*y*z
+    0.0000,                  !- Minimum Value of x
+    1000000000.0000,         !- Maximum Value of x
+    0.0000,                  !- Minimum Value of y
+    1000000000.0000,         !- Maximum Value of y
+    0.0000,                  !- Minimum Value of z
+    1000000000.0000;         !- Maximum Value of z
+
+  Generator:FuelSupply,
+    NATURALGAS,              !- Name
+    TemperatureFromAirNode,  !- Fuel Temperature Modeling Mode
+    MicroCoGen1 air inlet node,  !- Fuel Temperature Reference Node Name
+    ,                        !- Fuel Temperature Schedule Name
+    NullCubic,               !- Compressor Power Multiplier Function of Fuel Rate Curve Name
+    1.0000,                  !- Compressor Heat Loss Factor
+    GaseousConstituents,     !- Fuel Type
+    ,                        !- Liquid Generic Fuel Lower Heating Value {kJ/kg}
+    ,                        !- Liquid Generic Fuel Higher Heating Value {kJ/kg}
+    ,                        !- Liquid Generic Fuel Molecular Weight {g/mol}
+    ,                        !- Liquid Generic Fuel CO2 Emission Factor
+    8,                       !- Number of Constituents in Gaseous Constituent Fuel Supply
+    METHANE,                 !- Constituent 1 Name
+    0.9490,                  !- Constituent 1 Molar Fraction
+    CarbonDioxide,           !- Constituent 2 Name
+    0.0070,                  !- Constituent 2 Molar Fraction
+    NITROGEN,                !- Constituent 3 Name
+    0.0160,                  !- Constituent 3 Molar Fraction
+    ETHANE,                  !- Constituent 4 Name
+    0.0250,                  !- Constituent 4 Molar Fraction
+    PROPANE,                 !- Constituent 5 Name
+    0.0020,                  !- Constituent 5 Molar Fraction
+    BUTANE,                  !- Constituent 6 Name
+    0.0006,                  !- Constituent 6 Molar Fraction
+    PENTANE,                 !- Constituent 7 Name
+    0.0002,                  !- Constituent 7 Molar Fraction
+    OXYGEN,                  !- Constituent 8 Name
+    0.0002;                  !- Constituent 8 Molar Fraction
+
+  Curve:Cubic,
+    NullCubic,               !- Name
+    0.0000,                  !- Coefficient1 Constant
+    0.0000,                  !- Coefficient2 x
+    0.0000,                  !- Coefficient3 x**2
+    0.0000,                  !- Coefficient4 x**3
+    0.0000,                  !- Minimum Value of x
+    0.0000;                  !- Maximum Value of x
+
+  Branch,
+    MICROCHP SENERTECH Supply Equipment Bypass Branch,  !- Name
+    ,                        !- Pressure Drop Curve Name
+    Pipe:Adiabatic,          !- Component 1 Object Type
+    MICROCHP SENERTECH Supply Equipment Bypass Pipe,  !- Component 1 Name
+    MICROCHP SENERTECH Supply Equip Bypass Inlet Node,  !- Component 1 Inlet Node Name
+    MICROCHP SENERTECH Supply Equip Bypass Outlet Node;  !- Component 1 Outlet Node Name
+
+  Pipe:Adiabatic,
+    MICROCHP SENERTECH Supply Equipment Bypass Pipe,  !- Name
+    MICROCHP SENERTECH Supply Equip Bypass Inlet Node,  !- Inlet Node Name
+    MICROCHP SENERTECH Supply Equip Bypass Outlet Node;  !- Outlet Node Name
+
+  Branch,
+    MICROCHP SENERTECH Supply Outlet Branch,  !- Name
+    ,                        !- Pressure Drop Curve Name
+    Pipe:Adiabatic,          !- Component 1 Object Type
+    MICROCHP SENERTECH Supply Outlet Pipe,  !- Component 1 Name
+    MICROCHP SENERTECH Supply Mixer-MICROCHP SENERTECH Supply Outlet Pipe,  !- Component 1 Inlet Node Name
+    MICROCHP SENERTECH Supply Outlet Node;  !- Component 1 Outlet Node Name
+
+  Pipe:Adiabatic,
+    MICROCHP SENERTECH Supply Outlet Pipe,  !- Name
+    MICROCHP SENERTECH Supply Mixer-MICROCHP SENERTECH Supply Outlet Pipe,  !- Inlet Node Name
+    MICROCHP SENERTECH Supply Outlet Node;  !- Outlet Node Name
+
+  BranchList,
+    MICROCHP SENERTECH Demand Branches,  !- Name
+    MICROCHP SENERTECH Demand Inlet Branch,  !- Branch 1 Name
+    MICROCHP SENERTECH Demand Load Branch 1,  !- Branch 2 Name
+    MICROCHP SENERTECH Demand Bypass Branch,  !- Branch 3 Name
+    MICROCHP SENERTECH Demand Outlet Branch;  !- Branch 4 Name
+
+  ConnectorList,
+    MICROCHP SENERTECH Demand Connectors,  !- Name
+    Connector:Splitter,      !- Connector 1 Object Type
+    MICROCHP SENERTECH Demand Splitter,  !- Connector 1 Name
+    Connector:Mixer,         !- Connector 2 Object Type
+    MICROCHP SENERTECH Demand Mixer;  !- Connector 2 Name
+
+  Connector:Splitter,
+    MICROCHP SENERTECH Demand Splitter,  !- Name
+    MICROCHP SENERTECH Demand Inlet Branch,  !- Inlet Branch Name
+    MICROCHP SENERTECH Demand Load Branch 1,  !- Outlet Branch 1 Name
+    MICROCHP SENERTECH Demand Bypass Branch;  !- Outlet Branch 2 Name
+
+  Connector:Mixer,
+    MICROCHP SENERTECH Demand Mixer,  !- Name
+    MICROCHP SENERTECH Demand Outlet Branch,  !- Outlet Branch Name
+    MICROCHP SENERTECH Demand Load Branch 1,  !- Inlet Branch 1 Name
+    MICROCHP SENERTECH Demand Bypass Branch;  !- Inlet Branch 2 Name
+
+  Branch,
+    MICROCHP SENERTECH Demand Inlet Branch,  !- Name
+    ,                        !- Pressure Drop Curve Name
+    Pipe:Adiabatic,          !- Component 1 Object Type
+    MICROCHP SENERTECH Demand Inlet Pipe,  !- Component 1 Name
+    MICROCHP SENERTECH Demand Inlet Node,  !- Component 1 Inlet Node Name
+    MICROCHP SENERTECH Demand Inlet Pipe-MICROCHP SENERTECH Demand Mixer;  !- Component 1 Outlet Node Name
+
+  Pipe:Adiabatic,
+    MICROCHP SENERTECH Demand Inlet Pipe,  !- Name
+    MICROCHP SENERTECH Demand Inlet Node,  !- Inlet Node Name
+    MICROCHP SENERTECH Demand Inlet Pipe-MICROCHP SENERTECH Demand Mixer;  !- Outlet Node Name
+
+  Branch,
+    MICROCHP SENERTECH Demand Load Branch 1,  !- Name
+    ,                        !- Pressure Drop Curve Name
+    WaterHeater:Stratified,  !- Component 1 Object Type
+    SHWSys1 Water Heater,    !- Component 1 Name
+    MICROCHP SENERTECH Water Inlet Node,  !- Component 1 Inlet Node Name
+    MICROCHP SENERTECH Water Outlet Node;  !- Component 1 Outlet Node Name
+
+  Branch,
+    MICROCHP SENERTECH Demand Bypass Branch,  !- Name
+    ,                        !- Pressure Drop Curve Name
+    Pipe:Adiabatic,          !- Component 1 Object Type
+    MICROCHP SENERTECH Demand Bypass Pipe,  !- Component 1 Name
+    MICROCHP SENERTECH Demand Bypass Pipe Inlet Node,  !- Component 1 Inlet Node Name
+    MICROCHP SENERTECH Demand Bypass Pipe Outlet Node;  !- Component 1 Outlet Node Name
+
+  Pipe:Adiabatic,
+    MICROCHP SENERTECH Demand Bypass Pipe,  !- Name
+    MICROCHP SENERTECH Demand Bypass Pipe Inlet Node,  !- Inlet Node Name
+    MICROCHP SENERTECH Demand Bypass Pipe Outlet Node;  !- Outlet Node Name
+
+  Branch,
+    MICROCHP SENERTECH Demand Outlet Branch,  !- Name
+    ,                        !- Pressure Drop Curve Name
+    Pipe:Adiabatic,          !- Component 1 Object Type
+    MICROCHP SENERTECH Demand Outlet Pipe,  !- Component 1 Name
+    MICROCHP SENERTECH Demand Mixer-MICROCHP SENERTECH Demand Outlet Pipe,  !- Component 1 Inlet Node Name
+    MICROCHP SENERTECH Demand Outlet Node;  !- Component 1 Outlet Node Name
+
+  Pipe:Adiabatic,
+    MICROCHP SENERTECH Demand Outlet Pipe,  !- Name
+    MICROCHP SENERTECH Demand Mixer-MICROCHP SENERTECH Demand Outlet Pipe,  !- Inlet Node Name
+    MICROCHP SENERTECH Demand Outlet Node;  !- Outlet Node Name
+
+  Exterior:FuelEquipment,
+    Equipment_SimpleRefrigeration,  !- Name
+    Electricity,             !- Fuel Use Type
+    ALWAYS_ON,               !- Schedule Name
+    1236.4990,               !- Design Level {W}
+    Refrigeration (simple);  !- End-Use Subcategory
+
+  Exterior:Lights,
+    Exterior Facade Lighting,!- Name
+    ALWAYS_ON,               !- Schedule Name
+    66.3946,                 !- Design Level {W}
+    AstronomicalClock,       !- Control Option
+    Exterior Facade Lighting;!- End-Use Subcategory
+
+!        NY_EIAMonthlyRateGas,         Source EIA, historical from Nov2003 to Oct2004
+!        ConsEdisCo_No-2_GeneralSmall, Source T.A.P., effective 2004-11-01
+!        ConsEdisCo_No-9_GeneralLarge, Source T.A.P., effective 2004-11-01
+!        New York electricity source and emission factors based on Deru and Torcellini 2007
+
+  FuelFactors,
+    Electricity,             !- Existing Fuel Resource Name
+    kg,                      !- Units of Measure
+    ,                        !- Energy per Unit Factor
+    3.185,                   !- Source Energy Factor {J/J}
+    ,                        !- Source Energy Schedule Name
+    1.211E+02,               !- CO2 Emission Factor {g/MJ}
+    ,                        !- CO2 Emission Factor Schedule Name
+    2.203E-01,               !- CO Emission Factor {g/MJ}
+    ,                        !- CO Emission Factor Schedule Name
+    3.278E-01,               !- CH4 Emission Factor {g/MJ}
+    ,                        !- CH4 Emission Factor Schedule Name
+    7.833E-01,               !- NOx Emission Factor {g/MJ}
+    ,                        !- NOx Emission Factor Schedule Name
+    2.117E-03,               !- N2O Emission Factor {g/MJ}
+    ,                        !- N2O Emission Factor Schedule Name
+    7.833E-01,               !- SO2 Emission Factor {g/MJ}
+    ,                        !- SO2 Emission Factor Schedule Name
+    0,                       !- PM Emission Factor {g/MJ}
+    ,                        !- PM Emission Factor Schedule Name
+    8.639E-03,               !- PM10 Emission Factor {g/MJ}
+    ,                        !- PM10 Emission Factor Schedule Name
+    0,                       !- PM2.5 Emission Factor {g/MJ}
+    ,                        !- PM2.5 Emission Factor Schedule Name
+    0,                       !- NH3 Emission Factor {g/MJ}
+    ,                        !- NH3 Emission Factor Schedule Name
+    8.028E-03,               !- NMVOC Emission Factor {g/MJ}
+    ,                        !- NMVOC Emission Factor Schedule Name
+    5.028E-06,               !- Hg Emission Factor {g/MJ}
+    ,                        !- Hg Emission Factor Schedule Name
+    7.028E-06,               !- Pb Emission Factor {g/MJ}
+    ,                        !- Pb Emission Factor Schedule Name
+    1.70280,                 !- Water Emission Factor {L/MJ}
+    ,                        !- Water Emission Factor Schedule Name
+    0,                       !- Nuclear High Level Emission Factor {g/MJ}
+    ,                        !- Nuclear High Level Emission Factor Schedule Name
+    0;                       !- Nuclear Low Level Emission Factor {m3/MJ}
+
+  UtilityCost:Tariff,
+    ConsEdisCo_No-9_GeneralLarge,  !- Name
+    Electricity:Facility,    !- Output Meter Name
+    kWh,                     !- Conversion Factor Choice
+    ,                        !- Energy Conversion Factor
+    ,                        !- Demand Conversion Factor
+    ,                        !- Time of Use Period Schedule Name
+    ,                        !- Season Schedule Name
+    ,                        !- Month Schedule Name
+    halfHour,                !- Demand Window Length
+    87.30,                   !- Monthly Charge or Variable Name
+    ,                        !- Minimum Monthly Charge or Variable Name
+    ,                        !- Real Time Pricing Charge Schedule Name
+    ,                        !- Customer Baseline Load Schedule Name
+    Comm Elect;              !- Group Name
+
+  UtilityCost:Charge:Simple,
+    AnnualEnergyCharges,     !- Utility Cost Charge Simple Name
+    ConsEdisCo_No-9_GeneralLarge,  !- Tariff Name
+    totalEnergy,             !- Source Variable
+    Annual,                  !- Season
+    EnergyCharges,           !- Category Variable Name
+    0.1023;                  !- Cost per Unit Value or Variable Name
+
+  UtilityCost:Charge:Block,
+    AnnualDemandCharge,      !- Utility Cost Charge Block Name
+    ConsEdisCo_No-9_GeneralLarge,  !- Tariff Name
+    totalDemand,             !- Source Variable
+    Annual,                  !- Season
+    DemandCharges,           !- Category Variable Name
+    ,                        !- Remaining Into Variable
+    ,                        !- Block Size Multiplier Value or Variable Name
+    5.0,                     !- Block Size 1 Value or Variable Name
+    0.0,                     !- Block 1 Cost per Unit Value or Variable Name
+    900.0,                   !- Block Size 2 Value or Variable Name
+    17.46,                   !- Block 2 Cost per Unit Value or Variable Name
+    remaining,               !- Block Size 3 Value or Variable Name
+    16.24;                   !- Block 3 Cost per Unit Value or Variable Name
+
+  UtilityCost:Qualify,
+    MinDemand10kw,           !- Utility Cost Qualify Name
+    ConsEdisCo_No-9_GeneralLarge,  !- Tariff Name
+    TotalDemand,             !- Variable Name
+    Minimum,                 !- Qualify Type
+    10,                      !- Threshold Value or Variable Name
+    Annual,                  !- Season
+    Count,                   !- Threshold Test
+    12;                      !- Number of Months
+
+  UtilityCost:Charge:Simple,
+    TaxofEightPercent,       !- Utility Cost Charge Simple Name
+    ConsEdisCo_No-9_GeneralLarge,  !- Tariff Name
+    SubTotal,                !- Source Variable
+    Annual,                  !- Season
+    Taxes,                   !- Category Variable Name
+    0.08;                    !- Cost per Unit Value or Variable Name
+
+! end  ConsEdisCo_No-9_GeneralLarge
+
+  UtilityCost:Tariff,
+    ConsEdisCo_No-2_GeneralSmall,  !- Name
+    Electricity:Facility,    !- Output Meter Name
+    kWh,                     !- Conversion Factor Choice
+    ,                        !- Energy Conversion Factor
+    ,                        !- Demand Conversion Factor
+    ,                        !- Time of Use Period Schedule Name
+    ,                        !- Season Schedule Name
+    ,                        !- Month Schedule Name
+    halfHour,                !- Demand Window Length
+    12.74,                   !- Monthly Charge or Variable Name
+    ,                        !- Minimum Monthly Charge or Variable Name
+    ,                        !- Real Time Pricing Charge Schedule Name
+    ,                        !- Customer Baseline Load Schedule Name
+    Comm Elect;              !- Group Name
+
+  UtilityCost:Charge:Block,
+    AnnualEnergyCharge,      !- Utility Cost Charge Block Name
+    ConsEdisCo_No-2_GeneralSmall,  !- Tariff Name
+    totalEnergy,             !- Source Variable
+    Annual,                  !- Season
+    EnergyCharges,           !- Category Variable Name
+    ,                        !- Remaining Into Variable
+    ,                        !- Block Size Multiplier Value or Variable Name
+    900.0,                   !- Block Size 1 Value or Variable Name
+    0.1730,                  !- Block 1 Cost per Unit Value or Variable Name
+    1100.0,                  !- Block Size 2 Value or Variable Name
+    0.1660,                  !- Block 2 Cost per Unit Value or Variable Name
+    remaining,               !- Block Size 3 Value or Variable Name
+    0.1329;                  !- Block 3 Cost per Unit Value or Variable Name
+
+  UtilityCost:Qualify,
+    MaxDemand10kw,           !- Utility Cost Qualify Name
+    ConsEdisCo_No-2_GeneralSmall,  !- Tariff Name
+    TotalDemand,             !- Variable Name
+    Maximum,                 !- Qualify Type
+    10,                      !- Threshold Value or Variable Name
+    Annual,                  !- Season
+    Count,                   !- Threshold Test
+    1;                       !- Number of Months
+
+  UtilityCost:Charge:Simple,
+    TaxofEightPercent,       !- Utility Cost Charge Simple Name
+    ConsEdisCo_No-2_GeneralSmall,  !- Tariff Name
+    SubTotal,                !- Source Variable
+    Annual,                  !- Season
+    Taxes,                   !- Category Variable Name
+    0.08;                    !- Cost per Unit Value or Variable Name
+
+! end ConsEdisCo_No-2_GeneralSmall
+
+  UtilityCost:Tariff,
+    NY_EIAMonthlyRateGas,    !- Name
+    Gas:Facility,            !- Output Meter Name
+    MCF,                     !- Conversion Factor Choice
+    ,                        !- Energy Conversion Factor
+    ,                        !- Demand Conversion Factor
+    ,                        !- Time of Use Period Schedule Name
+    ,                        !- Season Schedule Name
+    ,                        !- Month Schedule Name
+    ,                        !- Demand Window Length
+    0.0,                     !- Monthly Charge or Variable Name
+    ,                        !- Minimum Monthly Charge or Variable Name
+    ,                        !- Real Time Pricing Charge Schedule Name
+    ,                        !- Customer Baseline Load Schedule Name
+    Comm Gas;                !- Group Name
+
+  UtilityCost:Charge:Simple,
+    MonthlyRateGasCharge,    !- Utility Cost Charge Simple Name
+    NY_EIAMonthlyRateGas,    !- Tariff Name
+    totalEnergy,             !- Source Variable
+    Annual,                  !- Season
+    EnergyCharges,           !- Category Variable Name
+    NY_MonthlyGasRates;      !- Cost per Unit Value or Variable Name
+
+  UtilityCost:Variable,
+    NY_MonthlyGasRates,      !- Name
+    NY_EIAMonthlyRateGas,    !- Tariff Name
+    Currency,                !- Variable Type
+    9.55,                    !- January Value
+    9.82,                    !- February Value
+    9.79,                    !- March Value
+    9.25,                    !- April Value
+    8.75,                    !- May Value
+    9.52,                    !- June Value
+    9.28,                    !- July Value
+    9.19,                    !- August Value
+    8.74,                    !- September Value
+    9.04,                    !- October Value
+    8.51,                    !- November Value
+    9.24;                    !- December Value
+
+  UtilityCost:Charge:Simple,
+    TaxofEightPercent,       !- Utility Cost Charge Simple Name
+    NY_EIAMonthlyRateGas,    !- Tariff Name
+    SubTotal,                !- Source Variable
+    Annual,                  !- Season
+    Taxes,                   !- Category Variable Name
+    0.08;                    !- Cost per Unit Value or Variable Name
+
+! Deru and Torcellini 2007
+! Source Energy and Emission Factors for Energy Use in Buildings
+! NREL/TP-550-38617
+! source factor and Higher Heating Values from Table 5
+! post-combustion emission factors for boiler from Table 9 (with factor of 1000 correction for natural gas)
+
+  FuelFactors,
+    NaturalGas,              !- Existing Fuel Resource Name
+    m3,                      !- Units of Measure
+    37631000,                !- Energy per Unit Factor
+    1.092,                   !- Source Energy Factor {J/J}
+    ,                        !- Source Energy Schedule Name
+    5.21E+01,                !- CO2 Emission Factor {g/MJ}
+    ,                        !- CO2 Emission Factor Schedule Name
+    3.99E-02,                !- CO Emission Factor {g/MJ}
+    ,                        !- CO Emission Factor Schedule Name
+    1.06E-03,                !- CH4 Emission Factor {g/MJ}
+    ,                        !- CH4 Emission Factor Schedule Name
+    4.73E-02,                !- NOx Emission Factor {g/MJ}
+    ,                        !- NOx Emission Factor Schedule Name
+    1.06E-03,                !- N2O Emission Factor {g/MJ}
+    ,                        !- N2O Emission Factor Schedule Name
+    2.68E-04,                !- SO2 Emission Factor {g/MJ}
+    ,                        !- SO2 Emission Factor Schedule Name
+    0.0,                     !- PM Emission Factor {g/MJ}
+    ,                        !- PM Emission Factor Schedule Name
+    3.59E-03,                !- PM10 Emission Factor {g/MJ}
+    ,                        !- PM10 Emission Factor Schedule Name
+    0.0,                     !- PM2.5 Emission Factor {g/MJ}
+    ,                        !- PM2.5 Emission Factor Schedule Name
+    0,                       !- NH3 Emission Factor {g/MJ}
+    ,                        !- NH3 Emission Factor Schedule Name
+    2.61E-03,                !- NMVOC Emission Factor {g/MJ}
+    ,                        !- NMVOC Emission Factor Schedule Name
+    1.11E-07,                !- Hg Emission Factor {g/MJ}
+    ,                        !- Hg Emission Factor Schedule Name
+    2.13E-07,                !- Pb Emission Factor {g/MJ}
+    ,                        !- Pb Emission Factor Schedule Name
+    0,                       !- Water Emission Factor {L/MJ}
+    ,                        !- Water Emission Factor Schedule Name
+    0,                       !- Nuclear High Level Emission Factor {g/MJ}
+    ,                        !- Nuclear High Level Emission Factor Schedule Name
+    0;                       !- Nuclear Low Level Emission Factor {m3/MJ}
+
+!
+
+  FuelFactors,
+    FuelOil#1,               !- Existing Fuel Resource Name
+    m3,                      !- Units of Measure
+    38.656E+09,              !- Energy per Unit Factor
+    1.158,                   !- Source Energy Factor {J/J}
+    ,                        !- Source Energy Schedule Name
+    7.06E+01,                !- CO2 Emission Factor {g/MJ}
+    ,                        !- CO2 Emission Factor Schedule Name
+    1.68E-02,                !- CO Emission Factor {g/MJ}
+    ,                        !- CO Emission Factor Schedule Name
+    7.19E-04,                !- CH4 Emission Factor {g/MJ}
+    ,                        !- CH4 Emission Factor Schedule Name
+    6.67E-02,                !- NOx Emission Factor {g/MJ}
+    ,                        !- NOx Emission Factor Schedule Name
+    3.70E-04,                !- N2O Emission Factor {g/MJ}
+    ,                        !- N2O Emission Factor Schedule Name
+    1.06E-01,                !- SO2 Emission Factor {g/MJ}
+    ,                        !- SO2 Emission Factor Schedule Name
+    0.0,                     !- PM Emission Factor {g/MJ}
+    ,                        !- PM Emission Factor Schedule Name
+    5.82E-03,                !- PM10 Emission Factor {g/MJ}
+    ,                        !- PM10 Emission Factor Schedule Name
+    0.0,                     !- PM2.5 Emission Factor {g/MJ}
+    ,                        !- PM2.5 Emission Factor Schedule Name
+    0,                       !- NH3 Emission Factor {g/MJ}
+    ,                        !- NH3 Emission Factor Schedule Name
+    1.14E-03,                !- NMVOC Emission Factor {g/MJ}
+    ,                        !- NMVOC Emission Factor Schedule Name
+    0.0,                     !- Hg Emission Factor {g/MJ}
+    ,                        !- Hg Emission Factor Schedule Name
+    0.0,                     !- Pb Emission Factor {g/MJ}
+    ,                        !- Pb Emission Factor Schedule Name
+    0,                       !- Water Emission Factor {L/MJ}
+    ,                        !- Water Emission Factor Schedule Name
+    0,                       !- Nuclear High Level Emission Factor {g/MJ}
+    ,                        !- Nuclear High Level Emission Factor Schedule Name
+    0;                       !- Nuclear Low Level Emission Factor {m3/MJ}
+
+  FuelFactors,
+    Propane,                 !- Existing Fuel Resource Name
+    m3,                      !- Units of Measure
+    25.362E+09,              !- Energy per Unit Factor
+    1.151,                   !- Source Energy Factor {J/J}
+    ,                        !- Source Energy Schedule Name
+    6.27E+01,                !- CO2 Emission Factor {g/MJ}
+    ,                        !- CO2 Emission Factor Schedule Name
+    1.03E-02,                !- CO Emission Factor {g/MJ}
+    ,                        !- CO Emission Factor Schedule Name
+    1.03E-03,                !- CH4 Emission Factor {g/MJ}
+    ,                        !- CH4 Emission Factor Schedule Name
+    7.41E-02,                !- NOx Emission Factor {g/MJ}
+    ,                        !- NOx Emission Factor Schedule Name
+    4.61E-03,                !- N2O Emission Factor {g/MJ}
+    ,                        !- N2O Emission Factor Schedule Name
+    0.0,                     !- SO2 Emission Factor {g/MJ}
+    ,                        !- SO2 Emission Factor Schedule Name
+    0.0,                     !- PM Emission Factor {g/MJ}
+    ,                        !- PM Emission Factor Schedule Name
+    2.31E-03,                !- PM10 Emission Factor {g/MJ}
+    ,                        !- PM10 Emission Factor Schedule Name
+    0.0,                     !- PM2.5 Emission Factor {g/MJ}
+    ,                        !- PM2.5 Emission Factor Schedule Name
+    0.0,                     !- NH3 Emission Factor {g/MJ}
+    ,                        !- NH3 Emission Factor Schedule Name
+    1.79E-03,                !- NMVOC Emission Factor {g/MJ}
+    ,                        !- NMVOC Emission Factor Schedule Name
+    0.0,                     !- Hg Emission Factor {g/MJ}
+    ,                        !- Hg Emission Factor Schedule Name
+    0.0,                     !- Pb Emission Factor {g/MJ}
+    ,                        !- Pb Emission Factor Schedule Name
+    0,                       !- Water Emission Factor {L/MJ}
+    ,                        !- Water Emission Factor Schedule Name
+    0,                       !- Nuclear High Level Emission Factor {g/MJ}
+    ,                        !- Nuclear High Level Emission Factor Schedule Name
+    0;                       !- Nuclear Low Level Emission Factor {m3/MJ}
+
+  ElectricLoadCenter:Distribution,
+    Main Load Center,        !- Name
+    Generator List,          !- Generator List Name
+    FollowThermal,           !- Generator Operation Scheme Type
+    0,                       !- Generator Demand Limit Scheme Purchased Electric Demand Limit {W}
+    ,                        !- Generator Track Schedule Name Scheme Schedule Name
+    ,                        !- Generator Track Meter Scheme Meter Name
+    AlternatingCurrent;      !- Electrical Buss Type
+
+  ElectricLoadCenter:Generators,
+    Generator List,          !- Name
+    MicroCoGen1,             !- Generator 1 Name
+    Generator:MicroCHP,      !- Generator 1 Object Type
+    5500.0000,               !- Generator 1 Rated Electric Power Output {W}
+    ALWAYS_ON,               !- Generator 1 Availability Schedule Name
+    2.4440;                  !- Generator 1 Rated Thermal to Electrical Power Ratio
+
+  ElectricLoadCenter:Distribution,
+    Generic Renewable Gen,   !- Name
+    Fake wind turbine list,  !- Generator List Name
+    Baseload,                !- Generator Operation Scheme Type
+    0,                       !- Generator Demand Limit Scheme Purchased Electric Demand Limit {W}
+    ,                        !- Generator Track Schedule Name Scheme Schedule Name
+    ,                        !- Generator Track Meter Scheme Meter Name
+    AlternatingCurrent;      !- Electrical Buss Type
+
+  ElectricLoadCenter:Generators,
+    Fake wind turbine list,  !- Name
+    Mythical Wind Turbine,   !- Generator 1 Name
+    Generator:CombustionTurbine,  !- Generator 1 Object Type
+    456.0,                   !- Generator 1 Rated Electric Power Output {W}
+    ALWAYS_ON,               !- Generator 1 Availability Schedule Name
+    1.0;                     !- Generator 1 Rated Thermal to Electrical Power Ratio
+
+  Generator:CombustionTurbine,
+    Mythical Wind Turbine,   !- Name
+    456,                     !- Rated Power Output {W}
+    ,                        !- Electric Circuit Node Name
+    1.0,                     !- Minimum Part Load Ratio
+    1.0,                     !- Maximum Part Load Ratio
+    1.0,                     !- Optimum Part Load Ratio
+    Mythical Wind Turbine Null Input Curve,  !- Part Load Based Fuel Input Curve Name
+    Mythical Wind Turbine Null Input Curve,  !- Temperature Based Fuel Input Curve Name
+    Mythical Wind Turbine Null Input Curve,  !- Exhaust Flow Curve Name
+    Mythical Wind Turbine Null Input Curve,  !- Part Load Based Exhaust Temperature Curve Name
+    Mythical Wind Turbine Null Input Curve,  !- Temperature Based Exhaust Temperature Curve Name
+    Mythical Wind Turbine Null Input Curve,  !- Heat Recovery Lube Energy Curve Name
+    0.02,                    !- Coefficient 1 of U-Factor Times Area Curve
+    0.9,                     !- Coefficient 2 of U-Factor Times Area Curve
+    0.0,                     !- Maximum Exhaust Flow per Unit of Power Output {(kg/s)/W}
+    150,                     !- Design Minimum Exhaust Temperature {C}
+    25,                      !- Design Air Inlet Temperature {C}
+    43500,                   !- Fuel Higher Heating Value {kJ/kg}
+    0.0,                     !- Design Heat Recovery Water Flow Rate {m3/s}
+    ,                        !- Heat Recovery Inlet Node Name
+    ,                        !- Heat Recovery Outlet Node Name
+    NaturalGas;              !- Fuel Type
+
+  Curve:Quadratic,
+    Mythical Wind Turbine Null Input Curve,  !- Name
+    0.0,                     !- Coefficient1 Constant
+    0.0,                     !- Coefficient2 x
+    0.0,                     !- Coefficient3 x**2
+    0,                       !- Minimum Value of x
+    1;                       !- Maximum Value of x
+
+  ElectricLoadCenter:Distribution,
+    SOFC Electric Load Center,  !- Name
+    Micro-Generators,        !- Generator List Name
+    Baseload,                !- Generator Operation Scheme Type
+    0.0,                     !- Generator Demand Limit Scheme Purchased Electric Demand Limit {W}
+    ,                        !- Generator Track Schedule Name Scheme Schedule Name
+    ,                        !- Generator Track Meter Scheme Meter Name
+    AlternatingCurrent;      !- Electrical Buss Type
+
+  ElectricLoadCenter:Generators,
+    Micro-Generators,        !- Name
+    FCT SOFC,                !- Generator 1 Name
+    Generator:FuelCell,      !- Generator 1 Object Type
+    3400,                    !- Generator 1 Rated Electric Power Output {W}
+    Always_ON,               !- Generator 1 Availability Schedule Name
+    ;                        !- Generator 1 Rated Thermal to Electrical Power Ratio
+
+  ! Generator:FuelCell,
+  !   FCT SOFC,                !- Name
+  !   FCT SOFC Power Module,   !- Power Module Name
+  !   FCT SOFC Air Supply,     !- Air Supply Name
+  !   FCT SOFC Fuel Supply,    !- Fuel Supply Name
+  !   FCT SOFC Water Supply,   !- Water Supply Name
+  !   FCT SOFC Auxiliary Heater,  !- Auxiliary Heater Name
+  !   FCT SOFC Exhaust HX,     !- Heat Exchanger Name
+  !   FCT SOFC Battery,        !- Electrical Storage Name
+  !   FCT SOFC Inverter;       !- Inverter Name
+
+  Generator:FuelCell,
+    FCT SOFC,                !- Name
+    FCT SOFC Power Module,   !- Power Module Name
+    FCT SOFC Air Supply,     !- Air Supply Name
+    FCT SOFC Fuel Supply,    !- Fuel Supply Name
+    FCT SOFC Water Supply,   !- Water Supply Name
+    ,  !- Auxiliary Heater Name
+    FCT SOFC Exhaust HX,     !- Heat Exchanger Name
+    FCT SOFC Battery,        !- Electrical Storage Name
+    FCT SOFC Inverter;       !- Inverter Name
+
+
+  Generator:FuelCell:PowerModule,
+    FCT SOFC Power Module,   !- Name
+    Annex42,                 !- Efficiency Curve Mode
+    FCT Power Curve,         !- Efficiency Curve Name
+    0.354,                   !- Nominal Efficiency
+    3400,                    !- Nominal Electrical Power {W}
+    0,                       !- Number of Stops at Start of Simulation
+    0.0,                     !- Cycling Performance Degradation Coefficient
+    0,                       !- Number of Run Hours at Beginning of Simulation {hr}
+    0.0,                     !- Accumulated Run Time Degradation Coefficient
+    10000,                   !- Run Time Degradation Initiation Time Threshold {hr}
+    1.4,                     !- Power Up Transient Limit {W/s}
+    0.2,                     !- Power Down Transient Limit {W/s}
+    0.0,                     !- Start Up Time {s}
+    0.2,                     !- Start Up Fuel {kmol}
+    ,                        !- Start Up Electricity Consumption {J}
+    0.0,                     !- Start Up Electricity Produced {J}
+    0.0,                     !- Shut Down Time {s}
+    0.2,                     !- Shut Down Fuel {kmol}
+    ,                        !- Shut Down Electricity Consumption {J}
+    0.0,                     !- Ancillary Electricity Constant Term
+    0.0,                     !- Ancillary Electricity Linear Term
+    ConstantRate,            !- Skin Loss Calculation Mode
+    ! ZN_1_FLR_1_SEC_5,        !- Zone Name
+    ,        !- Zone Name
+    0.6392,                  !- Skin Loss Radiative Fraction
+    729,                     !- Constant Skin Loss Rate {W}
+    0.0,                     !- Skin Loss U-Factor Times Area Term {W/K}
+    ,                        !- Skin Loss Quadratic Curve Name
+    6.156E-3,                !- Dilution Air Flow Rate {kmol/s}
+    2307,                    !- Stack Heat loss to Dilution Air {W}
+    SOFC Air HR Inlet,       !- Dilution Inlet Air Node Name
+    SOFC Air HR Outlet,      !- Dilution Outlet Air Node Name
+    3010,                    !- Minimum Operating Point {W}
+    3728;                    !- Maximum Operating Point {W}
+
+  Curve:Quadratic,
+    FCT Power Curve,         !- Name
+    0.642388,                !- Coefficient1 Constant
+    -1.619E-4,               !- Coefficient2 x
+    2.26007E-8,              !- Coefficient3 x**2
+    0.0,                     !- Minimum Value of x
+    10000;                   !- Maximum Value of x
+
+  Generator:FuelCell:AirSupply,
+    FCT SOFC Air Supply,     !- Name
+    SOFC Air Inlet Node,     !- Air Inlet Node Name
+    FCT Blower Power Curve,  !- Blower Power Curve Name
+    1.0,                     !- Blower Heat Loss Factor
+    QuadraticFunctionofElectricPower,  !- Air Supply Rate Calculation Mode
+    ,                        !- Stoichiometric Ratio
+    FCT Excess Air Ratio Curve,  !- Air Rate Function of Electric Power Curve Name
+    2.83507E-3,              !- Air Rate Air Temperature Coefficient
+    ,                        !- Air Rate Function of Fuel Rate Curve Name
+    NoRecovery,              !- Air Intake Heat Recovery Mode
+    UserDefinedConstituents, !- Air Supply Constituent Mode
+    5,                       !- Number of UserDefined Constituents
+    Nitrogen,                !- Constituent 1 Name
+    0.7728,                  !- Molar Fraction 1
+    Oxygen,                  !- Constituent 2 Name
+    0.2073,                  !- Molar Fraction 2
+    Water,                   !- Constituent 3 Name
+    0.0104,                  !- Molar Fraction 3
+    Argon,                   !- Constituent 4 Name
+    0.0092,                  !- Molar Fraction 4
+    CarbonDioxide,           !- Constituent 5 Name
+    0.0003;                  !- Molar Fraction 5
+
+  Curve:Cubic,
+    FCT Blower Power Curve,  !- Name
+    0.0,                     !- Coefficient1 Constant
+    0.0,                     !- Coefficient2 x
+    0.0,                     !- Coefficient3 x**2
+    0.0,                     !- Coefficient4 x**3
+    0.0,                     !- Minimum Value of x
+    100000;                  !- Maximum Value of x
+
+  Curve:Quadratic,
+    FCT Excess Air Ratio Curve,  !- Name
+    1.50976E-3,              !- Coefficient1 Constant
+    -7.76656E-7,             !- Coefficient2 x
+    1.30317E-10,             !- Coefficient3 x**2
+    0.0,                     !- Minimum Value of x
+    1000000.0;               !- Maximum Value of x
+
+! sets of input data on each constituent
+
+  Generator:FuelSupply,
+    FCT SOFC Fuel Supply,    !- Name
+    TemperatureFromAirNode,  !- Fuel Temperature Modeling Mode
+    SOFC Air Inlet Node,     !- Fuel Temperature Reference Node Name
+    ,                        !- Fuel Temperature Schedule Name
+    Null Cubic,              !- Compressor Power Multiplier Function of Fuel Rate Curve Name
+    1.0,                     !- Compressor Heat Loss Factor
+    GaseousConstituents,     !- Fuel Type
+    ,                        !- Liquid Generic Fuel Lower Heating Value {kJ/kg}
+    ,                        !- Liquid Generic Fuel Higher Heating Value {kJ/kg}
+    ,                        !- Liquid Generic Fuel Molecular Weight {g/mol}
+    ,                        !- Liquid Generic Fuel CO2 Emission Factor
+    8,                       !- Number of Constituents in Gaseous Constituent Fuel Supply
+    METHANE,                 !- Constituent 1 Name
+    0.9490,                  !- Constituent 1 Molar Fraction
+    CarbonDioxide,           !- Constituent 2 Name
+    0.0070,                  !- Constituent 2 Molar Fraction
+    NITROGEN,                !- Constituent 3 Name
+    0.0160,                  !- Constituent 3 Molar Fraction
+    ETHANE,                  !- Constituent 4 Name
+    0.0250,                  !- Constituent 4 Molar Fraction
+    PROPANE,                 !- Constituent 5 Name
+    0.0020,                  !- Constituent 5 Molar Fraction
+    BUTANE,                  !- Constituent 6 Name
+    0.0006,                  !- Constituent 6 Molar Fraction
+    PENTANE,                 !- Constituent 7 Name
+    0.0002,                  !- Constituent 7 Molar Fraction
+    OXYGEN,                  !- Constituent 8 Name
+    0.0002;                  !- Constituent 8 Molar Fraction
+
+  Curve:Cubic,
+    FCT Fuel Compressor Power Curve,  !- Name
+    10.0,                    !- Coefficient1 Constant
+    1000000.0,               !- Coefficient2 x
+    0.0,                     !- Coefficient3 x**2
+    0.0,                     !- Coefficient4 x**3
+    0.0,                     !- Minimum Value of x
+    500;                     !- Maximum Value of x
+
+  Generator:FuelCell:WaterSupply,
+    FCT SOFC Water Supply,   !- Name
+    Null Quadratic,          !- Reformer Water Flow Rate Function of Fuel Rate Curve Name
+    Null Cubic,              !- Reformer Water Pump Power Function of Fuel Rate Curve Name
+    0.0,                     !- Pump Heat Loss Factor
+    TemperatureFromAirNode,  !- Water Temperature Modeling Mode
+    SOFC Air Inlet Node;     !- Water Temperature Reference Node Name
+
+  Curve:Quadratic,
+    Null Quadratic,          !- Name
+    0.0,                     !- Coefficient1 Constant
+    0.0,                     !- Coefficient2 x
+    0.0,                     !- Coefficient3 x**2
+    -1.0E+10,                !- Minimum Value of x
+    1.0E+10;                 !- Maximum Value of x
+
+  Curve:Cubic,
+    Null Cubic,              !- Name
+    0.0,                     !- Coefficient1 Constant
+    0.0,                     !- Coefficient2 x
+    0.0,                     !- Coefficient3 x**2
+    0.0,                     !- Coefficient4 x**3
+    -1.0E+10,                !- Minimum Value of x
+    1.0E+10;                 !- Maximum Value of x
+
+  ! Generator:FuelCell:AuxiliaryHeater,
+  !   FCT SOFC Auxiliary Heater,  !- Name
+  !   0.0,                     !- Excess Air Ratio
+  !   0.0,                     !- Ancillary Power Constant Term
+  !   0.0,                     !- Ancillary Power Linear Term
+  !   0.5,                     !- Skin Loss U-Factor Times Area Value {W/K}
+  !   SurroundingZone,         !- Skin Loss Destination
+  !   ZN_1_FLR_1_SEC_5,        !- Zone Name to Receive Skin Losses
+  !   Watts,                   !- Heating Capacity Units
+  !   0.0,                     !- Maximum Heating Capacity in Watts {W}
+  !   0.0;                     !- Minimum Heating Capacity in Watts {W}
+
+  Generator:FuelCell:AuxiliaryHeater,
+    FCT SOFC Auxiliary Heater,  !- Name
+    0.0,                     !- Excess Air Ratio
+    0.0,                     !- Ancillary Power Constant Term
+    0.0,                     !- Ancillary Power Linear Term
+    0.5,                     !- Skin Loss U-Factor Times Area Value {W/K}
+    ,         !- Skin Loss Destination
+    ,        !- Zone Name to Receive Skin Losses
+    Watts,                   !- Heating Capacity Units
+    0.0,                     !- Maximum Heating Capacity in Watts {W}
+    0.0;                     !- Minimum Heating Capacity in Watts {W}
+
+
+  Generator:FuelCell:ExhaustGasToWaterHeatExchanger,
+    FCT SOFC Exhaust HX,     !- Name
+    Small SOFC Heat Rec Inlet Node,  !- Heat Recovery Water Inlet Node Name
+    Small SOFC Heat Rec Outlet Node,  !- Heat Recovery Water Outlet Node Name
+    0.0004,                  !- Heat Recovery Water Maximum Flow Rate {m3/s}
+    SOFC Air Outlet Node,    !- Exhaust Outlet Air Node Name
+    CONDENSING,              !- Heat Exchanger Calculation Method
+    ,                        !- Method 1 Heat Exchanger Effectiveness
+    83.1,                    !- Method 2 Parameter hxs0
+    4798,                    !- Method 2 Parameter hxs1
+    -138E+3,                 !- Method 2 Parameter hxs2
+    -353.8E+3,               !- Method 2 Parameter hxs3
+    5.15E+8,                 !- Method 2 Parameter hxs4
+    ,                        !- Method 3 h0Gas Coefficient
+    ,                        !- Method 3 NdotGasRef Coefficient
+    ,                        !- Method 3 n Coefficient
+    ,                        !- Method 3 Gas Area {m2}
+    ,                        !- Method 3 h0 Water Coefficient
+    ,                        !- Method 3 N dot Water ref Coefficient
+    ,                        !- Method 3 m Coefficient
+    ,                        !- Method 3 Water Area {m2}
+    ,                        !- Method 3 F Adjustment Factor
+    -1.96E-4,                !- Method 4 hxl1 Coefficient
+    3.1E-3,                  !- Method 4 hxl2 Coefficient
+    35.0;                    !- Method 4 Condensation Threshold {C}
+
+  Generator:FuelCell:ElectricalStorage,
+    FCT SOFC Battery,        !- Name
+    SimpleEfficiencyWithConstraints,  !- Choice of Model
+    1.0,                     !- Nominal Charging Energetic Efficiency
+    1.0,                     !- Nominal Discharging Energetic Efficiency
+    0,                       !- Simple Maximum Capacity {J}
+    0,                       !- Simple Maximum Power Draw {W}
+    0,                       !- Simple Maximum Power Store {W}
+    0;                       !- Initial Charge State {J}
+
+  Generator:FuelCell:Inverter,
+    FCT SOFC Inverter,       !- Name
+    QUADRATIC,               !- Inverter Efficiency Calculation Mode
+    ,                        !- Inverter Efficiency
+    FCT Inverter Quadratic;  !- Efficiency Function of DC Power Curve Name
+
+  Curve:Quadratic,
+    FCT Inverter Quadratic,  !- Name
+    0.560717,                !- Coefficient1 Constant
+    1.24019E-4,              !- Coefficient2 x
+    -2.01648E-8,             !- Coefficient3 x**2
+    -1.0E+10,                !- Minimum Value of x
+    1.0E+10;                 !- Maximum Value of x
