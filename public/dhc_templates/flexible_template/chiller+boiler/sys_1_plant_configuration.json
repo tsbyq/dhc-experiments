@@ -1,0 +1,43 @@
+{
+  "boilers": [
+    {
+      "efficiency": 0.8,
+      "fuel": "NaturalGas"
+    },
+    {
+      "efficiency": 0.8,
+      "fuel": "NaturalGas"
+    },
+    {
+      "efficiency": 0.8,
+      "fuel": "NaturalGas"
+    },
+    {
+      "efficiency": 0.8,
+      "fuel": "NaturalGas"
+    }
+  ],
+  "chillers": [
+    {
+      "COP": 9.5,
+      "condenser": "WaterCooled",
+      "type": "ElectricCentrifugalChiller"
+    },
+    {
+      "COP": 9.5,
+      "condenser": "WaterCooled",
+      "type": "ElectricCentrifugalChiller"
+    },
+    {
+      "COP": 9.5,
+      "condenser": "WaterCooled",
+      "type": "ElectricCentrifugalChiller"
+    },
+    {
+      "COP": 9.5,
+      "condenser": "WaterCooled",
+      "type": "ElectricCentrifugalChiller"
+    }
+  ],
+  "cooling-towers": []
+}

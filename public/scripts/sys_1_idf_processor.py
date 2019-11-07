@@ -184,6 +184,15 @@ if __name__ == "__main__":
         idd_file_dir = sys.argv[6]
         auto_generate_from_template(base_loadprofile_idf_dir, base_plant_idf_dir, plant_configuration_json_dir, final_idf_dir, final_idf_name, idd_file_dir)
     except:
-        # Show usage instruction
-        print('Usage: Python <this_script.py> <base_loadprofile_idf_dir> <base_plant_idf_dir> <plant_configuration_json_dir> <final_idf_dir> <idd_file_dir>')
+        try:
+            base_loadprofile_idf_dir = 'base_LP.idf'
+            base_plant_idf_dir = 'base_plant.idf'
+            plant_configuration_json_dir = 'sys_1_plant_configuration.json'
+            final_idf_dir = './'
+            final_idf_name = f'{datetime}.idf'
+            idd_file_dir = 'Energy+.idd'
+            auto_generate_from_template(base_loadprofile_idf_dir, base_plant_idf_dir, plant_configuration_json_dir, final_idf_dir, final_idf_name, idd_file_dir)
+        except:
+            # Show usage instruction
+            print('Usage: Python <this_script.py> <base_loadprofile_idf_dir> <base_plant_idf_dir> <plant_configuration_json_dir> <final_idf_dir> <idd_file_dir>')
 

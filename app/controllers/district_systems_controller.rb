@@ -312,6 +312,9 @@ class DistrictSystemsController < ApplicationController
   end
 
   def generate_sys_1_idf(params, temp_run_path)
+    key_stats = params[:district_system_config][:key_stats]
+    peak_heating_w_system_type_1 = key_stats["peak heating demand"].to_f
+    peak_cooling_w_system_type_1 = key_stats["peak cooling demand"].to_f
     reciprocating_chiller_cop = params[:district_system_config][:reciprocating_chiller_cop_type_1].to_f
     reciprocating_chiller_number = params[:district_system_config][:reciprocating_chiller_number_type_1].to_i
     screw_chiller_cop = params[:district_system_config][:screw_chiller_cop_type_1].to_f
@@ -389,6 +392,8 @@ class DistrictSystemsController < ApplicationController
     # Generate sys_1.idf in the temp run folder
     sys_1_idf_processor(@@python_command,
                         @@sys_1_idf_processor_py,
+                        peak_heating_w_system_type_1,
+                        peak_cooling_w_system_type_1,
                         @@sys_type_1_base_loadprofile_template_idf_path,
                         @@sys_type_1_base_plant_template_idf_path,
                         plant_template_json_dir,
@@ -410,7 +415,6 @@ class DistrictSystemsController < ApplicationController
   end
 
   def generate_sys_4_idf(params, temp_run_path)
-    puts '+' * 100
     key_stats = params[:district_system_config][:key_stats]
     peak_heating_w_system_type_4 = key_stats["peak heating demand"].to_f
     peak_cooling_w_system_type_4 = key_stats["peak cooling demand"].to_f
@@ -418,12 +422,6 @@ class DistrictSystemsController < ApplicationController
     cooling_cop = params[:district_system_config][:cooling_cop_type_4].to_f
     n_borehole = params[:district_system_config][:n_borehole_type_4].to_i
     soil_k = params[:district_system_config][:soil_k_number_type_4].to_f
-    puts peak_heating_w_system_type_4
-    puts peak_cooling_w_system_type_4
-    puts heating_cop
-    puts cooling_cop
-    puts n_borehole
-    puts soil_k
     sys_4_idf_processor(@@python_command,
                         @@sys_4_idf_processor_py,
                         peak_heating_w_system_type_4,
@@ -435,7 +433,6 @@ class DistrictSystemsController < ApplicationController
                         @@sys_type_4_base_template_idf_path,
                         temp_run_path + @@sys_type_4_idf_name,
                         @@idd_file_dir)
-    puts '+' * 100
   end
 
   def run_simulate(jobs_json_dir)
@@ -457,8 +454,8 @@ class DistrictSystemsController < ApplicationController
     Process.wait pid
   end
 
-  def sys_1_idf_processor(python_command, py_script, base_loadprofile_idf_dir, base_plant_idf_dir, plant_configuration_json_dir, final_idf_dir, final_idf_name, idd_file_dir)
-    pid = spawn("#{python_command} #{py_script} #{base_loadprofile_idf_dir} #{base_plant_idf_dir} #{plant_configuration_json_dir} #{final_idf_dir} #{final_idf_name} #{idd_file_dir}")
+  def sys_1_idf_processor(python_command, py_script, peak_heating_w_system_type_1, peak_cooling_w_system_type_1, base_loadprofile_idf_dir, base_plant_idf_dir, plant_configuration_json_dir, final_idf_dir, final_idf_name, idd_file_dir)
+    pid = spawn("#{python_command} #{py_script} #{peak_heating_w_system_type_1} #{peak_cooling_w_system_type_1} #{base_loadprofile_idf_dir} #{base_plant_idf_dir} #{plant_configuration_json_dir} #{final_idf_dir} #{final_idf_name} #{idd_file_dir}")
     Process.wait pid
   end
 
