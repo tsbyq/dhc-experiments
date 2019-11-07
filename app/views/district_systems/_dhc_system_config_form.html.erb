@@ -173,6 +173,31 @@
       <% end %>
     </div>
 
+    <hr>
+    <h5>3. Enter Utility Price</h5>
+    <h6 class="pl-3">Input utility price for electricity and natural gas, otherwise CityBES will use the default
+      price.</h6>
+    <div class="row pl-5 pb-1">
+      <div class="col-6"><b>Fuel Type</b></div>
+      <div class="col-6"><b>Unit Price</b></div>
+    </div>
+    <div class="row pl-5">
+      <div class="col-6">
+        <%= form.label "Electricity Unit Price ($/kWh)" %>
+      </div>
+      <div class="col-6">
+        <%= form.number_field "electricity_unit_price", :required => true, :value => 0.042, step: :any, class: 'text-center' %>
+      </div>
+    </div>
+    <div class="row pl-5">
+      <div class="col-6">
+        <%= form.label "Natural Gas Unit Price ($/MMBTU)" %>
+      </div>
+      <div class="col-6">
+        <%= form.number_field "natural_gas_unit_price", :required => true, :value => 151, step: :any, class: 'text-center' %>
+      </div>
+    </div>
+
     <div class="row pl-5 pt-5">
       <p><%= form.submit 'Simulate' %></p>
     </div>

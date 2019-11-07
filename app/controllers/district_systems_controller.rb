@@ -145,9 +145,6 @@ class DistrictSystemsController < ApplicationController
     # A Python routine to call simulation in parallel is ready
     simulation_success = false
 
-    puts jobs_json_dir
-    puts hash_incremental_cost
-
     unless dev
       unless jobs_json_dir.nil?
         simulation_success = run_simulate(jobs_json_dir)
@@ -155,6 +152,15 @@ class DistrictSystemsController < ApplicationController
       #TODO: 3. Post-process the simulation results, prepare it as a hash, render it to the view.
       puts "Simulations are successful = #{simulation_success}"
       @simulation_results = params[:district_system_config]
+      ele_unit_cost = params[:district_system_config][:electricity_unit_price].to_f
+      gas_unit_cost = params[:district_system_config][:natural_gas_unit_price].to_f
+      if ele_unit_cost <= 0
+        ele_unit_cost = @ele_unit_cost
+      end
+      if gas_unit_cost <= 0
+        gas_unit_cost = gas_unit_cost
+      end
+
       jobs_json_hash = JSON.parse(File.read(jobs_json_dir))
       puts "Simulations are done in: #{jobs_json_hash['run dir']}"
 
@@ -165,7 +171,7 @@ class DistrictSystemsController < ApplicationController
           "annual gas" => session[:base_annual_gas_consumption],
           "peak hourly ele consumption" => session[:base_peak_ele_consumption],
           "annual electricity saving" => 0,
-          "annual utility cost" => session[:base_annual_ele_consumption] * @@ele_unit_cost + session[:base_annual_gas_consumption] * @@gas_unit_cost,
+          "annual utility cost" => session[:base_annual_ele_consumption] * ele_unit_cost + session[:base_annual_gas_consumption] * gas_unit_cost,
           "annual utility cost saving" => 0,
           "hourly electricity peak reduction" => 0,
           "annual gas saving" => 0,
@@ -182,7 +188,7 @@ class DistrictSystemsController < ApplicationController
         out_hash["annual gas saving"] = base_out_hash['annual gas'] - out_hash["annual gas"]
         out_hash["hourly electricity peak reduction"] = base_out_hash["peak hourly ele consumption"].to_f - out_hash["peak hourly ele consumption"].to_f
         out_hash['incremental cost'] = hash_incremental_cost[job['sys_type']]
-        out_hash['annual utility cost'] = out_hash["annual electricity"] * @@ele_unit_cost + out_hash["annual gas"] * @@gas_unit_cost
+        out_hash['annual utility cost'] = out_hash["annual electricity"] * ele_unit_cost + out_hash["annual gas"] * gas_unit_cost
         out_hash['annual utility cost saving'] = base_out_hash['annual utility cost'] - out_hash['annual utility cost']
         out_hash['simple payback'] = out_hash['incremental cost'].to_f / out_hash['annual utility cost saving'].to_f
         v_results.push(out_hash)

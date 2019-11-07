@@ -78,7 +78,13 @@
                     position: 'right',
                     id: 'y-axis-2',
                     ticks: {
-                        beginAtZero: true
+                        beginAtZero: true,
+                        callbacks: {
+                            label: function (tooltipItem, data) {
+                                var tooltipValue = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
+                                return parseInt(tooltipValue).toLocaleString();
+                            }
+                        }
                     },
                     gridLines: {
                         display: false,
