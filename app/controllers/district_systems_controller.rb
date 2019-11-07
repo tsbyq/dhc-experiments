@@ -253,6 +253,7 @@ class DistrictSystemsController < ApplicationController
       v_simulation_jobs = []
 
       if @sys_type_1_selected
+        params[:district_system_config][:key_stats] = session[:hash_key_stats]
         generate_sys_1_idf(params, temp_run_path)
         sys_1_idf = temp_run_path + @@sys_type_1_idf_name
         sys_1_run_dir = temp_run_path + 'sys_1'

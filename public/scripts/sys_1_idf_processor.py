@@ -1,6 +1,8 @@
 import eppy
 import json
 import shutil
+import time
+import datetime
 
 import subprocess
 import os
@@ -62,6 +64,27 @@ def expand_template_idf(template_idf='in.idf',
     cmd = [expand_objects_exe]
     p = subprocess.Popen(cmd)
     p.wait()
+
+
+def auto_update_LP_flow_rates(idf, peak_heating_w, peak_cooling_w):
+    # This function calculates and updates the peak flow rates of the LoadProfile:Plant objects
+    CP_WATER = 4186 # J/(kg*C)
+    DELTA_T_H = 30 # C
+    DELTA_T_C = 7 # C
+    RHO_WATER = 1000 #kg/m3
+    SAFE_FACTOR = 1
+
+    v_peak_flow_heating = abs(peak_cooling_w)/(CP_WATER * DELTA_T_H * RHO_WATER) # peak flow rate (m3/s)
+    v_peak_flow_cooling = abs(peak_heating_w)/(CP_WATER * DELTA_T_C * RHO_WATER) # peak flow rate (m3/s)
+    v_lp = idf.idfobjects['LoadProfile:Plant']
+    for lp in v_lp:
+        if lp.Name == "District Heating Load Profile":
+            lp.Peak_Flow_Rate = v_peak_flow_heating * SAFE_FACTOR
+        elif lp.Name == "District Cooling Load Profile":
+            lp.Peak_Flow_Rate = v_peak_flow_cooling * SAFE_FACTOR
+
+    idf.idfobjects['LoadProfile:Plant'] = v_lp
+    return idf
 
 def prepare_LP_plantloop(expanded_plant_loop_idf='expanded.idf',
                          LP_plant_loop_idf='plant_loop.idf',
@@ -155,13 +178,23 @@ def cleanup(file_path):
     if os.path.exists(file_path):
         os.remove(file_path)
 
-def auto_generate_from_template(base_LP_idf, base_plant_idf, plant_configuration_json_file, out_dir, final_idf_name, idd_file):
+def auto_generate_from_template(peak_heating_w, peak_cooling_w, base_LP_idf, base_plant_idf, plant_configuration_json_file, out_dir, final_idf_name, idd_file):
     expanded_plant_loop_idf = 'expanded.idf'
     LP_plant_loop_idf = 'plant_loop.idf'
+    temp_base_LP_idf = 'temp_base_LP.idf'
+
+    # Update the flow rate for the loadprofile:plant objects
+    IDF.setiddname(idd_file)
+    idf = IDF(base_LP_idf)
+    idf = auto_update_LP_flow_rates(idf, peak_heating_w, peak_cooling_w)
+    idf.saveas(temp_base_LP_idf)
+
     modify_template_idf(plant_configuration_json_file, base_plant_idf, idd_file=idd_file)
     expand_template_idf()
     prepare_LP_plantloop(expanded_plant_loop_idf, LP_plant_loop_idf, idd_file=idd_file)
-    append_files(base_LP_idf, LP_plant_loop_idf, final_idf_name)
+    append_files(temp_base_LP_idf, LP_plant_loop_idf, final_idf_name)
+
+    cleanup(temp_base_LP_idf)
     cleanup(expanded_plant_loop_idf)
     cleanup(LP_plant_loop_idf)
     cleanup('expandedidf.err')
@@ -170,29 +203,32 @@ def auto_generate_from_template(base_LP_idf, base_plant_idf, plant_configuration
         os.mkdir(out_dir)
     shutil.move(final_idf_name, f"{out_dir}{final_idf_name}")
 
-    print(f"{out_dir}{final_idf_name}")
-
 
 if __name__ == "__main__":
     try:
         print('Creating IDF for system type 1.')
-        base_loadprofile_idf_dir = sys.argv[1]
-        base_plant_idf_dir = sys.argv[2]
-        plant_configuration_json_dir = sys.argv[3]
-        final_idf_dir = sys.argv[4]
-        final_idf_name = sys.argv[5]
-        idd_file_dir = sys.argv[6]
-        auto_generate_from_template(base_loadprofile_idf_dir, base_plant_idf_dir, plant_configuration_json_dir, final_idf_dir, final_idf_name, idd_file_dir)
+        peak_heating_w = float(sys.argv[1])
+        peak_cooling_w = float(sys.argv[2])
+        base_loadprofile_idf_dir = sys.argv[3]
+        base_plant_idf_dir = sys.argv[4]
+        plant_configuration_json_dir = sys.argv[5]
+        final_idf_dir = sys.argv[6]
+        final_idf_name = sys.argv[7]
+        idd_file_dir = sys.argv[8]
+        auto_generate_from_template(peak_heating_w, peak_cooling_w, base_loadprofile_idf_dir, base_plant_idf_dir, plant_configuration_json_dir, final_idf_dir, final_idf_name, idd_file_dir)
     except:
-        try:
-            base_loadprofile_idf_dir = 'base_LP.idf'
-            base_plant_idf_dir = 'base_plant.idf'
-            plant_configuration_json_dir = 'sys_1_plant_configuration.json'
-            final_idf_dir = './'
-            final_idf_name = f'{datetime}.idf'
-            idd_file_dir = 'Energy+.idd'
-            auto_generate_from_template(base_loadprofile_idf_dir, base_plant_idf_dir, plant_configuration_json_dir, final_idf_dir, final_idf_name, idd_file_dir)
-        except:
-            # Show usage instruction
-            print('Usage: Python <this_script.py> <base_loadprofile_idf_dir> <base_plant_idf_dir> <plant_configuration_json_dir> <final_idf_dir> <idd_file_dir>')
+        print('Usage: Python <this_script.py> <peak_heating_w> <peak_cooling_w> <base_loadprofile_idf_dir> <base_plant_idf_dir> <plant_configuration_json_dir> <final_idf_dir> <idd_file_dir>')
+        # try:
+        #     peak_heating_w = 200000
+        #     peak_cooling_w = -200000
+        #     base_loadprofile_idf_dir = 'base_LP.idf'
+        #     base_plant_idf_dir = 'base_plant.idf'
+        #     plant_configuration_json_dir = 'sys_1_plant_configuration.json'
+        #     final_idf_dir = f'./{datetime.date.today()}/'
+        #     final_idf_name = 'sys_1.idf'
+        #     idd_file_dir = 'Energy+.idd'
+        #     auto_generate_from_template(peak_heating_w, peak_cooling_w, base_loadprofile_idf_dir, base_plant_idf_dir, plant_configuration_json_dir, final_idf_dir, final_idf_name, idd_file_dir)
+        # except:
+        #     # Show usage instruction
+        #     print('Usage: Python <this_script.py> <peak_heating_w> <peak_cooling_w> <base_loadprofile_idf_dir> <base_plant_idf_dir> <plant_configuration_json_dir> <final_idf_dir> <idd_file_dir>')
 
