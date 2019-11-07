@@ -277,6 +277,7 @@ class DistrictSystemsController < ApplicationController
         v_simulation_jobs.push(create_simulation_job_hash(@@ep_exe, run_epw_file, sys_2_idf, sys_2_run_dir, @@sys_type_2_name))
       end
       if @sys_type_3_selected
+        params[:district_system_config][:key_stats] = session[:hash_key_stats]
         generate_sys_3_idf(params, temp_run_path)
         sys_3_idf = temp_run_path + @@sys_type_3_idf_name
         sys_3_run_dir = temp_run_path + 'sys_3'
@@ -410,10 +411,15 @@ class DistrictSystemsController < ApplicationController
   end
 
   def generate_sys_3_idf(params, temp_run_path)
+    key_stats = params[:district_system_config][:key_stats]
+    peak_heating_w_system_type_4 = key_stats["peak heating demand"].to_f
+    peak_cooling_w_system_type_4 = key_stats["peak cooling demand"].to_f
     chiller_heater_number = params[:district_system_config][:chiller_heater_number_type_3].to_i
     chiller_heater_cop = params[:district_system_config][:chiller_heater_cop_type_3].to_f
     sys_3_idf_processor(@@python_command,
                         @@sys_3_idf_processor_py,
+                        peak_heating_w_system_type_4,
+                        peak_cooling_w_system_type_4,
                         chiller_heater_cop,
                         chiller_heater_number,
                         @@sys_type_3_base_template_idf_path,
@@ -466,8 +472,8 @@ class DistrictSystemsController < ApplicationController
     Process.wait pid
   end
 
-  def sys_3_idf_processor(python_command, py_script, cop, number, base_idf_dir, final_idf_dir, idd_file_dir)
-    pid = spawn("#{python_command} #{py_script} #{cop} #{number} #{base_idf_dir} #{final_idf_dir} #{idd_file_dir}")
+  def sys_3_idf_processor(python_command, py_script, peak_heating_w, peak_cooling_w, cop, number, base_idf_dir, final_idf_dir, idd_file_dir)
+    pid = spawn("#{python_command} #{py_script} #{peak_heating_w} #{peak_cooling_w} #{cop} #{number} #{base_idf_dir} #{final_idf_dir} #{idd_file_dir}")
     Process.wait pid
   end
 

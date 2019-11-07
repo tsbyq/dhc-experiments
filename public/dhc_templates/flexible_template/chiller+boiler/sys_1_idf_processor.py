@@ -69,8 +69,8 @@ def expand_template_idf(template_idf='in.idf',
 def auto_update_LP_flow_rates(idf, peak_heating_w, peak_cooling_w):
     # This function calculates and updates the peak flow rates of the LoadProfile:Plant objects
     CP_WATER = 4186 # J/(kg*C)
-    DELTA_T_H = 30 # C
-    DELTA_T_C = 2 # C
+    DELTA_T_H = 25 # C
+    DELTA_T_C = 7 # C
     RHO_WATER = 1000 #kg/m3
     SAFE_FACTOR = 1.5
 
