@@ -33,7 +33,7 @@ def auto_generate_from_template(peak_heating_w, peak_cooling_w, base_idf_dir, fi
 
 if __name__ == "__main__":
     try:
-        print('Creating IDF for system type 3.')
+        print('Creating IDF for system type 2.')
         peak_heating_w = float(sys.argv[1])
         peak_cooling_w = float(sys.argv[2])
         base_idf_dir = sys.argv[3]
