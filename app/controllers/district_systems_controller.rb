@@ -85,7 +85,11 @@ class DistrictSystemsController < ApplicationController
     end
     @system_types = add_system_types
     @hash_key_stats = session[:hash_key_stats]
-    @hash_ts_data = session[:hash_ts_data]
+
+    unless session[:uploaded_file_path].nil?
+      @hash_ts_data, @hash_key_stats = read_upload_csv(session[:uploaded_file_path])[0]
+    end
+
     @v_results = session[:v_results]
     @v_results_js = session[:v_results_js]
   end
@@ -111,7 +115,7 @@ class DistrictSystemsController < ApplicationController
     new_file_path = @@user_uploads_path + filename
     FileUtils.cp(old_file_path, new_file_path) if File.exist?(old_file_path)
     session[:uploaded_file_path] = new_file_path
-    session[:hash_ts_data], session[:hash_key_stats] = read_upload_csv(new_file_path)
+    session[:hash_key_stats] = read_upload_csv(new_file_path)[1]
     @system_types = add_system_types
     session[:tabs] = tab_control(true, false, false)
     redirect_to :action => "index"
