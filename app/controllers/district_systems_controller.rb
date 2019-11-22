@@ -125,6 +125,8 @@ class DistrictSystemsController < ApplicationController
     puts '---> Entering Simulate method...'
     # Check if a epw file is available, show error message if none exists.
     puts '-' * 100
+    puts params
+    puts '-' * 100
     if session[:weather_epw_path].nil? and params[:weather_epw].nil?
       puts 'Will show no weather file error message!'
     elsif params[:weather_epw].nil? and not session[:weather_epw_path].nil?
